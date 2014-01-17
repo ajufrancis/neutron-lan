@@ -43,17 +43,29 @@ flow entries on the "br-tun" are as follows:
 root@compute1:~# ovs-ofctl dump-flows br-tun
 NXST_FLOW reply (xid=0x4):
  cookie=0x0, duration=9638.539s, table=0, n_packets=0, n_bytes=0, idle_age=9638, priority=1,in_port=3 actions=resubmit(,2)
+ 
  cookie=0x0, duration=9642.632s, table=0, n_packets=502, n_bytes=51575, idle_age=1003, priority=1,in_port=1 actions=resubmit(,1)
+ 
  cookie=0x0, duration=9628.395s, table=0, n_packets=657, n_bytes=68175, idle_age=1003, priority=1,in_port=2 actions=resubmit(,2)
+ 
  cookie=0x0, duration=9642.472s, table=0, n_packets=2, n_bytes=140, idle_age=9635, priority=0 actions=drop
+ 
  cookie=0x0, duration=9642.102s, table=1, n_packets=10, n_bytes=1208, idle_age=1700, priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,21)
+ 
  cookie=0x0, duration=9642.278s, table=1, n_packets=492, n_bytes=50367, idle_age=1003, priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,20)
+ 
  cookie=0x0, duration=9636.347s, table=2, n_packets=657, n_bytes=68175, idle_age=1003, priority=1,tun_id=0x3 actions=mod_vlan_vid:1,resubmit(,10)
+ 
  cookie=0x0, duration=9641.973s, table=2, n_packets=1, n_bytes=94, idle_age=9636, priority=0 actions=drop
+ 
  cookie=0x0, duration=9641.823s, table=3, n_packets=0, n_bytes=0, idle_age=9641, priority=0 actions=drop
+ 
  cookie=0x0, duration=9641.677s, table=10, n_packets=657, n_bytes=68175, idle_age=1003, priority=1 actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+ 
  cookie=0x0, duration=9641.545s, table=20, n_packets=0, n_bytes=0, idle_age=9641, priority=0 actions=resubmit(,21)
+ 
  cookie=0x0, duration=9636.651s, table=21, n_packets=10, n_bytes=1208, idle_age=1700, hard_age=9628, priority=1,dl_vlan=1 actions=strip_vlan,set_tunnel:0x3,output:3,output:2
+ 
  cookie=0x0, duration=9641.394s, table=21, n_packets=0, n_bytes=0, idle_age=9641, priority=0 actions=drop
 
 Note that "tun_id=0x3" matches VXLAN VNI field and "set_tunnel:0x3" sets a value 0x3 to VNI, and "actions=learn(...)" is a openvswitch-specific extension to add flow entries for outgoing packets dynmaically by learning from incoming packets. So the config is rather static.
@@ -100,18 +112,31 @@ You can manually add the entries to br-tun using ovs-ofctl command like this:
 port 2: int0, port3: vxlan1, port4:vxlan0
 
 $ ovs-ofctl del-flows br-tun
+
 $ ovs-ofctl add-flow br-tun "table=0,priority=1,in_port=4 ,actions=resubmit(,2)"
+
 $ ovs-ofctl add-flow br-tun "table=0,priority=1,in_port=2,actions=resubmit(,1)"
+
 $ ovs-ofctl add-flow br-tun "table=0,priority=1,in_port=3,actions=resubmit(,2)"
+
 $ ovs-ofctl add-flow br-tun "table=0,priority=0,actions=drop"
+
 $ ovs-ofctl add-flow br-tun "table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00 ,actions=resubmit(,21)"
+
 $ ovs-ofctl add-flow br-tun "table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00 ,actions=resubmit(,20)"
+
 $ ovs-ofctl add-flow br-tun "table=2,priority=1,tun_id=0x3,actions=mod_vlan_vid:1,resubmit(,10)"
+
 $ ovs-ofctl add-flow br-tun "table=2,priority=0,actions=drop"
+
 $ ovs-ofctl add-flow br-tun "table=3,priority=0,actions=drop"
+
 $ ovs-ofctl add-flow br-tun "table=10, priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:2"
+
 $ ovs-ofctl add-flow br-tun "table=20,priority=0,actions=resubmit(,21)"
+
 $ ovs-ofctl add-flow br-tun "table=21,priority=1,dl_vlan=1,actions=strip_vlan,set_tunnel:0x3,output:4,output:3"
+
 $ ovs-ofctl add-flow br-tun "table=21,priority=0,actions=drop"
 
 
@@ -130,9 +155,13 @@ Although OpenStack uses AMQP as a messaging infrastructure and I think that is a
 This is an example of inital configuration to create br-int and br-tun with one vxlan port:
 
 $ ovs-vsctl add-br br-int
+
 $ ovs-vsctl add-br br-tun
+
 $ ovs-vsctl add-port br-int int0 tag=1 -- set interface int0 type=internal
+
 $ ovs-vsctl add-port br-tun vxlan0 -- set interface vxlan0 type=vxlan options:in_key=flow options:local_ip=192.168.57.103 options:out_key=flow options:remote_ip=192.168.57.102
+
 $ ovs-vsctl add-port br-int patch-int ?- set interface patch-int type=patch options:peer=patch-tun
 $ ovs-vsctl add-port br-tun patch-tun ?- set interface patch-tun type=patch options:peer=patch-int
 
