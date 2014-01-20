@@ -87,7 +87,7 @@ The following is a tcpdump output. You can recognize that VNI 0x3 in it: find "0
             0x0080:  0000 0000 0000                           ......
               
          
-     0                   1                   2                   3
+               0                   1                   2                   3
                0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
          
             VXLAN Header:
@@ -125,7 +125,7 @@ The next step would be to develop some utilities to automate the configuration:
 * agents
 * messaging between lan controller and agents
 
-Although OpenStack uses AMQP as a messaging infrastructure and I think that is a good choice, I would use XMPP for this project for the first time.
+I'm trying to use saltstack w/ ssh for that purpose...
 
 
 APPENDIX
@@ -137,6 +137,6 @@ This is an example of inital configuration to create br-int and br-tun with one 
     $ ovs-vsctl add-br br-tun
     $ ovs-vsctl add-port br-int int0 tag=1 -- set interface int0 type=internal
     $ ovs-vsctl add-port br-tun vxlan0 -- set interface vxlan0 type=vxlan options:in_key=flow options:local_ip=192.168.57.103 options:out_key=flow options:remote_ip=192.168.57.102
-    $ ovs-vsctl add-port br-int patch-int ?- set interface patch-int type=patch options:peer=patch-tun
-    $ ovs-vsctl add-port br-tun patch-tun ?- set interface patch-tun type=patch options:peer=patch-int
+    $ ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
+    $ ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
 
