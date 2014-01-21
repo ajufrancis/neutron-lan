@@ -124,13 +124,13 @@ The next step is to develop some utilities to automate the configuration and man
 
 I thought of [OpenDaylight](https://wiki.opendaylight.org/view/Main_Page) as a platform for that, but it is too heavy and I don't want the very complex [MD-SAL](https://wiki.opendaylight.org/view/OpenDaylight_Controller:MD-SAL:Architecture) for network abstraction. Building OpenDaylight using Maven is also very bothersome.
 
-Then I saw other messaging platforms such as XMPP(Jabber), AMQP(RabbitMQ) etc. The problem was that, because of the memory and storage limitations of OpenWRT routers, I concluded that it was not a good idea to deploy agents on those routers. I installed Python on my OpenWRT router and I found that it consumed 13 MB of storage. 13MB is too much for such a small router.
+Then I saw other messaging platforms such as XMPP(Jabber), AMQP(RabbitMQ) etc. The problem was that, because of the memory and storage limitations of OpenWRT routers, I concluded that it was not a good idea to deploy agents on those routers. To develop agents, I need high-level language such as Python. I installed Python on my OpenWRT router and I found that it consumed 13 MB of storage. 13MB is too much for such a small router.
 
 So my conclusion is I just use ssh (and a few of other protocols such as ovsdb for openvswitch) to configure and manage those routers, and I will develop some tools to automate the configuration and management. My favorite language is Python, so I will develop the tools on [Paramiko](http://www.lag.net/paramiko/).
 
       [Tool A][Tool B][Tool C]...
           |       |      |
-      [Service Abstraction Layer] <= Python objects
+      [Service Abstraction Layer] <= Network modeling with Python objects
           |       |      |
          ssh    ovsdb  openflow?
           |       |      |
