@@ -1,6 +1,8 @@
 Initial config for BHR-4GRV
 ===========================
 
+I've got three [BHR-4GRV](http://buffalo.jp/product/wired-lan/router/bhr-4grv/). I have been trying to setup netron-lan over these routers at home.
+
 The internal network I am trying to create is as follows:
 
                  (        )
