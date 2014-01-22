@@ -135,7 +135,15 @@ So my conclusion is I just use ssh (and a few of other protocols such as ovsdb f
          ssh    ovsdb  openflow?
           |       |      |
         [ OpenWRT routers ]]]
-      
+
+MTU issue
+---------
+
+Since the VXLAN overhead is 50 bytes, you need to adjust path MTU on each end host in some way.
+
+Here is [an openstack tech blog](http://techbackground.blogspot.jp/2013/06/dnsmasq-logging-and-options-for-quantum.html) explaining how to do that for OpenStack neutron.
+
+
 APPENDIX
 --------
 
