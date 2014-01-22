@@ -142,7 +142,9 @@ MTU issue
 Since the VXLAN overhead is 50 bytes, you need to adjust path MTU on each end host in some way.
 
 * Using DNS option: Here is [an openstack tech blog](http://techbackground.blogspot.jp/2013/06/dnsmasq-logging-and-options-for-quantum.html) explaining how to do that for OpenStack neutron.
-* MSS clamping by iptables: [MSS clamping for OpenWRT](http://wiki.openwrt.org/doc/howto/pseudowire). [This blog](http://blog.ipspace.net/2013/01/tcp-mss-clamping-what-is-it-and-why-do.html) explains why MSS clamping is necessary.
+* MSS clamping by iptables: [MSS clamping for OpenWRT](http://wiki.openwrt.org/doc/howto/pseudowire). And [this blog](http://blog.ipspace.net/2013/01/tcp-mss-clamping-what-is-it-and-why-do.html) explains why MSS clamping is necessary.
+
+I would chose the latter option, and that is something hareware-based routing/switching (incl. "physical" OpenFlow switches) is not good at.
 
 APPENDIX
 --------
