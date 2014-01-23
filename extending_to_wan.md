@@ -62,7 +62,7 @@ Or another model is that a service provider hosts the lan controller on behalf o
      (  neutron-lan  )                  (     VPLS        )
       (             )                     (              )
 
-Since BHR-4GRV does not support VLAN trunk on WAN port, it is not possible to work with VPLS. I will need to buy another linux machine (either x86 cpu or arm cpu) and use it as a access router supporting VLAN trunk.
+Since my routers (BHR-4GRV) does not support VLAN trunk on WAN port, it is not possible to work with VPLS. I will need to buy another linux machine (either x86 cpu or arm cpu) and use it as a access router supporting VLAN trunk.
 
       [lan-controller]-------------------------------+
        |               [wan-controller]              |
