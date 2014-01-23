@@ -6,7 +6,7 @@ Extending the scope to WAN
 
 The neutron-lan architecture assumes that all the routers are sort of linux-based mini server machines (such as OpenWRT) and all the routing tables or flow tables on the routers are automatically configured by the lan-controller via common southboud APIs. Every router supports basic network funcions such as linux routing, linux bridge, openvswitch, iptables, dnsmasq, tc, network namespaces, veth, tap etc, and all the network functions are manages by using common CLIs and common southbouhd APIs.
 
-On the other hand, the architecture outsources a WAN backbone network to some service provider(s). To set up a WAN backbone, either the lan-controller issues a request to NaaS API server to create a VPLS network or the lan-controller sets up GRE over IPsec tunnels (or VXLAN tunnels with some new authentfication/encryption support) among access routers (linux-based machines).
+On the other hand, the architecture outsources a WAN backbone network to some service provider(s). To set up a WAN backbone, either the lan-controller issues a request to NaaS API server to create a MPLS-based VPN network or the lan-controller sets up GRE over IPsec tunnels (or VXLAN tunnels with some new authentfication/encryption support) among access routers (linux-based machines).
 
 
 Network functions and serivce chaining
@@ -39,17 +39,19 @@ To divert a specific traffic, either linux policy-based routing or openflow-base
      ---(openvswitch)---->
 
 
-Working with VPLS
------------------
+Working with MPLS-based VPN
+---------------------------
 
 The lan controller needs to communicate with the wan controller via NaaS APIs to create a WAN backbone network among
 head quarters, branch offices and private/public cloud networks.
 
      [lan-controller] --- NaaS APIs ---> [wan-controller]
              |          (REST APIs)              |
+             |                                   |
+             | Southbound APIs                   | Southbound APIs
              V                                   V
-      (             )                    (               )      
-     (  neutron-lan  )                  (     VPLS        )
+      (             )   VLAN trunk       (               )      
+     (  neutron-lan  )==================(  MPLS-based VPN )
       (             )                     (              )
 
 
@@ -57,20 +59,25 @@ Or another model is that a service provider hosts the lan controller on behalf o
 
              +-----------[lan-controller][wan-controller]
              |                                   |
+             |                                   |
+             | Southbound APIs                   | Southbound APIs
              V                                   V
-      (             )                    (               )      
-     (  neutron-lan  )                  (     VPLS        )
+      (             )   VLAN trunk       (               )      
+     (  neutron-lan  )==================(  MPLS-based VPN )
       (             )                     (              )
 
-Since my routers (BHR-4GRV) does not support VLAN trunk on WAN port, it is not possible to work with VPLS. I will need to buy another linux machine (either x86 cpu or arm cpu) and use it as a access router supporting VLAN trunk.
+Since my routers (BHR-4GRV) does not support VLAN trunk on WAN port, it is not possible to work with VPLS. I will need to buy other linux machines (either x86 cpu or arm cpu) and use them as access routers supporting VLAN trunk.
 
       [lan-controller]-------------------------------+
-       |               [wan-controller]              |
+       |       | NaaS APIs                           |
+       |       +------>[wan-controller]              |
        |                       |                     |
        |                       V                     |
        |     VLAN trunk   (        )  VLAN trunk     |
        |     +---------- (   VPLS   )----------+     |
-       V     |            (        )           |     V
+       |     |            (        )           |     |
+       |     |                                 |     |
+       V     | Access Router     Access Router |     V
      . . . . | . . . .                 . . . . | . . . .
      .    [br-eth]   .                 .    [br-eth]   .
      .       |       .                 .       |       .
