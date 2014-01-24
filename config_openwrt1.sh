@@ -16,6 +16,11 @@
 #       . . . . .  (Router)
 #       netns=ns2
 #
+#
+# Note: "br1" and "br3" are legacy linux bridges.
+#       Since openvswitch does not seem to work with iptables, these bridges are necessary
+#       for TCP MSS clamping with help from iptables.
+#
 
 # Add network namespaces as virtual hosts
 ip netns add ns1
