@@ -87,8 +87,8 @@ The following is a tcpdump output. You can recognize that VNI 0x3 in it: find "0
             0x0080:  0000 0000 0000                           ......
               
          
-               0                   1                   2                   3
-               0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+                 0                   1                   2                   3
+                 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
          
             VXLAN Header:
                 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -100,7 +100,7 @@ The following is a tcpdump output. You can recognize that VNI 0x3 in it: find "0
 
 You can manually add the entries to br-tun using ovs-ofctl command like this:
 
-    port 2: int0, port3: vxlan1, port4:vxlan0
+    port 2: patch-tun, port3: vxlan1, port4:vxlan0
     $ ovs-ofctl del-flows br-tun
     $ ovs-ofctl add-flow br-tun "table=0,priority=1,in_port=4 ,actions=resubmit(,2)"
     $ ovs-ofctl add-flow br-tun "table=0,priority=1,in_port=2,actions=resubmit(,1)"
