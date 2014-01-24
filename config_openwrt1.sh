@@ -91,6 +91,8 @@ ip link set dev int-dvr1 up
 ip link set dev int-dvr3 promisc on
 ip link set dev int-dvr3 up
 
+# --- The part below will be replaced with a python script ---
+
 # br-tun: show all the ports
 # Make sure that patch-tun: port 1, vxlan102: port 2 and vxlan103: port 3
 ovs-ofctl show br-tun
