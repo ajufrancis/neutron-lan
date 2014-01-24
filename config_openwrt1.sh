@@ -1,29 +1,43 @@
 #!/bin/ash
 
 # openwrt1
+#
 # Distributed Virtual Switch and Distributed Virtual Router
+#
+#       netns=ns1
+#       . . . . .
+#       . eth0  .  br-int     br-tun
+#       . . | . . +-------+  +-------+
+# eth0.1--[br1]---|       |  |       |--VXLAN101
+#                 |       |--|       | 
+# eth0.3--[br3]---|       |  |       |--VXLAN103
+#       . . | . .+-------+   +-------+
+#       . eth0  .   |   |
+#       . . . . .  (Router)
+#       netns=ns2
+#
 
-# Add network namespaces as VRFs
-ip netns add vrf1
-ip netns add vrf3
+# Add network namespaces as virtual hosts
+ip netns add ns1
+ip netns add ns3
 
 # Add linux bridges
 brctl addbr br1
 brctl addbr br3
 
 # Add veth pairs
-ip link add veth-vrf1 type veth peer name temp-vrf1
-ip link set dev temp-vrf1 netns vrf1
-ip link add veth-vrf3 type veth peer name temp-vrf3
-ip link set dev temp-vrf3 netns vrf3
+ip link add veth-ns1 type veth peer name temp-ns1
+ip link set dev temp-ns1 netns ns1
+ip link add veth-ns3 type veth peer name temp-ns3
+ip link set dev temp-ns3 netns ns3
 
 # Rename veth interfaces
-ip netns exec vrf1 ip link set dev temp-vrf1 name eth0
-ip netns exec vrf3 ip link set dev temp-vrf3 name eth0
+ip netns exec ns1 ip link set dev temp-ns1 name eth0
+ip netns exec ns3 ip link set dev temp-ns3 name eth0
 
 # Virtual hosts in network namespaces
-ip netns exec vrf1 ip addr add dev eth0 10.0.1.101/24
-ip netns exec vrf3 ip addr add dev eth0 10.0.3.101/24
+ip netns exec ns1 ip addr add dev eth0 10.0.1.101/24
+ip netns exec ns3 ip addr add dev eth0 10.0.3.101/24
 
 # Add br-int and br-tun
 ovs-vsctl add-br br-int
@@ -45,12 +59,12 @@ ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch option
 
 # br1: add ports
 brctl addif br1 eth0.1
-brctl addif br1 veth-vrf1
+brctl addif br1 veth-ns1
 brctl addif br1 int-br1
 
 # br3: add ports
 brctl addif br3 eth0.3
-brctl addif br3 veth-vrf3
+brctl addif br3 veth-ns3
 brctl addif br3 int-br3
 
 # Distributed virtual router
@@ -58,14 +72,14 @@ ip addr add dev int-dvr1 10.0.1.1/24
 ip addr add dev int-dvr3 10.0.3.1/24
 
 # Set all the veth links up
-ip link set dev veth-vrf1 promisc on
-ip link set dev veth-vrf1 up
-ip netns exec vrf1 ip link set dev eth0 promisc on
-ip netns exec vrf1 ip link set dev eth0 up
-ip link set dev veth-vrf3 promisc on
-ip link set dev veth-vrf3 up
-ip netns exec vrf3 ip link set dev eth0 promisc on
-ip netns exec vrf3 ip link set dev eth0 up
+ip link set dev veth-ns1 promisc on
+ip link set dev veth-ns1 up
+ip netns exec ns1 ip link set dev eth0 promisc on
+ip netns exec ns1 ip link set dev eth0 up
+ip link set dev veth-ns3 promisc on
+ip link set dev veth-ns3 up
+ip netns exec ns3 ip link set dev eth0 promisc on
+ip netns exec ns3 ip link set dev eth0 up
 
 # Set all the other links up
 ip link set dev int-br1 promisc on
