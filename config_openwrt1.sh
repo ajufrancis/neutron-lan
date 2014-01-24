@@ -2,7 +2,7 @@
 
 # openwrt1
 #
-# Distributed Virtual Switch and Distributed Virtual Router
+# "Distributed Virtual Switch and Distributed Virtual Router" for OpenWRT
 #
 #       netns=ns1
 #       . . . . .
@@ -11,7 +11,7 @@
 # eth0.1--[br1]---|       |  |       |--VXLAN101
 #                 |       |--|       | 
 # eth0.3--[br3]---|       |  |       |--VXLAN103
-#       . . | . .+-------+   +-------+
+#       . . | . . +-------+  +-------+
 #       . eth0  .   |   |
 #       . . . . .  (Router)
 #       netns=ns2
