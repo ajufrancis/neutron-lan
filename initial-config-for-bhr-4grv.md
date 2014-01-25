@@ -63,6 +63,14 @@ Adding another VLAN to LAN-side ports
 
 /etc/config/network
 
+    config interface 'lan'
+            option ifname 'eth0.1'
+    #       option type 'bridge'
+            option proto 'static'
+            option ipaddr '192.168.1.1'
+            option netmask '255.255.255.0'
+    #       option ip6assign '60'
+     
     config interface 'lan2'
             option ifname 'eth0.3'
             option proto 'static'
