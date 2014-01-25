@@ -68,17 +68,15 @@ Adding another VLAN to LAN-side ports
     config interface 'lan'
             option ifname 'eth0.1'
     #       option type 'bridge'
-    #       option proto 'static'
+            option proto 'static'
     #       option ipaddr '192.168.1.1'
     #       option netmask '255.255.255.0'
     #       option ip6assign '60'
      
     config interface 'lan2'
             option ifname 'eth0.3'
-    #       option proto 'static'
-    #       option ipaddr '192.168.2.1'
-    #       option netmask '255.255.255.0'
-            
+            option proto 'static'
+
     config switch
             option name 'switch0'
             option reset '1'
