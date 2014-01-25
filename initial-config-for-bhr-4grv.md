@@ -30,10 +30,7 @@ Assigning a static IP address to 'wan' port
         option ipaddr '192.168.57.101'
         option netmask '255.255.255.0'
 
-ipaddr
-openwrt1: 192.168.57.101
-openwrt1: 192.168.57.102
-openwrt1: 192.168.57.103
+(ipaddr) openwrt1: 192.168.57.101, openwrt1: 192.168.57.102, openwrt1: 192.168.57.103
 
 $ /etc/init.d/network restart
 
@@ -78,7 +75,7 @@ Adding another VLAN to LAN-side ports
      
     config interface 'lan2'
             option ifname 'eth0.3'
-            option proto 'static'
+    #       option proto 'static'
     #       option ipaddr '192.168.2.1'
     #       option netmask '255.255.255.0'
             
