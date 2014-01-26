@@ -14,7 +14,7 @@
 #       . . | . . +-------+  +-------+
 #       . eth0  .   |   |    VTEP:192.168.57.102
 #       . . . . .  (Router)
-#       netns=ns2
+#       netns=ns3
 #
 #
 # Note: "br1" and "br3" are legacy linux bridges.
@@ -52,7 +52,7 @@ ovs-vsctl add-br br-tun
 ovs-vsctl add-port br-int int-br1 tag=1 -- set interface int-br1 type=internal
 ovs-vsctl add-port br-int int-br3 tag=3 -- set interface int-br3 type=internal
 ovs-vsctl add-port br-int int-dvr1 tag=1 -- set interface int-dvr1 type=internal
-ovs-vsctl add-port br-int int-dvr3 tag=2 -- set interface int-dvr3 type=internal
+ovs-vsctl add-port br-int int-dvr3 tag=3 -- set interface int-dvr3 type=internal
 
 # br-tun: add vxlan ports
 ovs-vsctl add-port br-tun vxlan101 -- set interface vxlan101 type=vxlan options:in_key=flow options:local_ip=192.168.57.102 options:out_key=flow  options:remote_ip=192.168.57.101
