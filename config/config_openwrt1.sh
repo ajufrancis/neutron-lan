@@ -99,14 +99,14 @@ ip link set dev int-dvr3 up
 # --- The part below will be replaced with a python script ---
 
 # br-tun: show all the ports
-# Make sure that patch-tun: port 1, vxlan102: port 2 and vxlan103: port 3
+# Make sure that patch-tun: port 3, vxlan102: port 1 and vxlan103: port 2
 ovs-ofctl show br-tun
 
 # br-tun: distributed virtual switch
 ovs-ofctl del-flows br-tun
-ovs-ofctl add-flow br-tun "table=0,priority=1,in_port=1,actions=resubmit(,1)"
+ovs-ofctl add-flow br-tun "table=0,priority=1,in_port=3,actions=resubmit(,1)"
+ovs-ofctl add-flow br-tun "table=0,priority=1,in_port=1,actions=resubmit(,2)"
 ovs-ofctl add-flow br-tun "table=0,priority=1,in_port=2,actions=resubmit(,2)"
-ovs-ofctl add-flow br-tun "table=0,priority=1,in_port=3,actions=resubmit(,2)"
 ovs-ofctl add-flow br-tun "table=0,priority=0,actions=drop"
 ovs-ofctl add-flow br-tun "table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00 ,actions=resubmit(,21)"
 ovs-ofctl add-flow br-tun "table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00 ,actions=resubmit(,20)"
@@ -114,7 +114,7 @@ ovs-ofctl add-flow br-tun "table=2,priority=1,tun_id=0x1,actions=mod_vlan_vid:1,
 ovs-ofctl add-flow br-tun "table=2,priority=1,tun_id=0x3,actions=mod_vlan_vid:3,resubmit(,10)"
 ovs-ofctl add-flow br-tun "table=2,priority=0,actions=drop"
 ovs-ofctl add-flow br-tun "table=3,priority=0,actions=drop"
-ovs-ofctl add-flow br-tun "table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1"
+ovs-ofctl add-flow br-tun "table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:3"
 ovs-ofctl add-flow br-tun "table=20,priority=0,actions=resubmit(,21)"
-ovs-ofctl add-flow br-tun "table=21,priority=1,dl_vlan=1,actions=strip_vlan,set_tunnel:0x3,output:2,output:3"
+ovs-ofctl add-flow br-tun "table=21,priority=1,dl_vlan=1,actions=strip_vlan,set_tunnel:0x3,output:1,output:2"
 ovs-ofctl add-flow br-tun "table=21,priority=0,actions=drop"
