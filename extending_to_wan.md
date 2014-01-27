@@ -6,7 +6,7 @@ Extending the scope to WAN
 
 The neutron-lan architecture assumes that all the routers are sort of linux-based mini server machines (such as OpenWRT) and all the routing tables or flow tables on the routers are automatically configured by the lan-controller via common southboud APIs. Every router supports basic network funcions such as linux routing, linux bridge, openvswitch, iptables, dnsmasq, tc, network namespaces, veth, tap etc, and all the network functions are manages by using common CLIs and common southbouhd APIs.
 
-On the other hand, the architecture outsources a WAN backbone network to some service provider(s). To set up a WAN backbone, either the lan-controller issues a request to NaaS API server to create a MPLS-based VPN network or the lan-controller sets up GRE over IPsec tunnels (or VXLAN tunnels with some new authentfication/encryption support) among access routers (linux-based machines).
+On the other hand, the architecture outsources a WAN backbone network to some service provider(s). To set up a WAN backbone, (a) the lan-controller issues a request to NaaS API server to create a MPLS-based VPN network, (b) the lan-controller sets up GRE over IPsec tunnels (or VXLAN tunnels with some new authentfication/encryption support) among access routers (linux-based machines), or (c) the neutron-lan uses a legacy routing protocol such as OSPF or BGP to exchange routing info with the CPE or with the PE router (or just static routing).
 
 
 Network functions and serivce chaining
