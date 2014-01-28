@@ -1,8 +1,8 @@
-Software-Defined Networking
-===========================
+Software-Defined Networking for neutron-lan
+===========================================
 
-Architecture
-------------
+SDN Architecture
+----------------
 
      [Tool A][Tool B][Tool C]...
          |       |      |
@@ -13,10 +13,10 @@ Architecture
        [ OpenWRT routers ]]]
        
 
-Tool A: neutron-lan CLI
-Tool B: topology
-Tool C: ...
-   :         :
+* Tool A: neutron-lan CLI
+* Tool B: topology
+* Tool C: ...
+*   :         :
 
 Logical view of DVS/DVR
 -----------------------
