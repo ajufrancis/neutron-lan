@@ -95,6 +95,8 @@ ip link set dev int-dvr1 promisc on
 ip link set dev int-dvr1 up
 ip link set dev int-dvr3 promisc on
 ip link set dev int-dvr3 up
+ip link set dev br1 up
+ip link set dev br3 up
 
 # The following script proactively add OF flow entries to br-tun to make it work as VXLAN GW. 
 # vid:1<=>vni:1, vid:3<=>vni:3
