@@ -1,21 +1,50 @@
 Software-Defined Networking
 ===========================
 
-Logical view
+Architecture
 ------------
-     
-     
+
+     [Tool A][Tool B][Tool C]...
+         |       |      |
+     [Service Abstraction Layer] <= Network modeling with Python objects
+         |       |      |
+        ssh    ovsdb  openflow?
+         |       |      |
+       [ OpenWRT routers ]]]
+       
+
+Tool A: neutron-lan CLI
+Tool B: topology
+Tool C: ...
+   :         :
+
+Logical view of DVS/DVR
+-----------------------
+
+Legend:
+* DVS: Distributed Virtual Switch
+* DVR: Distributed Virtual Router
+* router: OpenWRT router
+* port-lan: LAN port on OpenWRT router
+* port-wan: WAN port on OpenWRT router
+* Internet GW: In my environment, it corresponds to Home Gateway.
+
             <port-lan> 0..4
                 |
          . . . .V. . . . . .
         .    <router>       .
         .                   . < - RIP/OSPF ----->
-        .  DVS       <router>--<port-wan>-------(Internet GW)
+        .  DVS/DV   <router>--<port-wan>-------(Internet GW)
         .                   . n             1
         .     <router>      .  
          . . . .^. . . . . .
                 |
             <port-lan> 0..4
+
+* There are three types of routing topology: dvr(distributed virtual router), centralized(like neutron network node) and ospf that uses legacy routing protocol "ospf".
+* L2 topology for "dvr": full mesh VXLAN tunnels with VNI slices.
+* L2 topology for "centralized": hub-and-spoke VXLAN tunnels with VNI slices.
+* L2 topology for "ospf": arbitrary topologies.
 
 
 CLI v0.1
