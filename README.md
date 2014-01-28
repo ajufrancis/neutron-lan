@@ -148,6 +148,11 @@ Since the VXLAN overhead is 50 bytes, you need to adjust path MTU on each end ho
 
 I would chose the latter option, and that is something hareware-based routing/switching (incl. "physical" OpenFlow switches) is not good at.
 
+Tackling security issues
+------------------------
+
+VXLAN-based network virtualization raises some security issues. For example, an attacker can intrude any VXLAN by spoofing VTEP(VXLAN Tunnel End Point). To prevent this kind of attack, some VTEP authentication mechanism will be introduced.
+
 APPENDIX
 --------
 
