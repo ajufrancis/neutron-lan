@@ -116,13 +116,15 @@ Disabling IPv6
 
 I configured br-int and br-tun (w/ VXLAN) on my routers, and everything worked perfect. Next day I turned on my routers and they did not accept neither ping nor ssh. I suspected that IPv6 plug and play caused some loop problem, since I observed a similar problem on OpenWRT/x86/VirtualBox.
 
-I decided to disable IPv6 for the time being:
+Regarding br-int and br-tun, refer to [Inital Config for OpenWRT](https://github.com/alexanderplatz1999/neutron-lan/blob/master/config/config_openwrt1.sh).
+
+IPv6 have been disabled for the time being:
 
 /etc/sysctl.conf
 
-     net.ipv6.conf.all.disable_ipv6 = 1
-     net.ipv6.conf.default.disable_ipv6 = 1
-     net.ipv6.conf.lo.disable_ipv6 = 1
+    net.ipv6.conf.all.disable_ipv6 = 1
+    net.ipv6.conf.default.disable_ipv6 = 1
+    net.ipv6.conf.lo.disable_ipv6 = 1
 
 $ sysctl -p
 
@@ -131,16 +133,17 @@ Installing additional packages
 
 Preparation: use scp to copy openvswitch packages (kmod-* and openvswitch-*) from your openwrt build machine (in my case, Debian Linux VM on VirtualBox) to OpenWRT routers. Then type the following commands: 
 
-     route add default gw 192.168.57.1
-     /etc/resolve.conf  nameserver 192.168.57.1
-     opkg update
-     opkg install ip
-     opkg install tcpdump
-     opkg install kmod-openvswitch_3.10.24\+2.0.0-1_ar71xx.ipk
-     opkg install openvswitch-common_2.0.0-1_ar71xx.ipk
-     opkg install openvswitch-controller_2.0.0-1_ar71xx.ipk
-     opkg install openvswitch-switch_2.0.0-1_ar71xx.ipk
-     mkdir -p /cgroup
-     mount none -t cgroup /cgroup
-     opkg install git
-     git clone git://github.com/alexanderplatz1999/neutron-lan
+    route add default gw 192.168.57.1
+    /etc/resolve.conf  nameserver 192.168.57.1
+    opkg update
+    opkg install ip
+    opkg install tcpdump
+    opkg install python-mini
+    opkg install kmod-openvswitch_3.10.24\+2.0.0-1_ar71xx.ipk
+    opkg install openvswitch-common_2.0.0-1_ar71xx.ipk
+    opkg install openvswitch-controller_2.0.0-1_ar71xx.ipk
+    opkg install openvswitch-switch_2.0.0-1_ar71xx.ipk
+    mkdir -p /cgroup
+    mount none -t cgroup /cgroup
+    opkg install git
+    git clone git://github.com/alexanderplatz1999/neutron-lan
