@@ -147,3 +147,17 @@ Preparation: use scp to copy openvswitch packages (kmod-* and openvswitch-*) fro
     mount none -t cgroup /cgroup
     opkg install git
     git clone git://github.com/alexanderplatz1999/neutron-lan
+
+
+After having done all the stuff...
+----------------------------------
+
+    root@OpenWrt:~# df
+    Filesystem           1K-blocks      Used Available Use% Mounted on
+    rootfs                   28544      8668     19876  30% /
+    /dev/root                 2816      2816         0 100% /rom
+    tmpfs                    30588       548     30040   2% /tmp
+    /dev/mtdblock8           28544      8668     19876  30% /overlay
+    overlayfs:/overlay       28544      8668     19876  30% /
+    tmpfs                      512         0       512   0% /dev
+  
