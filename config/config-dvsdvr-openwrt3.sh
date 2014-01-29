@@ -40,8 +40,8 @@ if [ "$1" == "reboot" ]; then
 	python config-vlan.py 1 10.0.1.3/24 10.0.1.103/24 reboot
 	python config-vlan.py 3 10.0.3.3/24 10.0.3.103/24 reboot 
 else
-	python config-vlan.py 1 10.0.1.1/24 10.0.1.101/24
-	python config-vlan.py 3 10.0.3.1/24 10.0.3.101/24
+	python config-vlan.py 1 10.0.1.3/24 10.0.1.103/24
+	python config-vlan.py 3 10.0.3.3/24 10.0.3.103/24
 fi
 
 # Add OF flow entries proactiely to br-tun to make it work as VXLAN GW. 
