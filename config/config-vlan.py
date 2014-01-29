@@ -41,6 +41,7 @@ def main(vid, ip_dvr, ip_vhost, reboot=False):
 	cmd('ip link set dev', int_br, 'up')
 	#cmd('ip link set dev', int_dvr, 'promisc on')
 	cmd('ip link set dev', int_dvr, 'up')
+	cmd('ip link set dev', br, 'up')
 		
 if __name__ == "__main__":
 
