@@ -32,7 +32,7 @@ def main(vid, ip_dvr, ip_vhost, reboot=False):
 	cmd('brctl addif', br, eth0_vid)
 	cmd('brctl addif', br, veth_ns)
 	cmd('brctl addif', br, int_br)
-	cmd('ip addr add dev', int_dvr, ip_vhost)
+	cmd('ip addr add dev', int_dvr, ip_dvr)
 	cmd('ip link set dev', veth_ns, 'promisc on')
 	cmd('ip link set dev', veth_ns, 'up')
 	#cmd('ip netns exec', ns, 'ip link set dev eth0 promisc on')
