@@ -61,7 +61,7 @@ neutron-lan is quite different from ordinaly LANs in a sense that:
 Note that VLAN IDs are locally significant, not globally. That is important
 from a SDN's point of view.
 
- 
+     
            (Host A)          (Host C)
             Loc. A   Loc. B   Loc. C
             VLAN 1   VLAN 14  VLAN 23
