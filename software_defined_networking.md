@@ -108,7 +108,8 @@ neutron-lan is quite different from ordinaly LANs in a sense that:
 - Different VLANs can belong to the same VXLAN
 - VXLAN may span WAN as well as LAN
 - Routing are performed at DVR closest to the host sending packets.
-     
+
+
        
       Location A                                  Location C
                    
@@ -156,6 +157,6 @@ via DVR A that has interfaces to both VNI 100 and VNI 103.
 The controller is responsible for the mapping between VLANs and VNI.
 
 I'm going to study if Proxy ARP is useful for this architecture:
-[Virtual Subnet](http://tools.ietf.org/html/draft-xu-l3vpn-virtual-subnet-03)
+[Virtual Subnet](http://tools.ietf.org/html/draft-xu-l3vpn-virtual-subnet-03).
 
 
