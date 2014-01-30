@@ -101,8 +101,8 @@ Service chaining with external network functions (L3)
           |    (Classifier)      |
           +----------------------+
 
-Distributed Virtual Switching and Distributed Virtual Routing
--------------------------------------------------------------
+Details of DVS and DVR
+----------------------
 
 neutron-lan is quite different from ordinaly LANs in a sense that:
 - Different VLANs can belong to the same VXLAN
@@ -158,5 +158,3 @@ The controller is responsible for the mapping between VLANs and VNI.
 
 I'm going to study if Proxy ARP is useful for this architecture:
 [Virtual Subnet](http://tools.ietf.org/html/draft-xu-l3vpn-virtual-subnet-03).
-
-
