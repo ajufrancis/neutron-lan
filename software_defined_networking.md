@@ -23,12 +23,12 @@ neutron-lan-agent and neutron-lan-controller
          V       V          V           V         V         V
       [links] [bridge] [openvswitch] [routing] [dnsmasq] [iptables]
                                                DNS/DHCP  Firewall/NAT
-*1: iproute2, uci
-*2: brctl
-*3: ovs-vsctl(ovsdb), ovs-ofctl(openflow)
-*4: iproute2
-*5: dnsmasq, uci
-*6: iptables
+     *1: iproute2, uci
+     *2: brctl
+     *3: ovs-vsctl(ovsdb), ovs-ofctl(openflow)
+     *4: iproute2
+     *5: dnsmasq, uci
+     *6: iptables
 
 
 Logical view of DVS/DVR
@@ -39,7 +39,7 @@ Legend:
 * router: OpenWRT router
 * port-lan: LAN port on OpenWRT router
 * port-wan: WAN port on OpenWRT router
-* Internet GW: In my environment, it corresponds to Home Gateway.
+* Internet GW: In my environment, it corresponds to Home Gateway
 
 
             <port-lan> 0..4
@@ -108,8 +108,8 @@ neutron-lan is quite different from ordinaly LANs in a sense that:
 - Different VLANs can belong to the same VXLAN
 - VXLAN may span WAN as well as LAN
 - Routing are performed at DVR closest to the host sending packets.
-
-  
+     
+       
       Location A                                  Location C
                    
       VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
