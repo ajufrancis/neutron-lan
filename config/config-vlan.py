@@ -42,6 +42,9 @@ def main(vid, ip_dvr, ip_vhost, reboot=False):
 	#cmd('ip link set dev', int_dvr, 'promisc on')
 	cmd('ip link set dev', int_dvr, 'up')
 	cmd('ip link set dev', br, 'up')
+	
+	# Distributed Virtual Router
+	cmd('ip netns exec', ns, 'ip route add default via', ip_dvr.split('/')[0], 'dev eth0')
 		
 if __name__ == "__main__":
 
