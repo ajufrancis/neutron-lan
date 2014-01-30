@@ -39,24 +39,25 @@ neutron-lan is quite different from ordinaly LANs in a sense that:
 - VXLAN may span WAN as well as LAN
 - Routing are performed at DVR closest to the host sending packets.
 
+<pre>
+Location A                                  Location C
+               
+VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
+         |         |                       | 
+       [DVR A]     |                     [DVR B]
+         |         |                       |
+VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27 
+                   |          |
+                   |          |
+                 [GW]       [GW]
+                   |          |
+                   +--[DVR C]-+ 
+                   |          |
+                 VLAN 14    VLAN 15
+        
+                    Location B
+</pre>
 
-      Location A                                  Location C
-                   
-      VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
-               |         |                       | 
-             [DVR A]     |                     [DVR B]
-               |         |                       |
-      VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27 
-                         |          |
-                         |          |
-                       [GW]       [GW]
-                         |          |
-                         +--[DVR C]-+ 
-                         |          |
-                       VLAN 14    VLAN 15
-              
-                          Location B
-                           
 Note that VLAN IDs are locally significant, not globally. That is important
 from a SDN's point of view.
 
