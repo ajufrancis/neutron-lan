@@ -31,6 +31,65 @@ neutron-lan-agent and neutron-lan-controller
      *6: iptables
 
 
+Details of DVS and DVR
+----------------------
+
+neutron-lan is quite different from ordinaly LANs in a sense that:
+- Different VLANs can belong to the same VXLAN
+- VXLAN may span WAN as well as LAN
+- Routing are performed at DVR closest to the host sending packets.
+
+
+       
+      Location A                                  Location C
+                   
+      VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
+               |         |                       | 
+             [DVR A]     |                     [DVR B]
+               |         |                       |
+      VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27 
+                         |          |
+                         |          |
+                       [GW]       [GW]
+                         |          |
+                         +--[DVR C]-+ 
+                         |          |
+                       VLAN 14    VLAN 15
+              
+                          Location B
+                           
+Note that VLAN IDs are locally significant, not globally. That is important
+from a SDN's point of view.
+
+ 
+           (Host A)          (Host C)
+            Loc. A   Loc. B   Loc. C
+            VLAN 1   VLAN 14  VLAN 23
+               |       |        |
+        +------+       |        |
+        |      |       |        |
+        |   ---+-------+--------+--- VNI 100
+        | 
+     [DVR A]                 (Host C')
+        |   Loc. A   Loc. B   Loc. C
+        |   VLAN 3   VLAN 15  VLAN 27    
+        |      |       |        |
+        +------+       |        |
+               |       |        |
+            ---+-------+--------+--- VNI 103
+ 
+Host A on Loc. A VLAN 1 can communicate with Host C on Loc. C VLAN 23
+via VXLAN VNI 100.
+ 
+Host A on Loc. A VLAN 1 can communicate with Host C' on Loc. V VLAN 27
+via DVR A that has interfaces to both VNI 100 and VNI 103.
+ 
+The controller is responsible for the mapping between VLANs and VNI.
+
+I'm going to study if Proxy ARP is useful for this architecture:
+[Virtual Subnet](http://tools.ietf.org/html/draft-xu-l3vpn-virtual-subnet-03).
+
+
 Logical view of DVS/DVR
 -----------------------
 Legend:
@@ -101,60 +160,3 @@ Service chaining with external network functions (L3)
           |    (Classifier)      |
           +----------------------+
 
-Details of DVS and DVR
-----------------------
-
-neutron-lan is quite different from ordinaly LANs in a sense that:
-- Different VLANs can belong to the same VXLAN
-- VXLAN may span WAN as well as LAN
-- Routing are performed at DVR closest to the host sending packets.
-
-
-       
-      Location A                                  Location C
-                   
-      VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
-               |         |                       | 
-             [DVR A]     |                     [DVR B]
-               |         |                       |
-      VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27 
-                         |          |
-                         |          |
-                       [GW]       [GW]
-                         |          |
-                         +--[DVR C]-+ 
-                         |          |
-                       VLAN 14    VLAN 15
-              
-                          Location B
-                           
-Note that VLAN IDs are locally significant, not globally. That is important
-from a SDN's point of view.
-
- 
-           (Host A)          (Host C)
-            Loc. A   Loc. B   Loc. C
-            VLAN 1   VLAN 14  VLAN 23
-               |       |        |
-        +------+       |        |
-        |      |       |        |
-        |   ---+-------+--------+--- VNI 100
-        | 
-     [DVR A]                 (Host C')
-        |   Loc. A   Loc. B   Loc. C
-        |   VLAN 3   VLAN 15  VLAN 27    
-        |      |       |        |
-        +------+       |        |
-               |       |        |
-            ---+-------+--------+--- VNI 103
- 
-Host A on Loc. A VLAN 1 can communicate with Host C on Loc. C VLAN 23
-via VXLAN VNI 100.
- 
-Host A on Loc. A VLAN 1 can communicate with Host C' on Loc. V VLAN 27
-via DVR A that has interfaces to both VNI 100 and VNI 103.
- 
-The controller is responsible for the mapping between VLANs and VNI.
-
-I'm going to study if Proxy ARP is useful for this architecture:
-[Virtual Subnet](http://tools.ietf.org/html/draft-xu-l3vpn-virtual-subnet-03).
