@@ -40,7 +40,6 @@ neutron-lan is quite different from ordinaly LANs in a sense that:
 - Routing are performed at DVR closest to the host sending packets.
 
 
-       
       Location A                                  Location C
                    
       VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
