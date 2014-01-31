@@ -263,19 +263,3 @@ CLI v0.1
       nlan router-lan-set [--router ALIAS] [--type {dvr, centralized, ospf}] VNILIST 
       nlan router-wan-set [--router ALIAS] [--protocol {rip, ospf}]
 
-
-Service chaining with external network functions (L3)
------------------------------------------------------
-      
-                                                   +------------------+
-                                                   | Service Function |
-                                                   +----|-------|-----+ 
-                                              ip_addr <eth0> <eth1> ip_addr
-                                                        ^       |
-                                                        |       |
-          +----------------------+                      |       |
-      --> |     Linux Router     <int-dvr(n)>--- VNI(n) +       +--> Destination 
-          | Policy-based routing |
-          |    (Classifier)      |
-          +----------------------+
-
