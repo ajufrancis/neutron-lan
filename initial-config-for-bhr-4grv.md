@@ -111,34 +111,78 @@ $ /etc/init.d/network restart
 
 $ /etc/init.d/firewall restart
 
+TODO: the router needs iptables rules for lan and internal ports
+----------------------------------------------------------------
+
+(2013/01/31) The router did not forward packets at all with the config above. It took a whilte to find the cause.
+
+There were no iptable FORWARD rules for eth0.1, eth0.3, int-dvr1 and int-dvr3. The default policy for FORWARD
+chain was 'drop':
+
 <pre>
-2013/01/31
+root@OpenWrt:~# iptables -F
+root@OpenWrt:~# iptables -X
+root@OpenWrt:~# iptables -L
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
 
-The router did not forward packets at all with the config above. It took a whilte to find a potential cause.
+Chain FORWARD (policy DROP)
+target     prot opt source               destination
 
-It seems to happen when iptables (and any other firewall-related things?) gets in the routing process.
-
-I temporalily disable the firewall setting:
-
-/etc/config/network
-
-- config interface 'lan'
-+ config interface 'lan1
-- config interface 'lan2'
-+ config interface 'lan3'
-
-/etc/config/firewall
-- config zone
--   option name             lan2
--   list   network          'lan2'
--   option input            ACCEPT
--   option output           ACCEPT
--   option forward          ACCEPT
-
-$ reboot
-
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
 </pre>
 
+I need to modify /etc/config/network and /etc/config/firewall:
+
+/etc/config/network
+<pre>
+config interface 'lan1'
+        option ifname 'eth0.1'
+#       option type 'bridge'
+        option proto 'static'
+#       option ipaddr '192.168.1.1'
+#       option netmask '255.255.255.0'
+#       option ip6assign '60'
+
+config interface 'lan3'
+        option ifname 'eth0.3'
+        option proto 'static'
+#       option ipaddr '192.168.2.1'
+#       option netmask '255.255.255.0'
+
+config interface 'dvr1'
+        option ifname 'int-dvr1'
+        option proto 'static'
+        option ipaddr '10.0.1.1'
+        option netmask '255.255.255.0'
+
+config interface 'dvr3'
+        option ifname 'int-dvr3'
+        option proto 'static'
+        option ipaddr '10.0.3.1'
+        option netmask '255.255.255.0'
+</pre>
+
+$ /etc/init.d/network restart
+
+/etc/config/firewall
+<pre>
+config zone
+        option name             lan
+-       list   network          'lan'
++       list   network          'lan1'
++       list   network          'lan3'
++       list   network          'dvr1'
++       list   network          'dvr3'
+        option input            ACCEPT
+        option output           ACCEPT
+        option forward          ACCEPT
+</pre>
+
+$ /etc/init.d/firewall restart
+
+That fixes the problem. But it was no good to modify those config files manually everytime lan ports are added by my config scripts. I need to figure out how to automate this process by interworking with uci.
 
 Disabling IPv6
 --------------
