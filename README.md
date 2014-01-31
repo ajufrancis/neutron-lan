@@ -8,7 +8,7 @@ BACKGROUND AND MOTIVATION
 
 This is my personal project to study SDN(Software-Defined Networking) by configuring a openstack-neutron-like network over OpenWRT routers at home.
 
-[Neutron](https://wiki.openstack.org/wiki/Neutron) is a software technology for OpenStack networking. However, I think the network architecture can be applied to LAN and possibly WAN as well, leveraging edge-overlay technolgies such as [VXLAN](http://datatracker.ietf.org/doc/draft-mahalingam-dutt-dcops-vxlan/). I am also interested in the distributed virtual switch and distributed virtual router concept that has been adopted by a number of IaaS cloud management systems such as VMWare NSX.
+[Neutron](https://wiki.openstack.org/wiki/Neutron) is a software technology for OpenStack networking. However, I think the network architecture can be applied to LAN and possibly WAN as well, leveraging edge-overlay technolgies such as [VXLAN](http://datatracker.ietf.org/doc/draft-mahalingam-dutt-dcops-vxlan/) or MPLS. I am also interested in the distributed virtual switch and distributed virtual router concept that has been adopted by a number of IaaS cloud management systems such as VMWare NSX.
 
 
 HOW VXLAN WORKS
