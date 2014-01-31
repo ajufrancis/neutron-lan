@@ -135,6 +135,8 @@ I temporalily disable the firewall setting:
 -   option output           ACCEPT
 -   option forward          ACCEPT
 
+$ reboot
+
 </pre>
 
 
