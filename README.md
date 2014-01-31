@@ -6,7 +6,7 @@ neutron-lan
 BACKGROUND AND MOTIVATION
 -------------------------
 
-This is my personal project to configure a openstack-neutron-like network over OpenWRT routers.
+This is my personal project to study SDN by configuring a openstack-neutron-like network over OpenWRT routers at home.
 
 [Neutron](https://wiki.openstack.org/wiki/Neutron) is a software technology for OpenStack networking. However, I think the network architecture can be applied to LAN and possibly WAN as well, leveraging edge-overlay technolgies such as [VXLAN](http://datatracker.ietf.org/doc/draft-mahalingam-dutt-dcops-vxlan/).
 
