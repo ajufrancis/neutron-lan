@@ -72,7 +72,7 @@ Adding another VLAN to LAN-side ports
     #       option ipaddr '192.168.1.1'
     #       option netmask '255.255.255.0'
     #       option ip6assign '60'
-     
+    
     config interface 'lan2'
             option ifname 'eth0.3'
             option proto 'static'
@@ -110,6 +110,33 @@ $ /etc/init.d/network restart
             option forward          ACCEPT
 
 $ /etc/init.d/firewall restart
+
+<pre>
+2013/01/31
+
+The router did not forward packets at all with the config above. It took a whilte to find a potential cause.
+
+It seems to happen when iptables (and any other firewall-related things?) gets in the routing process.
+
+I temporalily disable the firewall setting:
+
+/etc/config/network
+
+- config interface 'lan'
++ config interface 'lan1
+- config interface 'lan2'
++ config interface 'lan3'
+
+/etc/config/firewall
+- config zone
+-   option name             lan2
+-   list   network          'lan2'
+-   option input            ACCEPT
+-   option output           ACCEPT
+-   option forward          ACCEPT
+
+</pre>
+
 
 Disabling IPv6
 --------------
