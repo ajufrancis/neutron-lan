@@ -45,6 +45,6 @@ else
 fi
 
 # Add OF flow entries proactiely to br-tun to make it work as VXLAN GW. 
-# vid:1<=>vni:1, vid:3<=>vni:3
-python ./config-br-tun.py [[1,1],[3,3]]
+# vid:1<=>vni:100, vid:3<=>vni:103
+python ./config-br-tun.py "[[1,100,'10.0.1.1'],[3,103,'10.0.3.1']]"
 

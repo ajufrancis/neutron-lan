@@ -240,26 +240,101 @@ NXST_FLOW reply (xid=0x4):
  </pre>
 
 
+Integration with UCI for dnsmasq config
+---------------------------------------
+
+uci is short for Unified Configuration Interface. uci is a very useful
+tool to configure OpenWRT basic system setting. It is a bit like SNMP
+MIB manipulation.
+
+I'm going to develop agents that uses uci for basic system setting on the
+OpenWRT router.
+
+
+Integration with uci for dnsmasq config
+
+<pre>
+    DHCP client ---[br1]---[br-int]---[br-tun]---VXLAN
+                              | int-vdr1
+                              |
+                  dnsmasq (DNS/DHCP server)
+</pre>
+
+neutron-lan needs to interact with uci to manage dnsmasq by using a script
+like this:
+
+<pre>
+     def config_dnsmasq(interface, ifname, ipaddr, netmask):
+     
+	     import cmdutil
+     
+	     cmd=cmdutil.check_cmd
+     	     network_dvr='network.'+interface
+     
+	     cmd('uci set', network_dvr+'=interface')
+	     cmd('uci set', network_dvr+'.ifname='+ifname)
+	     cmd('uci set', network_dvr+'.proto=static')
+	     cmd('uci set', network_dvr+'.ipaddr='+ipaddr)
+	     cmd('uci set', network_dvr+'.netmask='+netmask)
+     
+	     cmd('uci set dhcp.lan.interface='+interface)
+     
+	     cmd('uci commit')
+     
+	     cmd('/etc/init.d/dnsmasq restart')
+</pre>    
+
+Integration with uci for internal physical sw configuration
+-----------------------------------------------------------
+
+Although my routers are cheap, they are not so stupid ones. The internal
+physical sw chip is programmable. It is interesting that the sw chip works
+like "br-int".
+
+<pre>
+      programmable
+      physical sw           CPU(MIPS)
+        +---+                 +---+
+     ---|   |                 |   |
+     ---|   |                 |   |
+     ---|   |----VLAN trunk---|   |
+     ---|   |                 |   |
+     ---|   |                 |   |
+        +---+                 +---+
+                                :
+                                :
+                              WiFi <= My router do not have WiFi...
+
+
+neutron-lan needs to modify values of the following UCI pathes: 
+* network.switch
+* network.switch_vlan
+
+; then
+/etc/init.d/network restart
+</pre>
+
 CLI v0.1
 --------
+<pre>
+--- Router object ---
+nlan router-alias-set [--ip-addr ADDRESS] ALIAS
+nlan router-ssh-set [--box ALIAS] [--user USER] [--password PASSWORD]
+nlan router-list
 
-      --- Router object ---
-      nlan router-alias-set [--ip-addr ADDRESS] ALIAS
-      nlan router-ssh-set [--box ALIAS] [--user USER] [--password PASSWORD]
-      nlan router-list
+--- Dvs object ---
+nlan dvs-vni-create VNI
+nlan dvs-pw-create [--router1 ALIAS] [--port1 PORT] [--router2 ALIAS] [--port2 PORT]
+nlan dvs-network-add [--vni VNI] NETWORK
+nlan dvs-dhcp-add [--vni VNI] OPTIONS
+nlan dvs-auth-set ...
 
-      --- Dvs object ---
-      nlan dvs-vni-create VNI
-      nlan dvs-pw-create [--router1 ALIAS] [--port1 PORT] [--router2 ALIAS] [--port2 PORT] 
-      nlan dvs-network-add [--vni VNI] NETWORK
-      nlan dvs-dhcp-add [--vni VNI] OPTIONS
-      nlan dvs-auth-set ...
+--- PortLan object ---
+nlan port-lan-set [--router ALIAS] [--port PORT] [--vlan VID] [--vni VNI]
+nlan port-tcp-mss-set MSS
 
-      --- PortLan object ---
-      nlan port-lan-set [--router ALIAS] [--port PORT] [--vlan VID] [--vni VNI]
-      nlan port-tcp-mss-set MSS
+--- Router object ---
+nlan router-lan-set [--router ALIAS] [--type {dvr, centralized, ospf}] VNILIST
+nlan router-wan-set [--router ALIAS] [--protocol {rip, ospf}]
 
-      --- Router object ---
-      nlan router-lan-set [--router ALIAS] [--type {dvr, centralized, ospf}] VNILIST 
-      nlan router-wan-set [--router ALIAS] [--protocol {rip, ospf}]
-
+</pre>
