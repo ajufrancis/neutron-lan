@@ -263,24 +263,25 @@ neutron-lan needs to interact with uci to manage dnsmasq by using a script
 like this:
 
 <pre>
-     def config_dnsmasq(interface, ifname, ipaddr, netmask):
+def config_dnsmasq(interface, ifname, ipaddr, netmask):
+   
+   import cmdutil
+    
+   cmd=cmdutil.check_cmd
+	     
+   network_dvr='network.'+interface
      
-	     import cmdutil
+   cmd('uci set', network_dvr+'=interface')
+   cmd('uci set', network_dvr+'.ifname='+ifname)
+   cmd('uci set', network_dvr+'.proto=static')
+   cmd('uci set', network_dvr+'.ipaddr='+ipaddr)
+   cmd('uci set', network_dvr+'.netmask='+netmask)
      
-	     cmd=cmdutil.check_cmd
-     	     network_dvr='network.'+interface
+   cmd('uci set dhcp.lan.interface='+interface)
      
-	     cmd('uci set', network_dvr+'=interface')
-	     cmd('uci set', network_dvr+'.ifname='+ifname)
-	     cmd('uci set', network_dvr+'.proto=static')
-	     cmd('uci set', network_dvr+'.ipaddr='+ipaddr)
-	     cmd('uci set', network_dvr+'.netmask='+netmask)
-     
-	     cmd('uci set dhcp.lan.interface='+interface)
-     
-	     cmd('uci commit')
-     
-	     cmd('/etc/init.d/dnsmasq restart')
+   cmd('uci commit')
+    
+   cmd('/etc/init.d/dnsmasq restart')
 </pre>    
 
 Integration with uci for internal physical sw configuration
@@ -302,16 +303,16 @@ like "br-int".
         +---+                 +---+
                                 :
                                 :
-                              WiFi <= My router do not have WiFi...
-
+                              WiFi (My router does not have WiFi...)
 
 neutron-lan needs to modify values of the following UCI pathes: 
 * network.switch
 * network.switch_vlan
 
-; then
-/etc/init.d/network restart
+then
+$ /etc/init.d/network restart
 </pre>
+
 
 CLI v0.1
 --------
