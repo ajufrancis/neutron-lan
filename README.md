@@ -153,13 +153,13 @@ Tackling security issues
 
 VXLAN-based network virtualization raises some security issues. For example, an attacker can intrude any VXLAN by spoofing VTEP(VXLAN Tunnel End Point). To prevent this kind of attack, some VTEP authentication mechanism will be introduced.
 
-Ugly side of neutron-lan
-------------------------
+Why so many bridges inside?
+---------------------------
 
 Why are there so many bridges? Linux bridges, br-int and br-tun...
 * br-int works as a MAC-learning switch.
 * br-tun works as a VXLAN GW. However, MAC-learning is also enabled for incoming packets. This MAC-learning process makes use of openvswitch-specific OF action.
-* Since openvswitch does not seem to work with iptables very well, Linux bridges are necessary between LAN ports and br-int. The OpenStack neutron development team seems to be trying to get rid of iptables and add additional flow entries (stateless firewall) to br-tun.
+* According to OpenStack neutron documentation, since openvswitch does not seem to work with iptables very well(?), Linux bridges are necessary between LAN ports and br-int. The OpenStack neutron development team seems to be trying to get rid of iptables and add additional flow entries (stateless firewall) to br-tun.
 * openvswitch does not support IP multicast for BC/MC packets over VXLAN, so br-tun needs to replicate a packet for each VXLAN tunnel.
 
 So there will be an impact on the performance, and I am looking forward to see some improvements on OpenStack neutron by the development team.
