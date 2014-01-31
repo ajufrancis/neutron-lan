@@ -237,9 +237,8 @@ NXST_FLOW reply (xid=0x4):
  cookie=0x0, duration=875.717s, table=21, n_packets=17, n_bytes=1454, idle_age=117, priority=1,dl_vlan=3 actions=strip_vlan,set_tunnel:0x67,output:1,output:2
  cookie=0x0, duration=875.727s, table=21, n_packets=37, n_bytes=2094, idle_age=102, priority=1,dl_vlan=1 actions=strip_vlan,set_tunnel:0x64,output:1,output:2
  cookie=0x0, duration=875.708s, table=21, n_packets=2, n_bytes=220, idle_age=867, priority=0 actions=drop
- </pre>
-  
-  
+</pre>
+
 Integration with UCI for dnsmasq config
 ---------------------------------------
 
