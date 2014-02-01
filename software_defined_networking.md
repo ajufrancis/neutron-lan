@@ -239,6 +239,10 @@ NXST_FLOW reply (xid=0x4):
  cookie=0x0, duration=875.708s, table=21, n_packets=2, n_bytes=220, idle_age=867, priority=0 actions=drop
 </pre>
 
+Virtual Subnet: Layer 2 networking over /32 routes
+--------------------------------------------------
+[Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md)
+
 Integration with UCI for dnsmasq config
 ---------------------------------------
 
