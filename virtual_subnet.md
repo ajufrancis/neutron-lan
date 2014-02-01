@@ -16,6 +16,45 @@ There are several ways to realize traffic engineering over the neutron-lan netwo
 
 My first experiment was to use ProxyARP techinique to redirect a specific flow to the underlay network.
 
+<pre>
+Unicast packets are send to the destination via the underlay network:
+
+ 10.0.1.101                                       10.0.1.103
+  [vHost]                                           [vHost]
+     |  ^                                              ^
+     V  | Arp reply                                    |
+   [br1]                                             [br1]
+     |  ^                                              ^
+     V  |                                              |
+  [br-int]                                          [br-int]
+     |  ^                                               ^
+     V  |                                               |
+Routing/ProxyArp                                  Routing/ProxyARP
+     |                                                 ^
+     V 192.168.57.101                                  |
+   eth0.2                                            eth0.2
+     |                                                 | 192.168.57.103
+     +------------- The underlay network --------------+
+              === Unicast packets ===>
+
+BC/MC packets are send to the destination via the overlay network:
+
+ 10.0.1.101                                       10.0.1.103
+  [vHost]                                           [vHost]
+     |                                                 ^
+     V                                                 |
+   [br1]                                             [br1]
+     |                                                 ^
+     V                                                 |
+  [br-int]                                          [br-int]
+     |                                                 ^
+     V                                                 |
+  [br-tun] drops ARP w/ target = 10.0.1.103         [br-tun]
+     |                                                 |
+     +------------- VXLAN -----------------------------+
+               === BC/MC packets ===>
+</pre>
+
 At OpenWRT 1 (Location 1),
 <pre>
 $ echo 1 > /proc/sys/net/ipv4/conf/int-dvr1/proxy_arp
@@ -46,20 +85,19 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 </pre>
 
 At OpenWRT 1, I started sending ECHO requests to 10.0.1.103 from netns "ns1" as virtual host:
-</pre>
-$ ip netns exec ns1 ping 10.0.1.103
-$ ip netns exec ns1 ping -c 5 10.0.1.103
-PING 10.0.1.103 (10.0.1.103): 56 data bytes
-64 bytes from 10.0.1.103: seq=0 ttl=62 time=6.455 ms
-64 bytes from 10.0.1.103: seq=1 ttl=62 time=0.803 ms
-64 bytes from 10.0.1.103: seq=2 ttl=62 time=0.803 ms
-64 bytes from 10.0.1.103: seq=3 ttl=62 time=0.805 ms
-64 bytes from 10.0.1.103: seq=4 ttl=62 time=0.791 ms
 
---- 10.0.1.103 ping statistics ---
-5 packets transmitted, 5 packets received, 0% packet loss
-round-trip min/avg/max = 0.791/1.931/6.455 ms
-</pre>
+    $ ip netns exec ns1 ping 10.0.1.103
+    $ ip netns exec ns1 ping -c 5 10.0.1.103
+    PING 10.0.1.103 (10.0.1.103): 56 data bytes
+    64 bytes from 10.0.1.103: seq=0 ttl=62 time=6.455 ms
+    64 bytes from 10.0.1.103: seq=1 ttl=62 time=0.803 ms
+    64 bytes from 10.0.1.103: seq=2 ttl=62 time=0.803 ms
+    64 bytes from 10.0.1.103: seq=3 ttl=62 time=0.805 ms
+    64 bytes from 10.0.1.103: seq=4 ttl=62 time=0.791 ms
+    
+    --- 10.0.1.103 ping statistics ---
+    5 packets transmitted, 5 packets received, 0% packet loss
+    round-trip min/avg/max = 0.791/1.931/6.455 ms
 
 So my experiment was very successful!
 
