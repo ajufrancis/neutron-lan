@@ -5,7 +5,7 @@ I am trying to realize something similar to Virtual Subnet as described in [this
 
 My neutron-lan supports both VDS and VDR, and the underlay network can also be used for transmitting packets,
 so I think it is possible to relaize that unicast packets are transmitted over
-the special pathes (/32 rotes) and BC/MC are transmitted over VDS (like VPLS) by using ProxyArp and openvswitch.
+the special pathes (/32 rotes) and BC/MC are transmitted over VDS (like VPLS) by using ProxyArp and OpenFlow.
 
 First Experiment: Traffic Engineering w/ ProxyArp and OVS
 ---------------------------------------------------------
