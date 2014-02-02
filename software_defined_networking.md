@@ -242,7 +242,17 @@ NXST_FLOW reply (xid=0x4):
 
 Virtual Subnet: Layer 2 networking over /32 routes
 --------------------------------------------------
-See this: [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md).
+
+Incumbent vendors prefer this: [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md).
+
+In my project, I find it can be used for traffic engineering at least.
+
+Traffic Engineering and Service Function Chaining
+-------------------------------------------------
+
+* By VXLAN and OpenFlow
+* By /32 routes and OpenFlow (and VRFs if necessary).
+* Probably, I will need an additional protocol such as [nsh](http://tools.ietf.org/id/draft-quinn-nsh) for service chaining, as discussed in IETF sfc wg.
 
 NAT Traversal
 -------------
