@@ -7,7 +7,7 @@ neutron-lan-agent and neutron-lan-controller
       +-----------------------------------------------------------+
       |                     html5 browser                         |
       +-----------------------------------------------------------+
-                                  | http
+                                  | http (and websocket?)
                                   V
       +------------------------ wsgi -----------------------------+
       |      neutron-lan-controller (python scripts w/ sqlite2)   |
