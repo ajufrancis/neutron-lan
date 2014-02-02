@@ -323,6 +323,54 @@ then
 $ /etc/init.d/network restart
 </pre>
 
+Controller
+----------
+
+I am trying out SaltStack as a basis of the controller, because:
+* it is a Python-based DevOps platform, and I like Python
+* "salt-ssh" is very intersting for managing multiple routers at the same time
+* it uses 0mq for messaging between salt-master and salt-minion, and they say 0mq's performance is very good. 0mq could be a next-generation south-bound interface for networking nodes?
+
+<pre>
+root@debian:~# cat /etc/salt/roster
+openwrt1:
+   host: 192.168.57.101
+   user: root
+   passwd: *******
+
+openwrt2:
+   host: 192.168.57.102
+   user: root
+   passwd: *******
+
+openwrt3:
+   host: 192.168.57.103
+   user: root
+   passwd: *******
+
+root@debian:~# salt-ssh '*' -r 'ovs-ofctl dump-flows br-tun | grep table=19'
+openwrt3:
+     cookie=0x0, duration=139.511s, table=19, n_packets=0, n_bytes=0, idle_age=139, priority=1,arp,dl_vlan=3,arp_tpa=10.0.3.1 actions=drop
+     cookie=0x0, duration=139.473s, table=19, n_packets=0, n_bytes=0, idle_age=139, priority=1,arp,dl_vlan=3,arp_tpa=10.0.1.101 actions=drop
+     cookie=0x0, duration=139.545s, table=19, n_packets=0, n_bytes=0, idle_age=139, priority=1,arp,dl_vlan=1,arp_tpa=10.0.1.101 actions=drop
+     cookie=0x0, duration=139.584s, table=19, n_packets=0, n_bytes=0, idle_age=139, priority=1,arp,dl_vlan=1,arp_tpa=10.0.1.1 actions=drop
+     cookie=0x0, duration=139.432s, table=19, n_packets=6, n_bytes=460, idle_age=132, priority=0 actions=resubmit(,21)
+
+openwrt2:
+     cookie=0x0, duration=126.888s, table=19, n_packets=0, n_bytes=0, idle_age=126, priority=1,arp,dl_vlan=3,arp_tpa=10.0.3.1 actions=drop
+     cookie=0x0, duration=126.93s, table=19, n_packets=0, n_bytes=0, idle_age=126, priority=1,arp,dl_vlan=1,arp_tpa=10.0.1.1 actions=drop
+     cookie=0x0, duration=126.845s, table=19, n_packets=5, n_bytes=370, idle_age=119, priority=0 actions=resubmit(,21)
+
+openwrt1:
+     cookie=0x0, duration=189.945s, table=19, n_packets=0, n_bytes=0, idle_age=189, priority=1,arp,dl_vlan=3,arp_tpa=10.0.3.1 actions=drop
+     cookie=0x0, duration=189.98s, table=19, n_packets=0, n_bytes=0, idle_age=189, priority=1,arp,dl_vlan=1,arp_tpa=10.0.1.103 actions=drop
+     cookie=0x0, duration=189.91s, table=19, n_packets=0, n_bytes=0, idle_age=189, priority=1,arp,dl_vlan=3,arp_tpa=10.0.1.103 actions=drop
+     cookie=0x0, duration=190.026s, table=19, n_packets=0, n_bytes=0, idle_age=190, priority=1,arp,dl_vlan=1,arp_tpa=10.0.1.1 actions=drop
+     cookie=0x0, duration=189.875s, table=19, n_packets=5, n_bytes=370, idle_age=182, priority=0 actions=resubmit(,21)
+
+</pre>
+
+
 
 CLI v0.1
 --------
