@@ -11,10 +11,11 @@ neutron-lan-agent and neutron-lan-controller
                                   V
       +------------------------ wsgi -----------------------------+
       |      neutron-lan-controller (python scripts w/ sqlite2)   |
-      |                 Service Abstraction Layer                 |
+      |    Service Abstraction Layer (python objects)             |
+      |                      SaltStack?                           |
       +-----------------------------------------------------------+
                                   |
-                                  | ssh
+                                  | ssh (and 0mq?)
                                   V
       +-----------------------------------------------------------+++
       |         neutron-lan-agent (sh and python scripts)         |||
