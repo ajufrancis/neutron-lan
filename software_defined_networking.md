@@ -243,9 +243,9 @@ NXST_FLOW reply (xid=0x4):
 Virtual Subnet: Layer 2 networking over /32 routes
 --------------------------------------------------
 
-Incumbent vendors prefer this: [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md).
+Incumbent vendors may prefer Virtual Subnet as discussed in IETF l3vpn wg. I am also interested in it, and made some experiment on my neutron-lan: [Virtual Subnet on my neutron-lan](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md).
 
-In my project, I find it can be used for traffic engineering at least.
+In my project, I find it can be used for traffic engineering for L2 at least.
 
 Traffic Engineering and Service Function Chaining
 -------------------------------------------------
