@@ -142,14 +142,20 @@ So my conclusion is I just stick to ssh (and a few of other protocols such as ov
 
 I installed python-mini package on my router using opkg instead, and I saw the storage/memory consumption was quite low. I will develop scripts running on OpenWRT, and those scipts will be called from a controller via ssh.
 
-
-      [Tool A][Tool B][Tool C]...
-          |       |      |
-      [Service Abstraction Layer] <= Network modeling with Python objects
-          |       |      |
-         ssh    ovsdb  openflow?
-          |       |      |
-   [Agents w/ minimal capabilities]]]
+<pre>
+      [Tool A]  [Tool B]  [Tool C]...
+          |         |        |
+    +-----------------------------------------------------+
+    |              Service Abstraction Layer?             | <= Network modeling with Python objects
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    |                    SaltStack?                       |
+    +-----------------------------------------------------+
+          |       |      |                        |
+         ssh    ovsdb? openflow?                 0mq?
+          |       |      |                        |
+    [Agents w/ minimal capabilities]]] [salt-minion w/ more capabilities?]]]
+    
+</pre>
 
 MTU issue
 ---------
