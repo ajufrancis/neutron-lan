@@ -146,7 +146,7 @@ I installed python-mini package on my router using opkg instead, and I saw the s
       [Tool A]  [Tool B]  [Tool C]...
           |         |        |
     +-----------------------------------------------------+
-    |              Service Abstraction Layer?             | <= Network modeling with Python objects
+    |       Network modeling with Python objects?         |
     - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     |                    SaltStack?                       |
     +-----------------------------------------------------+
