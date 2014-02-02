@@ -36,7 +36,7 @@ Details of DVS and DVR
 
 neutron-lan is quite different from ordinaly LANs in a sense that:
 - Different VLANs can belong to the same VXLAN
-- VXLAN may span WAN as well as LAN
+- VXLAN may span WAN as well as LAN. In future, MPLS over GRE is another option, since openvswitch is goint to support MPLS.
 - Routing are performed at DVR closest to the host sending packets.
 
 <pre>
