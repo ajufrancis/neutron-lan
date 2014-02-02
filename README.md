@@ -142,6 +142,8 @@ So my conclusion is I just stick to ssh (and a few of other protocols such as ov
 
 I installed python-mini package on my router using opkg instead, and I saw the storage/memory consumption was quite low. I will develop scripts running on OpenWRT, and those scipts will be called from a controller via ssh.
 
+As a basis of the controller, I will try out [SaltStack](http://www.saltstack.com/) at first.
+
 <pre>
       [Tool A]  [Tool B]  [Tool C]...
           |         |        |
