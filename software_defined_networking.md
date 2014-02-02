@@ -241,7 +241,13 @@ NXST_FLOW reply (xid=0x4):
 
 Virtual Subnet: Layer 2 networking over /32 routes
 --------------------------------------------------
-[Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md)
+See this: [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md).
+
+NAT Traversal
+-------------
+
+I'm going to study if STUN/TURN/ICE can be used for VXLAN to traversal NAT, together with IPsec over VXLAN.
+
 
 Integration with UCI for dnsmasq config
 ---------------------------------------
