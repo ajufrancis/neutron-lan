@@ -252,7 +252,7 @@ Traffic Engineering and Service Function Chaining
 
 * By VXLAN and OpenFlow
 * By /32 routes and OpenFlow (and VRFs if necessary).
-* Probably, I will need an additional protocol such as [nsh](http://tools.ietf.org/id/draft-quinn-nsh) for service chaining, as discussed in IETF sfc wg.
+* Probably, I will need an additional protocol such as [nsh](http://tools.ietf.org/id/draft-quinn-nsh) for service chaining, as discussed in IETF sfc wg. I know LISP and NSH are being included in openvswitch.
 
 NAT Traversal
 -------------
