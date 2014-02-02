@@ -29,7 +29,7 @@ neutron-lan-agent and neutron-lan-controller
      *3: ovs-vsctl(ovsdb), ovs-ofctl(openflow)
      *4: iproute2
      *5: dnsmasq, uci
-     *6: iptables
+     *6: iptables, ebtables
 
 
 Details of DVS and DVR
