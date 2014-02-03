@@ -261,7 +261,7 @@ Again, this is a very interesting [Internet-Draft](http://www.ietf.org/id/draft-
 
 The "instant VPN" draft proposes to use a signalling mechanism between CE and PE to
 set up a L3 VPN. Since I worked on legacy and SIP-based IP Telephony in the past,
-it reminds me of ISDN and SIP. If I refer the I-D, then I can divise an architecture
+it reminds me of ISDN and SIP. If I refer to the I-D, then I can divise an architecture
 like this:
      
     
@@ -275,6 +275,17 @@ like this:
        [  ](  VLAN   )[CE] <-- signalling --> [PE](   MPLS   )[PE]
             ( VXLAN )      and authentication      (        )
 
+
+
+          [IP-PBX server]                ------> [SIP server]
+              /   \                       user      /     \
+             /     \                registration   /       \
+            /       \                             /         \
+           /         \                           /           \
+          /           \                         /             \
+         V  (       )  V                       V   (        )  V
+       [MG](  VLAN   )[MG] <-- SIP trunk ---> [MG](   IP     )[MG]
+            (       )                              (        )
 
 
 NAT Traversal
