@@ -46,7 +46,7 @@ a RPC request over SSH to OpenWRT routers.
                     
 </pre>
 
-If the RPC operation is "add" then the dict data is as follows:
+The Python dict object will be like this:
 
 <pre>
 sample_dict_args = {
@@ -69,7 +69,7 @@ sample_dict_args = {
 }
 </pre>
 
-If the rpc operation is "add" then rpc_server.py routes rpc calls to local methods:
+If the rpc operation is "add" then rpc_server.py routes rpc calls to the following local methods:
 <pre>
 def add_bridges(args):
   ...
