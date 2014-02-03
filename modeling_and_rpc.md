@@ -1,10 +1,10 @@
 Modeling and RPC
 ================
 
-RPC over SSH
-============
+YAML for modeling neutron-lan
+=============================
 
-I have learned from SaltStack that YAML can be used for network modeling.
+I have learned from SaltStack that YAML is a very simple modeling language.
 
 This is a model that represents neutron-lan:
 
@@ -25,6 +25,9 @@ subnets:
 	  ip_dvr: '10.0.3.1/24'
 	  ip_vhost: '10.0.3.101/24'
 </pre>
+
+RPC over SSH for OpenWRT
+========================
 
 I'm going to develop a tool to convert YAML data into a Python dictionary object, then issues
 a RPC request over SSH to OpenWRT routers.
