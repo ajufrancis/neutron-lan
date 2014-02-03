@@ -263,18 +263,18 @@ The "instant VPN" draft proposes to use a signalling mechanism between CE and PE
 set up a L3 VPN. Since I worked on legacy and SIP-based IP Telephony in the past,
 it reminds me of ISDN and SIP. If I refer the I-D, then I can divise an architecture
 like this:
-<pre>
+     
+    
+          [lan-controller] ------- REST ------> [wan-controller]
+              /   \          for user/vpn           /     \
+             /     \         registration          /       \
+            /       \                             /         \
+           /         \                           /           \
+          /           \                         /             \
+         V  (       )  V                       V   (        )  V
+       [  ](  VLAN   )[CE] <-- signalling --> [PE](   MPLS   )[PE]
+            ( VXLAN )      and authentication      (        )
 
-     [lan-controller] ------- REST ------> [wan-controller]
-         /   \          for user/vpn           /     \
-        /     \         registration          /       \
-       /       \                             /         \
-      /         \                           /           \
-     /           \                         /             \
-    V   (       ) V                       V    (        ) V
-   [  ](  VLAN   )[CE] <-- signalling --> [PE](   MPLS   )[PE]
-        ( VXLAN )      and authentication      (        )
-</pre>
 
 
 NAT Traversal
