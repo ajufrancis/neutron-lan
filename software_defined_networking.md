@@ -254,6 +254,29 @@ Traffic Engineering and Service Function Chaining
 * By /32 routes and OpenFlow (and VRFs if necessary).
 * Probably, I will need an additional protocol such as [nsh](http://tools.ietf.org/id/draft-quinn-nsh) for service chaining, as discussed in IETF sfc wg. I know LISP and NSH are being included in openvswitch.
 
+Instant VPN
+-----------
+
+Again, this is a very interesting [Internet-Draft](http://www.ietf.org/id/draft-li-l3vpn-instant-vpn-arch) from Huawei.
+
+The "instant VPN" draft proposes to use a signalling mechanism between CE and PE to
+set up a L3 VPN. Since I worked on legacy and SIP-based IP Telephony in the past,
+it reminds me of ISDN and SIP. If I refer the I-D, then I can divise an architecture
+like this:
+<pre>
+
+     [lan-controller] ------- REST ------> [wan-controller]
+         /   \          for user/vpn           /     \
+        /     \         registration          /       \
+       /       \                             /         \
+      /         \                           /           \
+     /           \                         /             \
+    V   (       ) V                       V    (        ) V
+   [  ](  VLAN   )[CE] <-- signalling --> [PE](   MPLS   )[PE]
+        ( VXLAN )      and authentication      (        )
+</pre>
+
+
 NAT Traversal
 -------------
 
