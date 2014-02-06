@@ -86,7 +86,7 @@ via DVR A that has interfaces to both VNI 100 and VNI 103.
  
 The controller is responsible for the mapping between VLANs and VNI.
 
-[Other DVS/DVR network configurations]
+[Other DVS/DVR network patterns](https://github.com/alexanderplatz1999/neutron-lan/blob/master/dvsdvr_patterns.md)
 
 I'm going to study if Proxy ARP is useful for this architecture:
 [Virtual Subnet](http://tools.ietf.org/html/draft-xu-l3vpn-virtual-subnet-03).
