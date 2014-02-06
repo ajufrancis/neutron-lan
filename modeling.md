@@ -96,5 +96,5 @@ sample_dict_args = {
 
 It is still under study about how to serialize the dict data: converted into str or pickle serialization format?
 
-TODO: Study whether a list of dict objects (i.e., collections.OrderedDict) is better or not as the argument...
-TODO: Study if 0mq over ssh works on OpenWRT.
+- TODO: Study whether a list of dict objects (i.e., collections.OrderedDict) is better or not as the argument...
+- TODO: Study if 0mq over ssh works on OpenWRT.
