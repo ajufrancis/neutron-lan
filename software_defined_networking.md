@@ -9,13 +9,12 @@ neutron-lan-agent and neutron-lan-controller
       +-----------------------------------------------------------+
                                   | http (and websocket?)
                                   V
-      +------------------------ wsgi -----------------------------+
-      |          neutron-lan-controller (python scripts)          |
-      |        Service Abstraction Layer (YAML and jinja2)        |
-      |             neutron-lan modeling with YAML                |
-      +-----------------------------------------------------------+
-                                  |
-                                  | ssh (and 0mq via ssh)
+      +------------------------ wsgi -----------------------------+    neutron-lan states
+      |          neutron-lan-controller (python scripts)          |       ----------
+      |        Service Abstraction Layer (YAML and jinja2)        | <--> /YAML data/-
+      +-----------------------------------------------------------+     ----------- /-
+                                  |                                      ----------- /
+                                  | ssh (and 0mq via ssh)                 -----------
                                   V
       +-----------------------------------------------------------+++
       |         neutron-lan-agent (python scripts)                |||
