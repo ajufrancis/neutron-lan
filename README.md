@@ -132,7 +132,7 @@ You can manually add the entries to br-tun using ovs-ofctl command like this:
 NEXT STEP
 ---------
 
-- Some other experiments on neutron-lan: Virtual Subnet as discussed in IETF l3vpn wg, VRFs over VXLAN, VXLAN NAT traversal and MPLS over GRE.
+- Some other experiments on neutron-lan: Virtual Subnet as discussed in IETF l3vpn wg, LISP(lispmod), VRFs over VXLAN, VXLAN NAT traversal and MPLS over GRE.
 - Develop some utilities to automate the configuration and management of the entire network.
 
 I thought of [OpenDaylight](https://wiki.opendaylight.org/view/Main_Page) as a platform for that, but it is too heavy and I don't want the very complex [MD-SAL](https://wiki.opendaylight.org/view/OpenDaylight_Controller:MD-SAL:Architecture) for network abstraction. Building OpenDaylight using Maven is also very bothersome. Anyway, I want to try if OpenDaylight works with openvswitch on my neutron-lan later on.
