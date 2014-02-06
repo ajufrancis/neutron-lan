@@ -10,15 +10,15 @@ neutron-lan-agent and neutron-lan-controller
                                   | http (and websocket?)
                                   V
       +------------------------ wsgi -----------------------------+
-      |      neutron-lan-controller (python scripts w/ sqlite3)   |
-      |    Service Abstraction Layer (python objects)             |
-      |                      SaltStack?                           |
+      |          neutron-lan-controller (python scripts)          |
+      |        Service Abstraction Layer (YAML and jinja2)        |
+      |             neutron-lan modeling with YAML                |
       +-----------------------------------------------------------+
                                   |
-                                  | ssh (and 0mq?)
+                                  | ssh (and 0mq via ssh)
                                   V
       +-----------------------------------------------------------+++
-      |         neutron-lan-agent (sh and python scripts)         |||
+      |         neutron-lan-agent (python scripts)                |||
       +-----------------------------------------------------------+++
          |*1     |*2        |*3         |*4       |*5       |*6
          V       V          V           V         V         V
@@ -86,6 +86,8 @@ Host A on Loc. A VLAN 1 can communicate with Host C' on Loc. V VLAN 27
 via DVR A that has interfaces to both VNI 100 and VNI 103.
  
 The controller is responsible for the mapping between VLANs and VNI.
+
+[Other DVS/DVR network configurations]
 
 I'm going to study if Proxy ARP is useful for this architecture:
 [Virtual Subnet](http://tools.ietf.org/html/draft-xu-l3vpn-virtual-subnet-03).
