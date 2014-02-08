@@ -112,6 +112,28 @@ CRUD operations:
 To execute the latest scripts on the routers, all of the nlan-related agent-scripts are copied to the target routers' /tmp directory before executing CRUD operations(add/get/set/delete). nlan-ssh.py's "--scp" options allows us to copy any scripts to the target router's "/tmp" directory.
 
 <pre>
+
+Step 1:
+
+                    ---------------              Target routers
+[nlan-ssh.py] -----/Python scripts/-----------> "/tmp" directory
+                   --------------- /
+                   ----------------
+                          :
+                          
+Step 2:
+
+              stdin ---------------              Target routers
+[nlan-ssh.py] - - -/Python dict   / - - - - - > Agent-scripts under "/tmp"
+                   ---------------
+              < - - - - - - - - - - - - stdout
+              < - - - - - - - - - - - - stderr
+              
+</pre>
+
+Since I worked on mobile agent paradigm based on Java primordial class loader in late 1990's for managing networking equipment, I have considered using mobile-agent paradigm for executing the latest scripts for neutron-lan always. However, that approach must have a significant scaling problem and I have decided to take the approach described above.
+
+<pre>
 $ python nlan-ssh.py '*' --scp file1.py
 </pre>
 
