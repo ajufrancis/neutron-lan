@@ -1,7 +1,7 @@
 Modeling neutron-lan
 ====================
 
-Model-driven approach
+Model-driven/data-driven approach
 ---------------------
 
 There are several ways for calling a remote python script on the router:
