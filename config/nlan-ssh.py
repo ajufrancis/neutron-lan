@@ -17,6 +17,13 @@ $ python nlan-ssh.py '*' --add dvsdvr.yaml
 $ python nlan-ssh.py openwrt3 -a dvsdvr.yaml 
 $ python nlan-ssh.py openwrt1 -r 'cat /etc/hosts'
 $ python nlan-ssh.py '*' --row 'date'
+$ python nlan-ssh.py '*' --scp nlan-agent.py 
+
+Supported CRUD operations:
+--add: Create
+--get: Read
+--set: Set
+--delete: Delete
 
 "nlan.py" referes to the following YAML files before calling "nlan-agent.py"
 via ssh on OpenWRT routers:
@@ -36,13 +43,15 @@ later on.
 
 
 """
-
+import os, sys 
 import yaml
-import paramiko as para
+import paramiko as para, scp
 from optparse import OptionParser
 
-ROSTER_YAML = '/root/roster.yaml'
-NLAN_AGENT = '/root/nlan-agent.py'
+NLAN_DIR = '/root/neutron-lan/config' 
+ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
+NLAN_AGENT = os.path.join(NLAN_DIR,'nlan-agent.py')
+NLAN_AGENT_DIR = '/tmp'
 
 def _test(roster,router,operation,doc):
 
@@ -59,11 +68,19 @@ def _test(roster,router,operation,doc):
 		passwd = roster[router]['passwd']	
 		cmd_args = ''
 		if operation == '--row':
+			assert(ininstance(doc,str))
 			cmd = doc
 			print '--- Controller Request ------'
 			print router+':'
 			print 'command: ' + cmd 
+		elif operation == '--scp':
+			assert(isinstance(doc,list))
+			cmd = doc
+			print '--- Controller Request ------'
+			print router+':'
+			print 'files: ' + str(cmd)	
 		else:
+			assert(isinstance(doc,dict))
 			cmd = NLAN_AGENT + ' ' + operation
 			cmd_args = str(doc[router])
 			cmd_args = '"' + cmd_args + '"'
@@ -72,29 +89,34 @@ def _test(roster,router,operation,doc):
 			print 'operation: ' + operation 
 			print 'dict_args: ' + cmd_args
 		try:
-			conn = para.SSHClient()
-			conn.set_missing_host_key_policy(para.AutoAddPolicy())
-			conn.connect(host,username=user,password=passwd)
-			i,o,e = conn.exec_command(cmd)
-			if operation != '--row':
-				i.write(cmd_args)
-				i.flush()
-				i.channel.shutdown_write()
-			result = o.read()
-			print '--- OpenWRT response ---------'
-			print result
+			ssh = para.SSHClient()
+			ssh.set_missing_host_key_policy(para.AutoAddPolicy())
+			ssh.connect(host,username=user,password=passwd)
+			if operation != '--scp':
+				i,o,e = ssh.exec_command(os.path.join(NLAN_AGENT_DIR,cmd))
+				if operation != '--row':
+					i.write(cmd_args)
+					i.flush()
+					i.channel.shutdown_write()
+				result = o.read()
+				print '--- OpenWRT response ---------'
+				print result
+			else:
+				s = scp.SCPClient(ssh.get_transport())
+				for file in doc: 
+					s.put(file, NLAN_AGENT_DIR)
+
 			print ''
 		finally:
-			if conn: conn.close()
+			if ssh: ssh.close()
 		
 
 if __name__=="__main__":
 
-	import sys
-
 	parser = OptionParser()
 	parser.add_option("-r", "--row", dest="row", help="Execute row shell commands", action="store_true", default=False)
 	parser.add_option("-a", "--add", dest="add", help="Add an element", action="store_true", default=False)
+	parser.add_option("-s", "--scp", dest="scp", help="Secure copy", action="store_true", default=False)
 
 	(options, args) = parser.parse_args()
 
@@ -109,6 +131,12 @@ if __name__=="__main__":
 	if options.row:
 		operation = "--row" 
 		doc = sys.argv[3]
+	elif options.scp:
+		operation = "--scp"
+		l = len(sys.argv)
+		doc = []
+		for i in range(3,l):
+			doc.append(sys.argv[i])	
 	elif options.add:	
 		operation = "--add" 
 		f = open(sys.argv[3])
