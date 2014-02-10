@@ -12,7 +12,7 @@ INDEX
 * [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md)
 * [Initial config for Buffalo BHR-4GRV](https://github.com/alexanderplatz1999/neutron-lan/blob/master/initial-config-for-bhr-4grv.md)
 * [Initial config for Raspberry Pi](https://github.com/alexanderplatz1999/neutron-lan/blob/master/initial-config-for-rpi.md)
-* [neutron-lan wiki](https://github.com/alexanderplatz1999/neutron-lan/wiki)
+* [neutron-lan wiki](https://github.com/alexanderplatz1999/neutron-lan/wiki) (Japanese)
 * [Test bed at my home](https://github.com/alexanderplatz1999/neutron-lan/wiki/Testbed)
 
 BACKGROUND AND MOTIVATION
