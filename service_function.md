@@ -1,9 +1,7 @@
-First experiment
-----------------
-
 Raspberry Pi is used as Service Function serving DHCP server and IDS capabilities for neutron-lan.
 
 I. DHCP Server 
+--------------
 <pre>
                  +----------------+
                  |Service Function| DHCP Server 
@@ -33,7 +31,7 @@ For the time being, DVR A, B and C have direct access too Internet GW (in my cas
 
 
 II. Internet GW
-
+---------------
 In this configuration, DVR feature is disabled and Raspberry Pi works as a Internet GW.
 <pre>
                      Internet
@@ -63,6 +61,7 @@ VLAN 3 --+---[GW]--- VNI 103 -++----[GW]---+-- VLAN 27
 </pre>
 
 III. IDS in sensor mode
+-----------------------
 <pre>
                  +----------------+
                  |Service Function| Snort(IDS sensor-mode)
