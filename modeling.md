@@ -21,21 +21,78 @@ YAML for modeling neutron-lan
 This is an example of a model that represents neutron-lan:
 
 <pre>
-bridges: True
-vxlan:
-	local_ip: '192.168.57.101'
-	remote_ips:
-		- '192.168.57.102'
-		- '192.168.57.103'
-subnets:
-	- vid: '1'
-	  vni: '101'
-	  ip_dvr: '10.0.1.1/24'
-	  ip_vhost: '10.0.1.101/24'
-	- vid: '3'
-	  vni: '103'
-	  ip_dvr: '10.0.3.1/24'
-	  ip_vhost: '10.0.3.101/24'
+openwrt1:
+   bridges: true
+   vxlan:
+      local_ip: '192.168.1.101'
+      remote_ips:
+         - '192.168.1.102'
+         - '192.168.1.103'
+         - '192.168.1.104'
+   subnets:
+      - vid: '1'
+        vni: '101'
+        ip_dvr: '10.0.1.1/24'
+        ip_vhost: '10.0.1.101/24'
+      - vid: '3'
+        vni: '103'
+        ip_dvr: '10.0.3.1/24'
+        ip_vhost: '10.0.3.101/24'
+
+openwrt2:
+   bridges: true
+   vxlan:
+      local_ip: '192.168.1.102'
+      remote_ips:
+         - '192.168.1.101'
+         - '192.168.1.103'
+         - '192.168.1.104'
+   subnets:
+      - vid: '1'
+        vni: '101'
+        ip_dvr: '10.0.1.1/24'
+        ip_vhost: '10.0.1.102/24'
+      - vid: '3'
+        vni: '103'
+        ip_dvr: '10.0.3.1/24'
+        ip_vhost: '10.0.3.102/24'
+
+openwrt3:
+   bridges: true
+   vxlan:
+        local_ip: '192.168.1.103'
+      remote_ips:
+         - '192.168.1.101'
+         - '192.168.1.102'
+         - '192.168.1.104'
+   subnets:
+      - vid: '1'
+        vni: '101'
+        ip_dvr: '10.0.1.1/24'
+        ip_vhost: '10.0.1.103/24'
+      - vid: '3'
+        vni: '103'
+        ip_dvr: '10.0.3.1/24'
+        ip_vhost: '10.0.3.103/24'
+
+
+rpi1:
+   bridges: true
+   vxlan:
+      local_ip: '192.168.1.104'
+      remote_ips:
+         - '192.168.1.101'
+         - '192.168.1.102'
+         - '192.168.1.103'
+   subnets:
+      - vid: '1'
+        vni: '101'
+        ip_dvr: '10.0.1.1/24'
+        ip_vhost: '10.0.1.104/24'
+      - vid: '3'
+        vni: '103'
+        ip_dvr: '10.0.3.1/24'
+        ip_vhost: '10.0.3.104/24'
 </pre>
 
 If an application wants to change some state on the model, for example, wants to add a subnet, then the application askes "nlan-ssh.py" to add the subnet. "nlan-ssh.py" generates YAML data corresponding to the new subnet, then convert it into Python dict object. The dict object is serialized and sent to "nlan-agent.py" on the OpenWRT router (and possibly other routers than OpenWRT in future). "nlan-agent.py" deserializes the data, analyzes it and routes the request to a corresponding method. "nlan-ssh.py" inserts the YAML data into the states after having received a success reply from "nlan-agent.py".
@@ -103,7 +160,37 @@ sample_dict_args = {
 }
 </pre>
 
-CRUD operations:
+And the roster file will be like this:
+<pre>   
+openwrt1:
+   host: 192.168.1.101
+   user: root
+   passwd: root
+   hardware: bhr_4grv
+
+openwrt2:
+   host: 192.168.1.102
+   user: root
+   passwd: root
+   hardware: bhr_4grv
+
+openwrt3:
+   host: 192.168.1.103
+   user: root
+   passwd: root
+   hardware: bhr_4grv
+
+rpi1:
+   host: 192.168.1.104
+   user: root
+   passwd: root
+   hardware: raspberry_pi_b
+</pre>
+
+CRUD operation
+--------------
+
+neutron-lan defines the following CRUD operations:
 - "add": Create
 - "get": Read
 - "set": Update
