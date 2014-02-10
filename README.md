@@ -7,6 +7,7 @@ INDEX
 -----
 * [neutron-lan concept](https://github.com/alexanderplatz1999/neutron-lan/blob/master/README.md)
 * [Software Defined Networking](https://github.com/alexanderplatz1999/neutron-lan/blob/master/software_defined_networking.md)
+* [Service Function](https://github.com/alexanderplatz1999/neutron-lan/blob/master/service_function.md)
 * [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md)
 * [Modeling](https://github.com/alexanderplatz1999/neutron-lan/blob/master/modeling.md)
 * [Initial config for Buffalo BHR-4GRV](https://github.com/alexanderplatz1999/neutron-lan/blob/master/initial-config-for-bhr-4grv.md)
