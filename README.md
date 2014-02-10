@@ -11,7 +11,8 @@ INDEX
 * [Service Function](https://github.com/alexanderplatz1999/neutron-lan/blob/master/service_function.md)
 * [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md)
 * [Initial config for Buffalo BHR-4GRV](https://github.com/alexanderplatz1999/neutron-lan/blob/master/initial-config-for-bhr-4grv.md)
-* [Wiki](https://github.com/alexanderplatz1999/neutron-lan/wiki)
+* [Initial config for Raspberry Pi](https://github.com/alexanderplatz1999/neutron-lan/blob/master/initial-config-for-rpi.md)
+* [neutron-lan wiki](https://github.com/alexanderplatz1999/neutron-lan/wiki)
 * [Test bed at my home](https://github.com/alexanderplatz1999/neutron-lan/wiki/Testbed)
 
 BACKGROUND AND MOTIVATION
