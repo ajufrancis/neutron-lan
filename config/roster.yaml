@@ -3,19 +3,26 @@
 #
 
 openwrt1:
-   host: 192.168.56.111
+   host: 192.168.1.101
    user: root
    passwd: root
+   hardware: bhr_4grv
 
 openwrt2:
-   host: 192.168.56.112
+   host: 192.168.1.102
    user: root
    passwd: root
+   hardware: bhr_4grv
 
 openwrt3:
-   host: 192.168.56.113
+   host: 192.168.1.103
    user: root
    passwd: root
+   hardware: bhr_4grv
 
-
+rpi1:
+   host: 192.168.1.104
+   user: root
+   passwd: root
+   hardware: raspberry_pi_b
 

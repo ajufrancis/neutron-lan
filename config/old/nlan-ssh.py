@@ -50,8 +50,8 @@ from optparse import OptionParser
 
 NLAN_DIR = '/root/neutron-lan/config' 
 ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
+NLAN_AGENT = os.path.join(NLAN_DIR,'nlan-agent.py')
 NLAN_AGENT_DIR = '/tmp'
-NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan-agent.py')
 
 def _test(roster,router,operation,doc):
 
@@ -66,52 +66,44 @@ def _test(roster,router,operation,doc):
 		host = roster[router]['host']
 		user = roster[router]['user']
 		passwd = roster[router]['passwd']	
-		hardware = roster[router]['hardware']
-		hardware_args = '--type '+ hardware 
 		cmd_args = ''
 		if operation == '--row':
-			assert(isinstance(doc,str))
+			assert(ininstance(doc,str))
 			cmd = doc
 			print '--- Controller Request ------'
 			print router+':'
+			print 'command: ' + cmd 
 		elif operation == '--scp':
 			assert(isinstance(doc,list))
 			cmd = doc
 			print '--- Controller Request ------'
 			print router+':'
-			print '   files: ' + str(cmd)	
+			print 'files: ' + str(cmd)	
 		else:
 			assert(isinstance(doc,dict))
-			cmd = NLAN_AGENT + ' ' + operation + ' ' + hardware_args 
+			cmd = NLAN_AGENT + ' ' + operation
 			cmd_args = str(doc[router])
 			cmd_args = '"' + cmd_args + '"'
 			print '--- Controller Request -------'
 			print router+':'
-			print '   hardware: ' + hardware 
-			print '   operation: ' + operation 
-			print '   dict_args: ' + cmd_args
+			print 'operation: ' + operation 
+			print 'dict_args: ' + cmd_args
 		try:
 			ssh = para.SSHClient()
 			ssh.set_missing_host_key_policy(para.AutoAddPolicy())
 			ssh.connect(host,username=user,password=passwd)
 			if operation != '--scp':
-				i,o,e = ssh.exec_command(cmd)
-				#print(os.path.join(NLAN_AGENT_DIR,cmd))	
-				print '   command: ' + cmd 
+				i,o,e = ssh.exec_command(os.path.join(NLAN_AGENT_DIR,cmd))
 				if operation != '--row':
 					i.write(cmd_args)
 					i.flush()
 					i.channel.shutdown_write()
 				result = o.read()
-				error = e.read()
-				print '... OpenWRT response ......'
+				print '--- OpenWRT response ---------'
 				print result
-				print error
 			else:
 				s = scp.SCPClient(ssh.get_transport())
-				print "   target_dir: " + NLAN_AGENT_DIR
 				for file in doc: 
-					print ">>> Copying a file: " + file
 					s.put(file, NLAN_AGENT_DIR)
 
 			print ''
@@ -122,12 +114,9 @@ def _test(roster,router,operation,doc):
 if __name__=="__main__":
 
 	parser = OptionParser()
-	parser.add_option("-r", "--row", help="Execute row shell commands", action="store_true", default=False)
-	parser.add_option("-a", "--add", help="Add an element", action="store_true", default=False)
-	parser.add_option("-g", "--get", help="Get an element", action="store_true", default=False)
-	parser.add_option("-s", "--set", help="Set an element", action="store_true", default=False)
-	parser.add_option("-d", "--delete", help="Delete an element", action="store_true", default=False)
-	parser.add_option("-c", "--scp", help="Secure copy", action="store_true", default=False)
+	parser.add_option("-r", "--row", dest="row", help="Execute row shell commands", action="store_true", default=False)
+	parser.add_option("-a", "--add", dest="add", help="Add an element", action="store_true", default=False)
+	parser.add_option("-s", "--scp", dest="scp", help="Secure copy", action="store_true", default=False)
 
 	(options, args) = parser.parse_args()
 
@@ -148,15 +137,8 @@ if __name__=="__main__":
 		doc = []
 		for i in range(3,l):
 			doc.append(sys.argv[i])	
-	else:
-		if options.add:
-			operation = "--add" 
-		elif options.get:
-			operation = "--get"
-		elif options.get:
-			operation = "--set"
-		elif options.delete:
-			operation = "--delete"
+	elif options.add:	
+		operation = "--add" 
 		f = open(sys.argv[3])
 		doc = yaml.load(f.read())
 		f.close()

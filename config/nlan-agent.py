@@ -7,32 +7,59 @@ $ python nlan-agent.py --add <<EOF
 > EOF
 """
 import time
+from optparse import OptionParser
 
-def add_bridges(args):
+import dvsdvr
+
+def add_bridges(hardware, args):
 	print 'add_bridges: ' + str(args) 
+	dvsdvr.add_bridges(hardware, args)
 	
-def add_vxlan(args):
+def add_vxlan(hardware, args):
 	print 'add_vxlan: ' + str(args)
+	dvsdvr.add_vxlan(hardware, args)
 	
-def add_subnets(args):
+def add_subnets(hardware, args):
 	print 'add_subnets: ' + str(args)
+	dvsdvr.add_subnets(hardware, args)
 
 # Routing a request
-def _route(operation, kwargs):
-	operation = operation.strip('-')
+def _route(hardware, operation, kwargs):
 	for request in kwargs.keys():
 		func = globals()[operation+'_'+request]
 		args = kwargs[request]
-		func(args)
+		func(hardware, args)
                                                                                         
 if __name__ == "__main__":
 
 	import sys
+
+	parser = OptionParser()
+        parser.add_option("-a", "--add", help="Add an element", action="store_true", default=False)
+        parser.add_option("-g", "--get", help="Get an element", action="store_true", default=False)
+        parser.add_option("-s", "--set", help="Set an element", action="store_true", default=False)
+        parser.add_option("-d", "--delete", help="Delete an element", action="store_true", default=False)
+        parser.add_option("-t", "--type", help="Hardware type(e.g., bhr_4grv or raspberry_pi_b", action="store", default=False)
+
+	(options, args) = parser.parse_args()
+
+	operation = ''
       
-      	operation = sys.argv[1]
+	if options.add:
+		operation = 'add'
+	elif options.get:
+		operation = 'get'
+	elif options.set:
+		operetaion = 'set'
+	elif options.delete:
+		operation = 'delete'	
+	
+	hardware = options.type
+
       	print 'operation: ' + operation
+	print 'hardware: ' + hardware 
       	data = sys.stdin.read().replace('"','') 
       	dict_args = eval(data)
-	_route(operation, dict_args)
+	_route(hardware=hardware, operation=operation, kwargs=dict_args)
 	
 
