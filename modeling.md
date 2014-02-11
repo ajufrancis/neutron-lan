@@ -221,6 +221,8 @@ Since I worked on mobile agent paradigm based on Java primordial class loader in
 $ python nlan-ssh.py '*' --scp file1.py
 </pre>
 
+The YAML data and scripts may be stored in a repository on another host, such as github.com, so that nlan-agent.py can retrive them in case that the controller is down or unaccessible.
+
 It is still under study about how to serialize the dict data: converted into str or pickle serialization format?
 
 - TODO: Study whether a list of dict objects (i.e., collections.OrderedDict) is better or not as the argument...
