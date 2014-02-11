@@ -1,8 +1,8 @@
-Modeling neutron-lan
-====================
+YAML-based network modeling
+===========================
 
 Model-driven/data-driven approach
----------------------
+---------------------------------
 
 There are several ways for calling a remote python script on the router:
 - RPC (XML-RPC, JSON-RPC etc)
