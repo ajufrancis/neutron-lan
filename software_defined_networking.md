@@ -8,18 +8,18 @@ neutron-lan-agent and neutron-lan-controller
       |                     html5 browser                         |
       +-----------------------------------------------------------+
                                   | http (and websocket?)
-                                  V
-      +------------------------ wsgi -----------------------------+    neutron-lan states
-      |          neutron-lan-controller (python scripts)          |       ----------
-      |        Service Abstraction Layer (YAML and jinja2)        | <--> /YAML data/-
-      +-----------------------------------------------------------+     ----------- /-
-                                  |                                      ----------- /
-                                  | ssh (and 0mq via ssh)                 -----------
-                                  V
-      +-----------------------------------------------------------+++
-      |         neutron-lan-agent (python scripts)                |||
-      +-----------------------------------------------------------+++
-         |*1     |*2        |*3         |*4       |*5       |*6
+                                  V                                                              github.com
+      +------------------------ wsgi -----------------------------+    neutron-lan states       +-----------+
+      |          neutron-lan-controller (python scripts)          |       ----------   git push |-YAML data |
+      |        Service Abstraction Layer (YAML and jinja2)        | <--> /YAML data/-  -------->|-Scripts   |
+      +-----------------------------------------------------------+     ----------- /- <--------+-----------+
+                                  |                                      ----------- / git pull       |  ^
+                                  | ssh (and 0mq via ssh)                 -----------                 |  |
+                                  V                                                                   |  |
+      +-----------------------------------------------------------+++  git pull (when rebooting)      |  |
+      |         neutron-lan-agent (python scripts)                ||| <- - - - - - - -  - - - - - - - +  |
+      +-----------------------------------------------------------+++ - - - - - - - - - - - - - - - - - -+  
+         |*1     |*2        |*3         |*4       |*5       |*6        git push (when configured locally)
          V       V          V           V         V         V
       [links] [bridge] [openvswitch] [routing] [dnsmasq] [iptables]
                                                DNS/DHCP  Firewall/NAT
