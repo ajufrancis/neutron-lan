@@ -132,6 +132,8 @@ Toplogy:
 Single DVR IP address for every router
 --------------------------------------
 
+Note: this DVR architecture is not so good in a sense that packets need to go through two routers (the nearest dvr and Internet GW(HGW or another BBR) to reach the Internet. I'm going to study how to improve the architecture. I've got some hint from somebody at OpenStack Days Tokyo 2014.
+
 Assigning different default GW addresses to distributed routers for same subnet
 is not a good strategy. That makes the configuration complicated.
 
