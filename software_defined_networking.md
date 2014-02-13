@@ -8,7 +8,7 @@ neutron-lan-agent and neutron-lan-controller
       |                     html5 browser                         |
       +-----------------------------------------------------------+
                                   | http (and websocket?)                                        
-                                  V                                    neutron-lan states         github.com
+                                  V                                    neutron-lan states         Git server
       +------------------------ wsgi -----------------------------+       ----------   git push  +-----------+
       |          neutron-lan-controller (python scripts)          | <--> /YAML data/-  --------> |-YAML data |
       |        Service Abstraction Layer (YAML and jinja2)        |     ----------- /- <-------- |-Scripts   |
@@ -25,7 +25,7 @@ neutron-lan-agent and neutron-lan-controller
                                                DNS/DHCP  Firewall/NAT
      *1: iproute2, uci
      *2: brctl
-     *3: ovs-vsctl(ovsdb), ovs-ofctl(openflow)
+     *3: ovs-vsctl(ovsdb), ovs-ofctl(openflow), python-openvswitch
      *4: iproute2
      *5: dnsmasq, uci
      *6: iptables, ebtables
