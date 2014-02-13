@@ -418,7 +418,7 @@ openwrt1:
 
 </pre>
 
-
+Unfortunately, BHR-4GRV's memory/storage capacities are as low as 64/28MBytes and salt-minion does not seem to work on the routers, so I will develop a SaltStak-like tool on my own. But, I will also study if SaltStack is applicable to SDN.
 
 CLI v0.1
 --------
