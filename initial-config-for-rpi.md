@@ -7,6 +7,10 @@ $ apt-get install gdebi
 To install openvswitch 2.0.0 on Debian Wheezy, follow the instructions on the following page:
 http://www.forwardingplane.net/2013/11/openvswitch-2-0-debian-packages/
 
+Some useful links:
+* [Raspbian](http://www.raspberrypi.org/downloads)
+* [Linux headers](http://www.raspberrypi.org/forums/viewtopic.php?f=71&t=17666)
+
 <pre>
 IPv6 seems to be disabled on Raspbian. So, the following config will not be necessary...
 
