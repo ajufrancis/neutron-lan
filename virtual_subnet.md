@@ -17,7 +17,7 @@ There are several ways to realize traffic engineering over the neutron-lan netwo
 My first experiment was to use ProxyARP techinique to redirect a specific flow to the underlay network.
 
 <pre>
-Unicast packets are send to the destination via the underlay network:
+Unicast packets are sent to the destination via the underlay network:
 
  10.0.1.101                                       10.0.1.103
   [vHost]                                           [vHost]
