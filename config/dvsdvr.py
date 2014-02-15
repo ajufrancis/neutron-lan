@@ -45,7 +45,8 @@ def _add_subnets(hardware, vid, ip_dvr, ip_vhost):
         # Distributed Virtual Router
         cmd('ip netns exec', ns, 'ip route add default via', ip_dvr.split('/')[0], 'dev eth0')
 	
-	# Adds br-tun
+# Adds br-tun
+def _add_br_tun(vid_vni_defaultgw):
 
         output_cmd = cmdutil.output_cmd
 
@@ -93,7 +94,7 @@ def _add_subnets(hardware, vid, ip_dvr, ip_vhost):
         # Drops ARP with target ip = default gw
         for combo in vid_vni_defaultgw:
                 vid = combo[0]
-                defaultgw = combo[2]
+                defaultgw = combo[2].split('/')[0]
                 cmd('ovs-ofctl add-flow br-tun', 'table=19,priority=1,dl_type=0x0806,dl_vlan='+vid+',nw_dst='+defaultgw+',actions=drop')
         cmd('ovs-ofctl add-flow br-tun', 'table=19,priority=0,actions=resubmit(,21)')
         cmd('ovs-ofctl add-flow br-tun', 'table=20,priority=0,actions=resubmit(,21)')
@@ -125,7 +126,7 @@ def add_vxlan(hardware, model):
 	remote_ips = model['remote_ips']
 
 	for remote_ip in remote_ips:
-		inf = 'vxlan_'+remote_ip
+		inf = 'vxlan_' + remote_ip.split('.')[3]
 		print '>>> Adding a VXLAN tunnel: ' + inf
 		cmd('ovs-vsctl add-port br-tun', inf, '-- set interface', inf, 'type=vxlan options:in_key=flow', 'options:local_ip='+local_ip, 'options:out_key=flow', 'options:remote_ip='+remote_ip)
 
@@ -142,6 +143,7 @@ def add_subnets(hardware, model):
 		print '>>> Adding a subnet(vlan): ' + vid
 		_add_subnets(hardware=hardware, vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost)
 		vid_vni_defaultgw.append([vid, vni, ip_dvr])
+	#print vid_vni_defaultgw
 	_add_br_tun(vid_vni_defaultgw)
 
 
