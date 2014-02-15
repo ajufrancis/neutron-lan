@@ -197,9 +197,9 @@ Why so many bridges inside?
 
 Why are there so many bridges? Linux bridges, br-int and br-tun...
 * br-int works as a MAC-learning switch.
-* br-tun works as a VXLAN GW. However, MAC-learning is also enabled for incoming packets. This MAC-learning process makes use of openvswitch-specific OF action.
+* br-tun works as a VXLAN GW with static flows preinstalled. BUM packets are broadcast to all VXLAN ports. Loop can be avoided by installing flows in a split-horizon manner. MAC-learning is also enabled for outgoing unicast packets. This MAC-learning process makes use of openvswitch-specific OF action.
 * According to OpenStack neutron documentation, since openvswitch does not seem to work with iptables very well(?), Linux bridges are necessary between LAN ports and br-int. The OpenStack neutron development team seems to be trying to get rid of iptables and add additional flow entries (stateless firewall) to br-tun.
-* openvswitch does not support IP multicast for BC/MC packets over VXLAN, so br-tun needs to replicate a packet for each VXLAN tunnel.
+* openvswitch does not support IP multicast for BUM packets over VXLAN, so br-tun needs to replicate a packet for each VXLAN tunnel.
 
 So there will be an impact on the performance, and I am looking forward to see some improvements on OpenStack neutron by the development team.
 
