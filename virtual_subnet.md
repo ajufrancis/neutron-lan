@@ -37,7 +37,7 @@ Routing/ProxyArp                                  Routing/ProxyARP
      +------------- The underlay network --------------+
               === Unicast packets ===>
 
-BC/MC packets are send to the destination via the overlay network:
+BC/MC packets are sent to the destination via the overlay network:
 
  10.0.1.101                                       10.0.1.103
   [vHost]                                           [vHost]
