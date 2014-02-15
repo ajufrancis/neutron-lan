@@ -29,7 +29,7 @@ HOW VXLAN WORKS
 
 Neutron configures two kinds of bridges on each compute node and a network node: "br-int" and "br-tun", if you chose GRE or VXLAN as a network virtualization option.
 
-"br-int" is a normal mac-learning vswitch, while "br-tun" works as a GRE GW or VXLAN GW.
+"br-int" is a normal mac-learning vswitch, whereas "br-tun" works as a GRE GW or VXLAN GW.
 
        Port VLANs
           |  |
