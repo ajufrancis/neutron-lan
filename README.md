@@ -178,6 +178,19 @@ Tackling security issues
 
 VXLAN-based network virtualization raises some security issues. For example, an attacker can intrude or hyjack any VXLAN by spoofing VTEP(VXLAN Tunnel End Point). To prevent this kind of attack, some VTEP authentication mechanism will be introduced.
 
+One idea I have devised:
+
+<pre>
+      netns                                                      netns
+      . . . . .                                                 . . . . .
+      .[vhost].                                                 .[vhost].
+      . . | . .                                                 . . | . .
+          |                                                         |
+        [br]--[br-int]--[br-tun] === VXLAN === [br-tun]--[br-int]--[br]
+    
+          <--- exchanging auth packets periodically among vhosts --->
+</pre>
+
 Why so many bridges inside?
 ---------------------------
 
