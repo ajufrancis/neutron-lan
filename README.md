@@ -203,6 +203,8 @@ Why are there so many bridges? Linux bridges, br-int and br-tun...
 
 So there will be an impact on the performance, and I am looking forward to see some improvements on OpenStack neutron by the development team.
 
+PLUMgrid guys say they have a sorted-out solution for the edge.
+
 APPENDIX
 --------
 
