@@ -176,7 +176,7 @@ I would chose the latter option, and that is something hareware-based routing/sw
 Tackling security issues
 ------------------------
 
-VXLAN-based network virtualization raises some security issues. For example, an attacker can intrude any VXLAN by spoofing VTEP(VXLAN Tunnel End Point). To prevent this kind of attack, some VTEP authentication mechanism will be introduced.
+VXLAN-based network virtualization raises some security issues. For example, an attacker can intrude or hyjack any VXLAN by spoofing VTEP(VXLAN Tunnel End Point). To prevent this kind of attack, some VTEP authentication mechanism will be introduced.
 
 Why so many bridges inside?
 ---------------------------
