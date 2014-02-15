@@ -180,16 +180,17 @@ VXLAN-based network virtualization raises some security issues. For example, an 
 
 One idea I have devised:
 
-<pre>
+      vhosts exchange some auth packets among themselves periodically.
+
       netns                                                      netns
       . . . . .                                                 . . . . .
       .[vhost].                                                 .[vhost].
       . . | . .                                                 . . | . .
           |                                                         |
         [br]--[br-int]--[br-tun] === VXLAN === [br-tun]--[br-int]--[br]
-    
-          <--- exchanging auth packets periodically among vhosts --->
-</pre>
+
+                                  auth packet
+               
 
 Why so many bridges inside?
 ---------------------------
