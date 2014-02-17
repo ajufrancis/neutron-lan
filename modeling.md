@@ -11,7 +11,7 @@ There are several ways for calling a remote python script on the router:
 
 Because of the memory/storage limitations of OpenWRT routers, I will adopt the third one: calling via ssh.
 
-Then I have been considering which one is better, api-driven or model-driven, since I have learned from OpenDaylight about model-driven service abstraction layer (MD-SAL): network element modeling (not network modelimg) by using YANG data format and loose coupling between applications and drivers (south-bound APIs). I suspect the reason why ODL has adopted YANG is that Java does not have such a modeling language on its own and YANG is language-neutral.
+Then I have been considering which one is better, api-driven or model-driven, since I have learned from OpenDaylight about model-driven service abstraction layer (MD-SAL): network element modeling (not network modeling) by using YANG data format and loose coupling between applications and drivers (south-bound APIs). I suspect the reason why ODL has adopted YANG is that Java does not have such a modeling language on its own and YANG is language-neutral.
 
 And I have learned from SaltStack that YAML is a very simple modeling language. Although YANG is the best for modeling network, I would rather take YAML as a neutron-lan modeling language. YAML data represents neutron-lan states, and applications on the controller modifies the states via "nlan-ssh.py".
 
