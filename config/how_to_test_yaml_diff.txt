@@ -1,3 +1,4 @@
+$ pip install layered-yaml-attrdict-config
 $ python ./yaml_diff.py test1.yaml test2.yaml
 
 It peformes unit tests for each functions in the script.
