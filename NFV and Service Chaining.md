@@ -29,8 +29,10 @@ At first, I am going to try this configuration:
  VLAN1 VLAN3   VLAN1 VLAN3
 
                                         [Service Function]
-                                           |         |
-[Host]-- VLAN 1 --[OpenWRT2]-- VNI 1001 --[PRI1]  [PRI1]-- VNI 1002 --[OpenWRT1]---[Internet GW]
+                              VLAN 1        |    |
+                                          [  br-int  ]
+                                               | VLAN 1,2
+[Host]-- VLAN 1 --[OpenWRT2]-- VNI 1001 --[  br-tun  ]-- VNI 1002 --[OpenWRT1]---[Internet GW]
 
 </pre>
 
