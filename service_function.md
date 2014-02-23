@@ -75,9 +75,9 @@ III. IDS in sensor mode
 Location A          |          +-----+   Location C
                     +------------+   |
 VLAN 1 --+---[GW]--+-- VNI 100 --|--[GW]---+-- VLAN 23
-         |                       |         |
-       [*** *]                   +---+   [DVR C]--- Internet
-         |                           |     |
+         |         |             |         |
+       [*** *]     |             +---+   [DVR C]--- Internet
+         |         |                 |     |
 VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27
                    |          |
                    |          |
@@ -90,8 +90,33 @@ VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27
                     Location B
 </pre>
 
-In this configuration, VNI 1001 and VNI 1002 will be used as lables to
-identify mirroring ports at Location C. I would need another labels to
-identify which traffic goes to which Serivice Function if there were
-multiple Service Functions on the Raspberry Pi. 
 
+IV. Firewall/IPS in L2-bump-in-the-wire mode
+--------------------------------------------
+<pre>
+                 +----------------+
+                 |Service Function| Snort(inline IPS mode)
+                 +----------------+
+                 int-sf1    int-sf2
+                    |          |
+                  [GW]       [GW]
+                    |          |
+                 VNI 1001    VNI 1002
+                    |          |
+Location A     +----+--+       +-----+   Location C
+               |       |             |
+VLAN 1 --+---[GW]--+---| VNI 100 ---[GW]---+-- VLAN 23
+         |         |   |                   |      RIP
+       [*** *]     |   |                 [DVR C]--------[Internet GW]
+         |         |   |                   |     
+VLAN 3 --+---[GW]------|--VNI 103---[GW]---+-- VLAN 27
+                   |   |      |
+                   |   |      |
+                  [GW]-+     [GW]
+                   |          |
+                   +--[*** *]-+
+                   |          |
+                 VLAN 14    VLAN 15
+
+                    Location B
+</pre>
