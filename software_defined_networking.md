@@ -250,6 +250,11 @@ Incumbent vendors may prefer Virtual Subnet as discussed in IETF l3vpn wg. I am 
 
 In my project, I find it can be used for traffic engineering for L2 at least.
 
+
+Service Function
+----------------
+I have been considering [these service functions](https://github.com/alexanderplatz1999/neutron-lan/blob/master/service_function.md) for neutron-lan.
+
 Traffic Engineering and Service Function Chaining
 -------------------------------------------------
 
