@@ -1,4 +1,4 @@
-Raspberry Pi is used as Service Function serving DHCP server and IDS capabilities for neutron-lan.
+Raspberry Pi is used as Service Function serving DHCP server and IDS/IPS capabilities for neutron-lan.
 
 I. DHCP Server 
 --------------
