@@ -258,7 +258,7 @@ I have been considering [these service functions](https://github.com/alexanderpl
 Traffic Engineering and Service Function Chaining
 -------------------------------------------------
 
-* By VXLAN and OpenFlow: [NFV ans Service Function Chaining](https://github.com/alexanderplatz1999/neutron-lan/blob/master/nfv_and%20service_chaining.md)
+* By VXLAN and OpenFlow: [NFV ans Service Function Chaining](https://github.com/alexanderplatz1999/neutron-lan/blob/master/nfv_and_service_chaining.md)
 * By /32 routes and OpenFlow (and VRFs if necessary).
 * Probably, I will need an additional protocol such as [nsh](http://tools.ietf.org/id/draft-quinn-nsh) for service chaining, as discussed in IETF sfc wg. I know LISP and NSH are being included in openvswitch.
 
