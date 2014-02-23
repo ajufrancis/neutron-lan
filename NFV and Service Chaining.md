@@ -28,10 +28,13 @@ At first, I am going to try this configuration:
  Port  Port    Port  Port
  VLAN1 VLAN3   VLAN1 VLAN3
 
-                                        [Service Function]
-                              VLAN 1        |    |
+                                       [Service Function] L2 bump in the wire
+                                             |    |
+                                      VLAN 1 |    | VLAN 2
                                           [  br-int  ]
+                                               |
                                                | VLAN 1,2
+                                               |
 [Host]-- VLAN 1 --[OpenWRT2]-- VNI 1001 --[  br-tun  ]-- VNI 1002 --[OpenWRT1]---[Internet GW]
 
 </pre>
@@ -40,3 +43,5 @@ In the ETSI NFV terminology, SF (Service Function) corresponds to VNF(Virtual Ne
 
 OpenWRT1 works as a gateway between the Internet and neutron-lan. 
 OpenWRT1 uses RIP to advertise networks 10.0.1.0/24 and 10.0.3.0/24 to the Internet GW.
+
+A service function such as firewall or IPS is inserted between the Internet and neutron-lan in the L2-bump-in-the-wire mode.
