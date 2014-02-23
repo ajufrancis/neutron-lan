@@ -1,6 +1,3 @@
-Service Function Chaining
--------------------------
-
 At first, I am going to try this configuration:
 
 <pre>
