@@ -132,8 +132,6 @@ Toplogy:
 Single DVR IP address for every router
 --------------------------------------
 
-Note: this DVR architecture is not so good in a sense that packets need to go through two routers (the nearest dvr and Internet GW(HGW or another BBR) to reach the Internet. I'm going to study how to improve the architecture. I've got some hint from somebody at OpenStack Days Tokyo 2014.
-
 Assigning different default GW addresses to distributed routers for same subnet
 is not a good strategy. That makes the configuration complicated.
 
@@ -242,6 +240,8 @@ NXST_FLOW reply (xid=0x4):
  cookie=0x0, duration=875.727s, table=21, n_packets=37, n_bytes=2094, idle_age=102, priority=1,dl_vlan=1 actions=strip_vlan,set_tunnel:0x64,output:1,output:2
  cookie=0x0, duration=875.708s, table=21, n_packets=2, n_bytes=220, idle_age=867, priority=0 actions=drop
 </pre>
+
+Note: this DVR architecture may need some improvement in future, since packets need to go through two routers (the nearest dvr and Internet GW(HGW or another BBR) to reach the Internet.
 
 Virtual Subnet: Layer 2 networking over /32 routes
 --------------------------------------------------
