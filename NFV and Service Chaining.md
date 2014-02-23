@@ -44,4 +44,28 @@ In the ETSI NFV terminology, SF (Service Function) corresponds to VNF(Virtual Ne
 OpenWRT1 works as a gateway between the Internet and neutron-lan. 
 OpenWRT1 uses RIP to advertise networks 10.0.1.0/24 and 10.0.3.0/24 to the Internet GW.
 
-A service function such as firewall or IPS is inserted between the Internet and neutron-lan in the L2-bump-in-the-wire mode.
+A service function such as firewall or IPS is inserted between the Internet and VLAN 1 (but not VLAN 3) in the L2-bump-in-the-wire mode.
+
+In my experimental setup, any service functions run in Linux Containers (LXC) on a Raspberry Pi Type B machine:
+
+<pre>
+
+          Raspberry Pi
+          . . . . . . . . . . . 
+          .  [Liux Container] .
+          .    |          |   .
+          .   veth       veth .
+          .    |          |   .
+          .  [    br-int    ] .
+          .         |         .
+          .     VLAN trunk    .
+          .         |         . 
+          . .[    br-tun    ] .
+            (                )
+           (    V X L A N     )
+            (                )
+            
+
+</pre>
+
+
