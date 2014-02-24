@@ -27,6 +27,11 @@ Configuring quagga.
 Configuring quagga-libzebra.
 Configuring quagga-ripd.
 
+root@OpenWrt:~# opkg install quagga-zebra
+Installing quagga-zebra (0.99.22.3-1) to root...
+Downloading http://downloads.openwrt.org/snapshots/trunk/ar71xx/packages/quagga-zebra_0.99.22.3-1_ar71xx.ipk.
+Configuring quagga-zebra.
+
 root@OpenWrt:/etc# opkg install quagga-vtysh
 Installing quagga-vtysh (0.99.22.3-1) to root...
 Downloading http://downloads.openwrt.org/snapshots/trunk/ar71xx/packages/quagga-vtysh_0.99.22.3-1_ar71xx.ipk.
@@ -42,10 +47,11 @@ Configuring libncurses.
 Configuring quagga-vtysh.
 </pre>
 
-I have intalled the quagga-ripd and quagga-btysh packages on OpenWRT1. Then I try to use vtysh:
+I have intalled the quagga-ripd, quagga-zebra and quagga-btysh packages on OpenWRT1. Then I try to use vtysh:
 
 <pre>
 root@OpenWrt:~# /etc/init.d/quagga start
+quagga.init: Starting zebra ... done.
 quagga.init: Starting ripd ... done.
 root@OpenWrt:~# vtysh
 
@@ -56,6 +62,3 @@ OpenWrt# configure terminal
 OpenWrt(config)# router rip
 OpenWrt(config-router)#
 </pre>
-
-
-
