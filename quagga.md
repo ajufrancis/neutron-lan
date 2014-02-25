@@ -12,7 +12,7 @@ so I have installed Quagga on OpenWRT1 to make it exchange routing info with the
              |
             RIPv2 to advertise routing info
              |
-      [ OpenWRT1     ] <===== the controller manipulates Quagga on the router.
+      [ OpenWRT1     ]
 
 <pre>
 root@OpenWrt:/etc# opkg install quagga-ripd
