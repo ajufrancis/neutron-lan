@@ -12,9 +12,9 @@ At first, I am going to try this configuration:
               [Internet GW]
                     |  ^
                     |  |
-                    | RIP
+                    | RIPv2 advertising 10.0.1.0/24
    [S F ]           |  |
-    |  |   1002     |  V
+    |  |   1002     |  |
  [RPI1    ]----[OpenWRT1]
      |\            /|
      | 1001     103 |     VLAN 1 -- VNI 101
