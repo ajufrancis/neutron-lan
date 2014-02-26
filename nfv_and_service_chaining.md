@@ -20,8 +20,8 @@ At first, I am going to try this configuration:
      | 1001     103 |     VLAN 1 -- VNI 101
      |    \   101   |     VLAN 3 -- VNI 103
    1001     \/     103
-     |     /  \    101    VNI 1001 as a path between SF and OpenWRT2 and 3.
-     |   /      \   |     VNI 1002 as a path between SF and OpenWRT1.
+     |     /  \    101    VNI 1001 as a service path between SF and OpenWRT2 and 3.
+     |   /      \   |     VNI 1002 as a service path between SF and OpenWRT1.
      | /   101    \ | 
  [OpenWRT2]----[OpenWRT3]
   | |  | | 103  | |  | |
@@ -69,8 +69,10 @@ In my experimental setup, any service functions run in Linux Containers (LXC) on
 </pre>
 
 
+Since [NSH](www.ietf.org/id/draft-quinn-nsh) is not available yet on openvswitch 2.0.0, it assigns seperate VNIs (as labels) for each service pathes.
+
 Connecting LXC to openvsitch
--------------------------
+----------------------------
 
 [This blog page](http://blog.scottlowe.org/2014/01/23/automatically-connecting-lxc-to-open-vswitch/) teaches me how to connect LXC to openvswitch
 
