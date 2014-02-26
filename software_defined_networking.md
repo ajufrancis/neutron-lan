@@ -37,21 +37,21 @@ Details of DVS and DVR
 neutron-lan is quite different from ordinaly LANs in a sense that:
 - Different VLANs can belong to the same VXLAN
 - VXLAN may span WAN as well as LAN. In future, MPLS over GRE is another option, since openvswitch is goint to support MPLS.
-- Routing are performed at DVR closest to the host sending packets.
+- Routing are performed at IR(Internal Router) closest to the host sending packets.
 
 <pre>
 Location A                                  Location C
                
 VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
          |         |                       | 
-       [DVR A]     |                     [DVR B]
+       [IR]        |                     [IR]
          |         |                       |
 VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27 
                    |          |
                    |          |
                  [GW]       [GW]
                    |          |
-                   +--[DVR C]-+ 
+                   +---[IR]---+ 
                    |          |
                  VLAN 14    VLAN 15
         
@@ -70,7 +70,7 @@ from a SDN's point of view.
         |      |       |        |
         |   ---+-------+--------+--- VNI 100
         | 
-     [DVR A]                 (Host C')
+      [IR]                   (Host C')
         |   Loc. A   Loc. B   Loc. C
         |   VLAN 3   VLAN 15  VLAN 27    
         |      |       |        |
@@ -82,7 +82,7 @@ Host A on Loc. A VLAN 1 can communicate with Host C on Loc. C VLAN 23
 via VXLAN VNI 100.
  
 Host A on Loc. A VLAN 1 can communicate with Host C' on Loc. V VLAN 27
-via DVR A that has interfaces to both VNI 100 and VNI 103.
+via IR that has interfaces to both VNI 100 and VNI 103.
  
 The controller is responsible for the mapping between VLANs and VNI.
 
