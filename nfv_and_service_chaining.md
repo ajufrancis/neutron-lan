@@ -19,9 +19,9 @@ At first, I am going to try this configuration:
      |\            /|
      | 1001     103 |     VLAN 1 -- VNI 101
      |    \   101   |     VLAN 3 -- VNI 103
-   1001     \/     103
+   1001     \/     103    VNI 1 is a "default GW service path" among internal routers.
      |     /  \    101    VNI 1001 as a service path between SF and OpenWRT2 and 3.
-     |   /      \   |     VNI 1002 as a service path between SF and OpenWRT1.
+     |   1      \   1     VNI 1002 as a service path between SF and OpenWRT1.
      | /   101    \ | 
  [OpenWRT2]----[OpenWRT3]
   | |  | | 103  | |  | |
