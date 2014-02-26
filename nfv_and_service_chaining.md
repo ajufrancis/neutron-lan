@@ -38,12 +38,12 @@ At first, I am going to try this configuration:
 
                                        [Service Function] L2 bump in the wire
                                            eth0 eth1
-                                            ^ | | ^
+                                            . | | .
                                      VLAN 1 . | | . VLAN 2
                                           [  br-int  ]
                                              . | .
                                       VLAN 1 . | . VLAN 2
-                                   < . . . . . | . . . . . . >               
+                                     . . . . . | . . . . . .                
 [Host]-- VLAN 1 --[OpenWRT2]-- VNI 1001 --[  br-tun  ]-- VNI 1002 --[OpenWRT1]---[Internet GW]
 
 </pre>
