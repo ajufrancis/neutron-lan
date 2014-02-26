@@ -88,7 +88,7 @@ lxc.network.ipv4 = 0.0.0.0
 lxc.network.script.up = /etc/lxc/ovsconf
 lxc.network.type = veth
 lxc.network.flags = up
-lxc.network.veth.pair = 1002#lxc.network.link = virbr0
+lxc.network.veth.pair = 1002
 lxc.network.ipv4 = 0.0.0.0
 lxc.network.script.up = /etc/lxc/ovsconf
 </pre>
