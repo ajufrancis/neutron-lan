@@ -39,7 +39,7 @@ Location A                                  Location C
 
 VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
          |         |                       |                      (        )
-       [IR]-[GW]---------+--VNI 1-----------[IR]--[Internet GW]--( Internet )
+       [IR]-[GW]---------+--VNI 1---[GW]-[IR]--[Internet GW]--( Internet )
          |         |     |                 |                      (        )
 VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27
                    |     |    |
