@@ -7,9 +7,17 @@ At first, I am going to try this configuration:
 
                The Internet
                     |
+                   ISP
+                    |
+                  [BRAS]
+                    |
+                    | PPPoE (over NTT East's FTTH network)
+                    |
+              [Home | GW  ] PPPoE pass through
+                    |
                     | PPPoE
                     |
-              [Internet GW]
+              [Internet GW]  NAPT, Firewall, DHCP, 802.11a/b/g
                     |  ^
                     |  |
                     | RIPv2 advertising 10.0.1.0/24
