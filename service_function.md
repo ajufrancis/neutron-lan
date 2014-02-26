@@ -13,14 +13,14 @@ Location A          |          |              Location C
                     |          |
 VLAN 1 --+---[GW]--++- VNI 100 -----[GW]---+-- VLAN 23
          |         |           |           |
-       [DVR A]     |           |         [DVR C]
+       [IR]        |           |         [IR]
          |         |           |           |
 VLAN 3 --+---[GW]--- VNI 103 -++----[GW]---+-- VLAN 27
                    |          |
                    |          |
                  [GW]       [GW]
                    |          |
-                   +--[DVR B]-+
+                   +---[IR]-+
                    |          |
                  VLAN 14    VLAN 15
 
@@ -76,7 +76,7 @@ Location A          |          +-----+   Location C
                     +------------+   |
 VLAN 1 --+---[GW]--+-- VNI 100 --|--[GW]---+-- VLAN 23
          |         |             |         |
-       [*** *]     |             +---+   [DVR C]--- Internet
+       [*** *]     |             +---+   [IR]--- Internet
          |         |                 |     |
 VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27
                    |          |
@@ -106,15 +106,15 @@ IV. Firewall/IPS in L2-bump-in-the-wire mode
 Location A     +----+--+       +-----+   Location C
                |       |             |
 VLAN 1 --+---[GW]--+---| VNI 100 ---[GW]---+-- VLAN 23
-         |         |   |                   |      RIP
-       [*** *]     |   |                 [DVR C]--------[Internet GW]
+         |         |   |                   |  RIPv2
+       [IR]        |   |                 [IR]--------[Internet GW]
          |         |   |                   |     
 VLAN 3 --+---[GW]------|--VNI 103---[GW]---+-- VLAN 27
                    |   |      |
                    |   |      |
                   [GW]-+     [GW]
                    |          |
-                   +--[*** *]-+
+                   +---[IR]---+
                    |          |
                  VLAN 14    VLAN 15
 
