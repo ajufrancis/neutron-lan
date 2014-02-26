@@ -1,3 +1,6 @@
+Service Chaining Architecture
+-----------------------------
+
 At first, I am going to try this configuration:
 
 <pre>
@@ -65,4 +68,48 @@ In my experimental setup, any service functions run in Linux Containers (LXC) on
 
 </pre>
 
+
+Connecting LXC to openvsitch
+-------------------------
+
+[This blog page](http://blog.scottlowe.org/2014/01/23/automatically-connecting-lxc-to-open-vswitch/) teaches me how to connect LXC to openvswitch
+
+
+Service Functions such as IDS/IPS typically use mutliple network interfaces. I let them have two interfaces:
+
+/var/lib/lxc/vm1
+
+<pre>
+# networking
+lxc.network.type = veth
+lxc.network.flags = up
+lxc.network.veth.pair = 1001
+lxc.network.ipv4 = 0.0.0.0
+lxc.network.script.up = /etc/lxc/ovsconf
+lxc.network.type = veth
+lxc.network.flags = up
+lxc.network.veth.pair = 1002#lxc.network.link = virbr0
+lxc.network.ipv4 = 0.0.0.0
+lxc.network.script.up = /etc/lxc/ovsconf
+</pre>
+
+"lxc-start" command calls ovsconf script when starting up the network.
+
+/etc/lxc/ovsconf
+
+<pre>
+#!/bin/bash
+
+BRIDGE="br-int"
+PORT=int-sf$5
+
+if [ $3 == "up" ]
+then
+   ovs-vsctl -- --may-exist add-br $BRIDGE
+   ovs-vsctl -- --if-exists del-port $BRIDGE $PORT
+   ovs-vsctl -- --may-exist add-port $BRIDGE $PORT tag=$5
+else
+   ovs-vsctl -- --if-exists del-port $BRIDGE $PORT
+fi
+</pre>
 
