@@ -3,14 +3,14 @@ Location A                                  Location C
 
 VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
          |         |                       |
-       [DVR A]     |                     [DVR C]
+       [IR]        |                     [IR]
          |         |                       |
 VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27
                    |          |
                    |          |
                  [GW]       [GW]
                    |          |
-                   +--[DVR B]-+
+                   +---[IR]---+
                    |          |
                  VLAN 14    VLAN 15
 
@@ -21,14 +21,14 @@ Location A                                  Location C
 
 VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
          |         |                       |
-       [DVR A]     |                     [DVR C]
+       [IR]        |                     [IR]
          |         |                       |
      X --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27
                    |          |
                    |          |
                  [GW]       [GW]
                    |          |
-                   +--[DVR B]-+
+                   +---[IR]---+
                    |          |
                    X        VLAN 15
 
@@ -38,15 +38,15 @@ VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
 Location A                                  Location C
 
 VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
-         |         |                       |                 (        )
-       [DVR A]-[GW]------+--VNI 1--------[DVR C]--[FW/NAT]--( Internet )
-         |         |     |                 |                 (        )
+         |         |                       |                      (        )
+       [IR]-[GW]---------+--VNI 1-----------[IR]--[Internet GW]--( Internet )
+         |         |     |                 |                      (        )
 VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27
                    |     |    |
                    |     |    |
                  [GW]  [GW] [GW]
                    |     |    |
-                   +--[DVR B]-+
+                   +---[IR]---+
                    |          |
                  VLAN 14    VLAN 15
 
@@ -57,17 +57,18 @@ Location A                                  Location C
 
 VLAN 1 --+---[GW]--+-- VNI 100 -----[GW]---+-- VLAN 23
          |         |                       |
-       [DVR A]     |                     [DVR C]
-         | |       |                       | |
+        [IR ]      |                      [IR ]
+         | |NAPT   |                       | |NAPT
 VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27
            |       |          |              |
-       [FW/NAT]    |          |          [FW/NAT]
+           |       |          |              |
            |     [GW]       [GW]             |
            |       |          |              |
-           V       +--[DVR B]-+              V
-       Internet    |          |          Internet
-                 VLAN 14    VLAN 15
-
-                    Location B
+           V       +---[IR]---+              V
+   The Internet    |     |NAPT|          The Internet
+                 VLAN 14 |   VLAN 15
+                         |
+                         V
+                    The Internet
 
 </pre>
