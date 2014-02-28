@@ -33,8 +33,6 @@ def _add_subnets(hardware, vid, ip_dvr, ip_vhost):
     int_dvr = "int-dvr"+vid
     eth0_vid = "eth0."+vid
 
-    print '>>> Adding a subnet: vid=' + vid
-
     cmd('ip netns add' , ns)
     cmd('brctl addbr', br)
     cmd('ip link add', veth_ns, 'type veth peer name', temp_ns)

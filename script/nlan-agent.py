@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
     print 'operation: ' + operation
     print 'hardware: ' + hardware 
-    if operaion == 'init':
+    if operation == 'init':
         pass
     else:
         data = sys.stdin.read().replace('"','') 

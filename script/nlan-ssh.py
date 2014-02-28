@@ -48,7 +48,7 @@ import yaml
 import paramiko as para, scp
 from optparse import OptionParser
 
-NLAN_DIR = '/root/neutron-lan/config' 
+NLAN_DIR = '/root/neutron-lan/script' 
 ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
 NLAN_AGENT_DIR = '/tmp'
 NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan-agent.py')
@@ -76,6 +76,8 @@ def _deploy(roster,router,operation,doc):
             print router+':'
         elif operation == '--init':
             cmd = NLAN_AGENT + ' ' + operation + ' ' + hardware_args
+            print '--- Controller Request ------'
+            print router+':'
         elif operation == '--scp':
             assert(isinstance(doc,list))
             cmd = doc
@@ -104,11 +106,11 @@ def _deploy(roster,router,operation,doc):
                     i.write(cmd_args)
                     i.flush()
                     i.channel.shutdown_write()
-                    result = o.read()
-                    error = e.read()
-                    print '... ' + hardware + ' response ......'
-                    print result
-                    print error
+                result = o.read()
+                error = e.read()
+                print '... ' + hardware + ' response ......'
+                print result
+                print error
             else:
                 s = scp.SCPClient(ssh.get_transport())
                 print "   target_dir: " + NLAN_AGENT_DIR
