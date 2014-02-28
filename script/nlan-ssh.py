@@ -16,7 +16,7 @@ Usage example:
 $ python nlan-ssh.py '*' --add dvsdvr.yaml 
 $ python nlan-ssh.py openwrt3 -a dvsdvr.yaml 
 $ python nlan-ssh.py openwrt1 -r 'cat /etc/hosts'
-$ python nlan-ssh.py '*' --row 'date'
+$ python nlan-ssh.py '*' --raw 'date'
 $ python nlan-ssh.py '*' --scp nlan-agent.py 
 
 Supported CRUD operations:
@@ -53,117 +53,124 @@ ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
 NLAN_AGENT_DIR = '/tmp'
 NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan-agent.py')
 
-def _test(roster,router,operation,doc):
+def _deploy(roster,router,operation,doc):
 
-	routers = []
+    routers = []
 
-	if router == '__ALL__':	
-		routers = roster.keys()
+    if router == '__ALL__':	
+        routers = roster.keys()
+    else:
+        routers.append(router)
+
+    for router in routers:
+        host = roster[router]['host']
+        user = roster[router]['user']
+        passwd = roster[router]['passwd']	
+        hardware = roster[router]['hardware']
+        hardware_args = '--type '+ hardware 
+	cmd_args = ''
+        if operation == '--raw':
+            assert(isinstance(doc,str))
+            cmd = doc
+            print '--- Controller Request ------'
+            print router+':'
+        elif operation == '--init':
+            cmd = NLAN_AGENT + ' ' + operation + ' ' + hardware_args
+        elif operation == '--scp':
+            assert(isinstance(doc,list))
+            cmd = doc
+            print '--- Controller Request ------'
+            print router+':'
+            print '   files: ' + str(cmd)	
 	else:
-		routers.append(router)
+            assert(isinstance(doc,dict))
+            cmd = NLAN_AGENT + ' ' + operation + ' ' + hardware_args 
+            cmd_args = str(doc[router])
+            cmd_args = '"' + cmd_args + '"'
+            print '--- Controller Request -------'
+            print router+':'
+            print '   hardware: ' + hardware 
+            print '   operation: ' + operation 
+            print '   dict_args: ' + cmd_args
+        try:
+            ssh = para.SSHClient()
+            ssh.set_missing_host_key_policy(para.AutoAddPolicy())
+            ssh.connect(host,username=user,password=passwd)
+            if operation != '--scp':
+                i,o,e = ssh.exec_command(cmd)
+                #print(os.path.join(NLAN_AGENT_DIR,cmd))	
+                print '   command: ' + cmd 
+                if operation != '--raw' and operation != '--init':
+                    i.write(cmd_args)
+                    i.flush()
+                    i.channel.shutdown_write()
+                    result = o.read()
+                    error = e.read()
+                    print '... ' + hardware + ' response ......'
+                    print result
+                    print error
+            else:
+                s = scp.SCPClient(ssh.get_transport())
+                print "   target_dir: " + NLAN_AGENT_DIR
+                for file in doc: 
+                    print ">>> Copying a file: " + file
+                    s.put(file, NLAN_AGENT_DIR)
 
-	for router in routers:
-		host = roster[router]['host']
-		user = roster[router]['user']
-		passwd = roster[router]['passwd']	
-		hardware = roster[router]['hardware']
-		hardware_args = '--type '+ hardware 
-		cmd_args = ''
-		if operation == '--row':
-			assert(isinstance(doc,str))
-			cmd = doc
-			print '--- Controller Request ------'
-			print router+':'
-		elif operation == '--scp':
-			assert(isinstance(doc,list))
-			cmd = doc
-			print '--- Controller Request ------'
-			print router+':'
-			print '   files: ' + str(cmd)	
-		else:
-			assert(isinstance(doc,dict))
-			cmd = NLAN_AGENT + ' ' + operation + ' ' + hardware_args 
-			cmd_args = str(doc[router])
-			cmd_args = '"' + cmd_args + '"'
-			print '--- Controller Request -------'
-			print router+':'
-			print '   hardware: ' + hardware 
-			print '   operation: ' + operation 
-			print '   dict_args: ' + cmd_args
-		try:
-			ssh = para.SSHClient()
-			ssh.set_missing_host_key_policy(para.AutoAddPolicy())
-			ssh.connect(host,username=user,password=passwd)
-			if operation != '--scp':
-				i,o,e = ssh.exec_command(cmd)
-				#print(os.path.join(NLAN_AGENT_DIR,cmd))	
-				print '   command: ' + cmd 
-				if operation != '--row':
-					i.write(cmd_args)
-					i.flush()
-					i.channel.shutdown_write()
-				result = o.read()
-				error = e.read()
-				print '... OpenWRT response ......'
-				print result
-				print error
-			else:
-				s = scp.SCPClient(ssh.get_transport())
-				print "   target_dir: " + NLAN_AGENT_DIR
-				for file in doc: 
-					print ">>> Copying a file: " + file
-					s.put(file, NLAN_AGENT_DIR)
-
-			print ''
-		finally:
-			if ssh: ssh.close()
+            print ''
+        finally:
+            if ssh:
+                ssh.close()
 		
 
 if __name__=="__main__":
 
-	parser = OptionParser()
-	parser.add_option("-r", "--row", help="Execute row shell commands", action="store_true", default=False)
-	parser.add_option("-a", "--add", help="Add an element", action="store_true", default=False)
-	parser.add_option("-g", "--get", help="Get an element", action="store_true", default=False)
-	parser.add_option("-s", "--set", help="Set an element", action="store_true", default=False)
-	parser.add_option("-d", "--delete", help="Delete an element", action="store_true", default=False)
-	parser.add_option("-c", "--scp", help="Secure copy", action="store_true", default=False)
+    parser = OptionParser()
+    parser.add_option("-r", "--raw", help="Execute raw shell commands", action="store_true", default=False)
+    parser.add_option("-a", "--add", help="Add an element", action="store_true", default=False)
+    parser.add_option("-g", "--get", help="Get an element", action="store_true", default=False)
+    parser.add_option("-s", "--set", help="Set an element", action="store_true", default=False)
+    parser.add_option("-d", "--delete", help="Delete an element", action="store_true", default=False)
+    parser.add_option("-c", "--scp", help="Secure copy", action="store_true", default=False)
+    parser.add_option("-i", "--init", help="Initialization", action="store_true", default=False)
 
-	(options, args) = parser.parse_args()
+    (options, args) = parser.parse_args()
 
-	router = ''
-	operation = ''
-	doc = ''
+    router = ''
+    operation = ''
+    doc = ''
 	
-	router = sys.argv[1]
-	if router == '*':
-		router = '__ALL__'
+    router = sys.argv[1]
+    if router == '*':
+        router = '__ALL__'
 	
-	if options.row:
-		operation = "--row" 
-		doc = sys.argv[3]
-	elif options.scp:
-		operation = "--scp"
-		l = len(sys.argv)
-		doc = []
-		for i in range(3,l):
-			doc.append(sys.argv[i])	
-	else:
-		if options.add:
-			operation = "--add" 
-		elif options.get:
-			operation = "--get"
-		elif options.get:
-			operation = "--set"
-		elif options.delete:
-			operation = "--delete"
-		f = open(sys.argv[3])
-		doc = yaml.load(f.read())
-		f.close()
+    if options.raw:
+	operation = "--raw" 
+	doc = sys.argv[3]
+    elif options.scp:
+        operation = "--scp"
+        l = len(sys.argv)
+	doc = []
+        for i in range(3,l):
+            doc.append(sys.argv[i])	
+    elif options.init:
+        operation = "--init"
+    else:
+        if options.add:
+            operation = "--add" 
+        elif options.get:
+            operation = "--get"
+        elif options.get:
+            operation = "--set"
+        elif options.delete:
+            operation = "--delete"
+        f = open(sys.argv[3])
+        doc = yaml.load(f.read())
+        f.close()
 	
-	r = open(ROSTER_YAML,'r')
-	roster = yaml.load(r.read())
-	r.close()
-	_test(roster=roster,router=router,operation=operation,doc=doc)
+    r = open(ROSTER_YAML,'r')
+    roster = yaml.load(r.read())
+    r.close()
+
+    _deploy(roster=roster,router=router,operation=operation,doc=doc)
 
 
