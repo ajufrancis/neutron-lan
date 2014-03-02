@@ -11,13 +11,37 @@ def init(hardware):
     cmd = cmdutil.cmd
     output_cmd = cmdutil.output_cmd
 
+    # Delete all the ovs bridges
     cmd('ovs-vsctl --if-exists del-br br-tun')
     cmd('ovs-vsctl --if-exists del-br br-int')
     l = output_cmd('ip netns list')
     l = l.split('\n')
     for ns in l[:-1]:
         cmd('ip netns del', ns)
+
+    # Delete all the linux bridges
+    bridges = {}
+    brname = ''
+    o = output_cmd('brctl show').split('\n')
+    for l in o:
+        ll = l.split()
+        if len(ll) == 7:
+            pass
+        elif len(ll) == 4:
+            brname = ll[0]
+            interface = ll[3]
+            bridges[brname] = [interface]
+        elif len(ll) == 1:
+            interface = ll[0]
+            bridges[brname].append(interface)
+    for brname in bridges.keys():
+        for interface in bridges[brname]:
+            cmd('ip link set dev', interface, 'down')
+            cmd('brctl delif', brname, 'down')
+        cmd('ip link set dev', brname, 'down')
+        cmd('brctl delbr', brnmae)
         
+
 # Add a subnet
 def _add_subnets(hardware, vid, ip_dvr, ip_vhost):
 	
