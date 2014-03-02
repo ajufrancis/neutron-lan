@@ -20,6 +20,14 @@ def init(hardware):
         cmd('ip netns del', ns)
 
     # Delete all the linux bridges
+    """
+    $ brctl show
+    bridge name     bridge id               STP enabled     interfaces
+    br0             8000.5a3e95b90f2d       no              aaa00
+                                                            aaa01
+    br1             8000.16877c5f2ca9       no              bbb00
+                                                            bbb01
+    """
     bridges = {}
     brname = ''
     o = output_cmd('brctl show').split('\n')
@@ -39,7 +47,7 @@ def init(hardware):
             cmd('ip link set dev', interface, 'down')
             cmd('brctl delif', brname, 'down')
         cmd('ip link set dev', brname, 'down')
-        cmd('brctl delbr', brnmae)
+        cmd('brctl delbr', brname)
         
 
 # Add a subnet
@@ -185,5 +193,4 @@ def add_subnets(hardware, model):
         vid_vni_defaultgw.append([vid, vni, ip_dvr])
 
     _add_br_tun(vid_vni_defaultgw)
-
 
