@@ -3,8 +3,9 @@
 """
 2014/2/6
 
-This "nlan-ssh.py" script works like a "salt-ssh" command provided by
-SaltStack. However, this script has no dependencies on SaltStack.
+This "nlan-ssh.py" script works like a mixture of "salt-ssh" command 
+and "salt" provided by SaltStack. However, this script has no dependencies
+on SaltStack.
 
 I have stopped using SaltStack, since OpenWRT has not yet supported
 salt-minion. I will also study using "zmq" over ssh.
@@ -13,13 +14,13 @@ For the time being, "paramiko" is used for manipulating a remote script
 via ssh.
 
 Usage example: 
+$ python nlan-ssh.py --help
+$ python nlan-ssh.py '*' --scp * 
 $ python nlan-ssh.py '*' --add dvsdvr.yaml 
-$ python nlan-ssh.py openwrt3 -a dvsdvr.yaml 
-$ python nlan-ssh.py openwrt1 -r 'cat /etc/hosts'
-$ python nlan-ssh.py '*' --raw 'date'
-$ python nlan-ssh.py '*' --scp nlan-agent.py 
+$ python nlan-ssh.py openwrt1 --raw 'cat /etc/hosts'
+$ python nlan-ssh.py '*' --init
 
-Supported CRUD operations:
+CRUD operations to be supported:
 --add: Create
 --get: Read
 --set: Set
@@ -28,7 +29,7 @@ Supported CRUD operations:
 "nlan.py" referes to the following YAML files before calling "nlan-agent.py"
 via ssh on OpenWRT routers:
 - roster.yaml 
-  This is a copy of /etc/salt/roster, although I have stopped using
+  This is sort of /etc/salt/roster, although I have stopped using
   salt-ssh any longer.
 - CONFIG_YAML (e.g, dvsdvr.yaml)
   This is a config file of neutron-lan in YAML format. 
@@ -128,10 +129,10 @@ if __name__=="__main__":
 
     parser = OptionParser()
     parser.add_option("-r", "--raw", help="Execute raw shell commands", action="store_true", default=False)
-    parser.add_option("-a", "--add", help="Add an element", action="store_true", default=False)
-    parser.add_option("-g", "--get", help="Get an element", action="store_true", default=False)
-    parser.add_option("-s", "--set", help="Set an element", action="store_true", default=False)
-    parser.add_option("-d", "--delete", help="Delete an element", action="store_true", default=False)
+    parser.add_option("-a", "--add", help="Add elements", action="store_true", default=False)
+    parser.add_option("-g", "--get", help="Get elements", action="store_true", default=False)
+    parser.add_option("-s", "--set", help="Set elements", action="store_true", default=False)
+    parser.add_option("-d", "--delete", help="Delete elements", action="store_true", default=False)
     parser.add_option("-c", "--scp", help="Secure copy", action="store_true", default=False)
     parser.add_option("-i", "--init", help="Initialization", action="store_true", default=False)
 

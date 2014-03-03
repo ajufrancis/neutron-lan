@@ -14,10 +14,6 @@ def init(hardware):
     # Delete all the ovs bridges
     cmd('ovs-vsctl --if-exists del-br br-tun')
     cmd('ovs-vsctl --if-exists del-br br-int')
-    l = output_cmd('ip netns list')
-    l = l.split('\n')
-    for ns in l[:-1]:
-        cmd('ip netns del', ns)
 
     # Delete all the linux bridges
     """
@@ -39,19 +35,29 @@ def init(hardware):
             brname = ll[0]
             interface = ll[3]
             bridges[brname] = [interface]
+        elif len(ll) == 3:
+            brname = ll[0]
+            bridges[brname] = [] 
         elif len(ll) == 1:
             interface = ll[0]
             bridges[brname].append(interface)
+
     for brname in bridges.keys():
         for interface in bridges[brname]:
             cmd('ip link set dev', interface, 'down')
             cmd('brctl delif', brname, 'down')
         cmd('ip link set dev', brname, 'down')
         cmd('brctl delbr', brname)
+
+    # Delete all the netns
+    l = output_cmd('ip netns list')
+    l = l.split('\n')
+    for ns in l[:-1]:
+        cmd('ip netns del', ns)
         
 
 # Add a subnet
-def _add_subnets(hardware, vid, ip_dvr, ip_vhost):
+def _add_subnets(hardware, vid, ip_dvr, ip_vhost, ports=None, default_gw=None):
 	
     import re
 
@@ -63,7 +69,6 @@ def _add_subnets(hardware, vid, ip_dvr, ip_vhost):
     temp_ns = "temp-ns"+vid
     int_br = "int-br"+vid
     int_dvr = "int-dvr"+vid
-    eth0_vid = "eth0."+vid
 
     cmd('ip netns add' , ns)
     cmd('brctl addbr', br)
@@ -73,8 +78,6 @@ def _add_subnets(hardware, vid, ip_dvr, ip_vhost):
     cmd('ip netns exec', ns, 'ip addr add dev eth0', ip_vhost)
     cmd('ovs-vsctl add-port br-int', int_br, 'tag='+vid, '-- set interface', int_br, 'type=internal')
     cmd('ovs-vsctl add-port br-int', int_dvr, 'tag='+vid, '-- set interface', int_dvr, 'type=internal')
-    if hardware == 'bhr_4grv':
-        cmd('brctl addif', br, eth0_vid)
     cmd('brctl addif', br, veth_ns)
     cmd('brctl addif', br, int_br)
     cmd('ip addr add dev', int_dvr, ip_dvr)
@@ -90,7 +93,19 @@ def _add_subnets(hardware, vid, ip_dvr, ip_vhost):
 
     # Distributed Virtual Router
     cmd('ip netns exec', ns, 'ip route add default via', ip_dvr.split('/')[0], 'dev eth0')
+
+    # Adding physical ports to the Linux bridge
+    if ports != None:
+        for port in ports:
+            cmd('brctl addif', br, port)
+
+    # Default GW for the subnet
+    if default_gw != None:
+        cmd('ip route del default')
+        cmd('ip route add default via', default_gw)
+
 	
+
 # Adds br-tun
 def _add_br_tun(vid_vni_defaultgw):
 
@@ -187,9 +202,15 @@ def add_subnets(hardware, model):
         vid = subnet['vid']
         vni = subnet['vni']
         ip_dvr = subnet['ip_dvr']
+        ports = None
+        if 'ports' in subnet:
+            ports = subnet['ports']
+        default_gw = None
+        if 'default_gw' in subnet:
+            default_gw = subnet['default_gw']
         ip_vhost = subnet['ip_vhost']
         print '>>> Adding a subnet(vlan): ' + vid
-        _add_subnets(hardware=hardware, vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost)
+        _add_subnets(hardware=hardware, vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
         vid_vni_defaultgw.append([vid, vni, ip_dvr])
 
     _add_br_tun(vid_vni_defaultgw)
