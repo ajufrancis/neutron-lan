@@ -62,6 +62,7 @@ def _add_subnets(hardware, vid, ip_dvr, ip_vhost, ports=None, default_gw=None):
     import re
 
     cmd = cmdutil.cmd
+    output_cmd = cmdutil.output_cmd
 
     ns = "ns"+vid
     br = "br"+vid
@@ -101,7 +102,10 @@ def _add_subnets(hardware, vid, ip_dvr, ip_vhost, ports=None, default_gw=None):
 
     # Default GW for the subnet
     if default_gw != None:
-        cmd('ip route del default')
+        o = output_cmd('route -n').splitlines()
+        for l in o:
+            if l.startswith('default'):
+                cmd('ip route del default')
         cmd('ip route add default via', default_gw)
 
 	
