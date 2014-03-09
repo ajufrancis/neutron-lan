@@ -55,8 +55,41 @@ NLAN_AGENT_DIR = '/tmp'
 NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan-agent.py')
 
 def _deploy(roster,router,operation,doc):
+    
+    from multiprocessing import Process
+
+    def _ssh_session(host, user, passwd, hardware, operation, cmd, cmd_args):
+        try:
+            ssh = para.SSHClient()
+            ssh.set_missing_host_key_policy(para.AutoAddPolicy())
+            ssh.connect(host,username=user,password=passwd)
+            if operation != '--scp':
+                i,o,e = ssh.exec_command(cmd)
+                print '   command: ' + cmd 
+                if operation != '--raw' and operation != '--init':
+                    i.write(cmd_args)
+                    i.flush()
+                    i.channel.shutdown_write()
+                result = o.read()
+                error = e.read()
+                print '... ' + hardware + ' response ......'
+                print result
+                print error
+            else:
+                s = scp.SCPClient(ssh.get_transport())
+                print "   target_dir: " + NLAN_AGENT_DIR
+                for file in doc: 
+                    print ">>> Copying a file: " + file
+                    s.put(file, NLAN_AGENT_DIR)
+
+            print ''
+            ssh.close()
+        except Exception as e:
+            print e.message
 
     routers = []
+
+    ssh_sessions = [] 
 
     if router == '__ALL__':	
         routers = roster.keys()
@@ -69,6 +102,7 @@ def _deploy(roster,router,operation,doc):
         passwd = roster[router]['passwd']	
         hardware = roster[router]['hardware']
         hardware_args = '--type '+ hardware 
+        cmd = ''
 	cmd_args = ''
         if operation == '--raw':
             assert(isinstance(doc,str))
@@ -95,35 +129,12 @@ def _deploy(roster,router,operation,doc):
             print '   hardware: ' + hardware 
             print '   operation: ' + operation 
             print '   dict_args: ' + cmd_args
-        try:
-            ssh = para.SSHClient()
-            ssh.set_missing_host_key_policy(para.AutoAddPolicy())
-            ssh.connect(host,username=user,password=passwd)
-            if operation != '--scp':
-                i,o,e = ssh.exec_command(cmd)
-                #print(os.path.join(NLAN_AGENT_DIR,cmd))	
-                print '   command: ' + cmd 
-                if operation != '--raw' and operation != '--init':
-                    i.write(cmd_args)
-                    i.flush()
-                    i.channel.shutdown_write()
-                result = o.read()
-                error = e.read()
-                print '... ' + hardware + ' response ......'
-                print result
-                print error
-            else:
-                s = scp.SCPClient(ssh.get_transport())
-                print "   target_dir: " + NLAN_AGENT_DIR
-                for file in doc: 
-                    print ">>> Copying a file: " + file
-                    s.put(file, NLAN_AGENT_DIR)
 
-            print ''
-        finally:
-            if ssh:
-                ssh.close()
-		
+        ssh_sessions.append(Process(target=_ssh_session, args=(host, user, passwd, hardware, operation, cmd, cmd_args)))
+    
+    for l in ssh_sessions:
+        l.start()
+
 
 if __name__=="__main__":
 
