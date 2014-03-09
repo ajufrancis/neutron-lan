@@ -72,6 +72,7 @@ def _deploy(roster,router,operation,doc):
                     i.channel.shutdown_write()
                 result = o.read()
                 error = e.read()
+                # issue: some lock mechanism is required
                 print '... ' + hardware + ' response ......'
                 print result
                 print error
