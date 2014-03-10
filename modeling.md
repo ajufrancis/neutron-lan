@@ -24,11 +24,11 @@ This is an example of a model that represents neutron-lan:
 openwrt1:
    bridges: 
       ovs_bridges: enabled
-#      controller: '192.168.1.1:6633'
+#     controller: '192.168.1.1:6633'
    gateway:
       rip: enabled
       network: eth0.2
-#      network: eth2 
+#     network: eth2 
    vxlan:
       local_ip: '192.168.1.101'
       remote_ips:
@@ -42,14 +42,14 @@ openwrt1:
         ip_vhost: '10.0.1.101/24'
         ports:
            - eth0.1 
-#            - veth0.1
+#          - veth0.1
       - vid: '3'
         vni: '103'
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.101/24'
         ports:
            - eth0.3
-#            - veth0.3
+#          - veth0.3
       - vid: '2'
         vni: '1'
         ip_dvr: '192.168.100.1/24'
@@ -72,14 +72,14 @@ openwrt2:
         ip_vhost: '10.0.1.102/24'
         ports:
            - eth0.1
-#            - veth0.1
+#          - veth0.1
       - vid: '3'
         vni: '103'
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.102/24'
         ports:
            - eth0.3
-#            - veth0.3
+#          - veth0.3
       - vid: '2'
         vni: '1'
         ip_dvr: '192.168.100.2/24'
@@ -104,14 +104,14 @@ openwrt3:
         ip_vhost: '10.0.1.103/24'
         ports:
            - eth0.1
-#            - veth0.1
+#          - veth0.1
       - vid: '3'
         vni: '103'
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.103/24'
         ports:
            - eth0.3
-#            - veth0.3
+#          - veth0.3
       - vid: '2'
         vni: '1'
         ip_dvr: '192.168.100.3/24'
@@ -154,11 +154,11 @@ Simple Service Abstraction Layer is a representaion of neutron-lan network in a 
               /YAML data/ neutron-lan states
              -----------
                   ^
-                  |       Serialized into str or by "pickle"?             +--> method A -- cli/uci --> router
-                  |              ----------                               |
-      appl. --> nlan-ssh.py --- /dict data/ over ssh ---> nlan-agent.py --+--> method B -- cli/uci --> router
-                  |            -----------                                |
-                  |           CRUD operation                              +--> method C -- cli/uci --> router
+                  |       Serialized into str                                   +--> method A -- cli/uci --> router
+                  |              ----------                                     |
+      appl. --> nlan-ssh.py --- /dict data/ stdin over ssh ---> nlan-agent.py --+--> method B -- cli/uci --> router
+                  |            -----------                                      |
+                  |           CRUD operation                                    +--> method C -- cli/uci --> router
                   V
               -----------
              / Roster   /  
@@ -166,47 +166,29 @@ Simple Service Abstraction Layer is a representaion of neutron-lan network in a 
              
              
 
-"nlan-ssh.py" can call multiple methods on the router in one request, and "nlan-agent.py" collects all the results from the methods.
+"nlan-ssh.py" can call multiple methods on the router in one request, and "nlan-agent.py" collects all the results from the methods. Also "nlan-ssh.py" can issue multiple requests at the same time.
 
-             
                ----------
               /YAML data/ neutron-lan states
              -----------
                   ^
-                  |       Serialized into str or by "pickle"?             +--- method A
-                  |              ----------                               |
-      appl. <-- nlan-ssh.py <-- /dict data/ over ssh ---- nlan-agent.py <-+--- method B
-                  |            -----------                                |
-                  V           CRUD operation                              +--- method C
+                  |                                                            +--- method A
+                  |                                                            |
+      appl. <-- nlan-ssh.py <-- stdout/stderr over ssh ------- nlan-agent.py <-+--- method B
+                  |                                                            |
+                  V                                                            +--- method C
               -----------
              / Roster   /  
             ------------
 
-"nlan-agent.py" returns the results in the form of a Python dict object to "nlan.py".
+"nlan-agent.py" returns the results to "nlan.py" via stdout/stderr over ssh.
 
-"nlan-ssh.py' can execute row commands on the routers with '-r' option, similar to salt-ssh's '-r' option.
+"nlan-ssh.py' can execute raw commands on the routers with '-r' option, similar to salt-ssh's '-r' option.
 
 The Python dict object will be like this:
 
 <pre>
-sample_dict_args = {
-'bridges': True,
-'vxlan':{
-	'local_ip': '192.168.57.101',
-	'remote_ips': ['192.168.57.102', '192.168.57.103']
-	},
-'subnets': [{
-	'vid': '1',
-	'vni': '101',
-	'ip_dvr': '10.0.1.1/24',
-	'ip_vhost': '10.0.1.101/24'
-	},{
-	'vid': '3',
-	'vni': '103',
-	'ip_dvr': '10.0.3.1/24',
-	'ip_vhost': '10.0.3.101/24'
-	}]
-}
+"{'bridges': {'ovs_bridges': 'enabled'}, 'gateway': {'network': 'eth0.2', 'rip': 'enabled'}, 'vxlan': {'remote_ips': ['192.168.1.102', '192.168.1.103', '192.168.1.104'], 'local_ip': '192.168.1.101'}, 'subnets': [{'ip_dvr': '10.0.1.1/24', 'ip_vhost': '10.0.1.101/24', 'vid': '1', 'vni': '101', 'ports': ['eth0.1']}, {'ip_dvr': '10.0.3.1/24', 'ip_vhost': '10.0.3.101/24', 'vid': '3', 'vni': '103', 'ports': ['eth0.3']}, {'ip_dvr': '192.168.100.1/24', 'ip_vhost': '192.168.100.101/24', 'vid': '2', 'vni': '1'}]}"
 </pre>
 
 And the roster file will be like this:
@@ -239,11 +221,11 @@ rpi1:
 CRUD operation
 --------------
 
-neutron-lan defines the following CRUD operations:
-- "add": Create
-- "get": Read
-- "set": Update
-- "delete": Delete
+TODO: neutron-lan defines the following CRUD operations:
+- "add": Create (currently, batch-add only)
+- "get": Read (not supported yet)
+- "set": Update (not supported yet)
+- "delete": Delete (not supported yet)
 
 To execute the latest scripts on the routers, all of the nlan-related agent-scripts are copied to the target routers' /tmp directory before executing CRUD operations(add/get/set/delete). nlan-ssh.py's "--scp" options allows us to copy any scripts to the target router's "/tmp" directory.
 
@@ -264,7 +246,7 @@ To execute the latest scripts on the routers, all of the nlan-related agent-scri
                   < - - - - - - - - - - - - stderr
 
 
-Since I worked on mobile agent paradigm based on Java primordial class loader in late 1990's for managing networking equipment, I have considered using mobile-agent paradigm for executing the latest scripts for neutron-lan always. However, that approach must have a significant scaling problem and I have decided to take the approach described above.
+Since I worked on mobile agent paradigm based on Java primordial class loader in late 1990's for managing networking equipment, I have considered using mobile-agent paradigm for executing the latest scripts for neutron-lan. However, that approach must have a significant scaling problem and I have decided to take the approach described above.
 
 <pre>
 $ python nlan-ssh.py '*' --scp file1.py
