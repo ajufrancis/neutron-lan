@@ -22,7 +22,13 @@ This is an example of a model that represents neutron-lan:
 
 <pre>
 openwrt1:
-   bridges: true
+   bridges: 
+      ovs_bridges: enabled
+#      controller: '192.168.1.1:6633'
+   gateway:
+      rip: enabled
+      network: eth0.2
+#      network: eth2 
    vxlan:
       local_ip: '192.168.1.101'
       remote_ips:
@@ -34,13 +40,25 @@ openwrt1:
         vni: '101'
         ip_dvr: '10.0.1.1/24'
         ip_vhost: '10.0.1.101/24'
+        ports:
+           - eth0.1 
+#            - veth0.1
       - vid: '3'
         vni: '103'
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.101/24'
+        ports:
+           - eth0.3
+#            - veth0.3
+      - vid: '2'
+        vni: '1'
+        ip_dvr: '192.168.100.1/24'
+        ip_vhost: '192.168.100.101/24'
 
 openwrt2:
-   bridges: true
+   bridges: 
+      ovs_bridges: enabled
+      controller: '192.168.1.1:6633'
    vxlan:
       local_ip: '192.168.1.102'
       remote_ips:
@@ -52,36 +70,62 @@ openwrt2:
         vni: '101'
         ip_dvr: '10.0.1.1/24'
         ip_vhost: '10.0.1.102/24'
+        ports:
+           - eth0.1
+#            - veth0.1
       - vid: '3'
         vni: '103'
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.102/24'
+        ports:
+           - eth0.3
+#            - veth0.3
+      - vid: '2'
+        vni: '1'
+        ip_dvr: '192.168.100.2/24'
+        default_gw: '192.168.100.1'
+        ip_vhost: '192.168.100.102/24'
+
 
 openwrt3:
-   bridges: true
+   bridges:
+     ovs_bridges: enabled
+     controller: '192.168.1.1:6633'
    vxlan:
-        local_ip: '192.168.1.103'
-      remote_ips:
-         - '192.168.1.101'
-         - '192.168.1.102'
-         - '192.168.1.104'
+     local_ip: '192.168.1.103'
+     remote_ips:
+        - '192.168.1.101'
+        - '192.168.1.102'
+        - '192.168.1.104'
    subnets:
       - vid: '1'
         vni: '101'
         ip_dvr: '10.0.1.1/24'
         ip_vhost: '10.0.1.103/24'
+        ports:
+           - eth0.1
+#            - veth0.1
       - vid: '3'
         vni: '103'
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.103/24'
-
+        ports:
+           - eth0.3
+#            - veth0.3
+      - vid: '2'
+        vni: '1'
+        ip_dvr: '192.168.100.3/24'
+        default_gw: '192.168.100.1'
+        ip_vhost: '192.168.100.103/24'
 
 rpi1:
-   bridges: true
+   bridges:
+      ovs_bridges: enabled
+      controller: '192.168.1.1:6633'
    vxlan:
       local_ip: '192.168.1.104'
       remote_ips:
-         - '192.168.1.101'
+         - '192.168.1.101' 
          - '192.168.1.102'
          - '192.168.1.103'
    subnets:
@@ -93,6 +137,11 @@ rpi1:
         vni: '103'
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.104/24'
+      - vid: '2'
+        vni: '1'
+        ip_dvr: '192.168.100.4/24'
+        default_gw: '192.168.100.1'
+        ip_vhost: '192.168.100.104/24'
 </pre>
 
 If an application wants to change some state on the model, for example, wants to add a subnet, then the application askes "nlan-ssh.py" to add the subnet. "nlan-ssh.py" generates YAML data corresponding to the new subnet, then convert it into Python dict object. The dict object is serialized and sent to "nlan-agent.py" on the OpenWRT router (and possibly other routers than OpenWRT in future). "nlan-agent.py" deserializes the data, analyzes it and routes the request to a corresponding method. "nlan-ssh.py" inserts the YAML data into the states after having received a success reply from "nlan-agent.py".
