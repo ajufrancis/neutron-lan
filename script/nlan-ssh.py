@@ -56,16 +56,20 @@ NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan-agent.py')
 
 def _deploy(roster,router,operation,doc):
     
-    from multiprocessing import Process
+    from multiprocessing import Process, Lock
 
-    def _ssh_session(host, user, passwd, hardware, operation, cmd, cmd_args):
+    def _ssh_session(lock, router, host, user, passwd, hardware, operation, cmd, cmd_args):
+        from cStringIO import StringIO
+        out = StringIO()
+
         try:
             ssh = para.SSHClient()
             ssh.set_missing_host_key_policy(para.AutoAddPolicy())
             ssh.connect(host,username=user,password=passwd)
+            print >>out, '--- Router Response, router:' + router + ', hardware:' + hardware + ' -------'
+
             if operation != '--scp':
                 i,o,e = ssh.exec_command(cmd)
-                print '   command: ' + cmd 
                 if operation != '--raw' and operation != '--init':
                     i.write(cmd_args)
                     i.flush()
@@ -73,24 +77,33 @@ def _deploy(roster,router,operation,doc):
                 result = o.read()
                 error = e.read()
                 # issue: some lock mechanism is required
-                print '... ' + hardware + ' response ......'
-                print result
-                print error
+                print >>out, result
+                print >>out, '......'
+                if error == '':
+                    print >>out, 'None'
+                else:
+                    print >>out, error
             else:
                 s = scp.SCPClient(ssh.get_transport())
-                print "   target_dir: " + NLAN_AGENT_DIR
+                print >>out, "target_dir: " + NLAN_AGENT_DIR
                 for file in doc: 
-                    print ">>> Copying a file: " + file
+                    print >>out, ">>> Copying a file: " + file
                     s.put(file, NLAN_AGENT_DIR)
-
-            print ''
+            
+            lock.acquire()
+            print(out.getvalue())
+            lock.release()
+            out.close()
             ssh.close()
+
         except Exception as e:
             print e.message
+
 
     routers = []
 
     ssh_sessions = [] 
+    lock = Lock()
 
     if router == '__ALL__':	
         routers = roster.keys()
@@ -110,16 +123,19 @@ def _deploy(roster,router,operation,doc):
             cmd = doc
             print '--- Controller Request ------'
             print router+':'
+            print 'operation: ' + operation 
         elif operation == '--init':
             cmd = NLAN_AGENT + ' ' + operation + ' ' + hardware_args
             print '--- Controller Request ------'
             print router+':'
+            print 'operation: ' + operation 
         elif operation == '--scp':
             assert(isinstance(doc,list))
             cmd = doc
             print '--- Controller Request ------'
             print router+':'
-            print '   files: ' + str(cmd)	
+            print 'operation: ' + operation 
+            print 'files: ' + str(cmd)	
 	else:
             assert(isinstance(doc,dict))
             cmd = NLAN_AGENT + ' ' + operation + ' ' + hardware_args 
@@ -127,11 +143,13 @@ def _deploy(roster,router,operation,doc):
             cmd_args = '"' + cmd_args + '"'
             print '--- Controller Request -------'
             print router+':'
-            print '   hardware: ' + hardware 
-            print '   operation: ' + operation 
-            print '   dict_args: ' + cmd_args
+            print 'hardware: ' + hardware 
+            print 'operation: ' + operation 
+            print 'dict_args: ' + cmd_args
 
-        ssh_sessions.append(Process(target=_ssh_session, args=(host, user, passwd, hardware, operation, cmd, cmd_args)))
+        print ''
+
+        ssh_sessions.append(Process(target=_ssh_session, args=(lock, router, host, user, passwd, hardware, operation, cmd, cmd_args)))
     
     for l in ssh_sessions:
         l.start()
