@@ -147,7 +147,7 @@ So my conclusion is I just stick to ssh (and a few of other protocols such as ov
 
 I installed python-mini package on my router using opkg instead, and I saw the storage/memory consumption was quite low. I will develop scripts running on OpenWRT, and those scipts will be called from a controller via ssh.
 
-As a basis of the controller, I have tried [SaltStack](http://www.saltstack.com/) at first. Although I predict that SaltStack will be a major DevOps tool for networking where a lot of "pythonian" live, but OpenWRT does not support salt-minion and I have decided to develop a tool like salt and salt-ssh on my own.
+As a basis of the controller, I have tried [SaltStack](http://www.saltstack.com/) at first, but OpenWRT does not support salt-minion and I have decided to develop a tool like salt and salt-ssh on my own.
 
 <pre>
       [Tool A]  [Tool B]  [Tool C]...
