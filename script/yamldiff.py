@@ -1,20 +1,30 @@
 # 2014/2/20
+# 2014/3/12
 #
-# Utilities to produce diff from two YAML files.
-#
+# Utilities to generate diff betwen two YAML files:
+# one is a local YAML file, and the other is one in a local git repo.
 
-import yaml, lya
+import yaml, lya, datadiff, re, sys
 from collections import OrderedDict
-import re
 from difflib import unified_diff
-import datadiff
+from cStringIO import StringIO
+from cmdutil import output_cmd
+
+DEL_DUPLICATES = True 
+
+def _get_base(filename):
+    return(lya.AttrDict.from_yaml(filename))
+
+def _get_base_git(filename):
+    data = output_cmd('git show HEAD:' + filename)
+    od = yaml.load(StringIO(data), lya.OrderedDictYAMLLoader)
+    return(lya.AttrDict(od))
 
 # This function generates a uci-get-like path=value list from a YAML file.
 # If uci_style == True, this func outputs pathes in @...[] format.
 # Returns a lya.AttrDict instance and a list of path=value.
-def yaml_load(filename, uci_style=False):
+def _yaml_load(base, uci_style=False):
 
-    base = lya.AttrDict.from_yaml(filename)
     flatten = lya.AttrDict.flatten(base)
     values = []
     for l in flatten:
@@ -49,29 +59,29 @@ def yaml_load(filename, uci_style=False):
                 else:
                     path += '.'+m+'='+str(l[1])
                     values.append(path)
-
-    return (base, values)
-
+    
+    return sorted(values)
 
 #
 # Returns diff in the unified format.
 #
-def diff(list1, list2):
+def _diff(list1, list2):
     return unified_diff(list1, list2, 'before', 'after')
 
 
-# Outputs CRUD operations list for nlan-ssh.py making diff between two YAML files.
-# filename1: YAML file (before)
-# filename2: YAML file (after)
+# Outputs CRUD operations list for nlan-ssh.py
+# making diff between two YAML files.
+# base1: lya.AttrDict (before)
+# base2: lya.AttrDict (after)
 # crud_list: a list of [operation, node, path, value]
-def crud_diff(filename1, filename2):
+def _crud_diff(base1, base2):
 
     crud_list = []
 
-    base1, list1 = yaml_load(filename1)
-    base2, list2 = yaml_load(filename2)
+    list1 = _yaml_load(base1)
+    list2 = _yaml_load(base2)
     
-    lines = diff(list1=list1, list2=list2)
+    lines = _diff(list1=list1, list2=list2)
     add_delete = []
     lya_pathes = []
 
@@ -113,9 +123,42 @@ def crud_diff(filename1, filename2):
         node = lya_path.split('.')[1]
         path = '.'.join(lya_path.split('.')[2:])
  
-        crud_list.append([operation, node, path, value])
+        crud_list.append([node, operation, path, value])
 
-    return crud_list
+    # Regular expression: "\[[0-9]+\]" ==> ''
+    for line in crud_list:
+        if re.search(r"\[[0-9]+\]", line[2]):
+            line[2] = re.sub(r"\[[0-9]+\]", "", line[2])
+            line[3] = '[' + line[3] + ']'
+
+    # Delete duplicates in crud_list
+    if DEL_DUPLICATES:
+        values = [] 
+        duplicates = [] 
+        crud_list2 = []
+        for line in crud_list:
+            values.append(line[3])
+        for line in crud_list:
+            value = line[3]
+            values.remove(value) 
+            if value in values:
+                duplicates.append(value)
+        for line in crud_list:
+            if line[3] not in duplicates: 
+                crud_list2.append(line)
+        return sorted(crud_list2, reverse=True)
+    else:
+        return sorted(crud_list, reverse=True)
+
+
+
+# Generate CRUD operations working with a local git repo
+def crud_diff(filename):
+
+    base1 = _get_base_git(filename)
+    base2 = _get_base(filename)
+    return _crud_diff(base1, base2)
+
 
 #
 # Unit test
@@ -124,35 +167,41 @@ if __name__=='__main__':
 
     import sys
 
+    # From a git repo 
+    base1 = _get_base_git(sys.argv[1])
+    # From a local file 
+    base2 = _get_base(sys.argv[1])
+
     print '----- test: yaml_load: before  -----'
-    base1, list1 = yaml_load(sys.argv[1], uci_style=True)
+    list1 = _yaml_load(base1, uci_style=True)
     for l in list1:
         print l
 
     print '----- test: yaml_load: after -----'
-    base2, list2 = yaml_load(sys.argv[2], uci_style=True)
+    list2 = _yaml_load(base2, uci_style=True)
     for l in list2:
         print l
  
     print '----- test: yaml_load: before  -----'
-    base1, list1 = yaml_load(sys.argv[1])
+    list1 = _yaml_load(base1)
     for l in list1:
         print l
 
     print '----- test: yaml_load: after -----'
-    base2, list2 = yaml_load(sys.argv[2])
+    list2 = _yaml_load(base2)
     for l in list2:
         print l
         
     print '----- test: diff -----'
-    v = diff(list1, list2)
+    v = _diff(list1, list2)
     for l in v:
         print l
 
    
     print '----- test: crud_diff -----'
-    crud_list = crud_diff(sys.argv[1], sys.argv[2])
+    crud_list = crud_diff(sys.argv[1])
 
     for l in crud_list:
-        print l[0], l[1], l[2], l[3]
+        #print l[0], l[1], l[2], l[3]
+        print l
 

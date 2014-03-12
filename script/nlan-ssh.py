@@ -2,25 +2,16 @@
 
 """
 2014/2/6
-
-This "nlan-ssh.py" script works like a mixture of "salt-ssh" command 
-and "salt" provided by SaltStack. However, this script has no dependencies
-on SaltStack.
-
-I have stopped using SaltStack, since OpenWRT has not yet supported
-salt-minion. I will also study using "zmq" over ssh.
-
-For the time being, "paramiko" is used for manipulating a remote script
-via ssh.
+2014/3/12
 
 Usage example: 
 $ python nlan-ssh.py --help
 $ python nlan-ssh.py '*' --scp * 
-$ python nlan-ssh.py '*' --add dvsdvr.yaml 
+$ python nlan-ssh.py --batch dvsdvr.yaml 
 $ python nlan-ssh.py openwrt1 --raw 'cat /etc/hosts'
 $ python nlan-ssh.py '*' --init
 
-CRUD operations to be supported:
+CRUD operations have not yet supported:
 --add: Create
 --get: Read
 --set: Set
@@ -54,10 +45,11 @@ ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
 NLAN_AGENT_DIR = '/tmp'
 NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan-agent.py')
 
-def _deploy(roster,router,operation,doc):
+def _deploy(roster, router, operation, doc):
     
     from multiprocessing import Process, Lock
 
+    # ssh session per sub-process
     def _ssh_session(lock, router, host, user, passwd, hardware, operation, cmd, cmd_args):
         from cStringIO import StringIO
         out = StringIO()
@@ -76,7 +68,6 @@ def _deploy(roster,router,operation,doc):
                     i.channel.shutdown_write()
                 result = o.read()
                 error = e.read()
-                # issue: some lock mechanism is required
                 print >>out, result
                 print >>out, '......'
                 if error == '':
@@ -165,28 +156,38 @@ if __name__=="__main__":
     parser.add_option("-d", "--delete", help="Delete elements", action="store_true", default=False)
     parser.add_option("-c", "--scp", help="Secure copy", action="store_true", default=False)
     parser.add_option("-i", "--init", help="Initialization", action="store_true", default=False)
-
+    parser.add_option("-b", "--batch", help="Batch config mode", action="store_true", default=False)
+    
     (options, args) = parser.parse_args()
+
 
     router = ''
     operation = ''
     doc = ''
-	
-    router = sys.argv[1]
-    if router == '*':
+
+    if options.batch:
         router = '__ALL__'
-	
+    else:
+        router = args[0]
+        if router == '*':
+            router = '__ALL__'
+
     if options.raw:
 	operation = "--raw" 
-	doc = sys.argv[3]
+	doc = args[1]
+        print doc
     elif options.scp:
         operation = "--scp"
-        l = len(sys.argv)
 	doc = []
-        for i in range(3,l):
-            doc.append(sys.argv[i])	
+        for line in args[1:]:
+            doc.append(line)	
     elif options.init:
         operation = "--init"
+    elif options.batch:
+        operation = "--add"
+        f = open(args[0])
+        doc = yaml.load(f.read())
+        f.close()
     else:
         if options.add:
             operation = "--add" 
@@ -196,9 +197,7 @@ if __name__=="__main__":
             operation = "--set"
         elif options.delete:
             operation = "--delete"
-        f = open(sys.argv[3])
-        doc = yaml.load(f.read())
-        f.close()
+        doc = {router: {args[1]: eval(args[2])}}
 	
     r = open(ROSTER_YAML,'r')
     roster = yaml.load(r.read())
