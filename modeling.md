@@ -5,15 +5,15 @@ Model-driven/data-driven approach
 ---------------------------------
 
 There are several ways for calling a remote python script on the router:
-- RPC (XML-RPC, JSON-RPC etc)
+- RPC such as NETCONF or OVSDB (XML-RPC, JSON-RPC etc)
 - Mesaging (XMPP, AMQP, 0MP etc)
-- Calling a remote python script via ssh
+- SSH
 
-Because of the memory/storage limitations of OpenWRT routers, I will adopt the third one: calling via ssh.
+Because of the memory/storage limitations of OpenWRT routers, I will adopt SSH.
 
-Then I have been considering which one is better, api-driven or model-driven, since I have learned from OpenDaylight about model-driven service abstraction layer (MD-SAL): network element modeling (not network modeling) by using YANG data format and loose coupling between applications and drivers (south-bound APIs). I suspect the reason why ODL has adopted YANG is that Java does not have such a modeling language on its own and YANG is language-neutral.
+Then I have been considering which one is better, api-driven or model-driven, since I have learned from OpenDaylight about model-driven service abstraction layer (MD-SAL): modeling an inventory of network elements and network topology in YANG data format, and loose coupling between applications and drivers (south-bound APIs).
 
-And I have learned from SaltStack that YAML is a very simple modeling language. Although YANG is the best for modeling network, I would rather take YAML as a neutron-lan modeling language. YAML data represents neutron-lan states, and applications on the controller modifies the states via "nlan-ssh.py".
+And I have learned from SaltStack that YAML is a very simple modeling language. Although YANG is the best for modeling network, I would rather take YAML as a neutron-lan modeling language.
 
 YAML for modeling neutron-lan
 -----------------------------
@@ -144,42 +144,28 @@ rpi1:
         ip_vhost: '192.168.100.104/24'
 </pre>
 
-If an application wants to change some state on the model, for example, wants to add a subnet, then the application askes "nlan-ssh.py" to add the subnet. "nlan-ssh.py" generates YAML data corresponding to the new subnet, then convert it into Python dict object. The dict object is serialized and sent to "nlan-agent.py" on the OpenWRT router (and possibly other routers than OpenWRT in future). "nlan-agent.py" deserializes the data, analyzes it and routes the request to a corresponding method. "nlan-ssh.py" inserts the YAML data into the states after having received a success reply from "nlan-agent.py".
+When an administrator has finished modifying the state file, he or she executes a neutron-lan command "nlan-master.py" to generete CRUD operations (add/delete/set) in the form of Python dict objects, comparing the file and the one archived in a local git repo.
 
-YAML data (neutron-lan states) and "nlan-ssh.py" constitute Simple Service Abstraction Layer for neutron-lan.
+The dict objects are serialized into string data and sent to target OpenWRT routers. "nlan-agent.py" deserializes the data, analyzes it and routes the requests to corresponding methods.
 
-Simple Service Abstraction Layer is a representaion of neutron-lan network in a model-driven or data-driven manner.
-
-               ----------
-              /YAML data/ neutron-lan states
-             -----------
-                  ^
-                  |       Serialized into str                                   +--> method A -- cli/uci --> router
-                  |              ----------                                     |
-      appl. --> nlan-ssh.py --- /dict data/ stdin over ssh ---> nlan-agent.py --+--> method B -- cli/uci --> router
-                  |            -----------                                      |
-                  |           CRUD operation                                    +--> method C -- cli/uci --> router
-                  V
-              -----------
-             / Roster   /  
-            ------------
+               /////////// Global CMDB /////////////                  ////// Local CMDB //////
+               Local file             Local git repo                        
+               ----------             ----------                            ----------
+              /YAML data/ .. diff .. /YAML data/                           / OVSDB   /
+             -----------            -----------                           -----------
+                              ^                                                 ^
+                              |                                                 |
+                              |         Serialized into str           (OVSDB protocol)     +--> method A
+                              |              ----------                         |          |
+                       nlan-master.py ---- /dict data/ stdin over ssh ---> nlan-agent.py --+--> method B
+                              |           -----------                                      |
+                              |           CRUD operations                                  +--> method C
+                              V       <---- stdout/stderr over ssh -------
+                         -----------
+                        / Roster   /  
+                       ------------
              
-             
-
-"nlan-ssh.py" can call multiple methods on the router in one request, and "nlan-agent.py" collects all the results from the methods. Also "nlan-ssh.py" can issue multiple requests at the same time.
-
-               ----------
-              /YAML data/ neutron-lan states
-             -----------
-                  ^
-                  |                                                            +--- method A
-                  |                                                            |
-      appl. <-- nlan-ssh.py <-- stdout/stderr over ssh ------- nlan-agent.py <-+--- method B
-                  |                                                            |
-                  V                                                            +--- method C
-              -----------
-             / Roster   /  
-            ------------
+"nlan-master.py" can call multiple methods on the router in one request, and "nlan-agent.py" collects all the results from the methods. Also "nlan-master.py" can issue multiple requests in parallel at the same time.
 
 "nlan-agent.py" returns the results to "nlan.py" via stdout/stderr over ssh.
 
@@ -221,11 +207,12 @@ rpi1:
 CRUD operation
 --------------
 
-TODO: neutron-lan defines the following CRUD operations:
-- "add": Create (currently, batch-add only)
+neutron-lan defines the following CRUD operations:
+- "batch": Initial config
+- "add": Create
 - "get": Read (not supported yet)
 - "set": Update (not supported yet)
-- "delete": Delete (not supported yet)
+- "delete": Delete
 
 To execute the latest scripts on the routers, all of the nlan-related agent-scripts are copied to the target routers' /tmp directory before executing CRUD operations(add/get/set/delete). nlan-ssh.py's "--scp" options allows us to copy any scripts to the target router's "/tmp" directory.
 
@@ -240,19 +227,17 @@ To execute the latest scripts on the routers, all of the nlan-related agent-scri
      Step 2:
      
                  stdin  ---------------              Target routers
-    [nlan-ssh.py] - - -/Python dict   / - - - - - > Agent-scripts under "/tmp" 
+    [nlan-master.py] --/Python dict   / - - - - - > Agent-scripts under "/tmp" 
                       ---------------
                   < - - - - - - - - - - - - stdout
                   < - - - - - - - - - - - - stderr
 
 
-Since I worked on mobile agent paradigm based on Java primordial class loader in late 1990's for managing networking equipment, I have considered using mobile-agent paradigm for executing the latest scripts for neutron-lan. However, that approach must have a significant scaling problem and I have decided to take the approach described above.
+Since I worked on mobile agent paradigm based on Java in the past, I have considered appliying the mobile-agent paradigm to neutron-lan. However, that approach must have a significant scaling problem and I have decided to take the approach described above.
 
 <pre>
 $ python nlan-ssh.py '*' --scp file1.py
 </pre>
-
-The YAML data and scripts may be stored in a repository on another host, such as a git server or github.com :-), so that nlan-agent.py can retrive them in case that the controller is down or unaccessible.
 
 It is still under study about how to serialize the dict data: converted into str or pickle serialization format?
 
