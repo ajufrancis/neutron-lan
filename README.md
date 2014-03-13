@@ -8,7 +8,7 @@ INDEX
 -----
 * [neutron-lan concept](https://github.com/alexanderplatz1999/neutron-lan/blob/master/README.md) (this page)
 * [Software Defined Networking](https://github.com/alexanderplatz1999/neutron-lan/blob/master/software_defined_networking.md)
-* [YAML-based network modeling and SAL](https://github.com/alexanderplatz1999/neutron-lan/blob/master/modeling.md)
+* [YAML-based network modeling](https://github.com/alexanderplatz1999/neutron-lan/blob/master/modeling.md)
 * [Service Function](https://github.com/alexanderplatz1999/neutron-lan/blob/master/service_function.md)
 * [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md)
 * [Working with Quagga](https://github.com/alexanderplatz1999/neutron-lan/blob/master/quagga.md)
