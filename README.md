@@ -20,7 +20,7 @@ INDEX
 BACKGROUND AND MOTIVATION
 -------------------------
 
-This is my personal project to **study SDN(Software-Defined Networking)** by configuring a openstack-neutron-like network over OpenWRT routers at home and making some SDN-related experiments on the network.
+This is my personal project to **study SDN(Software-Defined Networking)** by configuring a openstack-neutron-like network over OpenWRT routers at home (I call it "neturon-lan") and making some SDN-related experiments on the network.
 
 [Neutron](https://wiki.openstack.org/wiki/Neutron) is a software technology for OpenStack networking. However, I think the network architecture can also be applied to LAN, leveraging edge-overlay technolgies such as [VXLAN](http://datatracker.ietf.org/doc/draft-mahalingam-dutt-dcops-vxlan/), as some start-up companies are actually pursuing that. 
 
