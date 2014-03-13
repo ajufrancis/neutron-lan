@@ -207,17 +207,3 @@ Why are there so many bridges? Linux bridges, br-int and br-tun...
 
 So there will be an impact on the performance, and I am looking forward to see some improvements on OpenStack neutron by the development team.
 
-PLUMgrid guys say they have a sorted-out solution for the edge.
-
-APPENDIX
---------
-
-This is an example of inital configuration to create br-int and br-tun with one vxlan port:
-
-    $ ovs-vsctl add-br br-int
-    $ ovs-vsctl add-br br-tun
-    $ ovs-vsctl add-port br-int int0 tag=1 -- set interface int0 type=internal
-    $ ovs-vsctl add-port br-tun vxlan0 -- set interface vxlan0 type=vxlan options:in_key=flow options:local_ip=192.168.57.103 options:out_key=flow options:remote_ip=192.168.57.102
-    $ ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
-    $ ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
-
