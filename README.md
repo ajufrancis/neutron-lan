@@ -136,18 +136,18 @@ You can manually add the entries to br-tun using ovs-ofctl command like this:
 NEXT STEP
 ---------
 
-- Some other experiments on neutron-lan: e.g., Virtual Subnet as discussed in IETF l3vpn wg, LISP(lispmod), VRFs over VXLAN, VXLAN NAT traversal and MPLS over GRE...
-- Develop some utilities to automate the configuration and management of the entire network.
+- Some other experiments on neutron-lan: e.g., OVSDB protocol, Virtual Subnet as discussed in IETF l3vpn wg, LISP(lispmod), VRFs over VXLAN, VXLAN NAT traversal...
+- Develop a DevOps-like tool to automate the configuration and management of the entire network.
 
-I thought of [OpenDaylight](https://wiki.opendaylight.org/view/Main_Page) as a platform for that, but it is too heavy and I don't want the very complex [MD-SAL](https://wiki.opendaylight.org/view/OpenDaylight_Controller:MD-SAL:Architecture) for network abstraction. Building OpenDaylight using Maven is also very bothersome. Anyway, I want to try if OpenDaylight works with openvswitch on my neutron-lan later on.
+I thought of [OpenDaylight](https://wiki.opendaylight.org/view/Main_Page) as a platform for that at first, but it's too heavy for such a small network, and the hardest thing for me is to write code in Java for ODL: too complex for me (Eclipse, OSGi, Maven, YANG...). However, it's service abstraction layer [MD-SAL](https://wiki.opendaylight.org/view/OpenDaylight_Controller:MD-SAL:Architecture) is quite interesting. It's sort of a perfect network abstraction mechanism...
 
-Then I saw other messaging platforms such as XMPP(Jabber), AMQP(RabbitMQ) etc. The problem was that, because of the memory and storage limitations of OpenWRT routers, I concluded that it was not a good idea to deploy agents on those routers, speaking such a little complex protocol. To develop agents, I need high-level language such as Python. I installed Python on my OpenWRT router and I found that it consumed 13 MB of storage. 13MB is too much for such a small router.
+Then I saw other messaging protocols such as XMPP(Jabber), AMQP(RabbitMQ) etc. But, because of the memory and storage limitations of OpenWRT routers, I gave up those.
 
-So my conclusion is I just stick to ssh (and a few of other protocols such as ovsdb for openvswitch) to configure and manage those routers remotely, and I will develop some tools to automate the configuration and management.
+So my conclusion was I just stick to ssh (and a few of other protocols such as OVSDB protocol for openvswitch) to configure and manage those routers remotely, and I will develop a DevOps-like tool on my own.
 
-I installed python-mini package on my router using opkg instead, and I saw the storage/memory consumption was quite low. I will develop scripts running on OpenWRT, and those scipts will be called from a controller via ssh.
+I installed python-mini package on my router using opkg, and I found the storage/memory consumption was quite low. I will develop DevOps agents written in Python with python-mini and a few other optional python packages.
 
-As a basis of the controller, I have tried [SaltStack](http://www.saltstack.com/) at first, but OpenWRT does not support salt-minion and I have decided to develop a tool like salt and salt-ssh on my own.
+As a reference, I looked into [SaltStack](http://www.saltstack.com/). Although it seemed quite interesting, OpenWRT does not support salt-minion and it's state management mechanism seems a bit strange for me, so I have decided to develop a tool like salt and salt-ssh on my own.
 
 <pre>
       [Tool A]  [Tool B]  [Tool C]...
