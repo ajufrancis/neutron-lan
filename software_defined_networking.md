@@ -3,8 +3,8 @@ Software-Defined Networking for neutron-lan
 
 2013/3/13
 
-neutron-lan SDN architecture
-----------------------------
+neutron-lan SDN architecture blueprint
+--------------------------------------
 
       +-----------------------------------------------------------+
       |                     html5 browser                         |
