@@ -1,25 +1,25 @@
 Software-Defined Networking for neutron-lan
 ===========================================
 
-neutron-lan-agent and neutron-lan-controller
---------------------------------------------
+neutron-lan SDN architecture
+----------------------------
 
       +-----------------------------------------------------------+
       |                     html5 browser                         |
       +-----------------------------------------------------------+
                                   | http (and websocket?)                                        
-                                  V                                    neutron-lan states         Git server
-      +------------------------ wsgi -----------------------------+       ----------   git push  +-----------+
-      |          neutron-lan-controller (python scripts)          | <--> /YAML data/-  --------> |-YAML data |
+                                  V                                    neutron-lan states        Git repo (Global CMDB)
+      +------------------------ wsgi -----------------------------+       ----------  git commit +-----------+
+      |             applicatins (python scripts)                  | <--> /YAML data/-  --------> |-YAML data |
       |        Service Abstraction Layer (YAML and jinja2)        |     ----------- /- <-------- |-Scripts   |
-      +-----------------------------------------------------------+      ----------- / git pull  +-----------+
-                                  |                                       -----------                 |  ^
-                                  | ssh (and 0mq via ssh)                                             |  |
-                                  V                                                                   |  |
-      +-----------------------------------------------------------+++  git pull (when rebooting)      |  |
-      |         neutron-lan-agent (python scripts)                ||| <- - - - - - - -  - - - - - - - +  |
-      +-----------------------------------------------------------+++ - - - - - - - - - - - - - - - - - -+  
-         |*1     |*2        |*3         |*4       |*5       |*6        git push (when configured locally)
+      +-----------------------------------------------------------+      ----------- / git show  +-----------+
+                                  |                                       ----------- 
+                                  | Python dict object over ssh
+                                  V                                                   Local CMDB
+      +-----------------------------------------------------------+  OVSDB protocol   +----------+
+      |         neutron-lan-agent (python scripts)                | <---------------> | OVSDB    |
+      +-----------------------------------------------------------+                   +----------+
+         |*1     |*2        |*3         |*4       |*5       |*6
          V       V          V           V         V         V
       [links] [bridge] [openvswitch] [routing] [dnsmasq] [iptables]
                                                DNS/DHCP  Firewall/NAT
@@ -262,39 +262,6 @@ Traffic Engineering and Service Function Chaining
 * By /32 routes and OpenFlow (and VRFs if necessary).
 * Probably, I will need an additional protocol such as [nsh](http://tools.ietf.org/id/draft-quinn-nsh) for service chaining, as discussed in IETF sfc wg. I know LISP and NSH are being included in openvswitch.
 
-Instant VPN
------------
-
-Again, this is a very interesting [Internet-Draft](http://www.ietf.org/id/draft-li-l3vpn-instant-vpn-arch) from Huawei.
-
-The "instant VPN" draft proposes to use a signalling mechanism between CE and PE to
-set up a L3 VPN. Since I worked on legacy and SIP-based IP Telephony in the past,
-it reminds me of ISDN and SIP. If I refer to the I-D, then I can divise an architecture
-like this:
-     
-    
-          [lan-controller] ------- REST ------> [wan-controller]
-              /   \          for user/vpn           /     \
-             /     \         registration          /       \
-            /       \                             /         \
-           /         \                           /           \
-          /           \                         /             \
-         V  (       )  V                       V   (        )  V
-       [  ](  VLAN   )[CE] <-- signalling --> [PE](   MPLS   )[PE]
-            ( VXLAN )      and authentication      (        )
-
-
-
-          [IP-PBX server]                ------> [SIP server]
-              /   \                       user      /     \
-             /     \                registration   /       \
-            /       \                             /         \
-           /         \                           /           \
-          /           \                         /             \
-         V  (       )  V                       V   (        )  V
-       [MG](  VLAN   )[MG] <-- SIP trunk ---> [MG](   IP     )[MG]
-            (       )                              (        )
-
 
 NAT Traversal
 -------------
@@ -351,8 +318,7 @@ Integration with uci for internal physical sw configuration
 -----------------------------------------------------------
 
 Although my routers are cheap, they are not so stupid ones. The internal
-physical sw chip is programmable. It is interesting that the sw chip works
-like "br-int".
+physical sw chip is programmable using the swconfig utility.
 
 <pre>
       programmable
@@ -376,76 +342,3 @@ then
 $ /etc/init.d/network restart
 </pre>
 
-Controller
-----------
-
-I am trying out SaltStack as a basis of the controller, because:
-* it is a Python-based DevOps platform, and I like Python
-* "salt-ssh" is very intersting for managing multiple routers at the same time
-* it uses 0mq for messaging between salt-master and salt-minion, and they say 0mq's performance is very good. 0mq could be a next-generation south-bound interface for networking nodes?
-
-<pre>
-root@debian:~# cat /etc/salt/roster
-openwrt1:
-   host: 192.168.57.101
-   user: root
-   passwd: *******
-
-openwrt2:
-   host: 192.168.57.102
-   user: root
-   passwd: *******
-
-openwrt3:
-   host: 192.168.57.103
-   user: root
-   passwd: *******
-
-root@debian:~# salt-ssh '*' -r 'ovs-ofctl dump-flows br-tun | grep table=19'
-openwrt3:
-     cookie=0x0, duration=139.511s, table=19, n_packets=0, n_bytes=0, idle_age=139, priority=1,arp,dl_vlan=3,arp_tpa=10.0.3.1 actions=drop
-     cookie=0x0, duration=139.473s, table=19, n_packets=0, n_bytes=0, idle_age=139, priority=1,arp,dl_vlan=3,arp_tpa=10.0.1.101 actions=drop
-     cookie=0x0, duration=139.545s, table=19, n_packets=0, n_bytes=0, idle_age=139, priority=1,arp,dl_vlan=1,arp_tpa=10.0.1.101 actions=drop
-     cookie=0x0, duration=139.584s, table=19, n_packets=0, n_bytes=0, idle_age=139, priority=1,arp,dl_vlan=1,arp_tpa=10.0.1.1 actions=drop
-     cookie=0x0, duration=139.432s, table=19, n_packets=6, n_bytes=460, idle_age=132, priority=0 actions=resubmit(,21)
-
-openwrt2:
-     cookie=0x0, duration=126.888s, table=19, n_packets=0, n_bytes=0, idle_age=126, priority=1,arp,dl_vlan=3,arp_tpa=10.0.3.1 actions=drop
-     cookie=0x0, duration=126.93s, table=19, n_packets=0, n_bytes=0, idle_age=126, priority=1,arp,dl_vlan=1,arp_tpa=10.0.1.1 actions=drop
-     cookie=0x0, duration=126.845s, table=19, n_packets=5, n_bytes=370, idle_age=119, priority=0 actions=resubmit(,21)
-
-openwrt1:
-     cookie=0x0, duration=189.945s, table=19, n_packets=0, n_bytes=0, idle_age=189, priority=1,arp,dl_vlan=3,arp_tpa=10.0.3.1 actions=drop
-     cookie=0x0, duration=189.98s, table=19, n_packets=0, n_bytes=0, idle_age=189, priority=1,arp,dl_vlan=1,arp_tpa=10.0.1.103 actions=drop
-     cookie=0x0, duration=189.91s, table=19, n_packets=0, n_bytes=0, idle_age=189, priority=1,arp,dl_vlan=3,arp_tpa=10.0.1.103 actions=drop
-     cookie=0x0, duration=190.026s, table=19, n_packets=0, n_bytes=0, idle_age=190, priority=1,arp,dl_vlan=1,arp_tpa=10.0.1.1 actions=drop
-     cookie=0x0, duration=189.875s, table=19, n_packets=5, n_bytes=370, idle_age=182, priority=0 actions=resubmit(,21)
-
-</pre>
-
-Unfortunately, BHR-4GRV's memory/storage capacities are as low as 64/28MBytes and salt-minion does not seem to work on the routers, so I will develop a SaltStak-like tool on my own. But, I will also study if SaltStack is applicable to SDN.
-
-CLI v0.1
---------
-<pre>
---- Router object ---
-nlan router-alias-set [--ip-addr ADDRESS] ALIAS
-nlan router-ssh-set [--box ALIAS] [--user USER] [--password PASSWORD]
-nlan router-list
-
---- Dvs object ---
-nlan dvs-vni-create VNI
-nlan dvs-pw-create [--router1 ALIAS] [--port1 PORT] [--router2 ALIAS] [--port2 PORT]
-nlan dvs-network-add [--vni VNI] NETWORK
-nlan dvs-dhcp-add [--vni VNI] OPTIONS
-nlan dvs-auth-set ...
-
---- PortLan object ---
-nlan port-lan-set [--router ALIAS] [--port PORT] [--vlan VID] [--vni VNI]
-nlan port-tcp-mss-set MSS
-
---- Router object ---
-nlan router-lan-set [--router ALIAS] [--type {dvr, centralized, ospf}] VNILIST
-nlan router-wan-set [--router ALIAS] [--protocol {rip, ospf}]
-
-</pre>
