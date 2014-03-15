@@ -76,5 +76,5 @@ OVSDB neutron-lan schema
          "type": {"key": {"type": "string"},
                   "min": 0, "max": "unlimited"}}},
      "indexes": [["name"]]}
-<\pre>
+</pre>
      
