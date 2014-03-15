@@ -1,3 +1,9 @@
+Use of OVSDB in neutron-lan
+---------------------------
+
+OVSDB is used for storing local config parameters, so that the config survives after rebooting the system.
+
+
 OVSDB table relationship for neutron-lan
 ----------------------------------------
 
