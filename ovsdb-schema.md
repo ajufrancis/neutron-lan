@@ -37,7 +37,7 @@ OVSDB neutron-lan schema
        "subnets": {
          "type": {"key": {"type": "uuid",
                           "refTable": "NLAN_Subnet"},
-                  "min": 0, "max": "unlimited"}}},   
+                  "min": 0, "max": "unlimited"}}},
      "isRoot": true,
      "maxRows": 1},
    "NLAN_Bridges": {
