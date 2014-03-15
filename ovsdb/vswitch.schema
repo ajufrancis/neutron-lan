@@ -19,31 +19,31 @@
        "subnets": {
          "type": {"key": {"type": "uuid",
                           "refTable": "NLAN_Subnet"},
-                  "min": 0, "max": "unlimited"}}}   
-   },
+                  "min": 0, "max": "unlimited"}}},   
+     "isRoot": true,
+     "maxRows": 1},
    "NLAN_Bridges": {
      "columns": {
        "ovs_bridges": {
          "type": "string"},
        "controller": {
-         "type": "string"}}
-   },
+         "type": "string"}},
+     "maxRows": 1},
    "NLAN_Gateway": {
      "columns": {
        "rip": {
          "type": "string"},
        "network": {
-         "type": "string"}}
-   },
+         "type": "string"}},
+     "maxRows": 1},
    "NLAN_VXLAN": {
      "columns": {
        "local_ip": {
          "type": "string"},
        "remote_ips": {
          "type": {"key": {"type": "string"},
-                  "min": 0, "max": "unlimited"}}
-     }
-   },
+                  "min": 0, "max": "unlimited"}}},
+     "maxRows": 1},
    "NLAN_Subnet": {
      "columns": {
        "vid": {
@@ -56,9 +56,8 @@
          "type": "string"},
        "ports": {
          "type": {"key": {"type": "string"},
-                  "min": 0, "max": "unlimited"}}
-     }
-   },
+                  "min": 0, "max": "unlimited"}}},
+     "indexes": [["name"]]},
    "Open_vSwitch": {
      "columns": {
        "bridges": {
