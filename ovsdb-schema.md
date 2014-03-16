@@ -25,25 +25,26 @@ Note that "NLAN" is a root-set table, so "isRoot" in the schema definion is set 
 
 OVSDB neutron-lan schema
 ------------------------
+
 <pre>
    "NLAN": {
      "columns": {
        "bridges": {
          "type": {"key": {"type": "uuid",
                           "refTable": "NLAN_Bridges"},
-                  "min": 0, "max": "1"}},
+                  "min": 0, "max": 1}},
        "gateway": {
          "type": {"key": {"type": "uuid",
                           "refTable": "NLAN_Gateway"},
-                  "min": 0, "max": "1"}},
+                  "min": 0, "max": 1}},
        "vxlan": {
          "type": {"key": {"type": "uuid",
                           "refTable": "NLAN_VXLAN"},
-                  "min": 0, "max": "1"}},
+                  "min": 0, "max": 1}},
        "subnets": {
          "type": {"key": {"type": "uuid",
                           "refTable": "NLAN_Subnet"},
-                  "min": 0, "max": "unlimited"}}},
+                  "min": 0, "max": "unlimited"}}},   
      "isRoot": true,
      "maxRows": 1},
    "NLAN_Bridges": {
@@ -81,6 +82,5 @@ OVSDB neutron-lan schema
        "ports": {
          "type": {"key": {"type": "string"},
                   "min": 0, "max": "unlimited"}}},
-     "indexes": [["name"]]}
+     "indexes": [["vni"]]},
 </pre>
-     
