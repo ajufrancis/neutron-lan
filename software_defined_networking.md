@@ -21,8 +21,8 @@ neutron-lan SDN architecture blueprint
       +-----------------------------------------------------------+  OVSDB protocol   +----------+
       |         neutron-lan-agent (python scripts)                | <---------------> | OVSDB    |
       +-----------------------------------------------------------+                   +----------+
-         |*1     |*2        |*3         |*4       |*5       |*6
-         V       V          V           V         V         V
+         |*1     |*2        |*3         |*4       |*5       |*6                       OVSDB schema for OVS and NLAN
+         V       V          V           V         V         V                         
       [links] [bridge] [openvswitch] [routing] [dnsmasq] [iptables]
                                                DNS/DHCP  Firewall/NAT
      *1: iproute2, uci
