@@ -151,7 +151,7 @@ So my conclusion was I just stick to ssh (and a few of other protocols such as O
 
 I installed python-mini package on my router using opkg, and I found the storage/memory consumption was quite low. I will develop DevOps agents written in Python with python-mini and a few other optional python packages.
 
-As a reference, I looked into [SaltStack](http://www.saltstack.com/). Although it seemed quite interesting, OpenWRT does not support salt-minion and it's state management mechanism seems a bit strange for me, so I have decided to develop a tool like salt and salt-ssh on my own.
+As a reference, I looked into [SaltStack](http://www.saltstack.com/). Although it seemed quite interesting, OpenWRT does not support salt-minion and it's state management mechanism seems to me a bit strange from a network management standpoint, so I have decided to develop a tool like salt, salt-ssh and salt-minion on my own.
 
 <pre>
       [Tool A]  [Tool B]  [Tool C]...
