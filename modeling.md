@@ -249,24 +249,24 @@ Command modules and config modules
 
 Neutron-lan modules are categolized into two categories:
 
-Command modules (like SaltStack execution modules):
+Category 1: Command Modules (like SaltStack execution modules):
 - init
 - (other modules to be added)
 
-Config modules (like SaltStack state modules):
+Category 2: Config Modules (like SaltStack state modules):
 - bridges
 - gateway
 - vxlan
 - subnets
 - (other modules to be added) 
 
-Each config module should have "add", "get", "set" and "delete" functions in it.
+To support CRUD operations, each config module should have "add", "get", "set" and "delete" functions in it.
 
 For example,
 - "init.run()" initializes the local system setting
 - "bridges.add(...)" adds bridges required for neutron-lan
 
-The config modules may interwork with OVSDB to save/modify/delete local config, and a script under /etc/init.d reads the config in OVSDB to configure the system when rebooting.
+The config modules may interwork with OVSDB to create/read/update/delete local config, and a script under /etc/init.d reads the config in OVSDB to configure the system when rebooting.
 
 OVSDB schema for neutron-lan is defined [in this page](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb-schema.md)
 
