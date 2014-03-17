@@ -229,6 +229,37 @@ rpc = {
 }
 </pre>
 
+Transaction sequence chart:
+
+    OVSDB              JSON-RPC client
+       |                      |
+       | id=0, insert         |
+       |<---------------------|
+       | result               |
+       |--------------------->|
+       | id=1, insert/mutate  |
+       |<---------------------|
+       | result               |
+       |--------------------->|
+       | id=2, select         |
+       |<---------------------|
+       | result               |
+       |--------------------->|
+       | id=3, update         |
+       |<---------------------|
+       | result               |
+       |--------------------->|
+       | id=4, select         | 
+       |<---------------------|
+       | result               |
+       |--------------------->|
+       | id=5, mutate         | 
+       |<---------------------|
+       | result               |
+       |--------------------->|
+       |                      |
+       
+
 Then I have executed the test script "ovsdb-test-client.py"：
 <pre>
 root@debian:~/neutron-lan/ovsdb# python ovsdb-test-client.py
