@@ -229,7 +229,7 @@ rpc = {
 }
 </pre>
 
-I have executed the test script "ovsdb-test-client.py"：
+Then I have executed the test script "ovsdb-test-client.py"：
 <pre>
 root@debian:~/neutron-lan/ovsdb# python ovsdb-test-client.py
 {"id":0,"error":null,"result":[{"uuid":["uuid","57b0cdc6-c6bf-4899-8676-b529ce79a334"]}]}
