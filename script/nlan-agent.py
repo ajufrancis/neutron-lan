@@ -12,38 +12,25 @@ $ python nlan-agent.py --add <<EOF
 import time
 from optparse import OptionParser
 
-import dvsdvr, gateway
+# neutron-lan command modules
+import init
 
-# Invoking a module
-def init(hardware):
-    dvsdvr.init(hardware)
-
-def add_bridges(hardware, args):
-    print '+++ add_bridges: ' + str(args) 
-    dvsdvr.add_bridges(hardware, args)
-
-def add_gateway(hardware, args):
-    print '+++ add_gateway: ' +str(args)
-    gateway.add_gateway(hardware, args)
-	
-def add_vxlan(hardware, args):
-    print '+++ add_vxlan: ' + str(args)
-    dvsdvr.add_vxlan(hardware, args)
-	
-def add_subnets(hardware, args):
-    print '+++ add_subnets: ' + str(args)
-    dvsdvr.add_subnets(hardware, args)
+# neutron-lan config modules
+import bridges, gateway, vxlan, subnets 
 
 # Routing a request to a module
 def _route(hardware, operation, kwargs):
     
     if operation == 'init':
-        init(hardware)
+        print '+++ init:' 
+        init.run(hardware)
     else:
-        for request in kwargs.keys():
-            func = globals()[operation+'_'+request]
-            args = kwargs[request]
-            func(hardware, args)
+        for func in kwargs.keys():
+            call = func + '.' + operation
+            args = kwargs[func]
+            print '+++ ' + call + ': ' + str(args) 
+            # Issue: Using eval is discouraged for security reasons
+            eval(call)(hardware, args)
                                                                                         
 if __name__ == "__main__":
 

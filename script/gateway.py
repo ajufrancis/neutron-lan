@@ -1,4 +1,5 @@
 # 2014/3/3
+# 2014/3/17
 # gateway.py
 #
 # Quagga manipulation module 
@@ -6,8 +7,8 @@
 
 from cmdutil import output_cmd, output_cmd2
 
-def add_gateway(hardware, model):
-	
+def add(hardware, model):
+
     rip = model['rip']
     network = model['network']
 
@@ -48,5 +49,5 @@ def add_gateway(hardware, model):
 if __name__=='__main__':
     hardware = 'testhw'
     model = {'rip': 'enabled', 'network': 'eth2'}
-    add_gateway(hardware, model)
+    add(hardware, model)
 

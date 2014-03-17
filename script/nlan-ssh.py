@@ -197,7 +197,7 @@ if __name__=="__main__":
             operation = "--set"
         elif options.delete:
             operation = "--delete"
-        doc = {router: {args[1]: eval(args[2])}}
+        doc = {router: {args[0]: eval(args[1])}}
 	
     r = open(ROSTER_YAML,'r')
     roster = yaml.load(r.read())
