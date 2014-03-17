@@ -243,3 +243,27 @@ It is still under study about how to serialize the dict data: converted into str
 
 - TODO: Study whether a list of dict objects (i.e., collections.OrderedDict) is better or not as the argument...
 - TODO: Study if 0mq over ssh works on OpenWRT.
+
+Command modules and config modules
+----------------------------------
+
+Neutron-lan modules are categolized into two categories:
+
+Command modules (like SaltStack execution modules):
+- init
+- (other modules to be added)
+
+Config modules (like SaltStack state modules):
+- bridges
+- gateway
+- vxlan
+- subnets
+- (other modules to be added) 
+
+For example,
+- "init.run()" initializes the local system setting
+- "bridges.add(...)" adds bridges required for neutron-lan
+
+
+
+
