@@ -260,6 +260,8 @@ Config modules (like SaltStack state modules):
 - subnets
 - (other modules to be added) 
 
+Each config module should have add, get, set and delete functions in it.
+
 For example,
 - "init.run()" initializes the local system setting
 - "bridges.add(...)" adds bridges required for neutron-lan
