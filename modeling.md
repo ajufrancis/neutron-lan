@@ -260,11 +260,16 @@ Config modules (like SaltStack state modules):
 - subnets
 - (other modules to be added) 
 
-Each config module should have add, get, set and delete functions in it.
+Each config module should have "add", "get", "set" and "delete" functions in it.
 
 For example,
 - "init.run()" initializes the local system setting
 - "bridges.add(...)" adds bridges required for neutron-lan
+
+The config modules may interwork with OVSDB to save/modify/delete local config, and a script under /etc/init.d reads the config in OVSDB to configure the system when rebooting.
+
+OVSDB schema for neutron-lan is defined [in this page](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb-schema.md)
+
 
 
 
