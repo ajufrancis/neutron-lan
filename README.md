@@ -25,9 +25,9 @@ This is my personal project to **study SDN(Software-Defined Networking)** by con
 
 [Neutron](https://wiki.openstack.org/wiki/Neutron) is a software technology for OpenStack networking. However, I think the network architecture (edge-overlay / centralized management and distributed agents) can also be applied to LAN, leveraging edge-overlay technolgies such as [VXLAN](http://datatracker.ietf.org/doc/draft-mahalingam-dutt-dcops-vxlan/), as some start-up companies are actually pursuing that. 
 
-I am also interested in the distributed virtual switch and distributed virtual router concept that has been adopted by a number of IaaS cloud management systems such as VMWare NSX.
+I am also interested in the distributed virtual switch and distributed virtual router concept that has been adopted by a number of IaaS cloud management systems such as OpenStack Neutron.
 
-As for network service abstraction, there are a lot of SDN and DevOps platforms out there. However, I will develop a DevOps-like tool on my one because of the CPU and memory limitaions of OpenWRT routers.
+As for network service abstraction, there are a lot of SDN and DevOps platforms out there. However, I will develop a DevOps-like tool on my own because of the CPU and memory limitaions of OpenWRT routers.
 
 HOW VXLAN WORKS
 ---------------
