@@ -31,17 +31,17 @@ def _index():
 def _uuid_name():
     return 'temp_' + str(random.randint(0, 999999))
 
-# Get a value of row "_uuid" in the result
-def get_uuid_from_result(result):
-    return result["result"][0]["rows"][0]["_uuid"][1]
+# Get a value of row "_uuid" in the response
+def get_uuid(response):
+    return response["result"][0]["rows"][0]["_uuid"][1]
 
-# Get a value of row in the result
-def get_rows_from_result(result):
+# Get a value of row in the response
+def get_rows(response):
 
     dict_value = {}
 
     try:
-        rows = result["result"][0]["rows"][0]
+        rows = response["result"][0]["rows"][0]
 
         for key in rows.keys():
             value = rows[key]
@@ -57,21 +57,60 @@ def get_rows_from_result(result):
 
     return dict_value
             
+# Get a value of count in the response
+def get_count(response):
 
-def _send(rpc):
+    dict_value = {}
+
+    count = 0
+    try:
+        count = response["result"][1]["count"]
+    except:
+        pass
+
+    return count 
+
+def _send(request):
 
     s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     s.connect(sock)
 
     print '----- JSON-RPC TRANSACTION -----'
-    print str(rpc)
-    s.send(dumps(rpc))
+    print str(request)
+    s.send(dumps(request))
     print '---'
-    result = s.recv(4096)
-    print result
-    return loads(result)
+    response = s.recv(4096)
+    print response
+    return loads(response)
 
-# Operations #################################################
+# JSON-RPC Operations #################################################
+
+"""
+"op": "insert"              required
+"table": <table>            required
+"row": <row>                required
+"uuid-name": <id>           optional
+
+"""
+def insert(table, row):
+    
+    i = _index()
+
+    request = {
+    "method":"transact", 
+    "params":[
+        DATABASE,
+        {
+            "op": "insert",
+            "table": table,
+            "row": row 
+        }
+        ],
+    "id": i 
+    }
+
+    return _send(request)
+
 
 """
 "op": "insert"              required
@@ -85,7 +124,7 @@ def insert_mutate(table, row, parent_table, parent_column):
     i = _index() 
     uuid_name = _uuid_name()
 
-    rpc = {
+    request = {
     "method":"transact", 
     "params":[
         DATABASE,
@@ -118,7 +157,7 @@ def insert_mutate(table, row, parent_table, parent_column):
     "id": i 
     }
 
-    return _send(rpc)
+    return _send(request)
 
 
 """
@@ -141,7 +180,7 @@ def select(table, where, columns=None):
     if columns != None:
         obj['columns'] = columns
 
-    rpc = {
+    request = {
     "method":"transact", 
     "params":[
         DATABASE,
@@ -150,7 +189,7 @@ def select(table, where, columns=None):
     "id": i 
     }
     
-    return _send(rpc)
+    return _send(request)
 
 
 """
@@ -163,7 +202,7 @@ def update(table, where, row):
 
     i = _index()
 
-    rpc = {
+    request = {
     "method":"transact", 
     "params":[
         DATABASE,
@@ -177,7 +216,7 @@ def update(table, where, row):
     "id": i 
     }
     
-    return _send(rpc)
+    return _send(request)
 
 
 """
@@ -191,7 +230,7 @@ def delete(table, where):
     i = _index() 
     uuid_name = _uuid_name()
 
-    rpc = {
+    request = {
     "method":"transact", 
     "params":[
         DATABASE,
@@ -204,17 +243,17 @@ def delete(table, where):
     "id": i 
     }
 
-    return _send(rpc)
+    return _send(request)
 
 
 def mutate_delete(table, where, parent_table, parent_column):
 
     i = _index() 
 
-    result = select('NLAN_Subnet', where)
-    uuid = get_uuid_from_result(result)
+    response = select('NLAN_Subnet', where)
+    uuid = get_uuid(response)
 
-    rpc = {
+    request = {
     "method":"transact", 
     "params":[
         DATABASE,
@@ -242,11 +281,16 @@ def mutate_delete(table, where, parent_table, parent_column):
     "id": i 
     }
 
-    return _send(rpc)
+    return _send(request)
 
+##################################################################
 
 # Unit test
 if __name__=='__main__':
+
+
+    response = insert('NLAN', {})
+    print str(get_count(response))
 
     row = {
         "vid": 101,
@@ -255,9 +299,8 @@ if __name__=='__main__':
         "ports": ["set", ["eth0", "veth-test"]]
         }
     
-    result = insert_mutate('NLAN_Subnet', row, 'NLAN', 'subnets')
-    
-    print str(get_rows_from_result(result))
+    response = insert_mutate('NLAN_Subnet', row, 'NLAN', 'subnets')
+    print str(get_count(response))
     
     where = [[
         "vni",
@@ -273,14 +316,14 @@ if __name__=='__main__':
 
     update('NLAN_Subnet', where, row)
 
-    result = select('NLAN_Subnet', where)
-    print str(get_rows_from_result(result))
+    response = select('NLAN_Subnet', where)
+    print str(get_rows(response))
    
     # This fuction call fails, since one reference remains in 'NLAN' table.
     delete('NLAN_Subnet', where)
     
     mutate_delete('NLAN_Subnet', where, 'NLAN', 'subnets')
 
-    result = select('NLAN', [])
+    response = select('NLAN', [])
     
-    print str(get_rows_from_result(result))
+    print str(get_rows(response))
