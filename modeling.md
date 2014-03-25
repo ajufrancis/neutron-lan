@@ -224,10 +224,7 @@ scripts to the target router's "/tmp" directory.
      [nlan-ssh.py] -----/Python scripts/-----------> "/tmp" directory
                         --------------- /
                         ----------------
-alex
-Commit changes
-
-     
+      
                          ---------------              Target routers
      [nlan-ssh.py] -----/Python scripts/-----------> "/tmp" directory
                         --------------- /
