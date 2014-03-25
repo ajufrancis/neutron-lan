@@ -17,19 +17,32 @@ $ python nlan-master.py [yamlfile1] [yamlfile2] ...
 import cmdutil
 import yamldiff
 import os, sys
+from optparse import OptionParser
 
 NLAN_DIR = '/root/neutron-lan/script'
 NLAN_SSH = os.path.join(NLAN_DIR, 'nlan-ssh.py')
 
-def exec_nlan_ssh(argv):
+def exec_nlan_ssh(mode, args):
 
-    for v in argv:
+    for v in args:
         cmd_list = yamldiff.crud_diff(v)
         for l in cmd_list:
             command = ['python', NLAN_SSH]
             command.extend(l)
-            print cmdutil.output_cmd2(command)
+            if mode == 'exec':
+                print cmdutil.output_cmd2(command)
+            elif mode == 'print':
+                print command 
 
 if __name__=='__main__':
 
-    exec_nlan_ssh(sys.argv[1:])
+    parser = OptionParser()
+    parser.add_option("-p", "--printcmd", help="Print commands to be executed", action="store_true", default=False)
+    (options, args) = parser.parse_args()
+
+    print options, args
+    mode = 'exec'
+    if options.printcmd:
+        mode = 'print' 
+
+    exec_nlan_ssh(mode, args)
