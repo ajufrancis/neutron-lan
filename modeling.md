@@ -216,7 +216,87 @@ neutron-lan defines the following CRUD operations:
 
 To execute the latest scripts on the routers, all of the nlan-related agent-scripts are copied to the target routers' /tmp directory before executing CRUD operations(add/get/set/delete). nlan-ssh.py's "--scp" options allows us to copy any scripts to the target router's "/tmp" directory.
 
+     Step 1:185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+   passwd: root
+   hardware: bhr_4grv
+openwrt2:
+   host: 192.168.1.102
+   user: root
+   passwd: root
+   hardware: bhr_4grv
+openwrt3:
+   host: 192.168.1.103
+   user: root
+   passwd: root
+   hardware: bhr_4grv
+rpi1:
+   host: 192.168.1.104
+   user: root
+   passwd: root
+   hardware: raspberry_pi_b
+</pre>
+CRUD operation
+--------------
+neutron-lan defines the following CRUD operations:
+- "batch": Initial config (to be depricated)
+- "add": Create
+- "get": Read
+- "update": Update
+- "delete": Delete
+
+[yamldiff.py](https://github.com/alexanderplatz1999/neutron-lan/blob/master/script/yamldiff.py) is responsible for generating CRUD operations.
+
+To execute the latest scripts on the routers, all of the nlan-related agent-scripts are copied to the target routers' 
+/tmp directory before executing CRUD operations(add/get/set/delete). nlan-ssh.py's "--scp" options allows us to copy any
+scripts to the target router's "/tmp" directory.
      Step 1:
+     
+                         ---------------              Target routers
+     [nlan-ssh.py] -----/Python scripts/-----------> "/tmp" directory
+                        --------------- /
+                        ----------------
+alex
+Commit changes
+
      
                          ---------------              Target routers
      [nlan-ssh.py] -----/Python scripts/-----------> "/tmp" directory
@@ -260,7 +340,7 @@ Category 2: Config Modules (like SaltStack state modules):
 - subnets
 - (other modules to be added) 
 
-To support CRUD operations, each config module should have "add", "get", "set" and "delete" functions in it.
+To support CRUD operations, each config module should have "add", "get", "update" and "delete" functions in it.
 
 For example,
 - "init.run()" initializes the local system setting
@@ -269,8 +349,4 @@ For example,
 The config modules may interwork with OVSDB to create/read/update/delete local config, and a script under /etc/init.d reads the config in OVSDB to configure the system when rebooting.
 
 OVSDB schema for neutron-lan is defined [in this page](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb-schema.md)
-
-
-
-
 
