@@ -4,7 +4,7 @@
 
 import cmdutil
 
-def add(platfrom, model):
+def add(model):
 
     print '>>> Adding bridges: br-int and br-tun'
     cmd = cmdutil.cmd	

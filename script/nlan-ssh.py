@@ -74,7 +74,7 @@ def _deploy(roster, router, operation, doc):
                 result = o.read()
                 error = e.read()
                 print >>out, result
-                print >>out, '......'
+                print >>out, '......' 
                 if error == '':
                     print >>out, 'None'
                 else:
@@ -86,11 +86,14 @@ def _deploy(roster, router, operation, doc):
                     for f in doc: 
                         print >>out, ">>> Copying a file: " + f
                         s.put(f, NLAN_AGENT_DIR)
-                    rdir_modlist = os.path.join(NLAN_AGENT_DIR, 'nlan-modlist.txt')
-                    mod_list = [] 
+                    rdir_modlist = os.path.join(NLAN_AGENT_DIR, 'nlan-env.txt')
+                    mod_dir = [] 
                     for s in MOD_DIRS:
-                        mod_list.append('"'+s+'"') 
-                    i,o,e = ssh.exec_command('echo ' + str(mod_list) + ' > ' + rdir_modlist) 
+                        mod_dir.append(s) 
+                    env = OrderedDict()
+                    env['platform'] = platform
+                    env['mod_dir'] = mod_dir
+                    i,o,e = ssh.exec_command('echo ' + '"'+str(env)+'"' + ' > ' + rdir_modlist) 
                     result = o.read()
                     error = e.read()
                     print >>out, result
@@ -143,7 +146,6 @@ def _deploy(roster, router, operation, doc):
         user = roster[router]['user']
         passwd = roster[router]['passwd']	
         platform = roster[router]['platform']
-        platform_args = '--platform '+ platform 
         cmd = ''
 	cmd_args = ''
         if operation == '--raw':
@@ -168,13 +170,13 @@ def _deploy(roster, router, operation, doc):
             print 'operation: ' + operation 
             print 'files: ' + str(cmd)	
         elif operation == '':
-            cmd = NLAN_AGENT + ' '+ platform_args +' '+ doc 
+            cmd = NLAN_AGENT + ' ' + doc 
             print '--- Controller Request -------'
             print router+':'
             print 'platform: ' + platform 
             print 'command: ' + doc 
 	else:
-            cmd = NLAN_AGENT + ' ' + operation + ' ' + platform_args 
+            cmd = NLAN_AGENT + ' ' + operation
             cmd_args = doc
             cmd_args = '"' + cmd_args + '"'
             print '--- Controller Request -------'

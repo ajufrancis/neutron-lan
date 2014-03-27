@@ -4,7 +4,7 @@
 
 import cmdutil
 
-def add(platform, model):
+def add(model):
     
     cmd = cmdutil.cmd	
     local_ip = model['local_ip']

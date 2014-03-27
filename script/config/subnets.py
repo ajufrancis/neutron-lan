@@ -6,7 +6,7 @@ import cmdutil
 import re
 
 # Add a subnet
-def _add_subnets(platform, vid, ip_dvr, ip_vhost, ports=None, default_gw=None):
+def _add_subnets(vid, ip_dvr, ip_vhost, ports=None, default_gw=None):
 	
     import re
 
@@ -133,7 +133,7 @@ def _add_flow_entries(vid_vni_defaultgw):
         cmd('ovs-ofctl add-flow br-tun', 'table=21,priority=0,actions=drop')
 
 
-def add(platform, model):
+def add(model):
 
     cmd = cmdutil.cmd	
     vid_vni_defaultgw=[]
@@ -152,7 +152,7 @@ def add(platform, model):
             default_gw = subnet['default_gw']
         ip_vhost = subnet['ip_vhost']
         print '>>> Adding a subnet(vlan): ' + vid
-        _add_subnets(platform=platform, vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
+        _add_subnets(vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
         vid_vni_defaultgw.append([vid, vni, ip_dvr])
 
     _add_flow_entries(vid_vni_defaultgw)

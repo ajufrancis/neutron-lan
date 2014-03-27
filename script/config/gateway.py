@@ -7,7 +7,7 @@
 
 from cmdutil import output_cmd, output_cmd2
 
-def add(platform, model):
+def add(model):
 
     rip = model['rip']
     network = model['network']
@@ -47,7 +47,6 @@ def add(platform, model):
 
 # Unit test
 if __name__=='__main__':
-    platform = 'testhw'
     model = {'rip': 'enabled', 'network': 'eth2'}
-    add(platform, model)
+    add(model)
 

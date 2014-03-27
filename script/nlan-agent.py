@@ -14,24 +14,20 @@ $ python nlan-agent.py --update "{'subnets': {'@vni:101': {'vid': 5}}}"
 import os, sys, time
 from optparse import OptionParser
 from collections import OrderedDict
+from env import ENV
 
 NLAN_AGENT_DIR = '/tmp'
-
-# Obtain a module list from nlan-modlist.txt
-with open(os.path.join(NLAN_AGENT_DIR, 'nlan-modlist.txt'), 'r') as modfile:
-    modlist = modfile.read()
-    modlist = eval(modlist)
 
 # Insert system pathes for the modules
 dirs = os.listdir(NLAN_AGENT_DIR)
 for f in dirs:
         ff = os.path.join(NLAN_AGENT_DIR, f)
-        if os.path.isdir(ff) and f in modlist:
+        if os.path.isdir(ff) and f in ENV['mod_dir']:
             sys.path.insert(0, ff)
 
 # Routing a request to a module
-def _route(platform, operation, data):
-   
+def _route(operation, data):
+    
     if operation == '':
         # Calls a command module
         s = data[0].split('.')
@@ -40,9 +36,7 @@ def _route(platform, operation, data):
         __import__(func)
         module = sys.modules[func]
         call = 'module.' + method
-        l = [platform]
-        l.extend(data[1:])
-        args = tuple(l)
+        args = tuple(data[1:])
         print '+++ ' + func + '.' + method + str(args) 
         eval(call)(*args)
     else:
@@ -54,7 +48,7 @@ def _route(platform, operation, data):
             call = 'module.' + operation
             model = data[func]
             print '+++ ' + func + '.' + operation + ': ' + str(model) 
-            eval(call)(platform, model)
+            eval(call)(model)
 
             
 if __name__ == "__main__":
@@ -66,7 +60,6 @@ if __name__ == "__main__":
     parser.add_option("-g", "--get", help="Get elements", action="store_true", default=False)
     parser.add_option("-u", "--update", help="Set elements", action="store_true", default=False)
     parser.add_option("-d", "--delete", help="Delete elements", action="store_true", default=False)
-    parser.add_option("-p", "--platform", help="Platform(e.g., bhr_4grv or raspberry_pi_b)", action="store", default=False)
 
     (options, args) = parser.parse_args()
 
@@ -81,17 +74,16 @@ if __name__ == "__main__":
     elif options.delete:
 	operation = 'delete'	
 	
-    platform = options.platform
     dict_args = {}
 
     print 'operation: ' + operation
-    print 'platform: ' + platform 
+    print 'platform: ' + ENV['platform'] 
     data = ''
     if operation == '':
         data = args
     else:
         data = sys.stdin.read().replace('"','') 
 
-    _route(platform=platform, operation=operation, data=data)
+    _route(operation=operation, data=data)
 	
 

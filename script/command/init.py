@@ -5,7 +5,7 @@
 import cmdutil
 
 # Initialize the configuration
-def run(platform):
+def run():
 
     cmd = cmdutil.cmd
     output_cmd = cmdutil.output_cmd
