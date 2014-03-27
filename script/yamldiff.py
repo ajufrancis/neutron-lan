@@ -56,13 +56,19 @@ def _get_base_git(filename):
     return(lya.AttrDict(od))
 
 # This function generates a uci-get-like path=value list from a YAML file.
-# If uci_style == True, this func outputs pathes in @...[] format.
 # Returns a list of path=value.
-def _yaml_load(base, uci_style=False):
+def _yaml_load(base):
 
     flatten = lya.AttrDict.flatten(base)
     values = []
+    state_order = [] 
     for l in flatten:
+        try:
+            path = l[0][1]
+            if path not in state_order:
+                state_order.append(path)
+        except:
+            pass
         path = '' 
         length = len(l[0])
         for i in range(length): 
@@ -88,24 +94,19 @@ def _yaml_load(base, uci_style=False):
                             else:
                                 index = str(count)
                             for key in dic:
-                                if uci_style:
-                                    pl = path+'.@'+m+'['+index+'].'+key+'='+str(dic[key])
-                                else:
-                                    pl = path+'.'+m+'['+index+'].'+key+'='+str(dic[key])
+                                pl = path+'.'+m+'['+index+'].'+key+'='+str(dic[key])
 
                                 values.append(pl)
                         else: 
-                            if uci_style:
-                                pl = path+'.@'+m+'['+str(count)+']='+str(elm)
-                            else:
-                                pl = path+'.'+m+'['+str(count)+']='+str(elm)
+                            pl = path+'.'+m+'['+str(count)+']='+str(elm)
                             values.append(pl)
+                            
                         count += 1
                 else:
                     path += '.'+m+'='+str(l[1])
                     values.append(path)
     
-    return sorted(values)
+    return (sorted(values), state_order)
 
 #
 # Returns diff in the unified format.
@@ -121,8 +122,8 @@ def _diff(list1, list2):
 # crud_list: a list of [node, operation, model]
 def _crud_diff(base1, base2):
 
-    list1 = _yaml_load(base1)
-    list2 = _yaml_load(base2)
+    (list1, state_order1) = _yaml_load(base1)
+    (list2, state_order2) = _yaml_load(base2)
     
     lines = _diff(list1=list1, list2=list2)
     add_delete = []
@@ -211,11 +212,27 @@ def _crud_diff(base1, base2):
 
     # Generates final output
     crud_list = []
+    state_order1r = state_order1[::-1]
     for key in crud_dict.keys():
         dic = crud_dict[key]
         for key2 in dic.keys():
             dic2 = dic[key2]
-            crud_list.append([key, key2, str(dic2)]) 
+            ordered_dict = OrderedDict()
+            if key2 == '--add' or key2 == '--update':
+                for k in state_order2:
+                    try:
+                        ordered_dict[k] = dic2[k]
+                    except:
+                        pass
+            elif key2 == '--delete':
+                for k in state_order1r:
+                    try:
+                        ordered_dict[k] = dic2[k]
+                    except:
+                        pass
+            else:
+                raise Exception("bad operation key")
+            crud_list.append([key, key2, str(ordered_dict)])
     return sorted(crud_list, reverse=True)
 
 
@@ -239,12 +256,12 @@ if __name__=='__main__':
     base2 = _get_base(sys.argv[1])
 
     print '----- test: yaml_load: before  -----'
-    list1 = _yaml_load(base1)
+    (list1, state_order1) = _yaml_load(base1)
     for l in list1:
         print l
 
     print '----- test: yaml_load: after -----'
-    list2 = _yaml_load(base2)
+    (list2, state_order2) = _yaml_load(base2)
     for l in list2:
         print l
         

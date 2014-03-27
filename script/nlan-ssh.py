@@ -3,17 +3,18 @@
 """
 2014/2/6
 2014/3/12
-2014/3/20-22
+2014/3/20-27
 
 Usage example: 
 $ python nlan-ssh.py --help
 $ python nlan-ssh.py '*' --scp * 
 $ python nlan-ssh.py '*' --scpmod
-$ python nlan-ssh.py --batch dvsdvr.yaml 
 $ python nlan-ssh.py openwrt1 --raw 'cat /etc/hosts'
-$ python nlan-ssh.py '*' --init
+$ python nlan-ssh.py '*' init.run
+$ python nlan-ssh.py '*' test.ping 192.168.1.10
+$ python nlan-ssh.py '*' test.hello hello world!
 
-CRUD operations have not yet supported:
+CRUD operations:
 --add: Create
 --get: Read
 --update: Update 
@@ -27,20 +28,13 @@ via ssh on OpenWRT routers:
 - CONFIG_YAML (e.g, dvsdvr.yaml)
   This is a config file of neutron-lan in YAML format. 
  
-YAML data is converted into Dict data, then the Dict data is
-converted into str data.
-The str data is transferred to nlan-agent.py via stdin:
-YAML data => Dict data => str data => stdin => nlan-agent.py 
-
-I may consider using "collections.OrderedDict" instead of normal dict data
-later on.
-
 
 """
 import os, sys 
 import yaml
 import paramiko as para, scp
 from optparse import OptionParser
+from collections import OrderedDict
 
 NLAN_DIR = '/root/neutron-lan/script' 
 ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
@@ -50,10 +44,11 @@ NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan-agent.py')
 dirs = os.listdir(NLAN_DIR)
 MOD_DIRS = []
 for f in dirs:
-    ff = os.path.join(NLAN_DIR, f)
-    if os.path.isdir(ff):
-        sys.path.append(ff)
-        MOD_DIRS.append(f)
+    if not f.startswith('.'):
+        ff = os.path.join(NLAN_DIR, f)
+        if os.path.isdir(ff):
+            sys.path.append(ff)
+            MOD_DIRS.append(f)
 
 def _deploy(roster, router, operation, doc):
     
@@ -72,7 +67,7 @@ def _deploy(roster, router, operation, doc):
 
             if operation != '--scp' and operation != '--scpmod':
                 i,o,e = ssh.exec_command(cmd)
-                if operation != '--raw' and operation != '--init':
+                if operation != '--raw' and operation != '':
                     i.write(cmd_args)
                     i.flush()
                     i.channel.shutdown_write()
@@ -157,11 +152,6 @@ def _deploy(roster, router, operation, doc):
             print '--- Controller Request ------'
             print router+':'
             print 'operation: ' + operation 
-        elif operation == '--init':
-            cmd = NLAN_AGENT + ' ' + operation + ' ' + platform_args
-            print '--- Controller Request ------'
-            print router+':'
-            print 'operation: ' + operation 
         elif operation == '--scpmod':
             print '--- Controller Request ------'
             print router+':'
@@ -177,10 +167,15 @@ def _deploy(roster, router, operation, doc):
             print router+':'
             print 'operation: ' + operation 
             print 'files: ' + str(cmd)	
+        elif operation == '':
+            cmd = NLAN_AGENT + ' '+ platform_args +' '+ doc 
+            print '--- Controller Request -------'
+            print router+':'
+            print 'platform: ' + platform 
+            print 'command: ' + doc 
 	else:
-            assert(isinstance(doc,dict))
             cmd = NLAN_AGENT + ' ' + operation + ' ' + platform_args 
-            cmd_args = str(doc[router])
+            cmd_args = doc
             cmd_args = '"' + cmd_args + '"'
             print '--- Controller Request -------'
             print router+':'
@@ -202,31 +197,25 @@ if __name__=="__main__":
     parser.add_option("-r", "--raw", help="run a raw shell command on remote routers", action="store_true", default=False)
     parser.add_option("-a", "--add", help="add elements", action="store_true", default=False)
     parser.add_option("-g", "--get", help="get elements", action="store_true", default=False)
-    parser.add_option("-s", "--update", help="update elements", action="store_true", default=False)
+    parser.add_option("-u", "--update", help="update elements", action="store_true", default=False)
     parser.add_option("-d", "--delete", help="delete elements", action="store_true", default=False)
     parser.add_option("-c", "--scp", help="copy neutron-lan scripts to remote routers", action="store_true", default=False)
     parser.add_option("-m", "--scpmod", help="copy neutron-lan modules to remote routers", action="store_true", default=False)
-    parser.add_option("-i", "--init", help="initialize remote routers", action="store_true", default=False)
-    parser.add_option("-b", "--batch", help="configure remote routers in a batch mode", action="store_true", default=False)
     
     (options, args) = parser.parse_args()
 
 
     router = ''
     operation = ''
-    doc = ''
 
-    if options.batch:
+    router = args[0]
+    if router == '*':
         router = '__ALL__'
-    else:
-        router = args[0]
-        if router == '*':
-            router = '__ALL__'
 
+    doc = ' '.join(args[1:])
     if options.raw:
 	operation = "--raw" 
 	doc = args[1]
-        print doc
     elif options.scp:
         operation = "--scp"
 	doc = []
@@ -234,23 +223,19 @@ if __name__=="__main__":
             doc.append(line)	
     elif options.scpmod:
         operation = "--scpmod"
-    elif options.init:
-        operation = "--init"
-    elif options.batch:
-        operation = "--add"
-        f = open(args[0])
-        doc = yaml.load(f.read())
-        f.close()
     else:
         if options.add:
             operation = "--add" 
+            doc = args[1]
         elif options.get:
             operation = "--get"
-        elif options.get:
+            doc = args[1]
+        elif options.update:
             operation = "--update"
+            doc = args[1]
         elif options.delete:
             operation = "--delete"
-        doc = {router: {args[0]: eval(args[1])}}
+            doc = args[1]
 	
     r = open(ROSTER_YAML,'r')
     roster = yaml.load(r.read())

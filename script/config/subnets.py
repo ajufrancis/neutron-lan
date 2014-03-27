@@ -59,20 +59,22 @@ def _add_subnets(platform, vid, ip_dvr, ip_vhost, ports=None, default_gw=None):
 
 	
 
-# Adds br-tun
-def _add_br_tun(vid_vni_defaultgw):
+# Adds flow entries 
+def _add_flow_entries(vid_vni_defaultgw):
 
     output_cmd = cmdutil.output_cmd
 
     patch_tun = ''
     vxlan_ports = []
 
-    controller = output_cmd('ovs-vsctl get-controller br-tun')
-    if controller != '': 
-        pass
-    
-    else:
-    
+    controller = False
+    try:
+        if output_cmd('ovs-vsctl get-controller br-tun') != '':
+            controller = True
+    except:
+        raise Exception("ovs-vsctl get-controller br-tun")
+
+    if not controller:
         print '>>> Adding flows: br-tun'
 
         output = output_cmd('ovs-ofctl show br-tun')
@@ -135,7 +137,10 @@ def add(platform, model):
 
     cmd = cmdutil.cmd	
     vid_vni_defaultgw=[]
-    for subnet in model: 
+    for key in model.keys():
+        vni = key.split(':')[1] 
+        subnet = model[key]
+        ###
         vid = subnet['vid']
         vni = subnet['vni']
         ip_dvr = subnet['ip_dvr']
@@ -150,5 +155,5 @@ def add(platform, model):
         _add_subnets(platform=platform, vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
         vid_vni_defaultgw.append([vid, vni, ip_dvr])
 
-    _add_br_tun(vid_vni_defaultgw)
+    _add_flow_entries(vid_vni_defaultgw)
 

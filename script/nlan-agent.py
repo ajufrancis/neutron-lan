@@ -5,12 +5,15 @@ This "nlan-agent.py" works as a remote agent, accepting requests from
 "nlan-ssh.py" and invoking modules depending on the input data.
 
 Local Test
-$ python nlan-agent.py --add <<EOF
-> {'bridges': 'up', 'vxlan': {'remote_ips': ['192.168.57.102', '192.168.57.103'], 'local_ip': '192.168.57.101'}, 'subnets': [{'ip_dvr': '10.0.1.1/24', 'ip_vhost': '10.0.1.101/24', 'vid': '1', 'vni': '101'}, {'ip_dvr': '10.0.3.1/24', 'ip_vhost': '10.0.3.101/24', 'vid': '3', 'vni': '103'}]}
+$ python nlan-agent.py --update <<EOF
+"OrderedDict([('subnets', {'@vni:101': {'vid': '5'}})])"
 > EOF
+$ python nlan-agent.py --update "OrderedDict([('subnets', {'@vni:101': {'vid': '5'}})])"
+$ python nlan-agent.py --update "{'subnets': {'@vni:101': {'vid': 5}}}"
 """
 import os, sys, time
 from optparse import OptionParser
+from collections import OrderedDict
 
 NLAN_AGENT_DIR = '/tmp'
 
@@ -26,25 +29,32 @@ for f in dirs:
         if os.path.isdir(ff) and f in modlist:
             sys.path.insert(0, ff)
 
-# Import a command module "init"
-import init
-
 # Routing a request to a module
-def _route(platform, operation, kwargs):
+def _route(platform, operation, data):
    
-    # Call a command module "init"
-    if operation == 'init':
-        print '+++ init:' 
-        init.run(platform)
+    if operation == '':
+        # Calls a command module
+        s = data[0].split('.')
+        func = s[0]
+        method = s[1]
+        __import__(func)
+        module = sys.modules[func]
+        call = 'module.' + method
+        l = [platform]
+        l.extend(data[1:])
+        args = tuple(l)
+        print '+++ ' + func + '.' + method + str(args) 
+        eval(call)(*args)
     else:
-        # Call config modules 
-        for func in kwargs.keys():
+        # Calls config modules 
+        data = eval(data)
+        for func in data.keys():
             __import__(func)
             module = sys.modules[func]
             call = 'module.' + operation
-            args = kwargs[func]
-            print '+++ ' + func + '.' + operation + ': ' + str(args) 
-            eval(call)(platform, args)
+            model = data[func]
+            print '+++ ' + func + '.' + operation + ': ' + str(model) 
+            eval(call)(platform, model)
 
             
 if __name__ == "__main__":
@@ -57,7 +67,6 @@ if __name__ == "__main__":
     parser.add_option("-u", "--update", help="Set elements", action="store_true", default=False)
     parser.add_option("-d", "--delete", help="Delete elements", action="store_true", default=False)
     parser.add_option("-p", "--platform", help="Platform(e.g., bhr_4grv or raspberry_pi_b)", action="store", default=False)
-    parser.add_option("-i", "--init", help="Initalization", action="store_true", default=False)
 
     (options, args) = parser.parse_args()
 
@@ -68,23 +77,21 @@ if __name__ == "__main__":
     elif options.get:
         operation = 'get'
     elif options.update:
-        operetaion = 'update'
+        operation = 'update'
     elif options.delete:
 	operation = 'delete'	
-    elif options.init:
-        operation = 'init'
 	
     platform = options.platform
     dict_args = {}
 
     print 'operation: ' + operation
     print 'platform: ' + platform 
-    if operation == 'init':
-        pass
+    data = ''
+    if operation == '':
+        data = args
     else:
         data = sys.stdin.read().replace('"','') 
-        dict_args = eval(data)
 
-    _route(platform=platform, operation=operation, kwargs=dict_args)
+    _route(platform=platform, operation=operation, data=data)
 	
 

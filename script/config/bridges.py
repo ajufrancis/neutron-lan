@@ -10,6 +10,7 @@ def add(platfrom, model):
     cmd = cmdutil.cmd	
     cmd('ovs-vsctl add-br br-int')
     cmd('ovs-vsctl add-br br-tun')
+    cmd('ovs-ofctl del-flows br-tun')
     cmd('ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun')
     cmd('ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int')
     # OpenFlow Controller

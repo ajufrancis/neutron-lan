@@ -2,15 +2,12 @@
 
 """
 2014/3/12
-
-This script generates CRUD operations referring to YAML files
-and a local git repo, then execute nlan-ssh.py with the CRUD operations.
-
-Currently, --add and --delete are supported. --get and --set will be
-supported in future.
+2014/3/27
 
 Usage example:
 $ python nlan-master.py [yamlfile1] [yamlfile2] ...
+$ python nlan-master.py init.run
+$ python nlan-master.py test.ping 192.168.1.10
 
 """
 
@@ -22,27 +19,62 @@ from optparse import OptionParser
 NLAN_DIR = '/root/neutron-lan/script'
 NLAN_SSH = os.path.join(NLAN_DIR, 'nlan-ssh.py')
 
-def exec_nlan_ssh(mode, args):
+def exec_nlan_ssh(mode, option, args):
 
-    for v in args:
-        cmd_list = yamldiff.crud_diff(v)
-        for l in cmd_list:
-            command = ['python', NLAN_SSH]
-            command.extend(l)
-            if mode == 'exec':
-                print cmdutil.output_cmd2(command)
-            elif mode == 'print':
-                print command 
+    if option != None:
+        if option == '--scp':
+            listdir = os.listdir(NLAN_DIR)
+            files = ' '.join(listdir)
+            print cmdutil.output_cmd('python', NLAN_SSH, '*', option, files)
+        else:
+            print cmdutil.output_cmd('python', NLAN_SSH, '*', option)
+    else:
+        if args[0].endswith('.yaml'):
+            # State files
+            for v in args:
+                cmd_list = yamldiff.crud_diff(v)
+                for l in cmd_list:
+                    command = ['python', NLAN_SSH]
+                    command.extend(l)
+                    if mode == 'exec':
+                        print cmdutil.output_cmd2(command)
+                    elif mode == 'print':
+                        print command 
+        else:
+            # Execution module
+            l = ['python', NLAN_SSH, '*']
+            l.extend(args)
+            args = tuple(l)
+            print cmdutil.output_cmd(*args)  
 
 if __name__=='__main__':
 
     parser = OptionParser()
     parser.add_option("-p", "--printcmd", help="Print commands to be executed", action="store_true", default=False)
+    parser.add_option("-c", "--scp", help="copy neutron-lan scripts to remote routers", action="store_true", default=False)
+    parser.add_option("-m", "--scpmod", help="copy neutron-lan modules to remote routers", action="store_true", default=False)
+    parser.add_option("-a", "--add", help="add elements", action="store_true", default=False)
+    parser.add_option("-g", "--get", help="get elements", action="store_true", default=False)
+    parser.add_option("-u", "--update", help="update elements", action="store_true", default=False)
+    parser.add_option("-d", "--delete", help="delete elements", action="store_true", default=False)
+
     (options, args) = parser.parse_args()
 
-    print options, args
     mode = 'exec'
+    option = None 
     if options.printcmd:
-        mode = 'print' 
+        mode = 'print'
+    elif options.scp:
+        option = '--scp'
+    elif options.scpmod:
+        option = '--scpmod'
+    elif options.add:
+        option = '--add'
+    elif options.update:
+        option = '--update'
+    elif options.get:
+        option = '--get'
+    elif options.delete:
+        option = '--delete'
 
-    exec_nlan_ssh(mode, args)
+    exec_nlan_ssh(mode, option, args)
