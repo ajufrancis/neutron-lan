@@ -4,11 +4,12 @@
 
 from cmdutil import output_cmd
 
+# Returns a ping result
 def ping(host):
     
-    print output_cmd('ping -c4', host)
+    return output_cmd('ping -c4', host)
 
+# Returns args
 def echo(*args):
     
-    print ' '.join(list(args))
-
+    return ' '.join(list(args))

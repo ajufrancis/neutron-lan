@@ -283,11 +283,46 @@ def mutate_delete(table, where, parent_table, parent_column):
 
     return _send(request)
 
-##################################################################
+# O/R mapper for OVSDB ################################################
+class ovsdb:
+    
+    def __init__(self, module, index=None):
+
+        TABLES = {
+            'subnets': 'NLAN_Subnet'
+        }
+        self.module = module
+        self.index = index
+        table = TABLES[module]
+        self.table = table
+        
+        if index != None:
+
+            column = index[0]
+            value = index[1]
+
+            where = [[
+                column,
+                "==",
+                value
+                ]]
+
+            response = select('NLAN_Subnet', where)
+            print str(get_rows(response))
+
+    def __setattr__(self, name, value):
+        pass
+
+    def __getattr__(self, key):
+        pass
+
+    def __delattr__(self, key):
+        pass
+            
+#######################################################################
 
 # Unit test
 if __name__=='__main__':
-
 
     response = insert('NLAN', {})
     print str(get_count(response))
@@ -296,28 +331,37 @@ if __name__=='__main__':
         "vid": 101,
         "vni": 1001,
         "ip_dvr": "10.0.0.1/24",
-        "ports": ["set", ["eth0", "veth-test"]]
+        #"ports": ["set", ["eth0", "veth-test"]]
         }
     
     response = insert_mutate('NLAN_Subnet', row, 'NLAN', 'subnets')
     print str(get_count(response))
-    
+   
+    # This transaction shuld fail, since a rows with vni=1001
+    # has already been inserted.
+    response = insert_mutate('NLAN_Subnet', row, 'NLAN', 'subnets')
+    print str(get_count(response))
+
     where = [[
         "vni",
         "==",
         1001
         ]]
 
-    columns = []
-
     select('NLAN_Subnet', where)
 
-    row = {"ip_dvr": "10.0.1.2/24"}
+    row = {
+            "ip_dvr": "10.0.1.2/24",
+            "ports": ["set", ["eth0", "veth-test"]]
+          }
 
     update('NLAN_Subnet', where, row)
 
     response = select('NLAN_Subnet', where)
     print str(get_rows(response))
+   
+    # Creates an instance of OVSDB O/R mapper 
+    mod = ovsdb('subnets', ('vni', 1001))
    
     # This fuction call fails, since one reference remains in 'NLAN' table.
     delete('NLAN_Subnet', where)

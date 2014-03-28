@@ -14,15 +14,18 @@ $ python nlan-agent.py --update "{'subnets': {'@vni:101': {'vid': 5}}}"
 import os, sys, time
 from optparse import OptionParser
 from collections import OrderedDict
-from env import ENV
 
 NLAN_AGENT_DIR = '/tmp'
+
+# Environment setting
+with open(os.path.join(NLAN_AGENT_DIR, 'nlan-env.txt'), 'r') as envfile:
+        __builtins__.__n__ = eval(envfile.read())
 
 # Insert system pathes for the modules
 dirs = os.listdir(NLAN_AGENT_DIR)
 for f in dirs:
         ff = os.path.join(NLAN_AGENT_DIR, f)
-        if os.path.isdir(ff) and f in ENV['mod_dir']:
+        if os.path.isdir(ff) and f in __n__['mod_dir']:
             sys.path.insert(0, ff)
 
 # Routing a request to a module
@@ -31,14 +34,14 @@ def _route(operation, data):
     if operation == '':
         # Calls a command module
         s = data[0].split('.')
-        func = s[0]
-        method = s[1]
+        func = '.'.join(s[:-1])
+        method = s[-1]
         __import__(func)
         module = sys.modules[func]
         call = 'module.' + method
         args = tuple(data[1:])
         print '+++ ' + func + '.' + method + str(args) 
-        eval(call)(*args)
+        print eval(call)(*args)
     else:
         # Calls config modules 
         data = eval(data)
@@ -48,7 +51,7 @@ def _route(operation, data):
             call = 'module.' + operation
             model = data[func]
             print '+++ ' + func + '.' + operation + ': ' + str(model) 
-            eval(call)(model)
+            print eval(call)(model)
 
             
 if __name__ == "__main__":
@@ -77,7 +80,7 @@ if __name__ == "__main__":
     dict_args = {}
 
     print 'operation: ' + operation
-    print 'platform: ' + ENV['platform'] 
+    print 'platform: ' + __n__['platform'] 
     data = ''
     if operation == '':
         data = args

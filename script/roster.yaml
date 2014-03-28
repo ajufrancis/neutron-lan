@@ -6,23 +6,23 @@ openwrt1:
    host: 192.168.1.101
    user: root
    passwd: root
-   platform: bhr_4grv
+   platform: openwrt 
 
 openwrt2:
    host: 192.168.1.102
    user: root
    passwd: root
-   platform: bhr_4grv
+   platform: openwrt 
 
 openwrt3:
    host: 192.168.1.103
    user: root
    passwd: root
-   platform: bhr_4grv
+   platform: openwrt 
 
 rpi1:
    host: 192.168.1.104
    user: root
    passwd: root
-   platform: raspberry_pi_b
+   platform: raspbian
 

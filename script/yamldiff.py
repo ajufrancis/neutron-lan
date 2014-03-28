@@ -17,6 +17,35 @@ DEL_DUPLICATES = True
 # TODO: auto-generate this data from a OVSDB schema
 INDEXES = {'subnets': 'vni'}
 
+def _str(value):
+
+    if isinstance(value, int):
+        value = 'int:'+str(value)
+    elif isinstance(value, list):
+        value = 'list:'+str(value)
+    elif isinstance(value, str):
+        value = 'str:'+str(value)
+    else:
+        raise Exception("Type error: " + str(type(value)))
+
+    return value
+
+def _type(value):
+
+    s = value.split(':',1)
+    t = s[0]
+    v = s[1]   
+    #print t, v
+    if t == 'int':
+        v = int(v)
+    elif t == 'list':
+        v = eval(v)
+    elif t == 'str':
+        pass
+    else:
+        raise Exception("Type error: " + str(type(value)))
+
+    return v
 #
 # Merge two Python dictionaries
 # Reference: http://blog.impressiver.com/post/31434674390/deep-merge-multiple-python-dicts
@@ -60,6 +89,7 @@ def _get_base_git(filename):
 def _yaml_load(base):
 
     flatten = lya.AttrDict.flatten(base)
+    #print flatten
     values = []
     state_order = [] 
     for l in flatten:
@@ -90,20 +120,20 @@ def _yaml_load(base):
                                 pass
                             if key != None:
                                 value = dic[key]
-                                index = '@' + key + ':' + str(value)    
+                                index = key + ':' + _str(value)    
                             else:
                                 index = str(count)
                             for key in dic:
-                                pl = path+'.'+m+'['+index+'].'+key+'='+str(dic[key])
+                                pl = path+'.'+m+'['+index+'].'+key+'='+_str(dic[key])
 
                                 values.append(pl)
                         else: 
-                            pl = path+'.'+m+'['+str(count)+']='+str(elm)
+                            pl = path+'.'+m+'['+str(count)+']='+_str(elm)
                             values.append(pl)
                             
                         count += 1
                 else:
-                    path += '.'+m+'='+str(l[1])
+                    path += '.'+m+'='+_str(l[1])
                     values.append(path)
     
     return (sorted(values), state_order)
@@ -170,7 +200,7 @@ def _crud_diff(base1, base2):
     temp_list = sorted(temp_list2, reverse=True)
     list2 = []
     for line in temp_list:
-        list2.append([line[0], line[2] , line[1], line[3]])
+        list2.append([line[0], line[2] , line[1], _type(line[3])])
     list2 = sorted(list2, reverse=True)
     list3 = list2
     for i in range(len(list2)-1):
@@ -198,14 +228,13 @@ def _crud_diff(base1, base2):
             idx = None
         index = ''
         key = l[2].split('.')[1]
-        if l[3].startswith('['):
-            value = eval(l[3])
-        else:
-            value = l[3]
+        value = l[3]
         key_value = {key: value}
         if idx == None:
             dic = {router: {ope: {module: key_value}}}
         else:
+            i = idx.split(':',1)
+            idx = (i[0], _type(i[1]))
             idx_key_value = {idx: key_value}
             dic = {router: {ope: {module: idx_key_value}}}
         dict_merge(crud_dict, dic)

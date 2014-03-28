@@ -14,6 +14,10 @@ $ python nlan-ssh.py '*' init.run
 $ python nlan-ssh.py '*' test.ping 192.168.1.10
 $ python nlan-ssh.py '*' test.hello hello world!
 
+nlan-ssh.py can also execute an arbitrary python module.function:
+$ python nlan-ssh.py '*' os.getenv PATH
+$ python nlan-ssh.py '*' os.path.isdir '/tmp'
+
 CRUD operations:
 --add: Create
 --get: Read
@@ -83,9 +87,10 @@ def _deploy(roster, router, operation, doc):
                 if operation == '--scp':
                     s = scp.SCPClient(ssh.get_transport())
                     print >>out, "target_dir: " + NLAN_AGENT_DIR
-                    for f in doc: 
+                    for f in cmd: 
                         print >>out, ">>> Copying a file: " + f
-                        s.put(f, NLAN_AGENT_DIR)
+                        lf = os.path.join(NLAN_DIR, f)
+                        s.put(lf, NLAN_AGENT_DIR)
                     rdir_modlist = os.path.join(NLAN_AGENT_DIR, 'nlan-env.txt')
                     mod_dir = [] 
                     for s in MOD_DIRS:

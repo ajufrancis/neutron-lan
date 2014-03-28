@@ -138,9 +138,9 @@ def add(model):
     cmd = cmdutil.cmd	
     vid_vni_defaultgw=[]
     for key in model.keys():
-        vni = key.split(':')[1] 
+        # key[0] == 'vni'
+        vni = key[1] 
         subnet = model[key]
-        ###
         vid = subnet['vid']
         vni = subnet['vni']
         ip_dvr = subnet['ip_dvr']
@@ -151,9 +151,11 @@ def add(model):
         if 'default_gw' in subnet:
             default_gw = subnet['default_gw']
         ip_vhost = subnet['ip_vhost']
-        print '>>> Adding a subnet(vlan): ' + vid
-        _add_subnets(vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
-        vid_vni_defaultgw.append([vid, vni, ip_dvr])
+        print '>>> Adding a subnet(vlan): ' + str(vid)
+        _add_subnets(vid=str(vid), ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
+        vid_vni_defaultgw.append([str(vid), str(vni), ip_dvr])
 
     _add_flow_entries(vid_vni_defaultgw)
+
+
 
