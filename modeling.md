@@ -24,7 +24,7 @@ This is an example of a model that represents neutron-lan:
 openwrt1:
    bridges: 
       ovs_bridges: enabled
-#     controller: '192.168.1.1:6633'
+#      controller: '192.168.1.1:6633'
    gateway:
       rip: enabled
       network: eth0.2
@@ -36,29 +36,29 @@ openwrt1:
          - '192.168.1.103'
          - '192.168.1.104'
    subnets:
-      - vid: '1'
-        vni: '101'
+      - vid: 1
+        vni: 101
         ip_dvr: '10.0.1.1/24'
         ip_vhost: '10.0.1.101/24'
         ports:
            - eth0.1 
 #          - veth0.1
-      - vid: '3'
-        vni: '103'
+      - vid: 3
+        vni: 103
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.101/24'
         ports:
            - eth0.3
 #          - veth0.3
-      - vid: '2'
-        vni: '1'
+      - vid: 2
+        vni: 1
         ip_dvr: '192.168.100.1/24'
         ip_vhost: '192.168.100.101/24'
 
 openwrt2:
    bridges: 
       ovs_bridges: enabled
-      controller: '192.168.1.1:6633'
+#     controller: '192.168.1.1:6633'
    vxlan:
       local_ip: '192.168.1.102'
       remote_ips:
@@ -66,22 +66,22 @@ openwrt2:
          - '192.168.1.103'
          - '192.168.1.104'
    subnets:
-      - vid: '1'
-        vni: '101'
+      - vid: 1
+        vni: 101
         ip_dvr: '10.0.1.1/24'
         ip_vhost: '10.0.1.102/24'
         ports:
            - eth0.1
 #          - veth0.1
-      - vid: '3'
-        vni: '103'
+      - vid: 3
+        vni: 103
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.102/24'
         ports:
            - eth0.3
 #          - veth0.3
-      - vid: '2'
-        vni: '1'
+      - vid: 2
+        vni: 1
         ip_dvr: '192.168.100.2/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.102/24'
@@ -90,7 +90,7 @@ openwrt2:
 openwrt3:
    bridges:
      ovs_bridges: enabled
-     controller: '192.168.1.1:6633'
+#    controller: '192.168.1.1:6633'
    vxlan:
      local_ip: '192.168.1.103'
      remote_ips:
@@ -98,22 +98,22 @@ openwrt3:
         - '192.168.1.102'
         - '192.168.1.104'
    subnets:
-      - vid: '1'
-        vni: '101'
+      - vid: 1
+        vni: 101
         ip_dvr: '10.0.1.1/24'
         ip_vhost: '10.0.1.103/24'
         ports:
            - eth0.1
 #          - veth0.1
-      - vid: '3'
-        vni: '103'
+      - vid: 3
+        vni: 103
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.103/24'
         ports:
            - eth0.3
 #          - veth0.3
-      - vid: '2'
-        vni: '1'
+      - vid: 2
+        vni: 1
         ip_dvr: '192.168.100.3/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.103/24'
@@ -121,7 +121,7 @@ openwrt3:
 rpi1:
    bridges:
       ovs_bridges: enabled
-      controller: '192.168.1.1:6633'
+#     controller: '192.168.1.1:6633'
    vxlan:
       local_ip: '192.168.1.104'
       remote_ips:
@@ -129,16 +129,16 @@ rpi1:
          - '192.168.1.102'
          - '192.168.1.103'
    subnets:
-      - vid: '1'
-        vni: '101'
+      - vid: 1
+        vni: 101
         ip_dvr: '10.0.1.1/24'
         ip_vhost: '10.0.1.104/24'
-      - vid: '3'
-        vni: '103'
+      - vid: 3
+        vni: 103
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.104/24'
-      - vid: '2'
-        vni: '1'
+      - vid: 2
+        vni: 1
         ip_dvr: '192.168.100.4/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.104/24'
@@ -179,29 +179,33 @@ The Python dict object will be like this:
 
 And the roster file will be like this:
 <pre>   
+# 2014/2/6
+# Roster of OpenWRT routers. 
+#
+
 openwrt1:
    host: 192.168.1.101
    user: root
    passwd: root
-   hardware: bhr_4grv
+   platform: openwrt 
 
 openwrt2:
    host: 192.168.1.102
    user: root
    passwd: root
-   hardware: bhr_4grv
+   platform: openwrt 
 
 openwrt3:
    host: 192.168.1.103
    user: root
    passwd: root
-   hardware: bhr_4grv
+   platform: openwrt 
 
 rpi1:
    host: 192.168.1.104
    user: root
    passwd: root
-   hardware: raspberry_pi_b
+   platform: raspbian
 </pre>
 
 CRUD operation
@@ -240,8 +244,6 @@ scripts to the target router's "/tmp" directory.
                   < - - - - - - - - - - - - stderr
 
 
-Since I worked on mobile agent paradigm based on Java in the past, I have considered appliying the mobile-agent paradigm to neutron-lan. However, that approach must have a significant scaling problem and I have decided to take the approach described above.
-
 <pre>
 $ python nlan-ssh.py '*' --scp file1.py
 </pre>
@@ -258,6 +260,8 @@ Neutron-lan modules are categolized into two categories:
 
 Category 1: Command Modules (like SaltStack execution modules):
 - init
+- system
+- test
 - (other modules to be added)
 
 Category 2: Config Modules (like SaltStack state modules):
