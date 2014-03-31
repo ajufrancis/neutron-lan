@@ -16,7 +16,7 @@ neutron-lan SDN architecture blueprint
       |        Service Abstraction Layer (YAML)                   |     ----------- /- <-------- |           |
       +-----------------------------------------------------------+      ----------- / git show  +-----------+
                                   |                                       ----------- 
-                                  | Python dict object over ssh
+                                  | Python OrderedDict object over ssh
                                   V                                                   Local CMDB
       +-----------------------------------------------------------+  OVSDB protocol   +----------+
       |         neutron-lan-agent (python scripts)                | <---------------> | OVSDB    |
