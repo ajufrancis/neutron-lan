@@ -12,8 +12,8 @@ neutron-lan SDN architecture blueprint
                                   | http (and websocket?)                                        
                                   V                                    neutron-lan states        Git repo (Global CMDB)
       +------------------------ wsgi -----------------------------+       ----------  git commit +-----------+
-      |             applicatins (python scripts)                  | <--> /YAML data/-  --------> |-YAML data |
-      |        Service Abstraction Layer (YAML and jinja2)        |     ----------- /- <-------- |-Scripts   |
+      |             applicatins (python scripts)                  | <--> /YAML data/-  --------> | YAML data |
+      |        Service Abstraction Layer (YAML)                   |     ----------- /- <-------- |           |
       +-----------------------------------------------------------+      ----------- / git show  +-----------+
                                   |                                       ----------- 
                                   | Python dict object over ssh
