@@ -24,5 +24,6 @@ rpi1:
    host: 192.168.1.104
    user: root
    passwd: root
-   platform: raspbian
+#  platform: raspbian
+   platform: openwrt
 

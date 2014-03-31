@@ -4,6 +4,7 @@
 
 import cmdutil
 import re
+from ovsdb import Row
 
 # Add a subnet
 def _add_subnets(vid, ip_dvr, ip_vhost, ports=None, default_gw=None):
@@ -157,5 +158,8 @@ def add(model):
 
     _add_flow_entries(vid_vni_defaultgw)
 
-
+    # OVSDB transaction
+    for key in model.keys():
+        r = Row('subnets', key)
+        r.setrow(model[key])
 

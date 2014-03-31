@@ -1,0 +1,9 @@
+For OpenWrt,
+
+$ /etc/init.d/openvswitch stop
+$ ovsdb-tool convert conf.db /tmp/vswitch.schema_2.0.0
+$ /etc/init.d/openvswitch start
+
+ovsdb.py requires the following package:
+$ opkg install python-json
+

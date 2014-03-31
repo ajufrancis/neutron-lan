@@ -3,6 +3,7 @@
 #
 
 import cmdutil
+from ovsdb import Row
 
 def add(model):
 
@@ -16,5 +17,9 @@ def add(model):
     # OpenFlow Controller
     if 'controller' in model:
         cmd('ovs-vsctl set-controller br-tun tcp:'+ model['controller'])
+
+    # OVSDB transaction
+    r = Row('bridges')
+    r.setrow(model)
 
 

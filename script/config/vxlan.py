@@ -3,6 +3,7 @@
 #
 
 import cmdutil
+from ovsdb import Row
 
 def add(model):
     
@@ -15,4 +16,7 @@ def add(model):
         print '>>> Adding a VXLAN tunnel: ' + inf
         cmd('ovs-vsctl add-port br-tun', inf, '-- set interface', inf, 'type=vxlan options:in_key=flow', 'options:local_ip='+local_ip, 'options:out_key=flow', 'options:remote_ip='+remote_ip)
 
+    # OVSDB transaction
+    r = Row('vxlan')
+    r.setrow(model)
 

@@ -6,6 +6,7 @@
 #
 
 from cmdutil import output_cmd, output_cmd2
+from ovsdb import Row
 
 def add(model):
 
@@ -43,6 +44,10 @@ def add(model):
         print output_cmd2(cmd_args)
 
     print output_cmd('/etc/init.d/quagga restart')
+
+    # OVSDB transaction
+    r = Row('gateway')
+    r.setrow(model)
 
 
 # Unit test

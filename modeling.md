@@ -256,20 +256,38 @@ It is still under study about how to serialize the dict data: converted into str
 Command modules and config modules
 ----------------------------------
 
-Neutron-lan modules are categolized into two categories:
+Neutron-lan modules are categolized into three categories:
 
-Category 1: Command Modules (like SaltStack execution modules):
+Category 1: NLAN Command Modules (like SaltStack execution modules):
 - init
 - system
 - test
 - (other modules to be added)
 
-Category 2: Config Modules (like SaltStack state modules):
+For example, the following will reboot all the routers on the roster: 
+<pre>
+$ python nlan-master.py system.reboot 
+</pre>
+
+Category 2: NLAN Config Modules (like SaltStack state modules):
 - bridges
 - gateway
 - vxlan
 - subnets
 - (other modules to be added) 
+
+The following will read a YAML file and invoke corresponding config modules on remote routers:
+<pre>
+$ python nlan-master.py dvsdvr.yaml
+</pre>
+
+Category 3: Other python modules
+- Any modules that can be reachable via 'sys.path'. For example, to access 'os.getenv':
+
+For example, the following will invoke os.getenv module to obtain PATH environement variable:
+<pre>
+$ python nlan-master.py os.getenv PATH
+</pre>
 
 To support CRUD operations, each config module should have "add", "get", "update" and "delete" functions in it.
 
@@ -280,4 +298,48 @@ For example,
 The config modules may interwork with OVSDB to create/read/update/delete local config, and a script under /etc/init.d reads the config in OVSDB to configure the system when rebooting.
 
 OVSDB schema for neutron-lan is defined [in this page](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb-schema.md)
+
+All the way from YAML to OVSDB
+------------------------------
+
+The following command reads a local YAML file, generates CRUD operations and invokes modules at each router:
+<pre>
+$ python nlan-master.py dvsdvr.yaml
+</pre>
+
+Each remote module stores its 'model' in OVSDB at the end of the configuration process.
+
+Here is a sample output of 'ovsdb-client dump Open_vSwitch':
+<pre>
+NLAN table
+_uuid                                bridges                              gateway                              subnets
+                                                                              vxlan
+------------------------------------ ------------------------------------ ------------------------------------ -------------------------------------
+----------------------------------------------------------------------------- ------------------------------------
+8c0dda8d-1cf8-4f4b-a70f-a63b1050215c af06efd9-df9b-485c-8301-da7d43037003 74f0b0b5-e68b-48e2-8c6b-09b440961dc1 [9f992391-ec60-4ca8-8af7-4fe894d32ab3
+, c91f5e75-9f91-47f7-b0c5-81653a8d57c2, e120f2d7-13fc-4da0-8a08-c3b0a97a985c] 6a578ec1-dcbb-4c40-a6e3-499261243b42
+
+NLAN_Bridges table
+_uuid                                controller ovs_bridges
+------------------------------------ ---------- -----------
+af06efd9-df9b-485c-8301-da7d43037003 ""         enabled
+
+NLAN_Gateway table
+_uuid                                network  rip
+------------------------------------ -------- -------
+74f0b0b5-e68b-48e2-8c6b-09b440961dc1 "eth0.2" enabled
+
+NLAN_Subnet table
+_uuid                                ip_dvr             ip_vhost             ports      vid vni
+------------------------------------ ------------------ -------------------- ---------- --- ---
+e120f2d7-13fc-4da0-8a08-c3b0a97a985c "10.0.1.1/24"      "10.0.1.101/24"      ["eth0.1"] 1   101
+9f992391-ec60-4ca8-8af7-4fe894d32ab3 "10.0.3.1/24"      "10.0.3.101/24"      ["eth0.3"] 3   103
+c91f5e75-9f91-47f7-b0c5-81653a8d57c2 "192.168.100.1/24" "192.168.100.101/24" []         2   1
+
+NLAN_VXLAN table
+_uuid                                local_ip        remote_ips
+------------------------------------ --------------- ---------------------------------------------------
+6a578ec1-dcbb-4c40-a6e3-499261243b42 "192.168.1.101" ["192.168.1.102", "192.168.1.103", "192.168.1.104"]
+</pre>
+
 

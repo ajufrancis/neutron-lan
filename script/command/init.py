@@ -3,6 +3,7 @@
 #
 
 import cmdutil
+from ovsdb import Row
 
 # Initialize the configuration
 def run():
@@ -53,5 +54,8 @@ def run():
     l = l.split('\n')
     for ns in l[:-1]:
         cmd('ip netns del', ns)
-        
+    
+    # OVSDB transaction
+    Row.clear()
+
 
