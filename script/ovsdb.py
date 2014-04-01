@@ -374,13 +374,13 @@ class Row:
             d = None
             if t == int:
                 d = 0
-            elif t == str:
+            elif t == str or t == unicode:
                 d = ''
             elif t == list:
                 tt = type(value[0])
                 if tt == int:
                     d = 0
-                elif tt == str:
+                elif tt == str or tt == unicode:
                     d = ''
             if d == None:
                 raise Exception ("Type error")
@@ -407,6 +407,31 @@ class Row:
     def delrow(self):
         response = mutate_delete(self.table, self.where, self.parent, self.module)
         self.row = {} 
+
+    def getparam(self, *args):
+
+        for key in args:
+            if key in self.row.keys():
+                yield self.row[key]
+            else:
+                yield None
+
+    def crud(self, crud, model):
+        ind = self.index[0]
+        keys = model.keys()
+        if ind in keys and crud == 'add':
+            self.setrow(model)
+        elif crud == 'add' or crud == 'update':
+            for k in keys:
+                self[k] = model[k]
+        elif ind in keys and crud == 'delete':
+            self.delrow()
+        elif crud == 'delete':
+            for k in keys:
+                del self[k]
+        else:
+            raise Exception("Parameter error")
+
 
     @classmethod
     def clear(cls):
@@ -490,7 +515,7 @@ if __name__=='__main__':
     
     print str(todict(response))
 
-    print "##### Table class test #####"
+    print "##### Row class test #####"
     model = {
         "vid": 101,
         "vni": 1001,
@@ -505,6 +530,34 @@ if __name__=='__main__':
         print key + ': ' + str(v[key])
     #row.delrow()
     #print (row.getrow())
+    Row.clear()
+
+    print "##### Row class test2 #####"
+    row = Row('subnets', ('vni', 1001))
+    print "## crud: add ##"
+    model = {
+        "vid": 101,
+        "vni": 1001,
+        "ip_dvr": "10.0.0.1/24",
+        "ports": ["eth0", "veth-test"]
+        }
+    row.crud('add', model)
+    print row.getrow()
+    print "## crud: update """
+    model = {
+        "ip_dvr": "20.0.0.1/24",
+        "ports": ["eth0"]
+        }
+    row.crud('update', model)
+    print row.getrow()
+    print "## crud: delete ##"
+    model = {
+        "vid": 101,
+        "ip_dvr": "20.0.0.1/24",
+        "ports": ["eth0"]
+        }
+    row.crud('delete', model)
+    print row.getrow()
     Row.clear()
 
 

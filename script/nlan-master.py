@@ -33,13 +33,14 @@ def exec_nlan_ssh(mode, option, args):
             # State files
             for v in args:
                 cmd_list = yamldiff.crud_diff(v)
-                for l in cmd_list:
-                    command = ['python', NLAN_SSH]
-                    command.extend(l)
-                    if mode == 'exec':
-                        print cmdutil.output_cmd2(command)
-                    elif mode == 'print':
-                        print command 
+                if len(cmd_list) != 0:
+                    for l in cmd_list:
+                        command = ['python', NLAN_SSH]
+                        command.extend(l)
+                        print cmdutil.check_cmd2(command)
+                        
+                    cmdutil.check_cmd('git add', v)
+                    cmdutil.check_cmd('git commit -m updated')
         else:
             # Execution module
             l = ['python', NLAN_SSH, '*']

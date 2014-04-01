@@ -39,6 +39,7 @@ import yaml
 import paramiko as para, scp
 from optparse import OptionParser
 from collections import OrderedDict
+from time import sleep
 
 NLAN_DIR = '/root/neutron-lan/script' 
 ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
@@ -56,12 +57,16 @@ for f in dirs:
 
 def _deploy(roster, router, operation, doc):
     
-    from multiprocessing import Process, Lock
+    from multiprocessing import Process, Lock, Pipe
 
     # ssh session per sub-process
-    def _ssh_session(lock, router, host, user, passwd, platform, operation, cmd, cmd_args):
+    def _ssh_session(lock, router, host, user, passwd, platform, operation, cmd, cmd_args, child):
+
         from cStringIO import StringIO
         out = StringIO()
+        err = StringIO()
+
+        exitcode = 0
 
         try:
             ssh = para.SSHClient()
@@ -80,9 +85,10 @@ def _deploy(roster, router, operation, doc):
                 print >>out, result
                 print >>out, '......' 
                 if error == '':
-                    print >>out, 'None'
+                    print >>err, 'None'
                 else:
-                    print >>out, error
+                    print >>err, error
+                    exitcode = 1 
             else:
                 if operation == '--scp':
                     s = scp.SCPClient(ssh.get_transport())
@@ -104,9 +110,10 @@ def _deploy(roster, router, operation, doc):
                     print >>out, result
                     print >>out, '......'
                     if error == '':
-                        print >>out, 'None'
+                        print >>err, 'None'
                     else:
-                        print >>out, error
+                        print >>err, error
+                        exitcode = 1
                 elif operation == '--scpmod':
                     s = scp.SCPClient(ssh.get_transport())
                     for moddir in MOD_DIRS:
@@ -118,9 +125,10 @@ def _deploy(roster, router, operation, doc):
                         print >>out, result
                         print >>out, '......'
                         if error == '':
-                            print >>out, 'None'
+                            print >>err, 'None'
                         else:
-                            print >>out, error
+                            print >>err, error
+                            exitcode = 1
                         for f in os.listdir(ldir):
                             ff = os.path.join(ldir, f) 
                             s.put(ff, rdir)
@@ -128,9 +136,11 @@ def _deploy(roster, router, operation, doc):
             
             lock.acquire()
             print(out.getvalue())
+            print(err.getvalue())
             lock.release()
             out.close()
             ssh.close()
+            child.send(exitcode)
 
         except Exception as e:
             print e.message
@@ -191,11 +201,23 @@ def _deploy(roster, router, operation, doc):
             print 'dict_args: ' + cmd_args
 
         print ''
+       
+        # Pipe to receive an exitcode from a child process
+        parent, child = Pipe()
 
-        ssh_sessions.append(Process(target=_ssh_session, args=(lock, router, host, user, passwd, platform, operation, cmd, cmd_args)))
+        ssh_sessions.append([Process(target=_ssh_session, args=(lock, router, host, user, passwd, platform, operation, cmd, cmd_args, child)), parent])
     
     for l in ssh_sessions:
-        l.start()
+        l[0].start()
+
+    for l in ssh_sessions:
+        while True:
+            sleep(0.2)
+            if not l[0].is_alive():
+                break
+        exitcode = l[1].recv()
+        if exitcode > 0:
+            sys.exit(exitcode)
 
 
 if __name__=="__main__":
