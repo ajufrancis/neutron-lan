@@ -22,13 +22,12 @@ class Model:
             else:
                 yield None
 
-    def mandatory(self, *args):
+    def mandatory(self, module, crud, args):
 
+        keys = self.model.keys()
         for key in args:
-            if key not in self.model.keys():
-                return False
-        return True
-
+            if key not in keys:
+                raise ModelError(module + "." + crud + " requires: " + str(args))
 
 if __name__=='__main__':
 

@@ -1,0 +1,6 @@
+Clear functionality seperation between VXLAN layer and Subnets layer:
+- Flow entries in table 21
+- Config modules (vxlan and subnets)
+
+Layer violation should always be avoided to make the program much simpler.
+

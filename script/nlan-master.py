@@ -19,7 +19,7 @@ from optparse import OptionParser
 NLAN_DIR = '/root/neutron-lan/script'
 NLAN_SSH = os.path.join(NLAN_DIR, 'nlan-ssh.py')
 
-def exec_nlan_ssh(mode, option, args):
+def exec_nlan_ssh(mode, option, args, git):
 
     if option != None:
         if option == '--scp':
@@ -39,8 +39,9 @@ def exec_nlan_ssh(mode, option, args):
                         command.extend(l)
                         print cmdutil.check_cmd2(command)
                         
-                    cmdutil.check_cmd('git add', v)
-                    cmdutil.check_cmd('git commit -m updated')
+                    if git:
+                        cmdutil.check_cmd('git add', v)
+                        cmdutil.check_cmd('git commit -m updated')
         else:
             # Execution module
             l = ['python', NLAN_SSH, '*']
@@ -58,11 +59,13 @@ if __name__=='__main__':
     parser.add_option("-g", "--get", help="get elements", action="store_true", default=False)
     parser.add_option("-u", "--update", help="update elements", action="store_true", default=False)
     parser.add_option("-d", "--delete", help="delete elements", action="store_true", default=False)
+    parser.add_option("-G", "--git", help="Git archive", action="store_true", default=False)
 
     (options, args) = parser.parse_args()
 
     mode = 'exec'
     option = None 
+    git = False
     if options.printcmd:
         mode = 'print'
     elif options.scp:
@@ -77,5 +80,7 @@ if __name__=='__main__':
         option = '--get'
     elif options.delete:
         option = '--delete'
+    elif options.git:
+        git = True 
 
-    exec_nlan_ssh(mode, option, args)
+    exec_nlan_ssh(mode, option, args, git)

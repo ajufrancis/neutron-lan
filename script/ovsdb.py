@@ -11,7 +11,6 @@ import random
 
 DATABASE = 'Open_vSwitch'
 
-
 def _index():
     return random.randint(0, 999999)
 
@@ -308,36 +307,22 @@ def mutate_delete(table, where, parent_table, parent_column):
 
     return _send(request)
 
-# O/R mapper for OVSDB ################################################
+# O/R mapper  ################################################
 # This O/R mapper manipulate a raw as described in RFC7047.
-# Caveat: this O/R mapper is a NLAN-specific one.
 # Usage:
-# r = Row('subnets', ('vni', 1001))
-# r.setrow(model)
-# r['vid'] = 101
-# r['ports'] = ['eth0', 'eth1']
-# vid = r['vid']
-# d = r.getrow()
-# r.delrow()
-class Row:
+# r = Row('Interface', ('name', 'vxlan_102'))
+# print r['ofport']
+# Limitations:
+# Can get only one row (the first row) even if
+# multiple rows mactch the index.
+class OvsdbRow(object):
    
-    PARENT = 'NLAN'
-    TABLES = {
-        'bridges': 'NLAN_Bridges',
-        'gateway': 'NLAN_Gateway',
-        'vxlan': 'NLAN_VXLAN',
-        'subnets': 'NLAN_Subnet'
-    }
-
     # Creates an instance of a row 
-    def __init__(self, module, index=None):
+    def __init__(self, table, index=None):
 
-        response = insert('NLAN', {})
-
-        self.parent = self.__class__.PARENT
-        self.module = module
+        self.table = table 
         self.index = index
-        self.table = self.__class__.TABLES[module]
+
         self.where = [] 
         
         if self.index != None:
@@ -395,6 +380,47 @@ class Row:
     #def __getattr__(self, key):
     #    return self.row[key]
     
+
+    def getparam(self, *args):
+
+        for key in args:
+            if key in self.row.keys():
+                yield self.row[key]
+            else:
+                yield None
+
+# O/R mapper for NLAN ################################################
+# This O/R mapper manipulate a raw as described in RFC7047.
+# Usage:
+# r = Row('subnets', ('vni', 1001))
+# r.setrow(model)
+# r['vid'] = 101
+# r['ports'] = ['eth0', 'eth1']
+# vid = r['vid']
+# d = r.getrow()
+# r.delrow()
+class Row(OvsdbRow):
+
+    PARENT = 'NLAN'
+    TABLES = {
+        'bridges': 'NLAN_Bridges',
+        'gateway': 'NLAN_Gateway',
+        'vxlan': 'NLAN_VXLAN',
+        'subnets': 'NLAN_Subnet'
+    }
+
+    # Creates an instance of a row 
+    def __init__(self, module, index=None):
+
+        response = insert('NLAN', {})
+        self.module = module
+
+        self.parent = self.__class__.PARENT
+
+        table = self.__class__.TABLES[module]
+
+        super(self.__class__, self).__init__(table, index)
+
     def setrow(self, model):
         row = _row(model)
         response = insert_mutate(self.table, row, self.parent, self.module)
@@ -407,14 +433,6 @@ class Row:
     def delrow(self):
         response = mutate_delete(self.table, self.where, self.parent, self.module)
         self.row = {} 
-
-    def getparam(self, *args):
-
-        for key in args:
-            if key in self.row.keys():
-                yield self.row[key]
-            else:
-                yield None
 
     def crud(self, crud, model):
         ind = self.index[0]
@@ -437,11 +455,14 @@ class Row:
     def clear(cls):
         response = delete(cls.PARENT, [])
 
+#class Table 
 
 #######################################################################
 
 # Unit test
 if __name__=='__main__':
+
+#    __builtins__.__n__ = {'platform': 'openwrt'}
 
     where = [[
         "vni",
@@ -559,6 +580,13 @@ if __name__=='__main__':
     row.crud('delete', model)
     print row.getrow()
     Row.clear()
+
+    print "##### OvsdbRow class test #####"
+    try:
+        r = OvsdbRow('Interface', ('name', 'vxlan_102'))
+        print 'ofport: ' + str(r['ofport'])
+    except:
+        pass
 
 
 

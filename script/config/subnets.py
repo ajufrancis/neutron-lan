@@ -4,7 +4,7 @@
 
 import cmdutil
 import re
-from ovsdb import Row
+from ovsdb import Row, OvsdbRow
 from oputil import Model
 
 # Add subnet
@@ -14,7 +14,7 @@ def _add_subnets(vid, ip_dvr, ip_vhost, default_gw, ports):
     output_cmd = cmdutil.output_cmd
    
     br = '' 
-    if vid != None and ip_dvr != None and ip_vhost != None and default_gw != None:
+    if vid != None and ip_dvr != None and ip_vhost != None:
         vid = str(vid)
 
         ns = "ns"+vid
@@ -55,7 +55,7 @@ def _add_subnets(vid, ip_dvr, ip_vhost, default_gw, ports):
 
     # Default GW for the subnet
     if default_gw != None:
-        o = output_cmd('route -n').splitlines()
+        o = output_cmd('route').splitlines()
         for l in o:
             if l.startswith('default'):
                 cmd('ip route del default')
@@ -83,11 +83,16 @@ def _add_flow_entries(vid_vni_defaultgw):
 
         output = output_cmd('ovs-ofctl show br-tun')
         output = output.split('\n')
+        """
         for line in output:
             m = re.search(r"^\s[0-9]+\(patch-tun", line)
             if m:
                 patch_tun = m.group().split("(")[0].strip()
                 break
+        """
+        r = OvsdbRow('Interface', ('name', 'patch-tun'))
+        patch_tun = str(r['ofport'])
+
         for line in output:
             vxlan = re.search(r"\s[0-9]+\(vxlan", line)
             if vxlan:
@@ -97,8 +102,9 @@ def _add_flow_entries(vid_vni_defaultgw):
 
         cmd = cmdutil.check_cmd
 
-        cmd('ovs-ofctl del-flows br-tun')
-        cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=1,in_port='+patch_tun+',actions=resubmit(,1)')
+        #cmd('ovs-ofctl del-flows br-tun')
+        #cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=1,in_port='+patch_tun+',actions=resubmit(,1)')
+
         for vxlan_port in vxlan_ports:
             cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=1,in_port='+vxlan_port+',actions=resubmit(,2)')
         cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=0,actions=drop')
@@ -132,7 +138,7 @@ def _add_flow_entries(vid_vni_defaultgw):
 # Mandatory parameters
 # (1) vid, ip_dvr, ip_vhost, default_gw 
 # (2) ports
-def _crud(crud, model):
+def _crud(crud, model, paramset):
 
     cmd = cmdutil.cmd	
     vid_vni_defaultgw=[]
@@ -140,6 +146,7 @@ def _crud(crud, model):
         # key[0] == 'vni'
         vni = key[1] 
         m = Model(model[key])
+        m.mandatory('subnets', crud, paramset)
         vid, ip_dvr, ip_vhost, ports, default_gw = m.getparam('vid', 'ip_dvr', 'ip_vhost', 'ports', 'default_gw')
         print '>>> Adding a subnet(vlan): ' + str(vid)
         globals()['_'+crud+'_subnets'](vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
@@ -153,14 +160,20 @@ def _crud(crud, model):
         r.crud(crud, model[key])
 
 def add(model):
-    
-    _crud('add', model)
+
+    paramset = ('vni', 'vid', 'ip_dvr', 'ip_vhost')
+
+    _crud('add', model, paramset)
 
 def delete(model):
 
-    _crud('delete', model)
+    paramset = ('vni', 'vid', 'ip_dvr', 'ip_vhost')
+
+    _crud('delete', model, paramset)
 
 def update(model):
 
-    _crud('update', model)
+    paramset = ()
+
+    _crud('update', model, paramset)
 

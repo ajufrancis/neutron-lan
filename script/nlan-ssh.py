@@ -88,7 +88,7 @@ def _deploy(roster, router, operation, doc):
                     print >>err, 'None'
                 else:
                     print >>err, error
-                    exitcode = 1 
+                exitcode = o.channel.recv_exit_status()
             else:
                 if operation == '--scp':
                     s = scp.SCPClient(ssh.get_transport())
@@ -113,7 +113,6 @@ def _deploy(roster, router, operation, doc):
                         print >>err, 'None'
                     else:
                         print >>err, error
-                        exitcode = 1
                 elif operation == '--scpmod':
                     s = scp.SCPClient(ssh.get_transport())
                     for moddir in MOD_DIRS:
@@ -128,7 +127,6 @@ def _deploy(roster, router, operation, doc):
                             print >>err, 'None'
                         else:
                             print >>err, error
-                            exitcode = 1
                         for f in os.listdir(ldir):
                             ff = os.path.join(ldir, f) 
                             s.put(ff, rdir)
