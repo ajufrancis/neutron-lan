@@ -26,6 +26,8 @@ Note that "NLAN" is a root-set table, so "isRoot" in the schema definion is set 
 OVSDB neutron-lan schema
 ------------------------
 
+Updated on 2014/4/4 to include 'placeholder' <peers> for a template engine.
+
 <pre>
    "NLAN": {
      "columns": {
@@ -81,8 +83,11 @@ OVSDB neutron-lan schema
          "type": "string"},
        "ports": {
          "type": {"key": {"type": "string"},
+                  "min": 0, "max": "unlimited"}},
+       "peers": {
+         "type": {"key": {"type": "string"},
                   "min": 0, "max": "unlimited"}}},
-     "indexes": [["vni"]]},
+     "indexes": [["vni"]]}
 </pre>
 
 OVSDB client
