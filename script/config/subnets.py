@@ -83,15 +83,16 @@ def _add_flow_entries(vid_vni_defaultgw):
 
         output = output_cmd('ovs-ofctl show br-tun')
         output = output.split('\n')
-        """
-        for line in output:
-            m = re.search(r"^\s[0-9]+\(patch-tun", line)
-            if m:
-                patch_tun = m.group().split("(")[0].strip()
-                break
-        """
+        
         r = OvsdbRow('Interface', ('name', 'patch-tun'))
         patch_tun = str(r['ofport'])
+
+        """
+        for combo in vni_vid_defaultgw:
+            peers = combo[3]
+            for ip in peers:
+                OvsdbRow('Interface', ('
+        """
 
         for line in output:
             vxlan = re.search(r"\s[0-9]+\(vxlan", line)
@@ -147,10 +148,10 @@ def _crud(crud, model, paramset):
         vni = key[1] 
         m = Model(model[key])
         m.mandatory('subnets', crud, paramset)
-        vid, ip_dvr, ip_vhost, ports, default_gw = m.getparam('vid', 'ip_dvr', 'ip_vhost', 'ports', 'default_gw')
+        vid, ip_dvr, ip_vhost, ports, default_gw, peers = m.getparam('vid', 'ip_dvr', 'ip_vhost', 'ports', 'default_gw', 'peers')
         print '>>> Adding a subnet(vlan): ' + str(vid)
         globals()['_'+crud+'_subnets'](vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
-        vid_vni_defaultgw.append([vid, vni, ip_dvr])
+        vid_vni_defaultgw.append([vid, vni, ip_dvr, peers])
 
     globals()['_'+crud+'_flow_entries'](vid_vni_defaultgw)
 

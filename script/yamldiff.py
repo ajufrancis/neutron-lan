@@ -12,40 +12,104 @@ from cStringIO import StringIO
 from cmdutil import output_cmd
 from copy import deepcopy
 
-DEL_DUPLICATES = True 
-
 # TODO: auto-generate this data from a OVSDB schema
 INDEXES = {'subnets': 'vni'}
 
-def _str(value):
+# Simple object serializer for int, list, str and OrderedObject
+def dumps(value):
 
     if isinstance(value, int):
-        value = 'int:'+str(value)
+        s = 'int:'+str(value)
     elif isinstance(value, list):
-        value = 'list:'+str(value)
+        s = 'list:'+str(value)
     elif isinstance(value, str):
-        value = 'str:'+str(value)
+        s = 'str:'+str(value)
+    elif isinstance(value, OrderedDict):
+        s = 'OrderedDict:'+str(value)
     else:
         raise Exception("Type error: " + str(type(value)))
 
-    return value
+    return s 
 
-def _type(value):
+# Simple object de-serializer for int, list, str and OrderedObject
+def loads(string):
 
-    s = value.split(':',1)
+    s = string.split(':',1)
     t = s[0]
     v = s[1]   
     #print t, v
     if t == 'int':
         v = int(v)
-    elif t == 'list':
+    elif t == 'list' or t == 'OrderedDict':
         v = eval(v)
     elif t == 'str':
         pass
     else:
-        raise Exception("Type error: " + str(type(value)))
+        raise Exception("Type error: " + str(type(string)))
 
     return v
+
+def get_index(string):
+    t = string.split(']')[0].split(':',1)
+    idx = t[0]
+    value = loads(t[1])
+    return (idx, value)
+
+def get_index_value(string):
+    return loads(string.split(']')[0].split(':',1)[1])
+
+def get_node(string):
+    return string.split('.',1)[0]
+
+def get_path(string):
+    return string.split('=')[0].split('.',1)[1]
+
+def get_node_path(string):
+    return string.split('=')[0]
+
+def get_value(string):
+    return loads(string.split('=')[1])
+
+
+# This class is used by template modules
+class Template:
+
+    def __init__(self, slist):
+        self.slist = slist
+        self.values_list = []
+
+    def add_values(self, placeholder, values, index=False):
+        self.values_list.append({'placeholder':placeholder, 'values':values, 'index':index})
+
+    def fillout(self):
+        for l in self.slist:
+            node = get_node(l)
+            for v in self.values_list:
+                searchstring = '<' + v['placeholder'] + '>'
+                if re.search(searchstring, l):
+                    value = None
+                    oldvalue = get_value(l)
+                    if v['index']:
+                        index = get_index_value(l)
+                        value = v['values'][node][index]
+                    else:
+                        value = v['values'][node]
+                    newvalue = re.sub(searchstring, str(value), oldvalue)
+                    if isinstance(value, str):
+                        newvalue = '"'+newvalue+'"'
+                    ll = get_node_path(l) + '=' + dumps(eval(newvalue)) 
+                    self.slist[self.slist.index(l)] = ll
+
+        return self.slist
+
+
+def get_template_module(firstline):
+    if re.match(r"#!", firstline):
+        return re.sub(r"^#!", "", firstline).rstrip()
+
+def fillout(template_module, flatten):
+    __import__(template_module)
+    return sys.modules[template_module].fillout(flatten)
 #
 # Merge two Python dictionaries
 # Reference: http://blog.impressiver.com/post/31434674390/deep-merge-multiple-python-dicts
@@ -67,29 +131,37 @@ def dict_merge(target, *args):
             target[k] = deepcopy(v)
     return target
 
-# Returns lya.AttrDict object 
-def _get_base(filename):
-    return(lya.AttrDict.from_yaml(filename))
 
-# Returns lya.AttrDict object
-# If the git file is vacant or non-existent, default YAML data is used 
-def _get_base_git(filename):
-    default = "vacant: true"
-    try:
-        data = output_cmd('git show HEAD:' + filename)
-        if data == '':
-            data = default 
-    except:
-        data = default 
-    od = yaml.load(StringIO(data), lya.OrderedDictYAMLLoader)
-    return(lya.AttrDict(od))
-
-# This function generates a uci-get-like path=value list from a YAML file.
+# This function is a YAML serializer generating a list of 
+# "node.path=value" from a YAML file.
 # Returns a list of path=value.
-def _yaml_load(base):
+def _yaml_load(filename, git=False):
+
+    od = None
+    template_module = None
+
+    if not git:
+        with open(filename, 'r') as f:
+            od = yaml.load(f, lya.OrderedDictYAMLLoader)
+            f.seek(0)
+            template_module = get_template_module(f.readline())
+    else:
+        default = "vacant: true"
+        try:
+            data = output_cmd('git show HEAD:' + filename)
+            if data == '':
+                data = default 
+            else:
+                template_module = get_template_module(StringIO(data).readline())
+        except:
+            data = default 
+        od = yaml.load(data, lya.OrderedDictYAMLLoader)
+
+    print od
+    base = lya.AttrDict(od)
 
     flatten = lya.AttrDict.flatten(base)
-    #print flatten
+    
     values = []
     state_order = [] 
     for l in flatten:
@@ -120,22 +192,25 @@ def _yaml_load(base):
                                 pass
                             if key != None:
                                 value = dic[key]
-                                index = key + ':' + _str(value)    
+                                index = key + ':' + dumps(value)    
                             else:
                                 index = str(count)
                             for key in dic:
-                                pl = path+'.'+m+'['+index+'].'+key+'='+_str(dic[key])
+                                pl = path+'.'+m+'['+index+'].'+key+'='+dumps(dic[key])
 
                                 values.append(pl)
                         else: 
-                            pl = path+'.'+m+'['+str(count)+']='+_str(elm)
+                            pl = path+'.'+m+'['+str(count)+']='+dumps(elm)
                             values.append(pl)
                             
                         count += 1
                 else:
-                    path += '.'+m+'='+_str(l[1])
+                    path += '.'+m+'='+dumps(l[1])
                     values.append(path)
     
+    if template_module:
+        values = fillout(template_module, values)
+
     return (sorted(values), state_order)
 
 #
@@ -147,13 +222,13 @@ def _diff(list1, list2):
 
 # Outputs CRUD operations list for nlan-ssh.py
 # making diff between two YAML files.
-# base1: lya.AttrDict (before)
-# base2: lya.AttrDict (after)
 # crud_list: a list of [node, operation, model]
-def _crud_diff(base1, base2):
+def crud_diff(filename):
 
-    (list1, state_order1) = _yaml_load(base1)
-    (list2, state_order2) = _yaml_load(base2)
+    # Before
+    (list1, state_order1) = _yaml_load(filename, git=True)
+    # After
+    (list2, state_order2) = _yaml_load(filename)
     
     lines = _diff(list1=list1, list2=list2)
     add_delete = []
@@ -181,26 +256,25 @@ def _crud_diff(base1, base2):
         temp_list.append([node, operation, path, value])
 
     # Delete duplicates
-    if DEL_DUPLICATES:
-        values = [] 
-        duplicates = [] 
-        temp_list2 = []
-        for line in temp_list:
-            values.append(line[2]+'='+line[3])
-        for line in temp_list:
-            value = line[2]+'='+line[3]
-            values.remove(value) 
-            if value in values:
-                duplicates.append(value)
-        for line in temp_list:
-            if line[3] not in duplicates: 
-                temp_list2.append(line)
+    values = [] 
+    duplicates = [] 
+    temp_list2 = []
+    for line in temp_list:
+        values.append(line[2]+'='+line[3])
+    for line in temp_list:
+        value = line[2]+'='+line[3]
+        values.remove(value) 
+        if value in values:
+            duplicates.append(value)
+    for line in temp_list:
+        if line[3] not in duplicates: 
+            temp_list2.append(line)
 
     # Finds "update" operations
     temp_list = sorted(temp_list2, reverse=True)
     list2 = []
     for line in temp_list:
-        list2.append([line[0], line[2] , line[1], _type(line[3])])
+        list2.append([line[0], line[2] , line[1], loads(line[3])])
     list2 = sorted(list2, reverse=True)
     list3 = list2
     for i in range(len(list2)-1):
@@ -234,7 +308,7 @@ def _crud_diff(base1, base2):
             dic = {router: {ope: {module: key_value}}}
         else:
             i = idx.split(':',1)
-            idx = (i[0], _type(i[1]))
+            idx = (i[0], loads(i[1]))
             idx_key_value = {idx: key_value}
             dic = {router: {ope: {module: idx_key_value}}}
         dict_merge(crud_dict, dic)
@@ -265,13 +339,6 @@ def _crud_diff(base1, base2):
     return sorted(crud_list, reverse=True)
 
 
-# Generate CRUD operations working with a local git repo
-def crud_diff(filename):
-
-    base1 = _get_base_git(filename)
-    base2 = _get_base(filename)
-    return _crud_diff(base1, base2)
-
 #
 # Unit test
 #
@@ -279,18 +346,19 @@ if __name__=='__main__':
 
     import sys
 
-    # From a git repo 
-    base1 = _get_base_git(sys.argv[1])
-    # From a local file 
-    base2 = _get_base(sys.argv[1])
+    print '----- test: get_template_module -----'
+    firstline = '#!test1.test2'
+    print get_template_module(firstline)
+    firstline = '##!test1.test2'
+    print get_template_module(firstline)
 
     print '----- test: yaml_load: before  -----'
-    (list1, state_order1) = _yaml_load(base1)
+    (list1, state_order1) = _yaml_load(sys.argv[1], git=True)
     for l in list1:
         print l
 
     print '----- test: yaml_load: after -----'
-    (list2, state_order2) = _yaml_load(base2)
+    (list2, state_order2) = _yaml_load(sys.argv[1])
     for l in list2:
         print l
         

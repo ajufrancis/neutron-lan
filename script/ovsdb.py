@@ -380,6 +380,8 @@ class OvsdbRow(object):
     #def __getattr__(self, key):
     #    return self.row[key]
     
+    def getrow(self):
+        return self.row
 
     def getparam(self, *args):
 
@@ -427,8 +429,6 @@ class Row(OvsdbRow):
         response = select(self.table, self.where)
         self.row = todict(response)
 
-    def getrow(self):
-        return self.row
             
     def delrow(self):
         response = mutate_delete(self.table, self.where, self.parent, self.module)
@@ -583,7 +583,7 @@ if __name__=='__main__':
 
     print "##### OvsdbRow class test #####"
     try:
-        r = OvsdbRow('Interface', ('name', 'vxlan_102'))
+        r = OvsdbRow('Interface', ('name', 'vxlan'))
         print 'ofport: ' + str(r['ofport'])
     except:
         pass
