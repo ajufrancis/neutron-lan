@@ -1,9 +1,0 @@
-Problem:
-I want to extract all the rows where type = 'vxlan' from Interface table.
-Then get a specific column such as 'options' from the result. 
-
-(1) ovsdb.py
-def search(table, where, column)
-
-(2) config/subnets.py
-
