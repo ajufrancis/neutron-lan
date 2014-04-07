@@ -14,7 +14,7 @@
 openwrt1:
    bridges: 
       ovs_bridges: enabled
-#      controller: '192.168.1.1:6633'
+#     controller: '192.168.1.1:6633'
    gateway:
       rip: enabled
       network: eth0.2
@@ -92,6 +92,7 @@ openwrt3:
         ports:
            - eth0.1
 #          - veth0.1
+        peers: <peers>
       - vid: 3
         vni: 103
         ip_dvr: '10.0.3.1/24'
@@ -99,11 +100,13 @@ openwrt3:
         ports:
            - eth0.3
 #          - veth0.3
+        peers: <peers>
       - vid: 2
         vni: 1
         ip_dvr: '192.168.100.3/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.103/24'
+        peers: <peers>
 
 rpi1:
    bridges:
@@ -117,7 +120,9 @@ rpi1:
         vni: 101
         ip_dvr: '10.0.1.1/24'
         ip_vhost: '10.0.1.104/24'
+        peers: <peers>
       - vid: 3
         vni: 103
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.104/24'
+        peers: <peers>

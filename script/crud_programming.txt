@@ -1,0 +1,49 @@
+How can I program CRUD operations easier?
+
+NLAN model is a service-specific model with some limitations. However, having limitaions makes things easy.
+
+NLAN tree 
+
+network
+  |
+  +- <node>*
+
+<node>
+  | 
+  +-- bridges ==> 'bridges' module
+  |   
+  +-- gateway ==> 'gateway' module
+  |
+  +-- vxlan ==> 'vxlan' module
+  |
+  +-- subnets* ==> 'subnets' module
+
+bridges
+  |
+  +-- ovs_bridges ==> write code for CRUD operations 
+  |
+  +-- controller ==> write code for CRUD operations
+
+vxlan
+  |
+  +-- local_ip ==> write code for CRUD operations
+  |
+  +-- remote_ips ==> write code for CRUD operations
+
+               :
+
+Sometimes you need to modify a state that referes to another state on OVSDB. ovsdb.py provides utility classes and functions to work with OVSDB.
+
+NLAN table tree on OVSDB
+
+NLAN
+  | 
+  +-- bridges -- NLAN_Bridges
+  |   
+  +-- gateway -- NLAN_Gateway
+  |
+  +-- vxlan -- NLAN_VXLAN
+  |
+  +-- subnets* -- NLAN_Subnet
+
+

@@ -22,12 +22,15 @@ class Model:
             else:
                 yield None
 
-    def mandatory(self, module, crud, args):
+    # args: a set of mandatory parameters
+    def checkset(self, module, crud, args):
 
-        keys = self.model.keys()
-        for key in args:
-            if key not in keys:
-                raise ModelError(module + "." + crud + " requires: " + str(args))
+        a = sets.Set(args)
+        b = sets.Set(self.model.keys())
+        if len(a - b) == 0 or len(a & c) == 0:
+            pass 
+        else:
+            raise ModelError(module + "." + crud + " requires" +  str(args), "or all None")
 
 if __name__=='__main__':
 
@@ -40,8 +43,6 @@ if __name__=='__main__':
     m = Model(model)
     aaa, bbb, ccc, ddd = m.getparam('aaa', 'bbb', 'ccc', 'ddd')
 
-    print aaa, bbb, ccc, ddd
-   
     try:
         raise ModelError('TTTTTTTT')
     except Exception, e:

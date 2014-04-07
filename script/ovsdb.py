@@ -23,8 +23,7 @@ def _uuid_name():
 def get_uuid(response):
     return response["result"][0]["rows"][0]["_uuid"][1]
 
-# Get a value of row in the response
-# Limitation: This can return only the first row in the result 
+# Get a row in the form of Python dictionary 
 def todict(response):
 
     dict_value = {}
@@ -37,6 +36,11 @@ def todict(response):
             if isinstance(value, list):
                 if isinstance(value[1], list) and value[0] == 'set':
                     dict_value[key] = value[1]
+                if isinstance(value[1], list) and value[0] == 'map':
+                    d = {} 
+                    for l in value[1]:
+                        d[l[0]] = l[1]
+                    dict_value[key] = d
                 elif not(isinstance(value[1], list)) and value[0] == 'uuid':
                     dict_value[key] = value[1]
             else:
@@ -45,6 +49,37 @@ def todict(response):
         pass
 
     return dict_value
+
+# Get rows in the form of Python dictionary 
+def todicts(response):
+
+    dicts = [] 
+
+    try:
+        for row in response["result"][0]["rows"]:
+            dict_value = {}
+
+            for key in row.keys():
+                value = row[key]
+                if isinstance(value, list):
+                    if isinstance(value[1], list) and value[0] == 'set':
+                        dict_value[key] = value[1]
+                    if isinstance(value[1], list) and value[0] == 'map':
+                        d = {} 
+                        for l in value[1]:
+                            d[l[0]] = l[1]
+                        dict_value[key] = d
+                    elif not(isinstance(value[1], list)) and value[0] == 'uuid':
+                        dict_value[key] = value[1]
+                else:
+                    dict_value[key] = row[key]
+
+            dicts.append(dict_value)
+    except:
+        pass
+
+    return dicts
+
             
 # Get a value of count in the JSON-RPC response
 def get_count(response):
@@ -455,7 +490,50 @@ class Row(OvsdbRow):
     def clear(cls):
         response = delete(cls.PARENT, [])
 
-#class Table 
+# Searches a table with 'column = value'.
+# Returns rows in the form of Python dictionary
+def search(table, columns, key=None, value=None):
+  
+    where = []
+    if key and value:
+        where = [[
+            key,
+            "==",
+            value
+            ]]
+
+    response = select(table, where, columns)
+    return todicts(response)
+
+# Obtains ofport <=> peers mapping data for vxlan ports
+# to construct broadcast trees for each vni
+def get_vxlan_ports(peers=None):
+
+    #print peers, type(peers)
+
+    ofports = []
+    tablesearch = search('Interface', ['ofport', 'options'], 'type', 'vxlan')
+    vxlan_ports = []
+    if peers:
+        for ip in peers:
+            for l in tablesearch:
+                if l['options']['remote_ip'] == ip:
+                    vxlan_ports.append(str(l['ofport']))
+    else:
+        for l in tablesearch:
+            vxlan_ports.append(str(l['ofport']))
+
+    return vxlan_ports
+
+def get_vxlan_port(peer):
+
+    tablesearch = search('Interface', 'type', 'vxlan', ['ofport', 'options']
+)
+    for l in tablesearch:
+        if l['options']['remote_ip'] == peer:
+            return l['ofport']
+
+    raise Exception("No ofport found")
 
 #######################################################################
 
@@ -487,7 +565,8 @@ if __name__=='__main__':
 
     print "##### Select test #####" 
     select('NLAN_Subnet', where)
-   
+    print search('NLAN_Subnet', "vid", 101, ["vni", "ip_dvr"])
+
     # This transaction shuld fail, since a row with vni=1001
     # has already been inserted.
     print "##### Insert and Mutate test: 'NLAN_Subnet' table #####"
@@ -588,5 +667,10 @@ if __name__=='__main__':
     except:
         pass
 
+    print "##### Ovsdb search test #####"
+    try:
+        print search('Interface', 'type', 'vxlan', ['ofport', 'options'])
+    except:
+        pass
 
 
