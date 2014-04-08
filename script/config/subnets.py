@@ -87,8 +87,9 @@ def _add_flow_entries(vid, vni, ip_dvr, peers):
         cmd('ovs-ofctl add-flow br-tun', 'table=2,priority=1,tun_id='+vni+',actions=mod_vlan_vid:'+vid+',resubmit(,10)')
         
         # Drops ARP with target ip = default gw
-        defaultgw = ip_dvr.split('/')[0]
-        cmd('ovs-ofctl add-flow br-tun', 'table=19,priority=1,dl_type=0x0806,dl_vlan='+vid+',nw_dst='+defaultgw+',actions=drop')
+        if ip_dvr:
+            defaultgw = ip_dvr.split('/')[0]
+            cmd('ovs-ofctl add-flow br-tun', 'table=19,priority=1,dl_type=0x0806,dl_vlan='+vid+',nw_dst='+defaultgw+',actions=drop')
 
         # Broadcast tree for each vni
         output_ports = ''

@@ -15,7 +15,7 @@ def run():
     cmd('ovs-vsctl --if-exists del-br br-tun')
     cmd('ovs-vsctl --if-exists del-br br-int')
 
-    # Delete all the linux bridges
+    # Delete  linux bridges (br*)
     """
     $ brctl show
     bridge name     bridge id               STP enabled     interfaces
@@ -34,13 +34,16 @@ def run():
         elif len(ll) == 4:
             brname = ll[0]
             interface = ll[3]
-            bridges[brname] = [interface]
+            if brname.startswith('br'):
+                bridges[brname] = [interface]
         elif len(ll) == 3:
             brname = ll[0]
-            bridges[brname] = [] 
+            if brname.startswith('br'):
+                bridges[brname] = [] 
         elif len(ll) == 1:
             interface = ll[0]
-            bridges[brname].append(interface)
+            if brname.startswith('br'):
+                bridges[brname].append(interface)
 
     for brname in bridges.keys():
         for interface in bridges[brname]:

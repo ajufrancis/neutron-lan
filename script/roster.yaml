@@ -25,5 +25,6 @@ rpi1:
    user: root
    passwd: root
 #  platform: raspbian
-   platform: openwrt
+#  platform: openwrt
+   platform: debian
 

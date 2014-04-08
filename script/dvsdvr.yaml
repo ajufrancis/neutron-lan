@@ -6,10 +6,11 @@
 # Ver 0.3: 2014/3/3
 # Ver 0.4: 2014/3/28
 # Ver 0.5: 2014/4/3, works with a template engine
+# Ver 0.6: 2014/4/8, Service Function Chaining (NFV)
 #
 # OpenWRT DVS/DVR YAML config file
 #
-# A corresponding template module fills out all <...>
+# A corresponding template module fills out all placeholders <...>
 #
 openwrt1:
    bridges: 
@@ -43,7 +44,7 @@ openwrt1:
         vni: 1
         ip_dvr: '192.168.100.1/24'
         ip_vhost: '192.168.100.101/24'
-        peers: <peers>
+        peers: ['192.168.1.103', '192.168.1.104'] 
 
 openwrt2:
    bridges: 
@@ -70,11 +71,11 @@ openwrt2:
 #          - veth0.3
         peers: <peers>
       - vid: 2
-        vni: 1
+        vni: 1001
         ip_dvr: '192.168.100.2/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.102/24'
-        peers: <peers>
+        peers: ['192.168.1.104'] 
 
 
 openwrt3:
@@ -106,23 +107,28 @@ openwrt3:
         ip_dvr: '192.168.100.3/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.103/24'
-        peers: <peers>
+        peers: ['192.168.1.101'] 
 
 rpi1:
+   # Service Function Chaining
    bridges:
       ovs_bridges: enabled
 #     controller: '192.168.1.1:6633'
+   services:
+      - name: iptables1
+        function: iptables 
+        mode: bump-in-the-wire
+        chain: [openwrt2.1001, openwrt1.1]
    vxlan:
       local_ip: '192.168.1.104'
       remote_ips: <remote_ips>
    subnets:
+      - vid: 2
+        vni: 1
+        peers: ['192.168.1.101'] 
+        ports: <sfports> 
       - vid: 1
-        vni: 101
-        ip_dvr: '10.0.1.1/24'
-        ip_vhost: '10.0.1.104/24'
-        peers: <peers>
-      - vid: 3
-        vni: 103
-        ip_dvr: '10.0.3.1/24'
-        ip_vhost: '10.0.3.104/24'
-        peers: <peers>
+        vni: 1001
+        peers: ['192.168.1.102'] 
+        ports: <sfports>
+

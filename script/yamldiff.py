@@ -13,7 +13,7 @@ from cmdutil import output_cmd
 from copy import deepcopy
 
 # TODO: auto-generate this data from a OVSDB schema
-INDEXES = {'subnets': 'vni'}
+INDEXES = {'subnets': 'vni', 'services': 'name'}
 
 # Simple object serializer for int, list, str and OrderedObject
 def dumps(value):
@@ -107,9 +107,6 @@ def get_template_module(firstline):
     if re.match(r"#!", firstline):
         return re.sub(r"^#!", "", firstline).rstrip()
 
-def fillout(template_module, flatten):
-    __import__(template_module)
-    return sys.modules[template_module].fillout(flatten)
 #
 # Merge two Python dictionaries
 # Reference: http://blog.impressiver.com/post/31434674390/deep-merge-multiple-python-dicts
@@ -157,7 +154,7 @@ def _yaml_load(filename, git=False):
             data = default 
         od = yaml.load(data, lya.OrderedDictYAMLLoader)
 
-    print od
+    #print od
     base = lya.AttrDict(od)
 
     flatten = lya.AttrDict.flatten(base)
@@ -209,7 +206,10 @@ def _yaml_load(filename, git=False):
                     values.append(path)
     
     if template_module:
-        values = fillout(template_module, values)
+        __import__(template_module)
+        module = sys.modules[template_module]
+        values = module.fillout(values)
+        state_order = module.STATE_ORDER
 
     return (sorted(values), state_order)
 
