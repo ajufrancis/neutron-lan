@@ -65,7 +65,7 @@ II. NLAN SIT
 
 At rpi1,
 
-$ lxc-stop -n iptables1
+$ lxc-stop -n snort1 
 
 Delelte all the lines starting with 'lxc.network' in /usr/lib/lxc/<container_name>/config
 

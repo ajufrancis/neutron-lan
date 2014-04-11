@@ -6,11 +6,23 @@
 # Ver 0.3: 2014/3/3
 # Ver 0.4: 2014/3/28
 # Ver 0.5: 2014/4/3, works with a template engine
-# Ver 0.6: 2014/4/8, Service Function Chaining (NFV)
+# Ver 0.6: 2014/4/11, Service Function Chaining (NFV)
 #
 # OpenWRT DVS/DVR YAML config file
 #
 # A corresponding template module fills out all placeholders <...>
+#
+#
+#  vid:1 toploogy
+#
+#  [rpi1]----vni---[openwrt1]
+#    | \     1001
+#    |    \
+#  vni101   \ vni101
+#    |         \
+#    |            \
+# [openwrt2]--vni--[openwrt3]
+#             101
 #
 openwrt1:
    bridges: 
@@ -25,7 +37,7 @@ openwrt1:
       remote_ips: <remote_ips>
    subnets:
       - vid: 1
-        vni: 101
+        vni: 1001
         ip_dvr: '10.0.1.1/24'
         ip_vhost: '10.0.1.101/24'
         ports:
@@ -44,7 +56,7 @@ openwrt1:
         vni: 1
         ip_dvr: '192.168.100.1/24'
         ip_vhost: '192.168.100.101/24'
-        peers: ['192.168.1.103', '192.168.1.104'] 
+        peers: <peers> 
 
 openwrt2:
    bridges: 
@@ -57,6 +69,7 @@ openwrt2:
       - vid: 1
         vni: 101
         ip_dvr: '10.0.1.1/24'
+        mode: spoke_dvr
         ip_vhost: '10.0.1.102/24'
         ports:
            - eth0.1
@@ -71,11 +84,11 @@ openwrt2:
 #          - veth0.3
         peers: <peers>
       - vid: 2
-        vni: 1001
+        vni: 1
         ip_dvr: '192.168.100.2/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.102/24'
-        peers: ['192.168.1.104'] 
+        peers: <peers> 
 
 
 openwrt3:
@@ -89,6 +102,7 @@ openwrt3:
       - vid: 1
         vni: 101
         ip_dvr: '10.0.1.1/24'
+        mode: spoke_dvr
         ip_vhost: '10.0.1.103/24'
         ports:
            - eth0.1
@@ -107,7 +121,7 @@ openwrt3:
         ip_dvr: '192.168.100.3/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.103/24'
-        peers: ['192.168.1.101'] 
+        peers: <peers> 
 
 rpi1:
    # Service Function Chaining
@@ -118,17 +132,17 @@ rpi1:
       - name: snort1
         function: snort 
         mode: bump-in-the-wire
-        chain: [openwrt2.1001, openwrt1.1]
+        chain: [mz.101, dmz.1001]
    vxlan:
       local_ip: '192.168.1.104'
       remote_ips: <remote_ips>
    subnets:
-      - vid: 2
-        vni: 1
-        peers: ['192.168.1.101'] 
+      - vid: 111 
+        vni: 1001
+        peers: <peers>
         ports: <sfports> 
       - vid: 1
-        vni: 1001
-        peers: ['192.168.1.102'] 
+        vni: 101
+        peers: <peers> 
         ports: <sfports>
 

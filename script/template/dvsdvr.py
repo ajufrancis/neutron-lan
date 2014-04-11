@@ -55,7 +55,7 @@ def fillout(template):
             vni = int(p[1])
             sfports[router][vni] = [path] 
 
-    print remote_ips, peers, sfports
+    #print remote_ips, peers, sfports
 
     tl = Template(template)
     tl.add_values('remote_ips', remote_ips, False)
