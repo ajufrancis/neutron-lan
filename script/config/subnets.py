@@ -128,6 +128,7 @@ def _add_flow_entries(vid, vni, ip_dvr, mode, peers):
             cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+inport+',dl_type='+dl_type+',nw_dst='+nw_dst10+',actions=resubmit(,1)')
             cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+inport+',dl_type='+dl_type+',nw_dst='+nw_dst172+',actions=resubmit(,1)')
             cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+inport+',dl_type='+dl_type+',nw_dst='+nw_dst192+',actions=resubmit(,1)')
+            cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=1,in_port='+outport+',dl_type=0x0806,nw_dst='+nw_dst+',actions=drop')
             cmd('ovs-ofctl add-flow br-int', 'table=1,priority=0,actions=set_field:'+dl_dst+'->dl_dst,output:'+outport)
         else:
             pass 
