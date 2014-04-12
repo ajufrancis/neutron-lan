@@ -6,7 +6,7 @@ NLAN takes care of only service chaining and service function initiation. You ne
 
 This installation process assumes Debian Linux VirtualBox image:
 
-$ lxc-create -n iptables1 -t debian
+$ lxc-create -n snort1 -t debian
 
 ---
 /etc/network/interfaces
