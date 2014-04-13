@@ -75,6 +75,24 @@ def _add_subnets(vni, vid, ip_dvr, ip_vhost, ports, default_gw):
 	
 
 # Adds flow entries 
+# 1) mode == 'dvr' or default
+#  Remote node
+#     ^
+#     | Dropped (one way)
+#     |
+#  ARP w/ TPA = ip_dvr
+# [br-tun]
+#
+# 2) mode == 'spoke_dvr'
+# [br-int]
+#     ^ Dropped (one way)
+#     | 
+#     | int-dvr
+#  ARP w/ SPA = ip_dvr
+#
+# 3) mode == 'hub'
+# No flow entries added
+#
 def _add_flow_entries(vid, vni, ip_dvr, mode, peers):
 
     vid = str(vid)
@@ -89,11 +107,10 @@ def _add_flow_entries(vid, vni, ip_dvr, mode, peers):
         cmd('ovs-ofctl add-flow br-tun', 'table=2,priority=1,tun_id='+vni+',actions=mod_vlan_vid:'+vid+',resubmit(,10)')
         
         #print ip_dvr, mode
-        # Drops ARP with target ip = default gw
         if ip_dvr and (mode == 'dvr' or not mode):
             defaultgw = ip_dvr.split('/')[0]
             cmd('ovs-ofctl add-flow br-tun', 'table=19,priority=1,dl_type=0x0806,dl_vlan='+vid+',nw_dst='+defaultgw+',actions=drop')
-        # Redirect a packet to int_dvr port if nw_dst is a private ip address
+        # Redirects a packet to int_dvr port if nw_dst is a private ip address
         elif ip_dvr and mode == 'spoke_dvr':
             defaultgw = ip_dvr.split('/')[0]
             mask = ip_dvr.split('/')[1]
@@ -128,8 +145,10 @@ def _add_flow_entries(vid, vni, ip_dvr, mode, peers):
             cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+inport+',dl_type='+dl_type+',nw_dst='+nw_dst10+',actions=resubmit(,1)')
             cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+inport+',dl_type='+dl_type+',nw_dst='+nw_dst172+',actions=resubmit(,1)')
             cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+inport+',dl_type='+dl_type+',nw_dst='+nw_dst192+',actions=resubmit(,1)')
-            cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=1,in_port='+outport+',dl_type=0x0806,nw_dst='+nw_dst+',actions=drop')
+            cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+outport+',dl_type=0x0806,nw_src='+defaultgw+',actions=drop')
             cmd('ovs-ofctl add-flow br-int', 'table=1,priority=0,actions=set_field:'+dl_dst+'->dl_dst,output:'+outport)
+        elif ip_dvr and mode == 'hub':
+            pass
         else:
             pass 
 

@@ -39,6 +39,7 @@ openwrt1:
       - vid: 1
         vni: 1001
         ip_dvr: '10.0.1.1/24'
+        mode: hub
         ip_vhost: '10.0.1.101/24'
         ports:
            - eth0.1 
