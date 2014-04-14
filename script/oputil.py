@@ -1,3 +1,5 @@
+from env import NLAN_DIR 
+
 class ModelError(Exception):
 
     def __init__(self, message):
@@ -32,7 +34,17 @@ class Model:
         else:
             raise ModelError(module + "." + crud + " requires" +  str(args), "or all None")
 
+def get_roster():
+
+    import os, yaml
+    roster = os.path.join(NLAN_DIR,'roster.yaml')
+    r = open(roster, 'r')
+    return yaml.load(r.read())
+
+
 if __name__=='__main__':
+
+    print get_roster()
 
     model = {
         'aaa': 1,

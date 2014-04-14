@@ -1,4 +1,5 @@
 # 2014/3/17
+# 2014/4/14  Service Chaining ('dvr', 'hub' and 'spoke_dvr' mode)
 # subnets.py
 #
 
@@ -88,9 +89,15 @@ def _add_subnets(vni, vid, ip_dvr, ip_vhost, ports, default_gw):
 #     ^ Dropped (one way)
 #     | 
 #     | int-dvr
-#  ARP w/ SPA = ip_dvr
+#  ARP (opcode=2) w/ SPA = ip_dvr
+#  opcode 1: ARP Request
+#  opcode 2: ARP Reply
+# 
+#  In this mode, all the packets pertaining to the other subnets (excluding
+#  global IP addresses) are also redirected to the 'local' ip_dvr for
+#  distributed virtual routing.
 #
-# 3) mode == 'hub'
+# 3) mode == 'hub' or 'spoke'
 # No flow entries added
 #
 def _add_flow_entries(vid, vni, ip_dvr, mode, peers):
@@ -145,9 +152,10 @@ def _add_flow_entries(vid, vni, ip_dvr, mode, peers):
             cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+inport+',dl_type='+dl_type+',nw_dst='+nw_dst10+',actions=resubmit(,1)')
             cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+inport+',dl_type='+dl_type+',nw_dst='+nw_dst172+',actions=resubmit(,1)')
             cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+inport+',dl_type='+dl_type+',nw_dst='+nw_dst192+',actions=resubmit(,1)')
-            cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+outport+',dl_type=0x0806,nw_src='+defaultgw+',actions=drop')
+            # ARP, opcode = 2, TPA = defaultgw
+            cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+outport+',dl_type=0x0806,nw_src='+defaultgw+',nw_proto=2,actions=drop')
             cmd('ovs-ofctl add-flow br-int', 'table=1,priority=0,actions=set_field:'+dl_dst+'->dl_dst,output:'+outport)
-        elif ip_dvr and mode == 'hub':
+        elif ip_dvr and mode == 'hub' or 'spoke':
             pass
         else:
             pass 

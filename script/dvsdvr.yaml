@@ -33,7 +33,7 @@ openwrt1:
       network: eth0.2
 #     network: eth2 
    vxlan:
-      local_ip: '192.168.1.101'
+      local_ip: <local_ip> 
       remote_ips: <remote_ips>
    subnets:
       - vid: 1
@@ -64,7 +64,7 @@ openwrt2:
       ovs_bridges: enabled
 #     controller: '192.168.1.1:6633'
    vxlan:
-      local_ip: '192.168.1.102'
+      local_ip: <local_ip> 
       remote_ips: <remote_ips>
    subnets:
       - vid: 1
@@ -97,7 +97,7 @@ openwrt3:
      ovs_bridges: enabled
 #    controller: '192.168.1.1:6633'
    vxlan:
-     local_ip: '192.168.1.103'
+     local_ip: <local_ip> 
      remote_ips: <remote_ips>
    subnets:
       - vid: 1
@@ -125,17 +125,14 @@ openwrt3:
         peers: <peers> 
 
 rpi1:
-   # Service Function Chaining
    bridges:
       ovs_bridges: enabled
 #     controller: '192.168.1.1:6633'
-   services:
+   services: # Service Functions
       - name: snort1
-        function: snort 
-        mode: bump-in-the-wire
         chain: [mz.101, dmz.1001]
    vxlan:
-      local_ip: '192.168.1.104'
+      local_ip: <local_ip> 
       remote_ips: <remote_ips>
    subnets:
       - vid: 111 

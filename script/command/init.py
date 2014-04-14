@@ -2,20 +2,25 @@
 # init.py
 #
 
-import cmdutil
+from cmdutil import *
 from ovsdb import Row
 
 # Initialize the configuration
 def run():
 
-    cmd = cmdutil.cmd
-    output_cmd = cmdutil.output_cmd
+    # Stop all running Linux containers 
+    try:
+        lxc_ls = output_cmd('lxc-ls').rstrip('\n').split('\n')
+        for container in lxc_ls:
+            cmd('lxc-stop -n', container)
+    except:
+        pass
 
     # Delete all the ovs bridges
     cmd('ovs-vsctl --if-exists del-br br-tun')
     cmd('ovs-vsctl --if-exists del-br br-int')
 
-    # Delete  linux bridges (br*)
+    # Delete linux bridges (br*)
     """
     $ brctl show
     bridge name     bridge id               STP enabled     interfaces

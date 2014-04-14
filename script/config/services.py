@@ -21,15 +21,22 @@ def add(model):
         name = key[1]
         m = Model(model[key])
         function, mode, chain = m.getparam('function', 'mode', 'chain')
-        for path in chain: 
-            net = lxc_network.replace('$', path)
 
-            conf = os.path.join('/var/lib/lxc', name, 'config')
-            with open(conf, 'a') as f:
+        conf = os.path.join('/var/lib/lxc', name, 'config')
+        with open(conf, 'r') as f:
+            lines = f.read()
+
+        conf = os.path.join('/var/lib/lxc', name, 'config_nlan')
+        with open(conf, 'w') as f:
+            f.seek(0)
+            f.truncate()
+            f.write(lines)
+            for path in chain: 
+                net = lxc_network.replace('$', path)
                 f.write(net)
 
-    cmd = cmdutil.check_cmd
-    cmd('lxc-start -d -n', name)
+        cmd = cmdutil.check_cmd
+        cmd('lxc-start -d -f', conf, '-n', name)
 
     # OVSDB transaction
     # r = Row('services')

@@ -40,11 +40,7 @@ import paramiko as para, scp
 from optparse import OptionParser
 from collections import OrderedDict
 from time import sleep
-
-NLAN_DIR = '/root/neutron-lan/script' 
-ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
-NLAN_AGENT_DIR = '/tmp'
-NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan-agent.py')
+from env import NLAN_DIR, ROSTER_YAML, NLAN_AGENT_DIR, NLAN_AGENT
 
 dirs = os.listdir(NLAN_DIR)
 MOD_DIRS = []

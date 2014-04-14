@@ -2,9 +2,8 @@
 #
 import re
 from yamldiff import *
-
-# TODO: generate this automatically by consulting the OVSDB schema
-STATE_ORDER = ['bridges', 'services', 'gateway', 'vxlan', 'subnets'] 
+from oputil import get_roster
+from env import STATE_ORDER
 
 # Placeholders: <remote_ips> and <peers>
 def fillout(template):
@@ -13,10 +12,15 @@ def fillout(template):
     vnis = {}
     chain = {}
 
+    roster = get_roster()
+
+    #print template
+
     for l in template:
         if re.search('vxlan.local_ip', l):
             router = get_node(l)
-            ips[router] = get_value(l)
+            #ips[router] = get_value(l)
+            ips[router] = roster[router]['host']
         if re.search('vid=', l):
             router = get_node(l)
             vni = get_index_value(l)
@@ -29,6 +33,7 @@ def fillout(template):
             chain[router] = get_value(l)
 
     # Placeholders
+    local_ip = {}
     remote_ips = {}
     peers = {}
     sfports = {}
@@ -58,6 +63,7 @@ def fillout(template):
     #print remote_ips, peers, sfports
 
     tl = Template(template)
+    tl.add_values('local_ip', ips, False)
     tl.add_values('remote_ips', remote_ips, False)
     tl.add_values('peers', peers, True)
     tl.add_values('sfports', sfports, True)

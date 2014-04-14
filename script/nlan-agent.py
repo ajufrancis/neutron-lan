@@ -14,8 +14,7 @@ $ python nlan-agent.py --update "{'subnets': {'@vni:101': {'vid': 5}}}"
 import os, sys, time
 from optparse import OptionParser
 from collections import OrderedDict
-
-NLAN_AGENT_DIR = '/tmp'
+from env import NLAN_AGENT_DIR
 
 # Environment setting
 with open(os.path.join(NLAN_AGENT_DIR, 'nlan-env.txt'), 'r') as envfile:
