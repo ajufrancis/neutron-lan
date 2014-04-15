@@ -7,7 +7,7 @@ neutron-lan
 INDEX
 -----
 * [neutron-lan project(pdf)](https://github.com/alexanderplatz1999/neutron-lan/raw/master/doc/NLAN.pdf)
-* [code](../nlan)
+* [code](https://github.com/alexanderplatz1999/neutron-lan)
 * [Software Defined Networking](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/software_defined_networking.md)
 * [YAML-based network modeling](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/modeling.md)
 * [OVSDB schema for neutron-lan](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/ovsdb-schema.md)
