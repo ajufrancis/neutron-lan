@@ -93,7 +93,7 @@ Updated on 2014/4/4 to include 'placeholder' <peers> for a template engine.
 OVSDB client
 ------------
 
-I have already written a [OVSDB O/R mapper](../nlan/ovsdb.py) exclusively for neutron-lan.
+I have already written a [OVSDB O/R mapper](https://github.com/alexanderplatz1999/neutron-lan/blob/master/nlan/agent/ovsdb.py) exclusively for neutron-lan.
 
 Before that, I wrote a python script [ovsdb-test-script.py](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb/ovsdb-test-client.py) to test the new OVSDB schema.
 
