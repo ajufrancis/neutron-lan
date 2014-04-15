@@ -88,7 +88,7 @@ via IR that has interfaces to both VNI 100 and VNI 103.
  
 The controller is responsible for the mapping between VLANs and VNI.
 
-[Other DVS/DVR network patterns](https://github.com/alexanderplatz1999/neutron-lan/blob/master/dvsdvr_patterns.md)
+[Other DVS/DVR network patterns](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/dvsdvr_patterns.md)
 
 I'm going to study if Proxy ARP is useful for this architecture:
 [Virtual Subnet](http://tools.ietf.org/html/draft-xu-l3vpn-virtual-subnet-03).
@@ -248,19 +248,19 @@ Note: this DVR architecture may need some improvement in future, since packets n
 Virtual Subnet: Layer 2 networking over /32 routes
 --------------------------------------------------
 
-Incumbent vendors may prefer Virtual Subnet as discussed in IETF l3vpn wg. I am also interested in it, and [made some experiment on my neutron-lan](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md).
+Incumbent vendors may prefer Virtual Subnet as discussed in IETF l3vpn wg. I am also interested in it, and [made some experiment on my neutron-lan](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/virtual_subnet.md).
 
 In my project, I find it can be used for traffic engineering for L2 at least.
 
 
 Service Function
 ----------------
-I have been considering [these service functions](https://github.com/alexanderplatz1999/neutron-lan/blob/master/service_function.md) for neutron-lan.
+I have been considering [these service functions](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/service_function.md) for neutron-lan.
 
 Traffic Engineering and Service Function Chaining
 -------------------------------------------------
 
-* By VXLAN and OpenFlow: [NFV ans Service Function Chaining](https://github.com/alexanderplatz1999/neutron-lan/blob/master/nfv_and_service_chaining.md)
+* By VXLAN and OpenFlow: [NFV ans Service Function Chaining](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/nfv_and_service_chaining.md)
 * By /32 routes and OpenFlow (and VRFs if necessary).
 * Probably, I will need an additional protocol such as [nsh](http://tools.ietf.org/id/draft-quinn-nsh) for service chaining, as discussed in IETF sfc wg. I know LISP and NSH are being included in openvswitch.
 

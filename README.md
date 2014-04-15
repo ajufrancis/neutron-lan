@@ -6,15 +6,16 @@ neutron-lan
 
 INDEX
 -----
-* [neutron-lan project](https://github.com/alexanderplatz1999/neutron-lan/raw/master/doc/NLAN.pdf)
-* [Software Defined Networking](https://github.com/alexanderplatz1999/neutron-lan/blob/master/software_defined_networking.md)
-* [YAML-based network modeling](https://github.com/alexanderplatz1999/neutron-lan/blob/master/modeling.md)
-* [OVSDB schema for neutron-lan](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb-schema.md)
-* [Service Function](https://github.com/alexanderplatz1999/neutron-lan/blob/master/service_function.md)
-* [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/virtual_subnet.md)
-* [Working with Quagga](https://github.com/alexanderplatz1999/neutron-lan/blob/master/quagga.md)
-* [Initial config for Buffalo BHR-4GRV](https://github.com/alexanderplatz1999/neutron-lan/blob/master/initial-config-for-bhr-4grv.md)
-* [Initial config for Raspberry Pi](https://github.com/alexanderplatz1999/neutron-lan/blob/master/initial-config-for-rpi.md)
+* [neutron-lan project(pdf)](https://github.com/alexanderplatz1999/neutron-lan/raw/master/doc/NLAN.pdf)
+* [code](../nlan)
+* [Software Defined Networking](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/software_defined_networking.md)
+* [YAML-based network modeling](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/modeling.md)
+* [OVSDB schema for neutron-lan](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/ovsdb-schema.md)
+* [Service Function](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/service_function.md)
+* [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/virtual_subnet.md)
+* [Working with Quagga](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/quagga.md)
+* [Initial config for Buffalo BHR-4GRV](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/initial-config-for-bhr-4grv.md)
+* [Initial config for Raspberry Pi](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/initial-config-for-rpi.md)
 * [neutron-lan wiki](https://github.com/alexanderplatz1999/neutron-lan/wiki) (Japanese)
 * [Test bed at my home](https://github.com/alexanderplatz1999/neutron-lan/wiki/Testbed)
 
@@ -31,6 +32,8 @@ As for network service abstraction, there are a lot of SDN and DevOps platforms 
 
 HOW VXLAN WORKS
 ---------------
+
+**neutron-lan** is partly based on the OpenStack neutron networking architecture.
 
 Neutron configures two kinds of bridges on each compute node and a network node: "br-int" and "br-tun", if you chose GRE or VXLAN as a network virtualization option.
 
@@ -60,7 +63,7 @@ In case of a network like this,
     vxlan vxlan
     port2 port3
 
-flow entries on the "br-tun" are as follows:
+flow entries on the "br-tun" are as follows(this is an actual dump from an OpenStack compute node):
 
     root@compute1:~# ovs-ofctl dump-flows br-tun
     NXST_FLOW reply (xid=0x4):
@@ -137,10 +140,10 @@ You can manually add the entries to br-tun using ovs-ofctl command like this:
     $ ovs-ofctl add-flow br-tun "table=21,priority=0,actions=drop"
 
 
-NEXT STEP
+NEXT STEP 
 ---------
 
-- Some other experiments on neutron-lan: e.g., OVSDB protocol, Virtual Subnet as discussed in IETF l3vpn wg, LISP(lispmod), VRFs over VXLAN, VXLAN NAT traversal...
+- Some other experiments on neutron-lan: e.g., OVSDB protocol, various virtual network toplogies, Virtual Subnet as discussed in IETF l3vpn wg, LISP(lispmod), VRFs over VXLAN, VXLAN NAT traversal...
 - Develop a DevOps-like tool to automate the configuration and management of the entire network.
 
 I thought of [OpenDaylight](https://wiki.opendaylight.org/view/Main_Page) as a platform for that at first, but it's too heavy for such a small network, and the hardest thing for me is to write code in Java for ODL: too complex for me (Eclipse, OSGi, Maven, YANG...). However, it's service abstraction layer [MD-SAL](https://wiki.opendaylight.org/view/OpenDaylight_Controller:MD-SAL:Architecture) is quite interesting. It's sort of a perfect network abstraction mechanism...

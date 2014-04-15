@@ -60,52 +60,22 @@ VLAN 3 --+---[GW]--- VNI 103 -++----[GW]---+-- VLAN 27
                     Location B 
 </pre>
 
-III. IDS in sensor mode
------------------------
+
+III. Firewall/IDS/IPS
+---------------------
 <pre>
                  +----------------+
-                 |Service Function| Snort(IDS sensor-mode)
+                 |Service Function| Snort(IDS or inline IPS mode)
                  +----------------+
-                 int-sf1    int-sf3
+                 mz.101     dmz.1001 
                     |          |
                   [GW]       [GW]
                     |          |
-                 VNI 103    VNI 100
-                    |          |
-Location A          |          +-----+   Location C
-                    +------------+   |
-VLAN 1 --+---[GW]--+-- VNI 100 --|--[GW]---+-- VLAN 23
-         |         |             |         |
-       [*** *]     |             +---+   [IR]--- Internet
-         |         |                 |     |
-VLAN 3 --+---[GW]--- VNI 103 -+-----[GW]---+-- VLAN 27
-                   |          |
-                   |          |
-                 [GW]       [GW]
-                   |          |
-                   +--[*** *]-+
-                   |          |
-                 VLAN 14    VLAN 15
-
-                    Location B
-</pre>
-
-
-IV. Firewall/IPS in L2-bump-in-the-wire mode
---------------------------------------------
-<pre>
-                 +----------------+
-                 |Service Function| Snort(inline IPS mode)
-                 +----------------+
-                 int-sf1    int-sf2
-                    |          |
-                  [GW]       [GW]
-                    |          |
-                 VNI 1001    VNI 1002
+                 VNI 101     VNI 1001
                     |          |
 Location A     +----+--+       +-----+   Location C
                |       |             |
-VLAN 1 --+---[GW]--+---| VNI 100 ---[GW]---+-- VLAN 23
+VLAN 1 --+---[GW]--+   l            [GW]---+-- VLAN 23
          |         |   |                   |  RIPv2
        [IR]        |   |                 [IR]--------[Internet GW]
          |         |   |                   |     

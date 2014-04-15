@@ -189,8 +189,6 @@ Disabling IPv6
 
 I configured br-int and br-tun (w/ VXLAN) on my routers, and everything worked perfect. Next day I turned on my routers and they did not accept neither ping nor ssh. I suspected that IPv6 plug and play caused some loop problem, since I observed a similar problem on OpenWRT/x86/VirtualBox.
 
-Regarding br-int and br-tun, refer to [Inital Config for OpenWRT](https://github.com/alexanderplatz1999/neutron-lan/blob/master/config/config_openwrt1.sh).
-
 IPv6 have been disabled for the time being:
 
 /etc/sysctl.conf

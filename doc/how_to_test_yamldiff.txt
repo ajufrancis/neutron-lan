@@ -11,6 +11,7 @@ $ git init
 
 Create a file 'test.yaml" and write some YAML data in it.
 
+$ cp dvsdvr.yaml test.yaml
 $ git add test.yaml
 $ git commit
 

@@ -7,6 +7,11 @@
 
 import subprocess
 
+logger = None
+try:
+    logger = __n__['logger']
+except:
+    pass
 		
 def _cmd(check, *args):
 	
@@ -26,7 +31,11 @@ def _cmd(check, *args):
 # If type(args) is list, use this function.
 def _cmd2(check, args):
 
-    print 'cmd: ' + str(args)
+    logstr = 'cmd: ' + str(args)
+    if logger:
+        logger.debug(logstr)
+    else:
+        print logstr 
 	
     if check == 'call':
         return subprocess.call(args, stderr=subprocess.STDOUT)

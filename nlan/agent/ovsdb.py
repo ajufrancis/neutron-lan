@@ -7,7 +7,7 @@ Reference: http://tools.ietf.org/rfc/rfc7047.txt
 
 """
 
-import random
+import random, oputil
 
 DATABASE = 'Open_vSwitch'
 
@@ -133,13 +133,13 @@ def _send(request):
     s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     s.connect(sock)
 
-    print '----- JSON-RPC TRANSACTION -----'
+    
     pdu = dumps(request)
-    print str(pdu)
     s.send(pdu)
-    print '---'
     response = s.recv(4096)
-    print response
+
+    __n__['logger'].debug(oputil.logstr('--- JSON-RPC request', str(pdu), '--- JSON-RPC response', response))
+
     return loads(response)
 
 # JSON-RPC Operations as specified in RFC7047 #########################

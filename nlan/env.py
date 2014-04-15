@@ -11,19 +11,28 @@ import os
 #
 
 # NLAN Master Home Directory
-NLAN_DIR = '/root/neutron-lan/script'
+NLAN_DIR = '/root/neutron-lan/nlan'
+
+# Directory of NLAN agent scripts including NLAN modules
+NLAN_SCP_DIR = os.path.join(NLAN_DIR, 'agent') 
 
 # nlan-ssh script file
-NLAN_SSH = os.path.join(NLAN_DIR, 'nlan-ssh.py')
+NLAN_SSH = os.path.join(NLAN_DIR, 'nlan_ssh.py')
 
 # roster file 
 ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
 
 # NLAN Agent Home Directory
-NLAN_AGENT_DIR = '/tmp'
+NLAN_AGENT_DIR = '/opt/nlan'
 
-# nlan-agent script file
-NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan-agent.py')
+# NLAN agent script file
+NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan_agent.py')
+
+# NLAN libraries used by NLAN Agent and NLAN modules
+NLAN_LIBS = ['oputil.py', 'cmdutil.py']
+
+# NLAN module directories
+NLAN_MOD_DIRS = ['command', 'config']
 
 # List indexes for NLAN "dvsdvr" state 
 # TODO: dynamically generate this from the OVSDB schema

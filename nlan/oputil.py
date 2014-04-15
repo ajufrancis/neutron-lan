@@ -1,4 +1,3 @@
-from env import NLAN_DIR 
 
 class ModelError(Exception):
 
@@ -36,10 +35,16 @@ class Model:
 
 def get_roster():
 
+    from env import NLAN_DIR 
     import os, yaml
     roster = os.path.join(NLAN_DIR,'roster.yaml')
     r = open(roster, 'r')
     return yaml.load(r.read())
+
+def logstr(*args):
+
+    l = list(args)
+    return '\n'.join(l)
 
 
 if __name__=='__main__':

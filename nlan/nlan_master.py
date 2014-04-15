@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 """
 2014/3/12
@@ -11,43 +11,33 @@ $ python nlan-master.py test.ping 192.168.1.10
 
 """
 
+import traceback
 import cmdutil
 import yamldiff
 import os, sys
 from optparse import OptionParser
+import nlan_ssh
 
-NLAN_DIR = '/root/neutron-lan/script'
-NLAN_SSH = os.path.join(NLAN_DIR, 'nlan-ssh.py')
-
-def exec_nlan_ssh(mode, option, args, git):
+def exec_nlan_ssh(mode, option, args, loglevel, git):
 
     if option != None:
-        if option == '--scp':
-            listdir = os.listdir(NLAN_DIR)
-            files = ' '.join(listdir)
-            print cmdutil.output_cmd('python', NLAN_SSH, '*', option, files)
-        else:
-            print cmdutil.output_cmd('python', NLAN_SSH, '*', option)
+        nlan_ssh.main(operation=option, doc=None)
     else:
         if args[0].endswith('.yaml'):
             # State files
             for v in args:
                 cmd_list = yamldiff.crud_diff(v)
                 if len(cmd_list) != 0:
-                    for l in cmd_list:
-                        command = ['python', NLAN_SSH]
-                        command.extend(l)
-                        print cmdutil.check_cmd2(command)
-                        
-                    if git:
-                        cmdutil.check_cmd('git add', v)
-                        cmdutil.check_cmd('git commit -m updated')
+                    try:
+                        nlan_ssh.main(operation='--batch', cmd_list=cmd_list, loglevel=loglevel) 
+                        if git:
+                            cmdutil.check_cmd('git add', v)
+                            cmdutil.check_cmd('git commit -m updated')
+                    except:
+                        traceback.print_exc()
         else:
             # Execution module
-            l = ['python', NLAN_SSH, '*']
-            l.extend(args)
-            args = tuple(l)
-            print cmdutil.output_cmd(*args)  
+            nlan_ssh.main(doc=args, loglevel=loglevel)
 
 if __name__=='__main__':
 
@@ -59,6 +49,8 @@ if __name__=='__main__':
     parser.add_option("-g", "--get", help="get elements", action="store_true", default=False)
     parser.add_option("-u", "--update", help="update elements", action="store_true", default=False)
     parser.add_option("-d", "--delete", help="delete elements", action="store_true", default=False)
+    parser.add_option("-I", "--info", help="set loglevel to INFO", action="store_true", default=False)
+    parser.add_option("-D", "--debug", help="set loglevel to DEBUG", action="store_true", default=False)
     parser.add_option("-G", "--git", help="Git archive", action="store_true", default=False)
 
     (options, args) = parser.parse_args()
@@ -83,4 +75,10 @@ if __name__=='__main__':
     elif options.git:
         git = True 
 
-    exec_nlan_ssh(mode, option, args, git)
+    loglevel = '' 
+    if options.info:
+        loglevel = '--info'
+    elif options.debug:
+        loglevel = '--debug'
+
+    exec_nlan_ssh(mode, option, args, loglevel, git)

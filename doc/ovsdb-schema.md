@@ -14,9 +14,9 @@ NLAN
   | 
   +-- bridges -- NLAN_Bridges
   |   
-  +-- gateway*-- NLAN_Gateway
+  +-- gateway -- NLAN_Gateway
   |
-  +-- vxlan* -- NLAN_VXLAN
+  +-- vxlan -- NLAN_VXLAN
   |
   +-- subnets* -- NLAN_Subnet
 </pre>
@@ -93,7 +93,9 @@ Updated on 2014/4/4 to include 'placeholder' <peers> for a template engine.
 OVSDB client
 ------------
 
-I have written a python script [ovsdb-test-script.py](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb/ovsdb-test-client.py) to test the new OVSDB schema.
+I have already written a [OVSDB O/R mapper](../nlan/ovsdb.py) exclusively for neutron-lan.
+
+Before that, I wrote a python script [ovsdb-test-script.py](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb/ovsdb-test-client.py) to test the new OVSDB schema.
 
 
 id=0, insert rows into "NLAN" table:
