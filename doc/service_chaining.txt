@@ -22,14 +22,14 @@ bridge_ports eth0
 
 /var/lib/lxc/<container_name>/config
 
-lxc.utsname = iptables1
+lxc.utsname = snort1
 lxc.network.type = veth
 lxc.network.flags = up
 lxc.network.link = virbr0
 lxc.network.ipv4 = 0.0.0.0/24
 ---
 
-$ lxc-start -n iptables1
+$ lxc-start -n snort1
 
 $ export http_proxy=... (if necessary)
 
