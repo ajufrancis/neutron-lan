@@ -3,6 +3,7 @@ NLAN Command Usage
 
 DevOps operation
 ----------------
+<pre>
 - copy NLAN Agent and NLAN modules to remote routers
 
 $ nlan_master.py --scpmod
@@ -22,9 +23,11 @@ $ nlan_master.py dvsdvr.yaml --info
 - execute raw command at remote routers (e.g., ping)
 
 $ nlan-ssh.py openwrt1 --raw 'ping -c4 192.168.1.10'
+</pre>
 
 Maintenance
 -----------
+<pre>
 - echo test
 
 $ nlan_master.py test.echo hello world!
@@ -58,3 +61,4 @@ $ nlan_master command.list
 $ nlan_master row.getrow bridges
 
 
+</pre>
