@@ -15,22 +15,24 @@ import os, sys, time
 from optparse import OptionParser
 from collections import OrderedDict
 import logging
+import cStringIO
 
-def _init(envfile = 'nlan-env.conf'):
+out = cStringIO.StringIO()
+
+def _init(envfile = 'nlan_env.conf'):
 
     # Environment setting
     with open(envfile, 'r') as envfile:
         __builtins__.__n__ = eval(envfile.read())
 
-    # Logger
     logger = logging.getLogger("nlan_agent")
     logger.setLevel(logging.DEBUG)
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    sep = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-    formatter = logging.Formatter(sep+"\n%(levelname)s %(asctime)s %(funcName)s %(lineno)d, router: "+__n__['router']+"\n%(message)s\n"+sep)
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
+    handler = logging.StreamHandler(out)
+    handler.setLevel(logging.DEBUG)
+    header = "[%(levelname)s] module:%(module)s,function:%(funcName)s,router: {}".format(__n__['router'])
+    formatter = logging.Formatter(header+"\n%(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
     __n__['logger'] = logger
 
     # Insert system pathes for the modules
@@ -50,8 +52,10 @@ def _route(operation, data):
             module = sys.modules[func]
             call = 'module.' + operation
             model = data[func]
-            print '+++ ' + func + '.' + operation + ': ' + str(model) 
-            print eval(call)(model)
+            __n__['logger'].info('function:{0}.{1}, model:{2}'.format(func, operation, str(model)))
+            result = eval(call)(model)
+            if result:
+                print result
     else:        
         # Calls a command module
         s = data[0].split('.')
@@ -61,9 +65,15 @@ def _route(operation, data):
         module = sys.modules[func]
         call = 'module.' + method
         args = tuple(data[1:])
-        print '+++ ' + func + '.' + method + str(args) 
-        print eval(call)(*args)
-            
+        __n__['logger'].info('function:{0}.{1}, args:{2}'.format(func, method, str(args)))
+        result = eval(call)(*args)
+        if result:
+            print result
+
+    log = out.getvalue()
+    if log != '':
+        print log
+    out.close()
 
 
 if __name__ == "__main__":
@@ -71,13 +81,13 @@ if __name__ == "__main__":
     import sys
 
     parser = OptionParser()
-    parser.add_option("-a", "--add", help="Add elements", action="store_true", default=False)
-    parser.add_option("-g", "--get", help="Get elements", action="store_true", default=False)
-    parser.add_option("-u", "--update", help="Set elements", action="store_true", default=False)
-    parser.add_option("-d", "--delete", help="Delete elements", action="store_true", default=False)
-    parser.add_option("-I", "--info", help="set loglevel to INFO", action="store_true", default=False)
-    parser.add_option("-D", "--debug", help="set loglevel to DEBUG", action="store_true", default=False)
-    parser.add_option("-f", "--envfile", help="Environment file", action="store", type="string", dest="filename")
+    parser.add_option("-a", "--add", help="add NLAN states", action="store_true", default=False)
+    parser.add_option("-g", "--get", help="get NLAN states", action="store_true", default=False)
+    parser.add_option("-u", "--update", help="update NLAN stateus", action="store_true", default=False)
+    parser.add_option("-d", "--delete", help="delete NLAN states", action="store_true", default=False)
+    parser.add_option("-I", "--info", help="set log level to INFO", action="store_true", default=False)
+    parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
+    parser.add_option("-f", "--envfile", help="NLAN Agent environment file", action="store", type="string", dest="filename")
 
     (options, args) = parser.parse_args()
 
@@ -104,15 +114,10 @@ if __name__ == "__main__":
         loglevel = logging.DEBUG
     __n__['logger'].setLevel(loglevel)
 	
-    if operation:
-        print 'operation: ' + operation
-    print 'platform: ' + __n__['platform'] 
-
     data = None 
     if operation:
         data = sys.stdin.read().replace('"','') 
     else:
-        print args
         data = args
 
     __n__['logger'].info('NLAN Agent initialization completed')

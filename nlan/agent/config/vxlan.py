@@ -13,7 +13,7 @@ def add(model):
 
     for remote_ip in remote_ips:
         inf = 'vxlan_' + remote_ip.split('.')[3]
-        print '>>> Adding a VXLAN tunnel: ' + inf
+        __n__['logger'].info('Adding a VXLAN tunnel: ' + inf)
         cmd('ovs-vsctl add-port br-tun', inf, '-- set interface', inf, 'type=vxlan options:in_key=flow', 'options:local_ip='+local_ip, 'options:out_key=flow', 'options:remote_ip='+remote_ip)
 
     vxlan_ports = get_vxlan_ports()

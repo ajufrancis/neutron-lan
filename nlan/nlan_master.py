@@ -30,48 +30,35 @@ def exec_nlan_ssh(mode, option, args, loglevel, git):
                 if len(cmd_list) != 0:
                     try:
                         nlan_ssh.main(operation='--batch', cmd_list=cmd_list, loglevel=loglevel) 
-                        if git:
-                            cmdutil.check_cmd('git add', v)
-                            cmdutil.check_cmd('git commit -m updated')
                     except:
                         traceback.print_exc()
+                        sys.exit(1)
+                if git:
+                    cmdutil.check_cmd('git add', v)
+                    cmdutil.check_cmd('git commit -m updated')
         else:
-            # Execution module
+            # Command module
             nlan_ssh.main(doc=args, loglevel=loglevel)
 
 if __name__=='__main__':
 
-    parser = OptionParser()
-    parser.add_option("-p", "--printcmd", help="Print commands to be executed", action="store_true", default=False)
-    parser.add_option("-c", "--scp", help="copy neutron-lan scripts to remote routers", action="store_true", default=False)
-    parser.add_option("-m", "--scpmod", help="copy neutron-lan modules to remote routers", action="store_true", default=False)
-    parser.add_option("-a", "--add", help="add elements", action="store_true", default=False)
-    parser.add_option("-g", "--get", help="get elements", action="store_true", default=False)
-    parser.add_option("-u", "--update", help="update elements", action="store_true", default=False)
-    parser.add_option("-d", "--delete", help="delete elements", action="store_true", default=False)
-    parser.add_option("-I", "--info", help="set loglevel to INFO", action="store_true", default=False)
-    parser.add_option("-D", "--debug", help="set loglevel to DEBUG", action="store_true", default=False)
-    parser.add_option("-G", "--git", help="Git archive", action="store_true", default=False)
+    usage = "usage: %prog [options] [arg]..."
+    parser = OptionParser(usage=usage)
+    parser.add_option("-c", "--scp", help="copy scripts to remote routers", action="store_true", default=False)
+    parser.add_option("-m", "--scpmod", help="copy NLAN Agent and NLAN modules to remote routers", action="store_true", default=False)
+    parser.add_option("-I", "--info", help="set log level to INFO", action="store_true", default=False)
+    parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
+    parser.add_option("-G", "--git", help="use Git archive", action="store_true", default=False)
 
     (options, args) = parser.parse_args()
 
     mode = 'exec'
     option = None 
     git = False
-    if options.printcmd:
-        mode = 'print'
-    elif options.scp:
+    if options.scp:
         option = '--scp'
     elif options.scpmod:
         option = '--scpmod'
-    elif options.add:
-        option = '--add'
-    elif options.update:
-        option = '--update'
-    elif options.get:
-        option = '--get'
-    elif options.delete:
-        option = '--delete'
     elif options.git:
         git = True 
 

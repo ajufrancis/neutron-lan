@@ -138,7 +138,7 @@ def _send(request):
     s.send(pdu)
     response = s.recv(4096)
 
-    __n__['logger'].debug(oputil.logstr('--- JSON-RPC request', str(pdu), '--- JSON-RPC response', response))
+    __n__['logger'].debug(oputil.logstr('... JSON-RPC request ...', str(pdu), '... JSON-RPC response ...', response))
 
     return loads(response)
 

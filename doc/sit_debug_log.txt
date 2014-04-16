@@ -1,0 +1,2076 @@
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+file: config.py
+file: row.py
+file: command.py
+file: ovsdbrow.py
+file: init.py
+file: test.py
+file: system.py
+file: vxlan.py
+file: subnets.py
+file: gateway.py
+file: bridges.py
+file: services.py
+file: ovsdb.py
+file: nlan_agent.py
+file: vswitch.schema_2.0.0
+file: oputil.py
+file: cmdutil.py
+
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+file: config.py
+file: row.py
+file: command.py
+file: ovsdbrow.py
+file: init.py
+file: test.py
+file: system.py
+file: vxlan.py
+file: subnets.py
+file: gateway.py
+file: bridges.py
+file: services.py
+file: ovsdb.py
+file: nlan_agent.py
+file: vswitch.schema_2.0.0
+file: oputil.py
+file: cmdutil.py
+
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+file: config.py
+file: row.py
+file: command.py
+file: ovsdbrow.py
+file: init.py
+file: test.py
+file: system.py
+file: vxlan.py
+file: subnets.py
+file: gateway.py
+file: bridges.py
+file: services.py
+file: ovsdb.py
+file: nlan_agent.py
+file: vswitch.schema_2.0.0
+file: oputil.py
+file: cmdutil.py
+
+=+=+= NLAN Reply from router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+file: config.py
+file: row.py
+file: command.py
+file: ovsdbrow.py
+file: init.py
+file: test.py
+file: system.py
+file: vxlan.py
+file: subnets.py
+file: gateway.py
+file: bridges.py
+file: services.py
+file: ovsdb.py
+file: nlan_agent.py
+file: vswitch.schema_2.0.0
+file: oputil.py
+file: cmdutil.py
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt2
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt2
+function:init.run, args:()
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: lxc-ls
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl --if-exists del-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl --if-exists del-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl show
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev veth-ns3 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl delif br3 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev br3 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl delbr br3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev veth-ns2 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl delif br2 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev br2 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl delbr br2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev veth-ns1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl delif br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl delbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns list
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns del ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns del ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns del ns2
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","where":[],"op":"delete"}],"method":"transact","id":662300}
+... JSON-RPC response ...
+{"id":662300,"result":[{"count":1}],"error":null}
+
+
+
+...
+brctl: iface down: No such device
+brctl: iface down: No such device
+brctl: iface down: No such device
+
+
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt3
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt3
+function:init.run, args:()
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: lxc-ls
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl --if-exists del-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl --if-exists del-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl show
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev veth-ns3 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl delif br3 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev br3 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl delbr br3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev veth-ns2 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl delif br2 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev br2 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl delbr br2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev veth-ns1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl delif br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl delbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns list
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns del ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns del ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns del ns2
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","where":[],"op":"delete"}],"method":"transact","id":70635}
+... JSON-RPC response ...
+{"id":70635,"result":[{"count":1}],"error":null}
+
+
+
+...
+brctl: iface down: No such device
+brctl: iface down: No such device
+brctl: iface down: No such device
+
+
+=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt1
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt1
+function:init.run, args:()
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: lxc-ls
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl --if-exists del-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl --if-exists del-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl show
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev veth-ns3 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl delif br3 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev br3 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl delbr br3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev veth-ns2 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl delif br2 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev br2 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl delbr br2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev veth-ns1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl delif br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl delbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns list
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns del ns-global
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns del ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns del ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns del ns2
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","where":[],"op":"delete"}],"method":"transact","id":839948}
+... JSON-RPC response ...
+{"id":839948,"result":[{"count":1}],"error":null}
+
+
+
+...
+brctl: iface down: No such device
+brctl: iface down: No such device
+brctl: iface down: No such device
+
+
+=+=+= NLAN Reply from router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: rpi1
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: rpi1
+function:init.run, args:()
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: lxc-ls
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: lxc-stop -n snort1
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: lxc-stop -n snort2
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl --if-exists del-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl --if-exists del-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl show
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev dmz.1001 down
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl delif br111 down
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev veth-ns111 down
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl delif br111 down
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev br111 down
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl delbr br111
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev mz.101 down
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl delif br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev veth-ns1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl delif br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl delbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip netns list
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip netns del ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip netns del ns111
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN", "where": [], "op": "delete"}], "method": "transact", "id": 25657}
+... JSON-RPC response ...
+{"id":25657,"result":[{"count":1}],"error":null}
+
+
+
+...
+interface down does not exist!
+interface down does not exist!
+interface down does not exist!
+interface down does not exist!
+
+
+cmd: git show HEAD:dvsdvr.yaml
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('services', {('name', 'snort1'): {'name': 'snort1', 'chain': ['mz.101', 'dmz.1001']}}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}), ('subnets', {('vni', 1001): {'peers': ['192.168.1.101'], 'vid': 111, 'vni': 1001, 'ports': ['dmz.1001']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 1, 'vni': 101, 'ports': ['mz.101']}})])"
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}), ('subnets', {('vni', 1): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.3/24', 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr', 'ports': ['eth0.1']}})])"
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}), ('subnets', {('vni', 1): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.2/24', 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 101): {'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr', 'ports': ['eth0.1']}})])"
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('gateway', {'network': 'eth0.2', 'rip': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}), ('subnets', {('vni', 1): {'ip_vhost': '192.168.100.101/24', 'ip_dvr': '192.168.100.1/24', 'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 1001): {'peers': ['192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': '10.0.1.1/24', 'mode': 'hub', 'ports': ['eth0.1']}})])"
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt2
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt2
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router: openwrt2
+Adding bridges: br-int and br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["name","==","patch-tun"]],"op":"select"}],"method":"transact","id":124492}
+... JSON-RPC response ...
+{"id":124492,"result":[{"rows":[{"options":["map",[["peer","patch-int"]]],"mtu":["set",[]],"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"8e:94:e7:3f:f6:14","ingress_policing_rate":0,"mac":["set",[]],"ofport":1,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":["set",[]],"bfd_status":["map",[]],"link_resets":["set",[]],"name":"patch-tun","type":"patch","cfm_remote_opstate":["set",[]],"_uuid":["uuid","88d2fc22-6fe9-4cf0-a934-333c1387966e"],"status":["map",[]],"ifindex":0,"_version":["uuid","7eccc850-4e64-46ee-96ec-618d7a6eaebf"],"admin_state":["set",[]],"other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=1,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=0,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,19)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,20)
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["name","==","patch-tun"]],"op":"select"}],"method":"transact","id":948527}
+... JSON-RPC response ...
+{"id":948527,"result":[{"rows":[{"options":["map",[["peer","patch-int"]]],"mtu":["set",[]],"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"8e:94:e7:3f:f6:14","ingress_policing_rate":0,"mac":["set",[]],"ofport":1,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":"up","bfd_status":["map",[]],"link_resets":0,"name":"patch-tun","type":"patch","cfm_remote_opstate":["set",[]],"_uuid":["uuid","88d2fc22-6fe9-4cf0-a934-333c1387966e"],"status":["map",[]],"ifindex":0,"_version":["uuid","de12607f-24f4-4306-ad22-1a010cd9c9fa"],"admin_state":"up","other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=2,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=3,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=19,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=20,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=21,priority=0,actions=drop
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":749970}
+... JSON-RPC response ...
+{"id":749970,"result":[{"uuid":["uuid","329a5659-c844-4cf4-a2ee-00dc48b7181f"]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Bridges","where":[],"op":"select"}],"method":"transact","id":425396}
+... JSON-RPC response ...
+{"id":425396,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Bridges","uuid-name":"temp_142310","row":{"ovs_bridges":"enabled"},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["bridges","insert",["set",[["named-uuid","temp_142310"]]]]],"op":"mutate"}],"method":"transact","id":924554}
+... JSON-RPC response ...
+{"id":924554,"result":[{"uuid":["uuid","202f4b94-32b2-4f39-af41-bb231ffa64e5"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Bridges","where":[],"op":"select"}],"method":"transact","id":250650}
+... JSON-RPC response ...
+{"id":250650,"result":[{"rows":[{"_uuid":["uuid","202f4b94-32b2-4f39-af41-bb231ffa64e5"],"_version":["uuid","f0cec4ab-14c0-4da0-afd0-afb10bad6307"],"ovs_bridges":"enabled","controller":""}]}],"error":null}
+[INFO] module:nlan_agent,function:_route,router: openwrt2
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}
+[INFO] module:vxlan,function:add,router: openwrt2
+Adding a VXLAN tunnel: vxlan_103
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-tun vxlan_103 -- set interface vxlan_103 type=vxlan options:in_key=flow options:local_ip=192.168.1.102 options:out_key=flow options:remote_ip=192.168.1.103
+[INFO] module:vxlan,function:add,router: openwrt2
+Adding a VXLAN tunnel: vxlan_101
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-tun vxlan_101 -- set interface vxlan_101 type=vxlan options:in_key=flow options:local_ip=192.168.1.102 options:out_key=flow options:remote_ip=192.168.1.101
+[INFO] module:vxlan,function:add,router: openwrt2
+Adding a VXLAN tunnel: vxlan_104
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-tun vxlan_104 -- set interface vxlan_104 type=vxlan options:in_key=flow options:local_ip=192.168.1.102 options:out_key=flow options:remote_ip=192.168.1.104
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":773947}
+... JSON-RPC response ...
+{"id":773947,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=3,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=2,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=4,actions=resubmit(,2)
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":42369}
+... JSON-RPC response ...
+{"id":42369,"result":[{"uuid":["uuid","4a9d2c06-43bf-4ede-a7f8-c4c14713f986"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_VXLAN","where":[],"op":"select"}],"method":"transact","id":382745}
+... JSON-RPC response ...
+{"id":382745,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_VXLAN","uuid-name":"temp_55593","row":{"remote_ips":["set",["192.168.1.103","192.168.1.101","192.168.1.104"]],"local_ip":"192.168.1.102"},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["vxlan","insert",["set",[["named-uuid","temp_55593"]]]]],"op":"mutate"}],"method":"transact","id":618267}
+... JSON-RPC response ...
+{"id":618267,"result":[{"uuid":["uuid","d6bb2b3f-70a4-40e2-bbb8-2df0b841e68f"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_VXLAN","where":[],"op":"select"}],"method":"transact","id":587753}
+... JSON-RPC response ...
+{"id":587753,"result":[{"rows":[{"_version":["uuid","01bdbe2e-a8cc-49bf-b35f-505526a16773"],"_uuid":["uuid","d6bb2b3f-70a4-40e2-bbb8-2df0b841e68f"],"remote_ips":["set",["192.168.1.101","192.168.1.103","192.168.1.104"]],"local_ip":"192.168.1.102"}]}],"error":null}
+[INFO] module:nlan_agent,function:_route,router: openwrt2
+function:subnets.add, model:{('vni', 1): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.2/24', 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 101): {'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr', 'ports': ['eth0.1']}}
+[INFO] module:subnets,function:_crud,router: openwrt2
+Adding a subnet(vlan): 2
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":353307}
+... JSON-RPC response ...
+{"id":353307,"result":[{"uuid":["uuid","9e5b358d-0779-4511-90ef-c9e900f2ac6f"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1]],"op":"select"}],"method":"transact","id":223528}
+... JSON-RPC response ...
+{"id":223528,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns add ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addbr br2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link add veth-ns2 type veth peer name temp-ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev temp-ns2 netns ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns2 ip link set dev temp-ns2 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-int int-br2 tag=2 -- set interface int-br2 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-int int-dvr2 tag=2 -- set interface int-dvr2 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addif br2 veth-ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addif br2 int-br2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev veth-ns2 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev veth-ns2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns2 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev int-br2 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev int-br2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev int-dvr2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev br2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns2 ip addr add dev eth0 192.168.100.102/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip addr add dev int-dvr2 192.168.100.2/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns2 ip route add default via 192.168.100.2 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: route
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip route add default via 192.168.100.1
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Controller","where":[],"columns":["target"],"op":"select"}],"method":"transact","id":643822}
+... JSON-RPC response ...
+{"id":643822,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=1,actions=mod_vlan_vid:2,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=2,nw_dst=192.168.100.2,actions=drop
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":958481}
+... JSON-RPC response ...
+{"id":958481,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=2,actions=strip_vlan,set_tunnel:1,output:3,output:2
+[INFO] module:subnets,function:_crud,router: openwrt2
+Adding a subnet(vlan): 3
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":107733}
+... JSON-RPC response ...
+{"id":107733,"result":[{"uuid":["uuid","6be344c8-f39e-47b3-8030-73d7d43a42c2"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",103]],"op":"select"}],"method":"transact","id":903700}
+... JSON-RPC response ...
+{"id":903700,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns add ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addbr br3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link add veth-ns3 type veth peer name temp-ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev temp-ns3 netns ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns3 ip link set dev temp-ns3 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-int int-br3 tag=3 -- set interface int-br3 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-int int-dvr3 tag=3 -- set interface int-dvr3 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addif br3 veth-ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addif br3 int-br3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev veth-ns3 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev veth-ns3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns3 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev int-br3 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev int-br3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev int-dvr3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev br3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns3 ip addr add dev eth0 10.0.3.102/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip addr add dev int-dvr3 10.0.3.1/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns3 ip route add default via 10.0.3.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addif br3 eth0.3
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Controller","where":[],"columns":["target"],"op":"select"}],"method":"transact","id":110864}
+... JSON-RPC response ...
+{"id":110864,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=103,actions=mod_vlan_vid:3,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=3,nw_dst=10.0.3.1,actions=drop
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":617070}
+... JSON-RPC response ...
+{"id":617070,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=3,actions=strip_vlan,set_tunnel:103,output:3,output:2
+[INFO] module:subnets,function:_crud,router: openwrt2
+Adding a subnet(vlan): 1
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":543950}
+... JSON-RPC response ...
+{"id":543950,"result":[{"uuid":["uuid","3adcec8e-a75c-443d-a72b-5e0ef9e8145e"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",101]],"op":"select"}],"method":"transact","id":965074}
+... JSON-RPC response ...
+{"id":965074,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns add ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link add veth-ns1 type veth peer name temp-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev temp-ns1 netns ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns1 ip link set dev temp-ns1 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-int int-br1 tag=1 -- set interface int-br1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-vsctl add-port br-int int-dvr1 tag=1 -- set interface int-dvr1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addif br1 veth-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addif br1 int-br1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev veth-ns1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev veth-ns1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns1 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev int-br1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev int-br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev int-dvr1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link set dev br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns1 ip addr add dev eth0 10.0.1.102/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip addr add dev int-dvr1 10.0.1.1/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip netns exec ns1 ip route add default via 10.0.1.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: brctl addif br1 eth0.1
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Controller","where":[],"columns":["target"],"op":"select"}],"method":"transact","id":672222}
+... JSON-RPC response ...
+{"id":672222,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=101,actions=mod_vlan_vid:1,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ip link show dev int-dvr1
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["name","==","int-dvr1"]],"op":"select"}],"method":"transact","id":863743}
+... JSON-RPC response ...
+{"id":863743,"result":[{"rows":[{"options":["map",[]],"mtu":1500,"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"4a:ec:d4:6d:99:7e","ingress_policing_rate":0,"mac":["set",[]],"ofport":7,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":"up","bfd_status":["map",[]],"link_resets":2,"name":"int-dvr1","type":"internal","cfm_remote_opstate":["set",[]],"_uuid":["uuid","384c0370-0d0f-4a96-b6c2-4f806a8f9e7c"],"status":["map",[["driver_name","openvswitch"]]],"ifindex":938,"_version":["uuid","9bdabc7a-dff0-4877-9f6a-43dc1afee882"],"admin_state":"up","other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["name","==","int-br1"]],"op":"select"}],"method":"transact","id":917214}
+... JSON-RPC response ...
+{"id":917214,"result":[{"rows":[{"options":["map",[]],"mtu":1500,"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"de:32:d9:bc:ea:37","ingress_policing_rate":0,"mac":["set",[]],"ofport":6,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":"up","bfd_status":["map",[]],"link_resets":2,"name":"int-br1","type":"internal","cfm_remote_opstate":["set",[]],"_uuid":["uuid","93ac38b6-23b5-4879-a311-148764ba04d1"],"status":["map",[["driver_name","openvswitch"]]],"ifindex":937,"_version":["uuid","148d5a75-983d-4f4a-a0f9-04e197f17d0d"],"admin_state":"up","other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-int table=0,priority=2,in_port=6,dl_type=0x0800,nw_dst=10.0.1.0/24,actions=normal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=10.0.0.0/8,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=172.16.0.0/12,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=192.168.0.0/16,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=7,dl_type=0x0806,nw_src=10.0.1.1,nw_proto=2,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-int table=1,priority=0,actions=set_field:4a:ec:d4:6d:99:7e->dl_dst,output:7
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":487518}
+... JSON-RPC response ...
+{"id":487518,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.102"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt2
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=1,actions=strip_vlan,set_tunnel:101,output:2,output:4
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":484744}
+... JSON-RPC response ...
+{"id":484744,"result":[{"uuid":["uuid","6b176e6f-ac67-4519-8c73-818311610994"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1]],"op":"select"}],"method":"transact","id":723799}
+... JSON-RPC response ...
+{"id":723799,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","uuid-name":"temp_874468","row":{"peers":["set",["192.168.1.101","192.168.1.103"]],"vid":2,"ip_vhost":"192.168.100.102/24","default_gw":"192.168.100.1","ip_dvr":"192.168.100.2/24","vni":1},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["subnets","insert",["set",[["named-uuid","temp_874468"]]]]],"op":"mutate"}],"method":"transact","id":947541}
+... JSON-RPC response ...
+{"id":947541,"result":[{"error":"unknown column","details":"No column default_gw in table NLAN_Subnet.","syntax":"{\"default_gw\":\"192.168.100.1\",\"ip_dvr\":\"192.168.100.2/24\",\"ip_vhost\":\"192.168.100.102/24\",\"peers\":[\"set\",[\"192.168.1.101\",\"192.168.1.103\"]],\"vid\":2,\"vni\":1}"},null],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1]],"op":"select"}],"method":"transact","id":614893}
+... JSON-RPC response ...
+{"id":614893,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":575107}
+... JSON-RPC response ...
+{"id":575107,"result":[{"uuid":["uuid","19f11f6c-56dc-4b58-b69b-82672cf89e0e"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",103]],"op":"select"}],"method":"transact","id":445459}
+... JSON-RPC response ...
+{"id":445459,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","uuid-name":"temp_795894","row":{"peers":["set",["192.168.1.101","192.168.1.103"]],"vid":3,"ip_vhost":"10.0.3.102/24","vni":103,"ip_dvr":"10.0.3.1/24","ports":["set",["eth0.3"]]},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["subnets","insert",["set",[["named-uuid","temp_795894"]]]]],"op":"mutate"}],"method":"transact","id":778446}
+... JSON-RPC response ...
+{"id":778446,"result":[{"uuid":["uuid","d6b5e814-bb4c-4ad8-89bd-221a567b0120"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",103]],"op":"select"}],"method":"transact","id":86172}
+... JSON-RPC response ...
+{"id":86172,"result":[{"rows":[{"peers":["set",["192.168.1.101","192.168.1.103"]],"_version":["uuid","95a25db8-6336-4cae-baa2-43a9ddd7d978"],"ports":"eth0.3","vni":103,"vid":3,"_uuid":["uuid","d6b5e814-bb4c-4ad8-89bd-221a567b0120"],"ip_vhost":"10.0.3.102/24","ip_dvr":"10.0.3.1/24"}]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":380305}
+... JSON-RPC response ...
+{"id":380305,"result":[{"uuid":["uuid","90396f71-2e36-4893-80bc-fba578798e1f"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",101]],"op":"select"}],"method":"transact","id":398785}
+... JSON-RPC response ...
+{"id":398785,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","uuid-name":"temp_856780","row":{"peers":["set",["192.168.1.103","192.168.1.104"]],"vid":1,"ip_vhost":"10.0.1.102/24","vni":101,"ip_dvr":"10.0.1.1/24","mode":"spoke_dvr","ports":["set",["eth0.1"]]},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["subnets","insert",["set",[["named-uuid","temp_856780"]]]]],"op":"mutate"}],"method":"transact","id":821259}
+... JSON-RPC response ...
+{"id":821259,"result":[{"error":"unknown column","details":"No column mode in table NLAN_Subnet.","syntax":"{\"ip_dvr\":\"10.0.1.1/24\",\"ip_vhost\":\"10.0.1.102/24\",\"mode\":\"spoke_dvr\",\"peers\":[\"set\",[\"192.168.1.103\",\"192.168.1.104\"]],\"ports\":[\"set\",[\"eth0.1\"]],\"vid\":1,\"vni\":101}"},null],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt2
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",101]],"op":"select"}],"method":"transact","id":5769}
+... JSON-RPC response ...
+{"id":5769,"result":[{"rows":[]}],"error":null}
+
+
+
+...
+brctl: iface eth0.3: No such device
+brctl: iface eth0.1: No such device
+
+
+=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt1
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt1
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router: openwrt1
+Adding bridges: br-int and br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["name","==","patch-tun"]],"op":"select"}],"method":"transact","id":885413}
+... JSON-RPC response ...
+{"id":885413,"result":[{"rows":[{"options":["map",[["peer","patch-int"]]],"mtu":["set",[]],"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"6a:cc:ee:fe:f9:24","ingress_policing_rate":0,"mac":["set",[]],"ofport":1,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":["set",[]],"bfd_status":["map",[]],"link_resets":["set",[]],"name":"patch-tun","type":"patch","cfm_remote_opstate":["set",[]],"_uuid":["uuid","33190f15-2ad2-46f4-9dcf-aaed284354cc"],"status":["map",[]],"ifindex":0,"_version":["uuid","7a5eef0d-b53e-42c5-a141-2f85c40dc502"],"admin_state":["set",[]],"other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=1,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,19)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,20)
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["name","==","patch-tun"]],"op":"select"}],"method":"transact","id":609624}
+... JSON-RPC response ...
+{"id":609624,"result":[{"rows":[{"options":["map",[["peer","patch-int"]]],"mtu":["set",[]],"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"6a:cc:ee:fe:f9:24","ingress_policing_rate":0,"mac":["set",[]],"ofport":1,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":"up","bfd_status":["map",[]],"link_resets":0,"name":"patch-tun","type":"patch","cfm_remote_opstate":["set",[]],"_uuid":["uuid","33190f15-2ad2-46f4-9dcf-aaed284354cc"],"status":["map",[]],"ifindex":0,"_version":["uuid","7e1d2806-c7bb-40c1-aff5-c116ff5a0acf"],"admin_state":"up","other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=3,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=19,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=20,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=0,actions=drop
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":895535}
+... JSON-RPC response ...
+{"id":895535,"result":[{"uuid":["uuid","2820ee37-efb3-439c-a7fa-94ff4a81d646"]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Bridges","where":[],"op":"select"}],"method":"transact","id":522664}
+... JSON-RPC response ...
+{"id":522664,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Bridges","uuid-name":"temp_599393","row":{"ovs_bridges":"enabled"},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["bridges","insert",["set",[["named-uuid","temp_599393"]]]]],"op":"mutate"}],"method":"transact","id":970469}
+... JSON-RPC response ...
+{"id":970469,"result":[{"uuid":["uuid","4c8d0f7d-f9be-4028-ad7c-4d5b293942d5"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Bridges","where":[],"op":"select"}],"method":"transact","id":467216}
+... JSON-RPC response ...
+{"id":467216,"result":[{"rows":[{"_uuid":["uuid","4c8d0f7d-f9be-4028-ad7c-4d5b293942d5"],"_version":["uuid","f862f5c4-fc38-4917-9022-88636ca025d5"],"ovs_bridges":"enabled","controller":""}]}],"error":null}
+[INFO] module:nlan_agent,function:_route,router: openwrt1
+function:gateway.add, model:{'network': 'eth0.2', 'rip': 'enabled'}
+[INFO] module:gateway,function:add,router: openwrt1
+Adding a gateway router: rip
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: vtysh -c configure terminal -c interface eth0.2 -c link-detect -c exit -c router rip -c version 2 -c redistribute connected -c network eth0.2 -c exit -c exit -c write -c exit
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":533275}
+... JSON-RPC response ...
+{"id":533275,"result":[{"uuid":["uuid","d5231bef-9864-4bf5-9cd2-7ef5ae4d8f8e"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Gateway","where":[],"op":"select"}],"method":"transact","id":636463}
+... JSON-RPC response ...
+{"id":636463,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Gateway","uuid-name":"temp_730373","row":{"network":"eth0.2","rip":"enabled"},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["gateway","insert",["set",[["named-uuid","temp_730373"]]]]],"op":"mutate"}],"method":"transact","id":678733}
+... JSON-RPC response ...
+{"id":678733,"result":[{"uuid":["uuid","697f3c88-5ecc-4cc7-a6ca-07f427965d24"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Gateway","where":[],"op":"select"}],"method":"transact","id":341291}
+... JSON-RPC response ...
+{"id":341291,"result":[{"rows":[{"_version":["uuid","42222f4f-ce91-4e61-ac94-0185467ba48b"],"network":"eth0.2","_uuid":["uuid","697f3c88-5ecc-4cc7-a6ca-07f427965d24"],"rip":"enabled"}]}],"error":null}
+[INFO] module:nlan_agent,function:_route,router: openwrt1
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}
+[INFO] module:vxlan,function:add,router: openwrt1
+Adding a VXLAN tunnel: vxlan_103
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-tun vxlan_103 -- set interface vxlan_103 type=vxlan options:in_key=flow options:local_ip=192.168.1.101 options:out_key=flow options:remote_ip=192.168.1.103
+[INFO] module:vxlan,function:add,router: openwrt1
+Adding a VXLAN tunnel: vxlan_102
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-tun vxlan_102 -- set interface vxlan_102 type=vxlan options:in_key=flow options:local_ip=192.168.1.101 options:out_key=flow options:remote_ip=192.168.1.102
+[INFO] module:vxlan,function:add,router: openwrt1
+Adding a VXLAN tunnel: vxlan_104
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-tun vxlan_104 -- set interface vxlan_104 type=vxlan options:in_key=flow options:local_ip=192.168.1.101 options:out_key=flow options:remote_ip=192.168.1.104
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":418816}
+... JSON-RPC response ...
+{"id":418816,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=3,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=2,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=4,actions=resubmit(,2)
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":74618}
+... JSON-RPC response ...
+{"id":74618,"result":[{"uuid":["uuid","02828246-25e7-4f8d-9f40-9b9cf7186d28"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_VXLAN","where":[],"op":"select"}],"method":"transact","id":442974}
+... JSON-RPC response ...
+{"id":442974,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_VXLAN","uuid-name":"temp_898327","row":{"remote_ips":["set",["192.168.1.103","192.168.1.102","192.168.1.104"]],"local_ip":"192.168.1.101"},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["vxlan","insert",["set",[["named-uuid","temp_898327"]]]]],"op":"mutate"}],"method":"transact","id":827518}
+... JSON-RPC response ...
+{"id":827518,"result":[{"uuid":["uuid","9efd8e75-a198-4b42-9918-99c2e4accf49"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_VXLAN","where":[],"op":"select"}],"method":"transact","id":999572}
+... JSON-RPC response ...
+{"id":999572,"result":[{"rows":[{"_version":["uuid","8d7f66a8-fb6e-4385-a239-0bdaeebc9f88"],"_uuid":["uuid","9efd8e75-a198-4b42-9918-99c2e4accf49"],"remote_ips":["set",["192.168.1.102","192.168.1.103","192.168.1.104"]],"local_ip":"192.168.1.101"}]}],"error":null}
+[INFO] module:nlan_agent,function:_route,router: openwrt1
+function:subnets.add, model:{('vni', 1): {'ip_dvr': '192.168.100.1/24', 'ip_vhost': '192.168.100.101/24', 'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 1001): {'peers': ['192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': '10.0.1.1/24', 'mode': 'hub', 'ports': ['eth0.1']}}
+[INFO] module:subnets,function:_crud,router: openwrt1
+Adding a subnet(vlan): 2
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":974274}
+... JSON-RPC response ...
+{"id":974274,"result":[{"uuid":["uuid","8718f778-e524-4935-8887-833e20e2ab82"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1]],"op":"select"}],"method":"transact","id":673592}
+... JSON-RPC response ...
+{"id":673592,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns add ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addbr br2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link add veth-ns2 type veth peer name temp-ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev temp-ns2 netns ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns2 ip link set dev temp-ns2 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-int int-br2 tag=2 -- set interface int-br2 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-int int-dvr2 tag=2 -- set interface int-dvr2 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addif br2 veth-ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addif br2 int-br2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev veth-ns2 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev veth-ns2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns2 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev int-br2 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev int-br2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev int-dvr2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev br2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns2 ip addr add dev eth0 192.168.100.101/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip addr add dev int-dvr2 192.168.100.1/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns2 ip route add default via 192.168.100.1 dev eth0
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Controller","where":[],"columns":["target"],"op":"select"}],"method":"transact","id":823616}
+... JSON-RPC response ...
+{"id":823616,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=1,actions=mod_vlan_vid:2,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=2,nw_dst=192.168.100.1,actions=drop
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":527613}
+... JSON-RPC response ...
+{"id":527613,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=2,actions=strip_vlan,set_tunnel:1,output:3,output:2
+[INFO] module:subnets,function:_crud,router: openwrt1
+Adding a subnet(vlan): 3
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":534768}
+... JSON-RPC response ...
+{"id":534768,"result":[{"uuid":["uuid","38f8227d-619d-47b2-89b2-220f6a63396a"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",103]],"op":"select"}],"method":"transact","id":830713}
+... JSON-RPC response ...
+{"id":830713,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns add ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addbr br3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link add veth-ns3 type veth peer name temp-ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev temp-ns3 netns ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns3 ip link set dev temp-ns3 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-int int-br3 tag=3 -- set interface int-br3 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-int int-dvr3 tag=3 -- set interface int-dvr3 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addif br3 veth-ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addif br3 int-br3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev veth-ns3 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev veth-ns3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns3 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev int-br3 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev int-br3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev int-dvr3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev br3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns3 ip addr add dev eth0 10.0.3.101/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip addr add dev int-dvr3 10.0.3.1/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns3 ip route add default via 10.0.3.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addif br3 eth0.3
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Controller","where":[],"columns":["target"],"op":"select"}],"method":"transact","id":488679}
+... JSON-RPC response ...
+{"id":488679,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=103,actions=mod_vlan_vid:3,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=3,nw_dst=10.0.3.1,actions=drop
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":241167}
+... JSON-RPC response ...
+{"id":241167,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=3,actions=strip_vlan,set_tunnel:103,output:3,output:2
+[INFO] module:subnets,function:_crud,router: openwrt1
+Adding a subnet(vlan): 1
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":587374}
+... JSON-RPC response ...
+{"id":587374,"result":[{"uuid":["uuid","1e639470-aee5-4430-a7fe-2ce900493a10"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1001]],"op":"select"}],"method":"transact","id":799848}
+... JSON-RPC response ...
+{"id":799848,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns add ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link add veth-ns1 type veth peer name temp-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev temp-ns1 netns ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns1 ip link set dev temp-ns1 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-int int-br1 tag=1 -- set interface int-br1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-vsctl add-port br-int int-dvr1 tag=1 -- set interface int-dvr1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addif br1 veth-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addif br1 int-br1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev veth-ns1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev veth-ns1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns1 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev int-br1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev int-br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev int-dvr1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip link set dev br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns1 ip addr add dev eth0 10.0.1.101/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip addr add dev int-dvr1 10.0.1.1/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ip netns exec ns1 ip route add default via 10.0.1.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: brctl addif br1 eth0.1
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Controller","where":[],"columns":["target"],"op":"select"}],"method":"transact","id":2233}
+... JSON-RPC response ...
+{"id":2233,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=1001,actions=mod_vlan_vid:1,resubmit(,10)
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":794114}
+... JSON-RPC response ...
+{"id":794114,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.101"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=1,actions=strip_vlan,set_tunnel:1001,output:4
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":656847}
+... JSON-RPC response ...
+{"id":656847,"result":[{"uuid":["uuid","a75d0d60-e590-495a-ae25-10d1f400c326"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1]],"op":"select"}],"method":"transact","id":558521}
+... JSON-RPC response ...
+{"id":558521,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","uuid-name":"temp_301598","row":{"ip_dvr":"192.168.100.1/24","ip_vhost":"192.168.100.101/24","peers":["set",["192.168.1.102","192.168.1.103"]],"vid":2,"vni":1},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["subnets","insert",["set",[["named-uuid","temp_301598"]]]]],"op":"mutate"}],"method":"transact","id":707524}
+... JSON-RPC response ...
+{"id":707524,"result":[{"uuid":["uuid","f8270232-dbb4-4492-b808-936fff4ffa8e"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1]],"op":"select"}],"method":"transact","id":14302}
+... JSON-RPC response ...
+{"id":14302,"result":[{"rows":[{"peers":["set",["192.168.1.102","192.168.1.103"]],"_version":["uuid","aa221c99-bfdd-4d62-83e9-aa99382823d9"],"ports":["set",[]],"vni":1,"vid":2,"_uuid":["uuid","f8270232-dbb4-4492-b808-936fff4ffa8e"],"ip_vhost":"192.168.100.101/24","ip_dvr":"192.168.100.1/24"}]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":73609}
+... JSON-RPC response ...
+{"id":73609,"result":[{"uuid":["uuid","701f78eb-09f5-4477-bdc6-9a303240dcf3"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",103]],"op":"select"}],"method":"transact","id":602326}
+... JSON-RPC response ...
+{"id":602326,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","uuid-name":"temp_966735","row":{"peers":["set",["192.168.1.102","192.168.1.103"]],"vid":3,"ip_vhost":"10.0.3.101/24","vni":103,"ip_dvr":"10.0.3.1/24","ports":["set",["eth0.3"]]},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["subnets","insert",["set",[["named-uuid","temp_966735"]]]]],"op":"mutate"}],"method":"transact","id":873116}
+... JSON-RPC response ...
+{"id":873116,"result":[{"uuid":["uuid","98fca5ac-378b-4413-b368-25ea7574a491"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",103]],"op":"select"}],"method":"transact","id":46725}
+... JSON-RPC response ...
+{"id":46725,"result":[{"rows":[{"peers":["set",["192.168.1.102","192.168.1.103"]],"_version":["uuid","2baeb486-3a71-4883-9124-ee861d2ad567"],"ports":"eth0.3","vni":103,"vid":3,"_uuid":["uuid","98fca5ac-378b-4413-b368-25ea7574a491"],"ip_vhost":"10.0.3.101/24","ip_dvr":"10.0.3.1/24"}]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":248996}
+... JSON-RPC response ...
+{"id":248996,"result":[{"uuid":["uuid","05d7c54b-2d62-4e3b-b8ec-4e80fcc04966"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1001]],"op":"select"}],"method":"transact","id":256237}
+... JSON-RPC response ...
+{"id":256237,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","uuid-name":"temp_541301","row":{"peers":["set",["192.168.1.104"]],"vid":1,"ip_vhost":"10.0.1.101/24","vni":1001,"ip_dvr":"10.0.1.1/24","mode":"hub","ports":["set",["eth0.1"]]},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["subnets","insert",["set",[["named-uuid","temp_541301"]]]]],"op":"mutate"}],"method":"transact","id":429114}
+... JSON-RPC response ...
+{"id":429114,"result":[{"error":"unknown column","details":"No column mode in table NLAN_Subnet.","syntax":"{\"ip_dvr\":\"10.0.1.1/24\",\"ip_vhost\":\"10.0.1.101/24\",\"mode\":\"hub\",\"peers\":[\"set\",[\"192.168.1.104\"]],\"ports\":[\"set\",[\"eth0.1\"]],\"vid\":1,\"vni\":1001}"},null],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt1
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1001]],"op":"select"}],"method":"transact","id":419208}
+... JSON-RPC response ...
+{"id":419208,"result":[{"rows":[]}],"error":null}
+
+
+
+...
+brctl: iface eth0.3: No such device
+brctl: iface eth0.1: No such device
+
+
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt3
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt3
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router: openwrt3
+Adding bridges: br-int and br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["name","==","patch-tun"]],"op":"select"}],"method":"transact","id":696966}
+... JSON-RPC response ...
+{"id":696966,"result":[{"rows":[{"options":["map",[["peer","patch-int"]]],"mtu":["set",[]],"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"ce:1f:ae:1b:26:af","ingress_policing_rate":0,"mac":["set",[]],"ofport":1,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":["set",[]],"bfd_status":["map",[]],"link_resets":["set",[]],"name":"patch-tun","type":"patch","cfm_remote_opstate":["set",[]],"_uuid":["uuid","3e00c434-2e7c-4bb3-9f22-40c6df1e4bb9"],"status":["map",[]],"ifindex":0,"_version":["uuid","2bdb22b9-dfe6-47b1-bac6-a31b9888865f"],"admin_state":["set",[]],"other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=1,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=0,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,19)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,20)
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["name","==","patch-tun"]],"op":"select"}],"method":"transact","id":919332}
+... JSON-RPC response ...
+{"id":919332,"result":[{"rows":[{"options":["map",[["peer","patch-int"]]],"mtu":["set",[]],"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"ce:1f:ae:1b:26:af","ingress_policing_rate":0,"mac":["set",[]],"ofport":1,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":"up","bfd_status":["map",[]],"link_resets":0,"name":"patch-tun","type":"patch","cfm_remote_opstate":["set",[]],"_uuid":["uuid","3e00c434-2e7c-4bb3-9f22-40c6df1e4bb9"],"status":["map",[]],"ifindex":0,"_version":["uuid","859f04fa-b2db-409d-9b43-f15c8b9135a2"],"admin_state":"up","other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=2,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=3,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=19,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=20,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=21,priority=0,actions=drop
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":135133}
+... JSON-RPC response ...
+{"id":135133,"result":[{"uuid":["uuid","4441cada-b980-4802-8a19-031034feeee5"]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Bridges","where":[],"op":"select"}],"method":"transact","id":408547}
+... JSON-RPC response ...
+{"id":408547,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Bridges","uuid-name":"temp_457743","row":{"ovs_bridges":"enabled"},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["bridges","insert",["set",[["named-uuid","temp_457743"]]]]],"op":"mutate"}],"method":"transact","id":318273}
+... JSON-RPC response ...
+{"id":318273,"result":[{"uuid":["uuid","bccb8e7f-a590-475a-b625-b76dd4d083fc"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Bridges","where":[],"op":"select"}],"method":"transact","id":708603}
+... JSON-RPC response ...
+{"id":708603,"result":[{"rows":[{"_uuid":["uuid","bccb8e7f-a590-475a-b625-b76dd4d083fc"],"_version":["uuid","ea1730c2-da59-4dd0-ac74-c194826854fd"],"ovs_bridges":"enabled","controller":""}]}],"error":null}
+[INFO] module:nlan_agent,function:_route,router: openwrt3
+function:vxlan.add, model:{'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}
+[INFO] module:vxlan,function:add,router: openwrt3
+Adding a VXLAN tunnel: vxlan_102
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-tun vxlan_102 -- set interface vxlan_102 type=vxlan options:in_key=flow options:local_ip=192.168.1.103 options:out_key=flow options:remote_ip=192.168.1.102
+[INFO] module:vxlan,function:add,router: openwrt3
+Adding a VXLAN tunnel: vxlan_101
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-tun vxlan_101 -- set interface vxlan_101 type=vxlan options:in_key=flow options:local_ip=192.168.1.103 options:out_key=flow options:remote_ip=192.168.1.101
+[INFO] module:vxlan,function:add,router: openwrt3
+Adding a VXLAN tunnel: vxlan_104
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-tun vxlan_104 -- set interface vxlan_104 type=vxlan options:in_key=flow options:local_ip=192.168.1.103 options:out_key=flow options:remote_ip=192.168.1.104
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":953180}
+... JSON-RPC response ...
+{"id":953180,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=3,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=2,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=4,actions=resubmit(,2)
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":885957}
+... JSON-RPC response ...
+{"id":885957,"result":[{"uuid":["uuid","01001641-1e83-4332-aae2-2902cc169059"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_VXLAN","where":[],"op":"select"}],"method":"transact","id":503320}
+... JSON-RPC response ...
+{"id":503320,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_VXLAN","uuid-name":"temp_966166","row":{"remote_ips":["set",["192.168.1.102","192.168.1.101","192.168.1.104"]],"local_ip":"192.168.1.103"},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["vxlan","insert",["set",[["named-uuid","temp_966166"]]]]],"op":"mutate"}],"method":"transact","id":576132}
+... JSON-RPC response ...
+{"id":576132,"result":[{"uuid":["uuid","4dfddf25-5a48-4b67-8b61-efad5379ddf9"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_VXLAN","where":[],"op":"select"}],"method":"transact","id":485481}
+... JSON-RPC response ...
+{"id":485481,"result":[{"rows":[{"_version":["uuid","5523302f-8f3d-4654-a6ac-06b7b6985a36"],"_uuid":["uuid","4dfddf25-5a48-4b67-8b61-efad5379ddf9"],"remote_ips":["set",["192.168.1.101","192.168.1.102","192.168.1.104"]],"local_ip":"192.168.1.103"}]}],"error":null}
+[INFO] module:nlan_agent,function:_route,router: openwrt3
+function:subnets.add, model:{('vni', 1): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.3/24', 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr', 'ports': ['eth0.1']}}
+[INFO] module:subnets,function:_crud,router: openwrt3
+Adding a subnet(vlan): 2
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":570054}
+... JSON-RPC response ...
+{"id":570054,"result":[{"uuid":["uuid","88b8db2b-6d4b-4efa-bec9-c90b9ea80551"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1]],"op":"select"}],"method":"transact","id":724505}
+... JSON-RPC response ...
+{"id":724505,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns add ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addbr br2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link add veth-ns2 type veth peer name temp-ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev temp-ns2 netns ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns2 ip link set dev temp-ns2 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-int int-br2 tag=2 -- set interface int-br2 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-int int-dvr2 tag=2 -- set interface int-dvr2 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addif br2 veth-ns2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addif br2 int-br2
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev veth-ns2 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev veth-ns2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns2 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev int-br2 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev int-br2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev int-dvr2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev br2 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns2 ip addr add dev eth0 192.168.100.103/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip addr add dev int-dvr2 192.168.100.3/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns2 ip route add default via 192.168.100.3 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: route
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip route add default via 192.168.100.1
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Controller","where":[],"columns":["target"],"op":"select"}],"method":"transact","id":822883}
+... JSON-RPC response ...
+{"id":822883,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=1,actions=mod_vlan_vid:2,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=2,nw_dst=192.168.100.3,actions=drop
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":836114}
+... JSON-RPC response ...
+{"id":836114,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=2,actions=strip_vlan,set_tunnel:1,output:3,output:2
+[INFO] module:subnets,function:_crud,router: openwrt3
+Adding a subnet(vlan): 3
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":714093}
+... JSON-RPC response ...
+{"id":714093,"result":[{"uuid":["uuid","5ad4e251-f5a6-412f-ab34-9febc650fda5"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",103]],"op":"select"}],"method":"transact","id":251017}
+... JSON-RPC response ...
+{"id":251017,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns add ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addbr br3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link add veth-ns3 type veth peer name temp-ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev temp-ns3 netns ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns3 ip link set dev temp-ns3 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-int int-br3 tag=3 -- set interface int-br3 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-int int-dvr3 tag=3 -- set interface int-dvr3 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addif br3 veth-ns3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addif br3 int-br3
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev veth-ns3 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev veth-ns3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns3 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev int-br3 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev int-br3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev int-dvr3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev br3 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns3 ip addr add dev eth0 10.0.3.103/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip addr add dev int-dvr3 10.0.3.1/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns3 ip route add default via 10.0.3.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addif br3 eth0.3
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Controller","where":[],"columns":["target"],"op":"select"}],"method":"transact","id":802648}
+... JSON-RPC response ...
+{"id":802648,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=103,actions=mod_vlan_vid:3,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=3,nw_dst=10.0.3.1,actions=drop
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":319103}
+... JSON-RPC response ...
+{"id":319103,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=3,actions=strip_vlan,set_tunnel:103,output:3,output:2
+[INFO] module:subnets,function:_crud,router: openwrt3
+Adding a subnet(vlan): 1
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":52784}
+... JSON-RPC response ...
+{"id":52784,"result":[{"uuid":["uuid","73e97214-c589-4a15-96fb-535f05d4f1c0"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",101]],"op":"select"}],"method":"transact","id":326102}
+... JSON-RPC response ...
+{"id":326102,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns add ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link add veth-ns1 type veth peer name temp-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev temp-ns1 netns ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns1 ip link set dev temp-ns1 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-int int-br1 tag=1 -- set interface int-br1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-vsctl add-port br-int int-dvr1 tag=1 -- set interface int-dvr1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addif br1 veth-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addif br1 int-br1
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev veth-ns1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev veth-ns1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns1 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev int-br1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev int-br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev int-dvr1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link set dev br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns1 ip addr add dev eth0 10.0.1.103/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip addr add dev int-dvr1 10.0.1.1/24
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip netns exec ns1 ip route add default via 10.0.1.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: brctl addif br1 eth0.1
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Controller","where":[],"columns":["target"],"op":"select"}],"method":"transact","id":415159}
+... JSON-RPC response ...
+{"id":415159,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=101,actions=mod_vlan_vid:1,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ip link show dev int-dvr1
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["name","==","int-dvr1"]],"op":"select"}],"method":"transact","id":177516}
+... JSON-RPC response ...
+{"id":177516,"result":[{"rows":[{"options":["map",[]],"mtu":1500,"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"f6:70:c9:1d:59:6f","ingress_policing_rate":0,"mac":["set",[]],"ofport":7,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":"up","bfd_status":["map",[]],"link_resets":2,"name":"int-dvr1","type":"internal","cfm_remote_opstate":["set",[]],"_uuid":["uuid","fdd05365-9193-44a0-8d91-65d884608e19"],"status":["map",[["driver_name","openvswitch"]]],"ifindex":938,"_version":["uuid","bf0e2d8f-3f0a-47f0-a28d-cb6852f0e75a"],"admin_state":"up","other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["name","==","int-br1"]],"op":"select"}],"method":"transact","id":522187}
+... JSON-RPC response ...
+{"id":522187,"result":[{"rows":[{"options":["map",[]],"mtu":1500,"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"2a:71:6d:e7:4a:66","ingress_policing_rate":0,"mac":["set",[]],"ofport":6,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":"up","bfd_status":["map",[]],"link_resets":2,"name":"int-br1","type":"internal","cfm_remote_opstate":["set",[]],"_uuid":["uuid","c234d334-dbe3-4894-9db9-0515242f56ff"],"status":["map",[["driver_name","openvswitch"]]],"ifindex":937,"_version":["uuid","fedf69c9-324d-4729-94ec-3cb05d83ca21"],"admin_state":"up","other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-int table=0,priority=2,in_port=6,dl_type=0x0800,nw_dst=10.0.1.0/24,actions=normal
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=10.0.0.0/8,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=172.16.0.0/12,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=192.168.0.0/16,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=7,dl_type=0x0806,nw_src=10.0.1.1,nw_proto=2,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-int table=1,priority=0,actions=set_field:f6:70:c9:1d:59:6f->dl_dst,output:7
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"Interface","where":[["type","==","vxlan"]],"columns":["ofport","options"],"op":"select"}],"method":"transact","id":953553}
+... JSON-RPC response ...
+{"id":953553,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":2},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.103"],["out_key","flow"],["remote_ip","192.168.1.104"]]],"ofport":4}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: openwrt3
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=1,actions=strip_vlan,set_tunnel:101,output:2,output:4
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":842815}
+... JSON-RPC response ...
+{"id":842815,"result":[{"uuid":["uuid","29b633c6-dda0-4854-a7c9-65f6fc4d62db"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1]],"op":"select"}],"method":"transact","id":871856}
+... JSON-RPC response ...
+{"id":871856,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","uuid-name":"temp_380970","row":{"peers":["set",["192.168.1.101","192.168.1.102"]],"vid":2,"ip_vhost":"192.168.100.103/24","default_gw":"192.168.100.1","ip_dvr":"192.168.100.3/24","vni":1},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["subnets","insert",["set",[["named-uuid","temp_380970"]]]]],"op":"mutate"}],"method":"transact","id":335698}
+... JSON-RPC response ...
+{"id":335698,"result":[{"error":"unknown column","details":"No column default_gw in table NLAN_Subnet.","syntax":"{\"default_gw\":\"192.168.100.1\",\"ip_dvr\":\"192.168.100.3/24\",\"ip_vhost\":\"192.168.100.103/24\",\"peers\":[\"set\",[\"192.168.1.101\",\"192.168.1.102\"]],\"vid\":2,\"vni\":1}"},null],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",1]],"op":"select"}],"method":"transact","id":299345}
+... JSON-RPC response ...
+{"id":299345,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":673911}
+... JSON-RPC response ...
+{"id":673911,"result":[{"uuid":["uuid","316da130-6337-498d-9080-dd333c1ea0b1"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",103]],"op":"select"}],"method":"transact","id":455965}
+... JSON-RPC response ...
+{"id":455965,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","uuid-name":"temp_978440","row":{"peers":["set",["192.168.1.101","192.168.1.102"]],"vid":3,"ip_vhost":"10.0.3.103/24","vni":103,"ip_dvr":"10.0.3.1/24","ports":["set",["eth0.3"]]},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["subnets","insert",["set",[["named-uuid","temp_978440"]]]]],"op":"mutate"}],"method":"transact","id":356356}
+... JSON-RPC response ...
+{"id":356356,"result":[{"uuid":["uuid","1411ec57-977e-45dd-8c24-de6546e34e7a"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",103]],"op":"select"}],"method":"transact","id":364625}
+... JSON-RPC response ...
+{"id":364625,"result":[{"rows":[{"peers":["set",["192.168.1.101","192.168.1.102"]],"_version":["uuid","f4c3dfbb-4937-4e7d-8041-eb75e1e26fbf"],"ports":"eth0.3","vni":103,"vid":3,"_uuid":["uuid","1411ec57-977e-45dd-8c24-de6546e34e7a"],"ip_vhost":"10.0.3.103/24","ip_dvr":"10.0.3.1/24"}]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN","row":{},"op":"insert"}],"method":"transact","id":873219}
+... JSON-RPC response ...
+{"id":873219,"result":[{"uuid":["uuid","8afecd1e-4c6b-437a-ba73-e39a82b54938"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",101]],"op":"select"}],"method":"transact","id":976102}
+... JSON-RPC response ...
+{"id":976102,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","uuid-name":"temp_702966","row":{"peers":["set",["192.168.1.102","192.168.1.104"]],"vid":1,"ip_vhost":"10.0.1.103/24","vni":101,"ip_dvr":"10.0.1.1/24","mode":"spoke_dvr","ports":["set",["eth0.1"]]},"op":"insert"},{"table":"NLAN","where":[],"mutations":[["subnets","insert",["set",[["named-uuid","temp_702966"]]]]],"op":"mutate"}],"method":"transact","id":825201}
+... JSON-RPC response ...
+{"id":825201,"result":[{"error":"unknown column","details":"No column mode in table NLAN_Subnet.","syntax":"{\"ip_dvr\":\"10.0.1.1/24\",\"ip_vhost\":\"10.0.1.103/24\",\"mode\":\"spoke_dvr\",\"peers\":[\"set\",[\"192.168.1.102\",\"192.168.1.104\"]],\"ports\":[\"set\",[\"eth0.1\"]],\"vid\":1,\"vni\":101}"},null],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: openwrt3
+... JSON-RPC request ...
+{"params":["Open_vSwitch",{"table":"NLAN_Subnet","where":[["vni","==",101]],"op":"select"}],"method":"transact","id":131621}
+... JSON-RPC response ...
+{"id":131621,"result":[{"rows":[]}],"error":null}
+
+
+
+...
+brctl: iface eth0.3: No such device
+brctl: iface eth0.1: No such device
+
+
+=+=+= NLAN Reply from router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: rpi1
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: rpi1
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router: rpi1
+Adding bridges: br-int and br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "Interface", "where": [["name", "==", "patch-tun"]], "op": "select"}], "method": "transact", "id": 704155}
+... JSON-RPC response ...
+{"id":704155,"result":[{"rows":[{"options":["map",[["peer","patch-int"]]],"mtu":["set",[]],"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"5e:7b:0c:ef:ae:86","ingress_policing_rate":0,"mac":["set",[]],"ofport":1,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":"up","bfd_status":["map",[]],"link_resets":0,"name":"patch-tun","type":"patch","cfm_remote_opstate":["set",[]],"_uuid":["uuid","48b6b189-2beb-47be-8db5-723369012a98"],"status":["map",[]],"ifindex":0,"_version":["uuid","5b395226-2bc2-4068-a312-05e9e8d9838e"],"admin_state":"up","other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=1,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,19)
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,20)
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "Interface", "where": [["name", "==", "patch-tun"]], "op": "select"}], "method": "transact", "id": 238829}
+... JSON-RPC response ...
+{"id":238829,"result":[{"rows":[{"options":["map",[["peer","patch-int"]]],"mtu":["set",[]],"link_speed":["set",[]],"statistics":["map",[["collisions",0],["rx_bytes",0],["rx_crc_err",0],["rx_dropped",0],["rx_errors",0],["rx_frame_err",0],["rx_over_err",0],["rx_packets",0],["tx_bytes",0],["tx_dropped",0],["tx_errors",0],["tx_packets",0]]],"mac_in_use":"5e:7b:0c:ef:ae:86","ingress_policing_rate":0,"mac":["set",[]],"ofport":1,"cfm_fault_status":["set",[]],"lacp_current":["set",[]],"cfm_fault":["set",[]],"duplex":["set",[]],"external_ids":["map",[]],"link_state":"up","bfd_status":["map",[]],"link_resets":0,"name":"patch-tun","type":"patch","cfm_remote_opstate":["set",[]],"_uuid":["uuid","48b6b189-2beb-47be-8db5-723369012a98"],"status":["map",[]],"ifindex":0,"_version":["uuid","5b395226-2bc2-4068-a312-05e9e8d9838e"],"admin_state":"up","other_config":["map",[]],"cfm_remote_mpids":["set",[]],"ingress_policing_burst":0,"ofport_request":["set",[]],"bfd":["map",[]],"cfm_mpid":["set",[]],"cfm_flap_count":["set",[]],"cfm_health":["set",[]]}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=3,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=19,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=20,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=0,actions=drop
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN", "row": {}, "op": "insert"}], "method": "transact", "id": 195779}
+... JSON-RPC response ...
+{"id":195779,"result":[{"uuid":["uuid","7c43e53d-b243-45d8-add5-e56523378d13"]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Bridges", "where": [], "op": "select"}], "method": "transact", "id": 485611}
+... JSON-RPC response ...
+{"id":485611,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Bridges", "uuid-name": "temp_565836", "row": {"ovs_bridges": "enabled"}, "op": "insert"}, {"table": "NLAN", "where": [], "mutations": [["bridges", "insert", ["set", [["named-uuid", "temp_565836"]]]]], "op": "mutate"}], "method": "transact", "id": 393510}
+... JSON-RPC response ...
+{"id":393510,"result":[{"uuid":["uuid","823cdc9b-b349-4512-b9ca-88438ece6427"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Bridges", "where": [], "op": "select"}], "method": "transact", "id": 134393}
+... JSON-RPC response ...
+{"id":134393,"result":[{"rows":[{"_uuid":["uuid","823cdc9b-b349-4512-b9ca-88438ece6427"],"_version":["uuid","082ea87b-6f0b-473c-9ecf-4c236f21e900"],"ovs_bridges":"enabled","controller":""}]}],"error":null}
+[INFO] module:nlan_agent,function:_route,router: rpi1
+function:services.add, model:{('name', 'snort1'): {'name': 'snort1', 'chain': ['mz.101', 'dmz.1001']}}
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: lxc-start -d -f /var/lib/lxc/snort1/config_nlan -n snort1
+[INFO] module:nlan_agent,function:_route,router: rpi1
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}
+[INFO] module:vxlan,function:add,router: rpi1
+Adding a VXLAN tunnel: vxlan_103
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-port br-tun vxlan_103 -- set interface vxlan_103 type=vxlan options:in_key=flow options:local_ip=192.168.1.104 options:out_key=flow options:remote_ip=192.168.1.103
+[INFO] module:vxlan,function:add,router: rpi1
+Adding a VXLAN tunnel: vxlan_102
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-port br-tun vxlan_102 -- set interface vxlan_102 type=vxlan options:in_key=flow options:local_ip=192.168.1.104 options:out_key=flow options:remote_ip=192.168.1.102
+[INFO] module:vxlan,function:add,router: rpi1
+Adding a VXLAN tunnel: vxlan_101
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-port br-tun vxlan_101 -- set interface vxlan_101 type=vxlan options:in_key=flow options:local_ip=192.168.1.104 options:out_key=flow options:remote_ip=192.168.1.101
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "Interface", "where": [["type", "==", "vxlan"]], "columns": ["ofport", "options"], "op": "select"}], "method": "transact", "id": 316262}
+... JSON-RPC response ...
+{"id":316262,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.104"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":4},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.104"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.104"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=4,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=3,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=2,actions=resubmit(,2)
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN", "row": {}, "op": "insert"}], "method": "transact", "id": 376087}
+... JSON-RPC response ...
+{"id":376087,"result":[{"uuid":["uuid","26d41d6a-be66-461f-9e24-63999edc7ccc"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_VXLAN", "where": [], "op": "select"}], "method": "transact", "id": 756159}
+... JSON-RPC response ...
+{"id":756159,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_VXLAN", "uuid-name": "temp_824740", "row": {"remote_ips": ["set", ["192.168.1.103", "192.168.1.102", "192.168.1.101"]], "local_ip": "192.168.1.104"}, "op": "insert"}, {"table": "NLAN", "where": [], "mutations": [["vxlan", "insert", ["set", [["named-uuid", "temp_824740"]]]]], "op": "mutate"}], "method": "transact", "id": 45367}
+... JSON-RPC response ...
+{"id":45367,"result":[{"uuid":["uuid","3253be6e-fdcd-43c3-abd5-9bd03857d757"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_VXLAN", "where": [], "op": "select"}], "method": "transact", "id": 487742}
+... JSON-RPC response ...
+{"id":487742,"result":[{"rows":[{"_version":["uuid","b80a8a74-e1a2-4da3-bf13-662db809177d"],"_uuid":["uuid","3253be6e-fdcd-43c3-abd5-9bd03857d757"],"remote_ips":["set",["192.168.1.101","192.168.1.102","192.168.1.103"]],"local_ip":"192.168.1.104"}]}],"error":null}
+[INFO] module:nlan_agent,function:_route,router: rpi1
+function:subnets.add, model:{('vni', 1001): {'peers': ['192.168.1.101'], 'vni': 1001, 'vid': 111, 'ports': ['dmz.1001']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.103'], 'vni': 101, 'vid': 1, 'ports': ['mz.101']}}
+[INFO] module:subnets,function:_crud,router: rpi1
+Adding a subnet(vlan): 111
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN", "row": {}, "op": "insert"}], "method": "transact", "id": 828064}
+... JSON-RPC response ...
+{"id":828064,"result":[{"uuid":["uuid","f550355f-2bd9-4f4c-8916-cfcba884d9bd"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Subnet", "where": [["vni", "==", 1001]], "op": "select"}], "method": "transact", "id": 261246}
+... JSON-RPC response ...
+{"id":261246,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip netns add ns111
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl addbr br111
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link add veth-ns111 type veth peer name temp-ns111
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev temp-ns111 netns ns111
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip netns exec ns111 ip link set dev temp-ns111 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-port br-int int-br111 tag=111 -- set interface int-br111 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-port br-int int-dvr111 tag=111 -- set interface int-dvr111 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl addif br111 veth-ns111
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl addif br111 int-br111
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev veth-ns111 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev veth-ns111 up
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip netns exec ns111 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev int-br111 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev int-br111 up
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev int-dvr111 up
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev br111 up
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl addif br111 dmz.1001
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "Controller", "where": [], "columns": ["target"], "op": "select"}], "method": "transact", "id": 78009}
+... JSON-RPC response ...
+{"id":78009,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=1001,actions=mod_vlan_vid:111,resubmit(,10)
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "Interface", "where": [["type", "==", "vxlan"]], "columns": ["ofport", "options"], "op": "select"}], "method": "transact", "id": 213245}
+... JSON-RPC response ...
+{"id":213245,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.104"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":4},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.104"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.104"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=111,actions=strip_vlan,set_tunnel:1001,output:4
+[INFO] module:subnets,function:_crud,router: rpi1
+Adding a subnet(vlan): 1
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN", "row": {}, "op": "insert"}], "method": "transact", "id": 809643}
+... JSON-RPC response ...
+{"id":809643,"result":[{"uuid":["uuid","c3662701-30da-4ed0-9742-65ef295dde82"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Subnet", "where": [["vni", "==", 101]], "op": "select"}], "method": "transact", "id": 685745}
+... JSON-RPC response ...
+{"id":685745,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip netns add ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl addbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link add veth-ns1 type veth peer name temp-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev temp-ns1 netns ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip netns exec ns1 ip link set dev temp-ns1 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-port br-int int-br1 tag=1 -- set interface int-br1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-vsctl add-port br-int int-dvr1 tag=1 -- set interface int-dvr1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl addif br1 veth-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl addif br1 int-br1
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev veth-ns1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev veth-ns1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip netns exec ns1 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev int-br1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev int-br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev int-dvr1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ip link set dev br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: brctl addif br1 mz.101
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "Controller", "where": [], "columns": ["target"], "op": "select"}], "method": "transact", "id": 276371}
+... JSON-RPC response ...
+{"id":276371,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=101,actions=mod_vlan_vid:1,resubmit(,10)
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "Interface", "where": [["type", "==", "vxlan"]], "columns": ["ofport", "options"], "op": "select"}], "method": "transact", "id": 655001}
+... JSON-RPC response ...
+{"id":655001,"result":[{"rows":[{"options":["map",[["in_key","flow"],["local_ip","192.168.1.104"],["out_key","flow"],["remote_ip","192.168.1.101"]]],"ofport":4},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.104"],["out_key","flow"],["remote_ip","192.168.1.102"]]],"ofport":3},{"options":["map",[["in_key","flow"],["local_ip","192.168.1.104"],["out_key","flow"],["remote_ip","192.168.1.103"]]],"ofport":2}]}],"error":null}
+[DEBUG] module:cmdutil,function:_cmd2,router: rpi1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=1,actions=strip_vlan,set_tunnel:101,output:3,output:2
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN", "row": {}, "op": "insert"}], "method": "transact", "id": 926489}
+... JSON-RPC response ...
+{"id":926489,"result":[{"uuid":["uuid","f011804f-b525-424e-9b66-3ab3f4d5e204"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Subnet", "where": [["vni", "==", 1001]], "op": "select"}], "method": "transact", "id": 522019}
+... JSON-RPC response ...
+{"id":522019,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Subnet", "uuid-name": "temp_119989", "row": {"peers": ["set", ["192.168.1.101"]], "vid": 111, "vni": 1001, "ports": ["set", ["dmz.1001"]]}, "op": "insert"}, {"table": "NLAN", "where": [], "mutations": [["subnets", "insert", ["set", [["named-uuid", "temp_119989"]]]]], "op": "mutate"}], "method": "transact", "id": 619994}
+... JSON-RPC response ...
+{"id":619994,"result":[{"uuid":["uuid","9af5dc2d-e1cc-4ad3-9fea-873fcd83b024"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Subnet", "where": [["vni", "==", 1001]], "op": "select"}], "method": "transact", "id": 185296}
+... JSON-RPC response ...
+{"id":185296,"result":[{"rows":[{"peers":"192.168.1.101","_version":["uuid","371e0c0f-06c3-4bd1-8ade-30733bc5aaf0"],"ports":"dmz.1001","vni":1001,"vid":111,"_uuid":["uuid","9af5dc2d-e1cc-4ad3-9fea-873fcd83b024"],"ip_vhost":"","ip_dvr":""}]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN", "row": {}, "op": "insert"}], "method": "transact", "id": 743169}
+... JSON-RPC response ...
+{"id":743169,"result":[{"uuid":["uuid","54278ebb-1932-4e3a-b34f-9f7415b77b90"]},{"error":"constraint violation","details":"transaction causes \"NLAN\" table to contain 2 rows, greater than the schema-defined limit of 1 row(s)"}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Subnet", "where": [["vni", "==", 101]], "op": "select"}], "method": "transact", "id": 473176}
+... JSON-RPC response ...
+{"id":473176,"result":[{"rows":[]}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Subnet", "uuid-name": "temp_828757", "row": {"peers": ["set", ["192.168.1.102", "192.168.1.103"]], "vid": 1, "vni": 101, "ports": ["set", ["mz.101"]]}, "op": "insert"}, {"table": "NLAN", "where": [], "mutations": [["subnets", "insert", ["set", [["named-uuid", "temp_828757"]]]]], "op": "mutate"}], "method": "transact", "id": 918309}
+... JSON-RPC response ...
+{"id":918309,"result":[{"uuid":["uuid","045ceaf3-12b1-4501-ac82-6b769b1173b6"]},{"count":1}],"error":null}
+[DEBUG] module:ovsdb,function:_send,router: rpi1
+... JSON-RPC request ...
+{"params": ["Open_vSwitch", {"table": "NLAN_Subnet", "where": [["vni", "==", 101]], "op": "select"}], "method": "transact", "id": 528408}
+... JSON-RPC response ...
+{"id":528408,"result":[{"rows":[{"peers":["set",["192.168.1.102","192.168.1.103"]],"_version":["uuid","a9aa89dd-fe69-442a-8b7a-89c635b4a908"],"ports":"mz.101","vni":101,"vid":1,"_uuid":["uuid","045ceaf3-12b1-4501-ac82-6b769b1173b6"],"ip_vhost":"","ip_dvr":""}]}],"error":null}
+
+
+
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns add ns-global
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip link add veth-global type veth peer name temp
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip link set dev temp netns ns-global
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns-global ip link set dev temp name eth0
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns-global ip addr add dev eth0 8.8.8.8/24
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip link set dev veth-global up
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip addr add dev veth-global 8.8.8.1/24
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns-global ip link set dev eth0 up
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns-global ip route add default via  8.8.8.1
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns1 ping -c 2 10.0.1.102
+=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=15.700 ms
+64 bytes from 10.0.1.102: seq=1 ttl=64 time=2.478 ms
+
+--- 10.0.1.102 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 2.478/9.089/15.700 ms
+
+
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 10.0.3.103
+=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.3.103 (10.0.3.103): 56 data bytes
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=8.122 ms
+64 bytes from 10.0.3.103: seq=1 ttl=64 time=1.356 ms
+
+--- 10.0.3.103 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.356/4.739/8.122 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 10.0.1.101
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.1.101 (10.0.1.101): 56 data bytes
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=24.469 ms
+64 bytes from 10.0.1.101: seq=1 ttl=63 time=2.440 ms
+
+--- 10.0.1.101 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 2.440/13.454/24.469 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns1 ping -c 2 192.168.100.1
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=14.143 ms
+64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.875 ms
+
+--- 192.168.100.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.875/8.009/14.143 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns1 ping -c 2 192.168.100.1
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=11.547 ms
+64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.685 ms
+
+--- 192.168.100.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.685/6.616/11.547 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 192.168.100.1
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=7.683 ms
+64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.915 ms
+
+--- 192.168.100.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.915/4.799/7.683 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ping -c 2 192.168.100.1
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.346 ms
+64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.220 ms
+
+--- 192.168.100.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.220/1.783/2.346 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 10.0.1.102
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=8.913 ms
+64 bytes from 10.0.1.102: seq=1 ttl=63 time=2.949 ms
+
+--- 10.0.1.102 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 2.949/5.931/8.913 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 10.0.1.1
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=2.865 ms
+64 bytes from 10.0.1.1: seq=1 ttl=64 time=1.216 ms
+
+--- 10.0.1.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.216/2.040/2.865 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 10.0.1.1
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.321 ms
+64 bytes from 10.0.1.1: seq=1 ttl=64 time=0.163 ms
+
+--- 10.0.1.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.163/0.742/1.321 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns1 ping -c 2 8.8.8.8
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.789 ms
+64 bytes from 8.8.8.8: seq=1 ttl=63 time=3.785 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 3.785/4.787/5.789 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 8.8.8.8
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=4.540 ms
+64 bytes from 8.8.8.8: seq=1 ttl=63 time=1.542 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.542/3.041/4.540 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns1 ping -c 2 8.8.8.8
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.189 ms
+64 bytes from 8.8.8.8: seq=1 ttl=63 time=1.925 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.925/4.057/6.189 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 8.8.8.8
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.991 ms
+64 bytes from 8.8.8.8: seq=1 ttl=63 time=3.155 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 3.155/5.073/6.991 ms
+
+

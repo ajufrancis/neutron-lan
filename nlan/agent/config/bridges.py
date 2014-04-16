@@ -7,7 +7,8 @@ from ovsdb import Row, OvsdbRow
 
 def add(model):
 
-    print '>>> Adding bridges: br-int and br-tun'
+    __n__['logger'].info('Adding bridges: br-int and br-tun')
+
     cmd = cmdutil.cmd	
     cmd('ovs-vsctl add-br br-int')
     cmd('ovs-vsctl add-br br-tun')

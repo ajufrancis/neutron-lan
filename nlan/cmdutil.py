@@ -31,7 +31,7 @@ def _cmd(check, *args):
 # If type(args) is list, use this function.
 def _cmd2(check, args):
 
-    logstr = 'cmd: ' + str(args)
+    logstr = 'cmd: ' + ' '.join(args)
     if logger:
         logger.debug(logstr)
     else:

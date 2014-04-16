@@ -1,0 +1,498 @@
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+file: config.py
+file: row.py
+file: command.py
+file: ovsdbrow.py
+file: init.py
+file: test.py
+file: system.py
+file: vxlan.py
+file: subnets.py
+file: gateway.py
+file: bridges.py
+file: services.py
+file: ovsdb.py
+file: nlan_agent.py
+file: vswitch.schema_2.0.0
+file: oputil.py
+file: cmdutil.py
+
+=+=+= NLAN Reply from router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+file: config.py
+file: row.py
+file: command.py
+file: ovsdbrow.py
+file: init.py
+file: test.py
+file: system.py
+file: vxlan.py
+file: subnets.py
+file: gateway.py
+file: bridges.py
+file: services.py
+file: ovsdb.py
+file: nlan_agent.py
+file: vswitch.schema_2.0.0
+file: oputil.py
+file: cmdutil.py
+
+=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+file: config.py
+file: row.py
+file: command.py
+file: ovsdbrow.py
+file: init.py
+file: test.py
+file: system.py
+file: vxlan.py
+file: subnets.py
+file: gateway.py
+file: bridges.py
+file: services.py
+file: ovsdb.py
+file: nlan_agent.py
+file: vswitch.schema_2.0.0
+file: oputil.py
+file: cmdutil.py
+
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+file: config.py
+file: row.py
+file: command.py
+file: ovsdbrow.py
+file: init.py
+file: test.py
+file: system.py
+file: vxlan.py
+file: subnets.py
+file: gateway.py
+file: bridges.py
+file: services.py
+file: ovsdb.py
+file: nlan_agent.py
+file: vswitch.schema_2.0.0
+file: oputil.py
+file: cmdutil.py
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt1
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt1
+function:init.run, args:()
+
+
+
+...
+brctl: iface down: No such device
+brctl: iface down: No such device
+brctl: iface down: No such device
+
+
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt3
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt3
+function:init.run, args:()
+
+
+
+...
+brctl: iface down: No such device
+brctl: iface down: No such device
+brctl: iface down: No such device
+
+
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt2
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt2
+function:init.run, args:()
+
+
+
+...
+brctl: iface down: No such device
+brctl: iface down: No such device
+brctl: iface down: No such device
+
+
+=+=+= NLAN Reply from router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: rpi1
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: rpi1
+function:init.run, args:()
+
+
+
+...
+interface down does not exist!
+interface down does not exist!
+interface down does not exist!
+interface down does not exist!
+
+
+cmd: git show HEAD:dvsdvr.yaml
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('services', {('name', 'snort1'): {'name': 'snort1', 'chain': ['mz.101', 'dmz.1001']}}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}), ('subnets', {('vni', 1001): {'peers': ['192.168.1.101'], 'vid': 111, 'vni': 1001, 'ports': ['dmz.1001']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 1, 'vni': 101, 'ports': ['mz.101']}})])"
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}), ('subnets', {('vni', 1): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.3/24', 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr', 'ports': ['eth0.1']}})])"
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}), ('subnets', {('vni', 1): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.2/24', 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 101): {'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr', 'ports': ['eth0.1']}})])"
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('gateway', {'network': 'eth0.2', 'rip': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}), ('subnets', {('vni', 1): {'ip_vhost': '192.168.100.101/24', 'ip_dvr': '192.168.100.1/24', 'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 1001): {'peers': ['192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': '10.0.1.1/24', 'mode': 'hub', 'ports': ['eth0.1']}})])"
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt2
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt2
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router: openwrt2
+Adding bridges: br-int and br-tun
+[INFO] module:nlan_agent,function:_route,router: openwrt2
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}
+[INFO] module:vxlan,function:add,router: openwrt2
+Adding a VXLAN tunnel: vxlan_103
+[INFO] module:vxlan,function:add,router: openwrt2
+Adding a VXLAN tunnel: vxlan_101
+[INFO] module:vxlan,function:add,router: openwrt2
+Adding a VXLAN tunnel: vxlan_104
+[INFO] module:nlan_agent,function:_route,router: openwrt2
+function:subnets.add, model:{('vni', 1): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.2/24', 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 101): {'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr', 'ports': ['eth0.1']}}
+[INFO] module:subnets,function:_crud,router: openwrt2
+Adding a subnet(vlan): 2
+[INFO] module:subnets,function:_crud,router: openwrt2
+Adding a subnet(vlan): 3
+[INFO] module:subnets,function:_crud,router: openwrt2
+Adding a subnet(vlan): 1
+
+
+
+...
+brctl: iface eth0.3: No such device
+brctl: iface eth0.1: No such device
+
+
+=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt1
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt1
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router: openwrt1
+Adding bridges: br-int and br-tun
+[INFO] module:nlan_agent,function:_route,router: openwrt1
+function:gateway.add, model:{'network': 'eth0.2', 'rip': 'enabled'}
+[INFO] module:gateway,function:add,router: openwrt1
+Adding a gateway router: rip
+[INFO] module:nlan_agent,function:_route,router: openwrt1
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}
+[INFO] module:vxlan,function:add,router: openwrt1
+Adding a VXLAN tunnel: vxlan_103
+[INFO] module:vxlan,function:add,router: openwrt1
+Adding a VXLAN tunnel: vxlan_102
+[INFO] module:vxlan,function:add,router: openwrt1
+Adding a VXLAN tunnel: vxlan_104
+[INFO] module:nlan_agent,function:_route,router: openwrt1
+function:subnets.add, model:{('vni', 1): {'ip_dvr': '192.168.100.1/24', 'ip_vhost': '192.168.100.101/24', 'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 1001): {'peers': ['192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': '10.0.1.1/24', 'mode': 'hub', 'ports': ['eth0.1']}}
+[INFO] module:subnets,function:_crud,router: openwrt1
+Adding a subnet(vlan): 2
+[INFO] module:subnets,function:_crud,router: openwrt1
+Adding a subnet(vlan): 3
+[INFO] module:subnets,function:_crud,router: openwrt1
+Adding a subnet(vlan): 1
+
+
+
+...
+brctl: iface eth0.3: No such device
+brctl: iface eth0.1: No such device
+
+
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: openwrt3
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: openwrt3
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router: openwrt3
+Adding bridges: br-int and br-tun
+[INFO] module:nlan_agent,function:_route,router: openwrt3
+function:vxlan.add, model:{'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}
+[INFO] module:vxlan,function:add,router: openwrt3
+Adding a VXLAN tunnel: vxlan_102
+[INFO] module:vxlan,function:add,router: openwrt3
+Adding a VXLAN tunnel: vxlan_101
+[INFO] module:vxlan,function:add,router: openwrt3
+Adding a VXLAN tunnel: vxlan_104
+[INFO] module:nlan_agent,function:_route,router: openwrt3
+function:subnets.add, model:{('vni', 1): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.3/24', 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr', 'ports': ['eth0.1']}}
+[INFO] module:subnets,function:_crud,router: openwrt3
+Adding a subnet(vlan): 2
+[INFO] module:subnets,function:_crud,router: openwrt3
+Adding a subnet(vlan): 3
+[INFO] module:subnets,function:_crud,router: openwrt3
+Adding a subnet(vlan): 1
+
+
+
+...
+brctl: iface eth0.3: No such device
+brctl: iface eth0.1: No such device
+
+
+=+=+= NLAN Reply from router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+[INFO] module:nlan_agent,function:<module>,router: rpi1
+NLAN Agent initialization completed
+[INFO] module:nlan_agent,function:_route,router: rpi1
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router: rpi1
+Adding bridges: br-int and br-tun
+[INFO] module:nlan_agent,function:_route,router: rpi1
+function:services.add, model:{('name', 'snort1'): {'name': 'snort1', 'chain': ['mz.101', 'dmz.1001']}}
+[INFO] module:nlan_agent,function:_route,router: rpi1
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}
+[INFO] module:vxlan,function:add,router: rpi1
+Adding a VXLAN tunnel: vxlan_103
+[INFO] module:vxlan,function:add,router: rpi1
+Adding a VXLAN tunnel: vxlan_102
+[INFO] module:vxlan,function:add,router: rpi1
+Adding a VXLAN tunnel: vxlan_101
+[INFO] module:nlan_agent,function:_route,router: rpi1
+function:subnets.add, model:{('vni', 1001): {'peers': ['192.168.1.101'], 'vni': 1001, 'vid': 111, 'ports': ['dmz.1001']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.103'], 'vni': 101, 'vid': 1, 'ports': ['mz.101']}}
+[INFO] module:subnets,function:_crud,router: rpi1
+Adding a subnet(vlan): 111
+[INFO] module:subnets,function:_crud,router: rpi1
+Adding a subnet(vlan): 1
+
+
+
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns add ns-global
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip link add veth-global type veth peer name temp
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip link set dev temp netns ns-global
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns-global ip link set dev temp name eth0
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns-global ip addr add dev eth0 8.8.8.8/24
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip link set dev veth-global up
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip addr add dev veth-global 8.8.8.1/24
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns-global ip link set dev eth0 up
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns-global ip route add default via  8.8.8.1
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns1 ping -c 2 10.0.1.102
+=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=12.380 ms
+64 bytes from 10.0.1.102: seq=1 ttl=64 time=2.459 ms
+
+--- 10.0.1.102 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 2.459/7.419/12.380 ms
+
+
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 10.0.3.103
+=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.3.103 (10.0.3.103): 56 data bytes
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=7.452 ms
+64 bytes from 10.0.3.103: seq=1 ttl=64 time=1.076 ms
+
+--- 10.0.3.103 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.076/4.264/7.452 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 10.0.1.101
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.1.101 (10.0.1.101): 56 data bytes
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=16.048 ms
+64 bytes from 10.0.1.101: seq=1 ttl=63 time=2.589 ms
+
+--- 10.0.1.101 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 2.589/9.318/16.048 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns1 ping -c 2 192.168.100.1
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=9.296 ms
+64 bytes from 192.168.100.1: seq=1 ttl=64 time=2.335 ms
+
+--- 192.168.100.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 2.335/5.815/9.296 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns1 ping -c 2 192.168.100.1
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=14.247 ms
+64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.595 ms
+
+--- 192.168.100.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.595/7.921/14.247 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 192.168.100.1
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=9.656 ms
+64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.137 ms
+
+--- 192.168.100.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.137/5.396/9.656 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ping -c 2 192.168.100.1
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.096 ms
+64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.037 ms
+
+--- 192.168.100.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.037/1.566/2.096 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 10.0.1.102
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=6.171 ms
+64 bytes from 10.0.1.102: seq=1 ttl=63 time=2.625 ms
+
+--- 10.0.1.102 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 2.625/4.398/6.171 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 10.0.1.1
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=2.662 ms
+64 bytes from 10.0.1.1: seq=1 ttl=64 time=1.075 ms
+
+--- 10.0.1.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.075/1.868/2.662 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 10.0.1.1
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.631 ms
+64 bytes from 10.0.1.1: seq=1 ttl=64 time=0.155 ms
+
+--- 10.0.1.1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.155/0.893/1.631 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns1 ping -c 2 8.8.8.8
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.575 ms
+64 bytes from 8.8.8.8: seq=1 ttl=63 time=2.880 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 2.880/4.727/6.575 ms
+
+
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 8.8.8.8
+=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=3.118 ms
+64 bytes from 8.8.8.8: seq=1 ttl=63 time=1.353 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.353/2.235/3.118 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns1 ping -c 2 8.8.8.8
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.727 ms
+64 bytes from 8.8.8.8: seq=1 ttl=63 time=2.468 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 2.468/4.597/6.727 ms
+
+
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: ip netns exec ns3 ping -c 2 8.8.8.8
+=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=7.016 ms
+64 bytes from 8.8.8.8: seq=1 ttl=63 time=1.817 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.817/4.416/7.016 ms
+
+

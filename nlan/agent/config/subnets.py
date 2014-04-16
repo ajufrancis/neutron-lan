@@ -179,7 +179,7 @@ def _crud(crud, model):
         vni = key[1] 
         m = Model(model[key])
         vid, ip_dvr, mode, ip_vhost, ports, default_gw, peers = m.getparam('vid', 'ip_dvr', 'mode', 'ip_vhost', 'ports', 'default_gw', 'peers')
-        print '>>> Adding a subnet(vlan): ' + str(vid)
+        __n__['logger'].info('Adding a subnet(vlan): ' + str(vid))
         globals()['_'+crud+'_subnets'](vni=vni, vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
         globals()['_'+crud+'_flow_entries'](vid, vni, ip_dvr, mode, peers)
 

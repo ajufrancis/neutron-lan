@@ -14,7 +14,7 @@ def add(model):
     network = model['network']
 
     if rip == 'enabled':
-        print '>>> Adding a gateway router: rip'
+        __n__['logger'].info('Adding a gateway router: rip')
 
     args = """
     configure terminal
@@ -37,13 +37,13 @@ def add(model):
         cmd_args.append(line.lstrip())
 
     try:
-        print output_cmd2(cmd_args)
+        output_cmd2(cmd_args)
     # Fails if zebrad and ripd have not been started yet.
     except:
-        print output_cmd('/etc/init.d/quagga start')
-        print output_cmd2(cmd_args)
+        output_cmd('/etc/init.d/quagga start')
+        output_cmd2(cmd_args)
 
-    print output_cmd('/etc/init.d/quagga restart')
+        output_cmd('/etc/init.d/quagga restart')
 
     # OVSDB transaction
     r = Row('gateway')

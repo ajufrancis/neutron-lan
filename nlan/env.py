@@ -34,6 +34,9 @@ NLAN_LIBS = ['oputil.py', 'cmdutil.py']
 # NLAN module directories
 NLAN_MOD_DIRS = ['command', 'config']
 
+# OVSDB schema file with NLAN-related addition
+SCHEMA = 'vswitch.schema_2.0.0'
+
 # List indexes for NLAN "dvsdvr" state 
 # TODO: dynamically generate this from the OVSDB schema
 INDEXES = {'subnets': 'vni', 'services': 'name'}

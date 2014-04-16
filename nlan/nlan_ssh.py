@@ -2,8 +2,6 @@
 
 """
 2014/2/6
-2014/3/12
-2014/3/20-27
 
 Usage example: 
 $ python nlan-ssh.py --help
@@ -24,14 +22,8 @@ CRUD operations:
 --update: Update 
 --delete: Delete
 
-"nlan.py" referes to the following YAML files before calling "nlan-agent.py"
-via ssh on OpenWRT routers:
-- roster.yaml 
-  This is sort of /etc/salt/roster, although I have stopped using
-  salt-ssh any longer.
-- CONFIG_YAML (e.g, dvsdvr.yaml)
-  This is a config file of neutron-lan in YAML format. 
- 
+If ssh login is very slow to start, set UseDNS no in sshd_config.  
+Refer to http://www.openssh.com/faq.html
 
 """
 import os, sys 
@@ -39,13 +31,15 @@ import yaml
 import paramiko as para, scp
 from optparse import OptionParser
 from time import sleep
-from env import NLAN_DIR, ROSTER_YAML, NLAN_AGENT_DIR, NLAN_AGENT, NLAN_MOD_DIRS, NLAN_SCP_DIR, NLAN_LIBS
+from env import NLAN_DIR, ROSTER_YAML, NLAN_AGENT_DIR, NLAN_AGENT, NLAN_MOD_DIRS, NLAN_SCP_DIR, NLAN_LIBS, SCHEMA 
+from cmdutil import output_cmd
+
+bar = '=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+'
 
 def _printmsg_request(lock, router, platform):
-    lock.acquire()
-    rp = "router:{} platform:{}".format(router, platform)
-    print '=+=+= NLAN Request to {:<38} =+=+=+=+=+=+=+=+='.format(rp)
-    lock.release()
+    with lock:
+        rp = "NLAN Request to router:{0},platform:{1}".format(router, platform)
+        print bar[:5], rp, bar[5+len(rp):] 
 
 def _deploy(router, operation, doc, cmd_list, loglevel):
     
@@ -53,6 +47,25 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
 
     with open(ROSTER_YAML,'r') as r:
         roster = yaml.load(r.read())
+
+
+    def _ssh_exec_command(ssh, cmd, cmd_args, out, err):
+
+        i,o,e = ssh.exec_command(cmd)
+
+        if cmd_args:
+            i.write(cmd_args)
+            i.flush()
+            i.channel.shutdown_write()
+        result = o.read()
+        error = e.read()
+        if result != '': 
+            print >>out, result
+        if error != '':
+            print >>err, error
+
+        return o.channel.recv_exit_status()
+
 
     # ssh session per sub-process
     def _ssh_session(lock, router, host, user, passwd, platform, operation, cmd, cmd_args, child):
@@ -67,21 +80,10 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
             ssh = para.SSHClient()
             ssh.set_missing_host_key_policy(para.AutoAddPolicy())
             ssh.connect(host,username=user,password=passwd)
-            rp = "router:{} platform:{}".format(router, platform)
-            print >>out, '=+=+= NLAN Reply from {:<38} =+=+=+=+=+=+=+=+='.format(rp)
+
+
             if operation != '--scp' and operation != '--scpmod':
-                i,o,e = ssh.exec_command(cmd)
-                if operation != '--raw' and operation != '':
-                    i.write(cmd_args)
-                    i.flush()
-                    i.channel.shutdown_write()
-                result = o.read()
-                error = e.read()
-                print >>out, result
-                if error != '':
-                    print >>out, '...STDERR...' 
-                    print >>err, error
-                exitcode = o.channel.recv_exit_status()
+                exitcode = _ssh_exec_command(ssh, cmd, cmd_args, out, err)
             else:
                 if operation == '--scp':
                     s = scp.SCPClient(ssh.get_transport())
@@ -97,13 +99,7 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
                     for moddir in NLAN_MOD_DIRS:
                         ldir = os.path.join(NLAN_SCP_DIR, moddir)
                         rdir = os.path.join(NLAN_AGENT_DIR, moddir)
-                        i,o,e = ssh.exec_command('mkdir -p ' + rdir) 
-                        result = o.read()
-                        error = e.read()
-                        print >>out, result
-                        if error != '':
-                            print >>out, '...STDERR...' 
-                            print >>err, error
+                        exitcode = _ssh_exec_command(ssh, 'mkdir -p ' + rdir, None, out, err)
                         for f in os.listdir(ldir):
                             ff = os.path.join(ldir, f) 
                             print >>out, "file: " + f
@@ -121,26 +117,31 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
                         lf = os.path.join(NLAN_DIR, f)
                         print >>out, "file: " + f
                         s.put(lf, NLAN_AGENT_DIR)
-                    # nlan-env.conf generation
-                    rdir_modlist = os.path.join(NLAN_AGENT_DIR, 'nlan-env.conf')
+                    # nlan_env.conf generation
+                    rdir_modlist = os.path.join(NLAN_AGENT_DIR, 'nlan_env.conf')
                     env = {}
                     env['router'] = router
                     env['platform'] = platform
                     env['agent_dir'] = NLAN_AGENT_DIR
                     env['mod_dir'] = NLAN_MOD_DIRS 
-                    i,o,e = ssh.exec_command('echo ' + '"'+str(env)+'"' + ' > ' + rdir_modlist) 
-                    result = o.read()
-                    error = e.read()
-                    print >>out, result
-                    if error != '':
-                        print >>out, '...STDERR...' 
-                        print >>err, error
-
+                    env['schema'] = SCHEMA
+                    cmd = 'echo ' + '"'+str(env)+'"' + ' > ' + rdir_modlist 
+                    exitcode = _ssh_exec_command(ssh, cmd, None, out, err)
             
-            lock.acquire()
-            print(out.getvalue())
-            print(err.getvalue())
-            lock.release()
+            with lock:
+                outv = out.getvalue()
+                erre = err.getvalue()
+                outvl = len(outv)
+                errel = len(erre)
+                if outvl + errel > 0:
+                    rp = "NLAN Reply from router:{0},platform:{1}".format(router, platform)
+                    print bar[:5], rp, bar[5+len(rp):] 
+                if outvl > 0:
+                    print(outv)
+                if errel > 0:
+                    if outvl > 0:
+                        print ('...')
+                    print(erre)
             out.close()
             err.close()
             ssh.close()
@@ -172,7 +173,7 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
             passwd = roster[router]['passwd']	
             platform = roster[router]['platform']
 
-            cmd = NLAN_AGENT + ' ' + operation + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, 'nlan-env.conf') + ' ' + loglevel
+            cmd = NLAN_AGENT + ' ' + operation + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, 'nlan_env.conf') + ' ' + loglevel
             cmd_args = doc
             cmd_args = '"' + cmd_args + '"'
             _printmsg_request(lock, router, platform)
@@ -212,11 +213,11 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
                 print 'operation: ' + operation 
                 print 'files: ' + str(cmd)	
             elif operation == None:
-                cmd = NLAN_AGENT + ' ' + doc + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, 'nlan-env.conf')
+                cmd = NLAN_AGENT + ' ' + doc + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, 'nlan_env.conf') + ' ' + loglevel
                 _printmsg_request(lock, router, platform)
                 print 'command: ' + doc 
             else:
-                cmd = NLAN_AGENT + ' ' + operation + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, 'nlan-env.conf') + ' ' + loglevel
+                cmd = NLAN_AGENT + ' ' + operation + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, 'nlan_env.conf') + ' ' + loglevel
                 cmd_args = doc
                 cmd_args = '"' + cmd_args + '"'
                 _printmsg_request(lock, router, platform)
@@ -229,35 +230,52 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
             ssh_sessions.append([Process(target=_ssh_session, args=(lock, router, host, user, passwd, platform, operation, cmd, cmd_args, child)), parent])
  
     # Start subprocesses
-    for l in ssh_sessions:
-        l[0].start()
-
-    while True:
-        if len(ssh_sessions) == 0:
-            break
-        sleep(0.5)
+    try:
         for l in ssh_sessions:
-            if not l[0].is_alive():
-                exitcode = l[1].recv()
-                l[0].terminate()
-                ssh_sessions.remove(l)
-                if exitcode > 0:
-                    print ''
-                    raise Exception("NLAN Agent raised an error") 
+            l[0].start()
+
+        while True:
+            if len(ssh_sessions) == 0:
+                break
+            sleep(0.5)
+            for l in ssh_sessions:
+                if not l[0].is_alive():
+                    exitcode = l[1].recv()
+                    l[0].terminate()
+                    ssh_sessions.remove(l)
+                    if exitcode > 0:
+                        print ''
+                        raise Exception("NLAN Agent raised an error [exit code = {0}]".format(exitcode)) 
+                #else:
+                #    with lock:
+                #        print str(l[0])
+    except KeyboardInterrupt:
+        print "\nOK. I will terminate the subprocesses..."
+        for l in ssh_sessions:
+            pid = str(l[0].pid)
+            sub = output_cmd('ps -p', pid, 'h')
+            l[0].terminate()
+            l[0].join()
+            print "subrocess:", sub 
+        raise Exception("Operation stopped by Keyboard Interruption") 
+    finally:
+        for l in ssh_sessions:
+            l[0].terminate()
         
 
 if __name__=="__main__":
 
-    parser = OptionParser()
+    usage = "usage: %prog [options] [router] [arg]..."
+    parser = OptionParser(usage=usage)
     parser.add_option("-r", "--raw", help="run a raw shell command on remote routers", action="store_true", default=False)
-    parser.add_option("-a", "--add", help="add elements", action="store_true", default=False)
-    parser.add_option("-g", "--get", help="get elements", action="store_true", default=False)
-    parser.add_option("-u", "--update", help="update elements", action="store_true", default=False)
-    parser.add_option("-d", "--delete", help="delete elements", action="store_true", default=False)
-    parser.add_option("-c", "--scp", help="copy neutron-lan scripts to remote routers", action="store_true", default=False)
-    parser.add_option("-m", "--scpmod", help="copy neutron-lan modules to remote routers", action="store_true", default=False)
-    parser.add_option("-I", "--info", help="set loglevel INFO", action="store_true", default=False)
-    parser.add_option("-D", "--debug", help="set loglevel to DEBUG", action="store_true", default=False)
+    parser.add_option("-a", "--add", help="add NLAN states", action="store_true", default=False)
+    parser.add_option("-g", "--get", help="get NALN states", action="store_true", default=False)
+    parser.add_option("-u", "--update", help="update NLAN states", action="store_true", default=False)
+    parser.add_option("-d", "--delete", help="delete NLAN states", action="store_true", default=False)
+    parser.add_option("-c", "--scp", help="copy scripts to remote routers", action="store_true", default=False)
+    parser.add_option("-m", "--scpmod", help="copy NLAN Agent and NLAN modules to remote routers", action="store_true", default=False)
+    parser.add_option("-I", "--info", help="set log level to INFO", action="store_true", default=False)
+    parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
 
     
     (options, args) = parser.parse_args()
