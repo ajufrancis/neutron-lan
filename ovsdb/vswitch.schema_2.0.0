@@ -8,6 +8,10 @@
          "type": {"key": {"type": "uuid",
                           "refTable": "NLAN_Bridges"},
                   "min": 0, "max": 1}},
+       "services": {
+         "type": {"key": {"type": "uuid",
+                          "refTable": "NLAN_Service"},
+                  "min": 0, "max": "unlimited"}},   
        "gateway": {
          "type": {"key": {"type": "uuid",
                           "refTable": "NLAN_Gateway"},
@@ -29,6 +33,14 @@
        "controller": {
          "type": "string"}},
      "maxRows": 1},
+   "NLAN_Service": {
+     "columns": {
+       "name": {
+         "type": "string"},
+       "chain": {
+         "type": {"key": {"type": "string"},
+                  "min": 0, "max": "unlimited"}}},
+     "indexes": [["name"]]},
    "NLAN_Gateway": {
      "columns": {
        "rip": {
@@ -53,6 +65,10 @@
        "ip_dvr": {
          "type": "string"},
        "ip_vhost": {
+         "type": "string"},
+       "default_gw": {
+         "type": "string"},
+       "mode": {
          "type": "string"},
        "ports": {
          "type": {"key": {"type": "string"},

@@ -5,13 +5,13 @@
 # Quagga manipulation module 
 #
 
-from cmdutil import output_cmd, output_cmd2
+from cmdutil import output_cmd, output_cmd2, output_cmdp, output_cmd2p
 from ovsdb import Row
+from oputil import Model
 
 def add(model):
 
-    rip = model['rip']
-    network = model['network']
+    rip, network = Model(model).getparam('rip', 'network')
 
     if rip == 'enabled':
         __n__['logger'].info('Adding a gateway router: rip')
@@ -37,13 +37,13 @@ def add(model):
         cmd_args.append(line.lstrip())
 
     try:
-        output_cmd2(cmd_args)
+        output_cmd2p(cmd_args)
     # Fails if zebrad and ripd have not been started yet.
     except:
-        output_cmd('/etc/init.d/quagga start')
-        output_cmd2(cmd_args)
+        output_cmdp('/etc/init.d/quagga start')
+        output_cmd2p(cmd_args)
 
-        output_cmd('/etc/init.d/quagga restart')
+        output_cmdp('/etc/init.d/quagga restart')
 
     # OVSDB transaction
     r = Row('gateway')

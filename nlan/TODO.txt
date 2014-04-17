@@ -1,0 +1,11 @@
+[1] OVSDB schema analyzer script
+
+Why does OVSDB return a string instead of a list, even if it can be seen as a list in the output of ovsdb-client dump?
+Maybe the program needs to refer to the OVSDB schema when converting JSON-RPC output to Python dict.
+
+[2] JSON-RPC error handling
+
+JSON-RPC respone error handling ==> raise some Exception
+
+[3] CRUD
+Use crud instead of setrow in bridges, vxlan and gateway.

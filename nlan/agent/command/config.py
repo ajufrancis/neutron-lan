@@ -25,14 +25,12 @@ def update_schema():
     start = None
 
     if platform == 'openwrt':
-        stop = '/etc/init.d/openvswitch stop'
-        start = '/etc/init.d/openvswitch start'
+        cmd('/etc/init.d/openvswitch stop')
+        cmd('ovsdb-tool convert /etc/openvswitch/conf.db', schema)
+        cmd('cp /etc/openvswitch/conf.db /etc/openvswitch/conf.db.old')
+        cmd('/etc/init.d/openvswitch start')
     elif platform == 'debian' or platform == 'raspbian':
-        stop = '/etc/init.d/openvswitch-switch stop'
-        start = '/etc/init.d/openvswitch-switch start'
-
-    cmd(stop)
-    cmd('cp /etc/openvswitch/conf.db /etc/openvswitch/conf.db.old')
-    cmd('ovsdb-tool convert /etc/openvswitch/conf.db', schema)
-    cmd(start)
+        cmd('service openvswitch-switch stop')
+        cmd('cp', schema, '/usr/share/openvswitch/vswitch.ovsschema')
+        cmd('service openvswitch-switch start')
 

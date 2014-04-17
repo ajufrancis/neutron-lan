@@ -38,9 +38,9 @@ def add(model):
         cmd = cmdutil.check_cmd
         cmd('lxc-start -d -f', conf, '-n', name)
 
-    # OVSDB transaction
-    # r = Row('services')
-    # r.setrow(model)
+        #OVSDB transaction
+        r = Row('services', key)
+        r.crud('add', model[key])
 
 
 

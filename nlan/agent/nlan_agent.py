@@ -16,10 +16,14 @@ from optparse import OptionParser
 from collections import OrderedDict
 import logging
 import cStringIO
+import ovsdb 
 
-out = cStringIO.StringIO()
+ENVFILE = '/opt/nlan/nlan_env.conf'
 
-def _init(envfile = 'nlan_env.conf'):
+#out = cStringIO.StringIO()
+out = sys.stdout
+
+def _init(envfile = ENVFILE):
 
     # Environment setting
     with open(envfile, 'r') as envfile:
@@ -40,13 +44,13 @@ def _init(envfile = 'nlan_env.conf'):
         ff = os.path.join(__n__['agent_dir'], f)
         sys.path.insert(0, ff)
 
-
 # Routing a request to a module
 def _route(operation, data):
     
     if operation:
         # Calls config modules 
-        data = eval(data)
+        if __n__['init'] != 'start':
+            data = eval(data)
         for func in data.keys():
             __import__(func)
             module = sys.modules[func]
@@ -70,10 +74,33 @@ def _route(operation, data):
         if result:
             print result
 
-    log = out.getvalue()
-    if log != '':
-        print log
-    out.close()
+
+
+def _linux_init():
+
+    state = ovsdb.get_current_state()
+
+    for module in __n__['state_order']:
+
+        model = None
+
+        if module in __n__['indexes'] and module in state:
+            ind_key = __n__['indexes'][module]
+            substate = state[module]
+            if isinstance(substate, dict):
+                model = {module: {(ind_key, substate[ind_key]):substate}} 
+            elif isinstance(substate, list):
+                temp = {} 
+                for l in substate:
+                    temp[(ind_key, l[ind_key])]=l
+                model = {module: temp}
+
+        elif module in state:
+            model = {module: state[module]}
+
+        if model:
+            __n__['logger'].debug("Linux init, model: " + str(model))
+            _route('add', model) 
 
 
 if __name__ == "__main__":
@@ -88,6 +115,7 @@ if __name__ == "__main__":
     parser.add_option("-I", "--info", help="set log level to INFO", action="store_true", default=False)
     parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
     parser.add_option("-f", "--envfile", help="NLAN Agent environment file", action="store", type="string", dest="filename")
+    parser.add_option("-i", "--init", help="Linux init script", action="store", type="string", dest="init_action")
 
     (options, args) = parser.parse_args()
 
@@ -122,5 +150,14 @@ if __name__ == "__main__":
 
     __n__['logger'].info('NLAN Agent initialization completed')
 
-    _route(operation=operation, data=data)
+    if options.init_action:
+        __n__['init'] = options.init_action
+        _linux_init()
+    else:
+        __n__['init'] = False
+        _route(operation=operation, data=data)
 
+    #log = out.getvalue()
+    #if log != '':
+    #print log
+    #out.close()

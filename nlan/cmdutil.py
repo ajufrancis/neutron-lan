@@ -13,8 +13,8 @@ try:
 except:
     pass
 		
-def _cmd(check, *args):
-	
+def _cmd(check, persist, *args):
+
     args = list(args)
     cmd_args = '["'
     for arg in args:
@@ -25,17 +25,24 @@ def _cmd(check, *args):
     cmd_args += '"]'
     cmd_args = eval(cmd_args)
         
-    return _cmd2(check, cmd_args)
+    return _cmd2(check=check, persist=persist, args=cmd_args)
 
 
 # If type(args) is list, use this function.
-def _cmd2(check, args):
+def _cmd2(check, persist, args):
 
     logstr = 'cmd: ' + ' '.join(args)
+
+    if persist:
+        if __n__['init'] == 'start':
+            logstr = logstr + ' [SKIPPED...]'
+            logger.debug(logstr)
+            return
+
     if logger:
         logger.debug(logstr)
     else:
-        print logstr 
+        print logstr
 	
     if check == 'call':
         return subprocess.call(args, stderr=subprocess.STDOUT)
@@ -49,25 +56,43 @@ def _cmd2(check, args):
 
 # If you can ignore error condition, use this function.
 def cmd(*args):
-	return _cmd('call', *args)
+	return _cmd('call', False, *args)
 
 def cmd2(args):
-        return _cmd2('call', args)
+        return _cmd2('call', False, args)
+
+def cmdp(*args):
+	return _cmd('call', True, *args)
+
+def cmd2p(args):
+        return _cmd2('call', True, args)
 
 # If you want the program to stop in case of error, use this function.	
 def check_cmd(*args):
-	return _cmd('check_call', *args)
+	return _cmd('check_call', False, *args)
 
 def check_cmd2(args):
-        return _cmd2('check_call', args)
+        return _cmd2('check_call', False, args)
+
+def check_cmdp(*args):
+	return _cmd('check_call', True, *args)
+
+def check_cmd2p(args):
+        return _cmd2('check_call', True, args)
 
 # If you want to get command output, use this function.
 def output_cmd(*args):
-	return _cmd('check_output', *args)
+	return _cmd('check_output', False, *args)
 
 def output_cmd2(args):
-        return _cmd2('check_output', args)
+        return _cmd2('check_output', False, args)
 	
+def output_cmdp(*args):
+	return _cmd('check_output', True, *args)
+
+def output_cmd2p(args):
+        return _cmd2('check_output', True, args)
+
 
 if __name__ == "__main__":
 

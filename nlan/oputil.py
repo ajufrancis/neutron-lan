@@ -19,7 +19,10 @@ class Model:
       
         for key in args:
             if key in self.model:
-                yield self.model[key]
+                if self.model[key] == '':
+                    yield None
+                else:
+                    yield self.model[key]
             else:
                 yield None
 

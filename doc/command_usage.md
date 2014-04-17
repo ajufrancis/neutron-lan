@@ -44,6 +44,10 @@ $ nlan_master.py system.env
 - show command list
 $ nlan_master command.list
 
-- show NLAN state in OVSDB (e.g., 'bridges' state)
+- show current NLAN state in OVSDB (e.g., 'bridges' state)
 $ nlan_master row.getrow bridges
+
+- show current all NLAN states in OVSDB
+$ nlan_master ovsdb.get_current_state
+
 </pre>

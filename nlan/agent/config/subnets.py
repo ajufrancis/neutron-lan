@@ -13,6 +13,7 @@ def _add_subnets(vni, vid, ip_dvr, ip_vhost, ports, default_gw):
 	
     cmd = cmdutil.cmd
     output_cmd = cmdutil.output_cmd
+    cmdp = cmdutil.cmdp
 
     row = Row('subnets', ('vni', vni))
   
@@ -37,8 +38,8 @@ def _add_subnets(vni, vid, ip_dvr, ip_vhost, ports, default_gw):
         cmd('ip link add', veth_ns, 'type veth peer name', temp_ns)
         cmd('ip link set dev', temp_ns, 'netns', ns)
         cmd('ip netns exec', ns, 'ip link set dev', temp_ns, 'name eth0')
-        cmd('ovs-vsctl add-port br-int', int_br, 'tag='+svid, '-- set interface', int_br, 'type=internal')
-        cmd('ovs-vsctl add-port br-int', int_dvr, 'tag='+svid, '-- set interface', int_dvr, 'type=internal')
+        cmdp('ovs-vsctl add-port br-int', int_br, 'tag='+svid, '-- set interface', int_br, 'type=internal')
+        cmdp('ovs-vsctl add-port br-int', int_dvr, 'tag='+svid, '-- set interface', int_dvr, 'type=internal')
         cmd('brctl addif', br, veth_ns)
         cmd('brctl addif', br, int_br)
         cmd('ip link set dev', veth_ns, 'promisc on')

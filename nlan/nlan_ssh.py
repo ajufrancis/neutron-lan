@@ -31,8 +31,10 @@ import yaml
 import paramiko as para, scp
 from optparse import OptionParser
 from time import sleep
-from env import NLAN_DIR, ROSTER_YAML, NLAN_AGENT_DIR, NLAN_AGENT, NLAN_MOD_DIRS, NLAN_SCP_DIR, NLAN_LIBS, SCHEMA 
+from env import NLAN_DIR, ROSTER_YAML, NLAN_AGENT_DIR, NLAN_AGENT, NLAN_MOD_DIRS, NLAN_SCP_DIR, NLAN_LIBS, SCHEMA, STATE_ORDER, INDEXES
 from cmdutil import output_cmd
+
+nlanconf = 'nlan_env.conf'
 
 bar = '=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+'
 
@@ -42,6 +44,8 @@ def _printmsg_request(lock, router, platform):
         print bar[:5], rp, bar[5+len(rp):] 
 
 def _deploy(router, operation, doc, cmd_list, loglevel):
+
+    #print router, operation, doc, cmd_list, loglevel
     
     from multiprocessing import Process, Lock, Pipe
 
@@ -85,13 +89,13 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
             if operation != '--scp' and operation != '--scpmod':
                 exitcode = _ssh_exec_command(ssh, cmd, cmd_args, out, err)
             else:
+                filelist = []
                 if operation == '--scp':
                     s = scp.SCPClient(ssh.get_transport())
                     print >>out, "target_dir: " + NLAN_AGENT_DIR
                     for f in cmd: 
-                        print >>out, "file: " + f
-                        lf = os.path.join(NLAN_DIR, f)
-                        s.put(lf, NLAN_AGENT_DIR)
+                        s.put(f, NLAN_AGENT_DIR)
+                        filelist.append(f)
                 elif operation == '--scpmod':
                     s = scp.SCPClient(ssh.get_transport())
                     print >>out, "target_dir: " + NLAN_AGENT_DIR
@@ -102,46 +106,56 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
                         exitcode = _ssh_exec_command(ssh, 'mkdir -p ' + rdir, None, out, err)
                         for f in os.listdir(ldir):
                             ff = os.path.join(ldir, f) 
-                            print >>out, "file: " + f
                             s.put(ff, rdir)
+                            filelist.append(f)
                     # scp NLAN-Agent scripts
                     for f in os.listdir(os.path.join(NLAN_SCP_DIR)):
                         lf = os.path.join(NLAN_SCP_DIR, f)
                         if os.path.isdir(lf):
                             pass
                         else:
-                            print >>out, "file: " + f
                             s.put(lf, NLAN_AGENT_DIR)
+                            filelist.append(f)
                     # scp NLAN libs
                     for f in NLAN_LIBS:
                         lf = os.path.join(NLAN_DIR, f)
-                        print >>out, "file: " + f
                         s.put(lf, NLAN_AGENT_DIR)
+                        filelist.append(f)
                     # nlan_env.conf generation
-                    rdir_modlist = os.path.join(NLAN_AGENT_DIR, 'nlan_env.conf')
-                    env = {}
+                    rdir_modlist = os.path.join(NLAN_AGENT_DIR, nlanconf)
+                    env = {} 
                     env['router'] = router
                     env['platform'] = platform
                     env['agent_dir'] = NLAN_AGENT_DIR
                     env['mod_dir'] = NLAN_MOD_DIRS 
                     env['schema'] = SCHEMA
+                    env['state_order'] = STATE_ORDER
+                    env['indexes'] = INDEXES
                     cmd = 'echo ' + '"'+str(env)+'"' + ' > ' + rdir_modlist 
                     exitcode = _ssh_exec_command(ssh, cmd, None, out, err)
+                    filelist.append(nlanconf)
+                
+                print >>out, "files: " + str(filelist)
             
             with lock:
                 outv = out.getvalue()
                 erre = err.getvalue()
                 outvl = len(outv)
                 errel = len(erre)
-                if outvl + errel > 0:
-                    rp = "NLAN Reply from router:{0},platform:{1}".format(router, platform)
-                    print bar[:5], rp, bar[5+len(rp):] 
+                if operation == '--scpmod' or operation == '--scp':
+                        rp = "Files copied to router:{0},platform:{1}".format(router, platform)
+                        print bar[:5], rp, bar[5+len(rp):] 
+                else:
+                    if outvl + errel > 0:
+                        rp = "NLAN Reply from router:{0},platform:{1}".format(router, platform)
+                        print bar[:5], rp, bar[5+len(rp):] 
                 if outvl > 0:
                     print(outv)
                 if errel > 0:
                     if outvl > 0:
                         print ('...')
                     print(erre)
+
             out.close()
             err.close()
             ssh.close()
@@ -173,7 +187,7 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
             passwd = roster[router]['passwd']	
             platform = roster[router]['platform']
 
-            cmd = NLAN_AGENT + ' ' + operation + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, 'nlan_env.conf') + ' ' + loglevel
+            cmd = NLAN_AGENT + ' ' + operation + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, nlanconf) + ' ' + loglevel
             cmd_args = doc
             cmd_args = '"' + cmd_args + '"'
             _printmsg_request(lock, router, platform)
@@ -213,11 +227,11 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
                 print 'operation: ' + operation 
                 print 'files: ' + str(cmd)	
             elif operation == None:
-                cmd = NLAN_AGENT + ' ' + doc + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, 'nlan_env.conf') + ' ' + loglevel
+                cmd = NLAN_AGENT + ' ' + doc + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, nlanconf) + ' ' + loglevel
                 _printmsg_request(lock, router, platform)
                 print 'command: ' + doc 
             else:
-                cmd = NLAN_AGENT + ' ' + operation + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, 'nlan_env.conf') + ' ' + loglevel
+                cmd = NLAN_AGENT + ' ' + operation + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, nlanconf) + ' ' + loglevel
                 cmd_args = doc
                 cmd_args = '"' + cmd_args + '"'
                 _printmsg_request(lock, router, platform)
@@ -294,8 +308,8 @@ if __name__=="__main__":
     elif options.scp:
         operation = "--scp"
 	doc = []
-        for line in args[1:]:
-            doc.append(line)	
+        for l in args[1:]:
+            doc.append(l)
     elif options.scpmod:
         operation = "--scpmod"
     else:
@@ -322,7 +336,7 @@ if __name__=="__main__":
 
 
 def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=''):
-    
+
     if doc and not operation:
         doc = ' '.join(doc)
     

@@ -21,7 +21,7 @@ import nlan_ssh
 def exec_nlan_ssh(mode, option, args, loglevel, git):
 
     if option != None:
-        nlan_ssh.main(operation=option, doc=None)
+        nlan_ssh.main(operation=option, doc=args)
     else:
         if args[0].endswith('.yaml'):
             # State files

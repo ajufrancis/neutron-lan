@@ -10,6 +10,14 @@ Reference: http://tools.ietf.org/rfc/rfc7047.txt
 import random, oputil
 
 DATABASE = 'Open_vSwitch'
+PARENT = 'NLAN'
+TABLES = {
+    'bridges': 'NLAN_Bridges',
+    'services': 'NLAN_Service',
+    'gateway': 'NLAN_Gateway',
+    'vxlan': 'NLAN_VXLAN',
+    'subnets': 'NLAN_Subnet'
+}
 
 def _index():
     return random.randint(0, 999999)
@@ -32,19 +40,20 @@ def todict(response):
         row = response["result"][0]["rows"][0]
 
         for key in row.keys():
-            value = row[key]
-            if isinstance(value, list):
-                if isinstance(value[1], list) and value[0] == 'set':
-                    dict_value[key] = value[1]
-                if isinstance(value[1], list) and value[0] == 'map':
-                    d = {} 
-                    for l in value[1]:
-                        d[l[0]] = l[1]
-                    dict_value[key] = d
-                elif not(isinstance(value[1], list)) and value[0] == 'uuid':
-                    dict_value[key] = value[1]
-            else:
-                dict_value[key] = row[key]
+            if key != '_uuid' and key != '_version':
+                value = row[key]
+                if isinstance(value, list):
+                    if isinstance(value[1], list) and value[0] == 'set':
+                        dict_value[key] = value[1]
+                    if isinstance(value[1], list) and value[0] == 'map':
+                        d = {} 
+                        for l in value[1]:
+                            d[l[0]] = l[1]
+                        dict_value[key] = d
+                    elif not(isinstance(value[1], list)) and value[0] == 'uuid':
+                        dict_value[key] = value[1]
+                else:
+                    dict_value[key] = row[key]
     except:
         pass
 
@@ -60,19 +69,20 @@ def todicts(response):
             dict_value = {}
 
             for key in row.keys():
-                value = row[key]
-                if isinstance(value, list):
-                    if isinstance(value[1], list) and value[0] == 'set':
-                        dict_value[key] = value[1]
-                    if isinstance(value[1], list) and value[0] == 'map':
-                        d = {} 
-                        for l in value[1]:
-                            d[l[0]] = l[1]
-                        dict_value[key] = d
-                    elif not(isinstance(value[1], list)) and value[0] == 'uuid':
-                        dict_value[key] = value[1]
-                else:
-                    dict_value[key] = row[key]
+                if key != '_uuid' and key != '_version':
+                    value = row[key]
+                    if isinstance(value, list):
+                        if isinstance(value[1], list) and value[0] == 'set':
+                            dict_value[key] = value[1]
+                        if isinstance(value[1], list) and value[0] == 'map':
+                            d = {} 
+                            for l in value[1]:
+                                d[l[0]] = l[1]
+                            dict_value[key] = d
+                        elif not(isinstance(value[1], list)) and value[0] == 'uuid':
+                            dict_value[key] = value[1]
+                    else:
+                        dict_value[key] = row[key]
 
             dicts.append(dict_value)
     except:
@@ -438,13 +448,6 @@ class OvsdbRow(object):
 # r.delrow()
 class Row(OvsdbRow):
 
-    PARENT = 'NLAN'
-    TABLES = {
-        'bridges': 'NLAN_Bridges',
-        'gateway': 'NLAN_Gateway',
-        'vxlan': 'NLAN_VXLAN',
-        'subnets': 'NLAN_Subnet'
-    }
 
     # Creates an instance of a row 
     def __init__(self, module, index=None):
@@ -452,9 +455,11 @@ class Row(OvsdbRow):
         response = insert('NLAN', {})
         self.module = module
 
-        self.parent = self.__class__.PARENT
+        #self.parent = self.__class__.PARENT
+        self.parent = PARENT
 
-        table = self.__class__.TABLES[module]
+        #table = self.__class__.TABLES[module]
+        table = TABLES[module]
 
         super(self.__class__, self).__init__(table, index)
 
@@ -464,31 +469,38 @@ class Row(OvsdbRow):
         response = select(self.table, self.where)
         self.row = todict(response)
 
-            
     def delrow(self):
         response = mutate_delete(self.table, self.where, self.parent, self.module)
         self.row = {} 
 
+    
     def crud(self, crud, model):
-        ind = self.index[0]
-        keys = model.keys()
-        if ind in keys and crud == 'add':
-            self.setrow(model)
-        elif crud == 'add' or crud == 'update':
-            for k in keys:
-                self[k] = model[k]
-        elif ind in keys and crud == 'delete':
-            self.delrow()
-        elif crud == 'delete':
-            for k in keys:
-                del self[k]
-        else:
-            raise Exception("Parameter error")
+
+        if __n__['init'] != 'start':
+
+            ind = self.index[0]
+            keys = model.keys()
+
+            __n__['logger'].debug("CRUD operation ({0}): {1}".format(crud,str(model)))
+
+            if ind in keys and crud == 'add':
+                self.setrow(model)
+            elif crud == 'add' or crud == 'update':
+                for k in keys:
+                    self[k] = model[k]
+            elif ind in keys and crud == 'delete':
+                self.delrow()
+            elif crud == 'delete':
+                for k in keys:
+                    del self[k]
+            else:
+                raise Exception("Parameter error")
 
 
     @classmethod
     def clear(cls):
-        response = delete(cls.PARENT, [])
+        #response = delete(cls.PARENT, [])
+        response = delete(PARENT, [])
 
 # Searches a table with 'column = value'.
 # Returns rows in the form of Python dictionary
@@ -534,6 +546,24 @@ def get_vxlan_port(peer):
             return l['ofport']
 
     raise Exception("No ofport found")
+
+def get_current_state():
+
+    state = {}
+
+    row = todict(select('NLAN', []))
+
+    for key in row:
+        if key != '_uuid' and key != '_version':
+            v = row[key]
+            if isinstance(v, list):
+                if len(v) > 0:
+                    state[key] = todicts(select(table=TABLES[key],where=[]))   
+            elif isinstance(v, str) or isinstance(v, unicode):
+                state[key] = todict(select(table=TABLES[key],where=[]))
+
+    return state
+
 
 #######################################################################
 
