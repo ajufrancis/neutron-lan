@@ -34,7 +34,7 @@ The original OVSDB schema(JSON) can be converted into YAML using some python lib
 	    /             /
 	   / NLAN schema / --------------+
 	  / in YAML     /                |
-	 --------------          Merge   +--------> New schema that Open vSwitch uses 
+	 --------------          Merge   +--------> New OVSDB schema that Open vSwitch and NLAN Agent use
 	     ______________              |
 	    /             /              |
 	   /OVSDB schema /---------------+
