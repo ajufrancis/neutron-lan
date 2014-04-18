@@ -31,7 +31,7 @@ import yaml
 import paramiko as para, scp
 from optparse import OptionParser
 from time import sleep
-from env import NLAN_DIR, ROSTER_YAML, NLAN_AGENT_DIR, NLAN_AGENT, NLAN_MOD_DIRS, NLAN_SCP_DIR, NLAN_LIBS, SCHEMA, STATE_ORDER, INDEXES
+from env import * 
 from cmdutil import output_cmd
 
 nlanconf = 'nlan_env.conf'
@@ -130,9 +130,17 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
                     env['mod_dir'] = NLAN_MOD_DIRS 
                     env['schema'] = SCHEMA
                     env['state_order'] = STATE_ORDER
+                    env['tables'] = TABLES
                     env['indexes'] = INDEXES
-                    cmd = 'echo ' + '"'+str(env)+'"' + ' > ' + rdir_modlist 
-                    exitcode = _ssh_exec_command(ssh, cmd, None, out, err)
+                    env['types'] = TYPES 
+                    lf = os.path.join(NLAN_DIR, nlanconf) 
+                    with open(lf, 'w') as f:
+                        f.seek(0)
+                        f.truncate()
+                        f.write(str(env))
+                    s.put(lf, NLAN_AGENT_DIR)
+                    #cmd = 'echo ' + '"'+str(env)+'"' + ' > ' + rdir_modlist 
+                    #exitcode = _ssh_exec_command(ssh, cmd, None, out, err)
                     filelist.append(nlanconf)
                 
                 print >>out, "files: " + str(filelist)

@@ -1,19 +1,19 @@
-Use of OVSDB in neutron-lan
----------------------------
+Use of OVSDB in NLAN 
+--------------------
 
-OVSDB is used for storing local config parameters, so that the config survives after rebooting the system.
+OVSDB is used for storing local config parameters, so that the NLAN-related config survives after rebooting the system.
 
 
-OVSDB table relationship for neutron-lan
-----------------------------------------
-
-The OVSDB schema basically follows the YAML-based modeling of neutron-lan:
+NLAN tables in OVSDB
+--------------------
 
 <pre>
 NLAN
   | 
   +-- bridges -- NLAN_Bridges
   |   
+  +-- services* -- NLAN_Service
+  |
   +-- gateway -- NLAN_Gateway
   |
   +-- vxlan -- NLAN_VXLAN
@@ -23,75 +23,41 @@ NLAN
 
 Note that "NLAN" is a root-set table, so "isRoot" in the schema definion is set to "true".
 
-OVSDB neutron-lan schema
-------------------------
+OVSDB NLAN schema in YAML
+-------------------------
 
-Updated on 2014/4/4 to include 'placeholder' <peers> for a template engine.
+The original OVSDB schema(JSON) can be converted into YAML using some python libraries or vise versa.
 
-<pre>
-   "NLAN": {
-     "columns": {
-       "bridges": {
-         "type": {"key": {"type": "uuid",
-                          "refTable": "NLAN_Bridges"},
-                  "min": 0, "max": 1}},
-       "gateway": {
-         "type": {"key": {"type": "uuid",
-                          "refTable": "NLAN_Gateway"},
-                  "min": 0, "max": 1}},
-       "vxlan": {
-         "type": {"key": {"type": "uuid",
-                          "refTable": "NLAN_VXLAN"},
-                  "min": 0, "max": 1}},
-       "subnets": {
-         "type": {"key": {"type": "uuid",
-                          "refTable": "NLAN_Subnet"},
-                  "min": 0, "max": "unlimited"}}},   
-     "isRoot": true,
-     "maxRows": 1},
-   "NLAN_Bridges": {
-     "columns": {
-       "ovs_bridges": {
-         "type": "string"},
-       "controller": {
-         "type": "string"}},
-     "maxRows": 1},
-   "NLAN_Gateway": {
-     "columns": {
-       "rip": {
-         "type": "string"},
-       "network": {
-         "type": "string"}},
-     "maxRows": 1},
-   "NLAN_VXLAN": {
-     "columns": {
-       "local_ip": {
-         "type": "string"},
-       "remote_ips": {
-         "type": {"key": {"type": "string"},
-                  "min": 0, "max": "unlimited"}}},
-     "maxRows": 1},
-   "NLAN_Subnet": {
-     "columns": {
-       "vid": {
-         "type": "integer"},
-       "vni": {
-         "type": "integer"},
-       "ip_dvr": {
-         "type": "string"},
-       "ip_vhost": {
-         "type": "string"},
-       "ports": {
-         "type": {"key": {"type": "string"},
-                  "min": 0, "max": "unlimited"}},
-       "peers": {
-         "type": {"key": {"type": "string"},
-                  "min": 0, "max": "unlimited"}}},
-     "indexes": [["vni"]]}
-</pre>
+**NLAN schema is written in YAML format.** The schema is merged with the original OVSDB schema(JSON) by using "nlan_schema.py" utility, and NLAN Agent uses the schema(JSON) for storing/fetching NLAN state to/from OVSDB.
 
-OVSDB client
-------------
+	     ______________
+	    /             /
+	   / NLAN schema / --------------+
+	  / in YAML     /                |
+	 --------------          Merge   +--------> New schema that Open vSwitch uses 
+	     ______________              |
+	    /             /              |
+	   /OVSDB schema /---------------+
+	  / in JSON     /
+	 --------------
+
+* [Original OVSDB schema converted into YAML](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb/vswitch.schema_2.0.0.yaml)
+* [NLAN schema in YAML](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb/nlan.schema_0.0.1.yaml)
+* [O/R mapper for OVSSB](https://github.com/alexanderplatz1999/neutron-lan/blob/master/nlan/agent/ovsdb.py)
+
+
+NLAN state file in YAML
+-----------------------
+
+Actual NLAN state parameters are written in the following file:
+
+* [dvsdvr.yaml](https://github.com/alexanderplatz1999/neutron-lan/blob/master/nlan/dvsdvr.yaml)
+
+NLAN state file can work with a custom-made template engine as is indicated at the top line in the file: "#!template.dvsdvr"
+
+
+OVSDB test client
+-----------------
 
 I have already written a [OVSDB O/R mapper](https://github.com/alexanderplatz1999/neutron-lan/blob/master/nlan/agent/ovsdb.py) exclusively for neutron-lan.
 

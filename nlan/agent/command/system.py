@@ -24,7 +24,3 @@ def service(*args):
 
     return output_cmd(scripts[script][platform], command)
 
-# Returns nlan environment
-def env():
-    
-    return __n__

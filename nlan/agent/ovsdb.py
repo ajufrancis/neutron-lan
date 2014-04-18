@@ -11,13 +11,7 @@ import random, oputil
 
 DATABASE = 'Open_vSwitch'
 PARENT = 'NLAN'
-TABLES = {
-    'bridges': 'NLAN_Bridges',
-    'services': 'NLAN_Service',
-    'gateway': 'NLAN_Gateway',
-    'vxlan': 'NLAN_VXLAN',
-    'subnets': 'NLAN_Subnet'
-}
+TABLES = __n__['tables']
 
 def _index():
     return random.randint(0, 999999)
@@ -31,8 +25,25 @@ def _uuid_name():
 def get_uuid(response):
     return response["result"][0]["rows"][0]["_uuid"][1]
 
+# OVSDB returns a non-list value even if it's 'max' is greater than 1.
+# NLAN assumes that a value with 'max' greater than 1 is a list object
+# even if it has only one member in the list.
+def _iflist(module, param):
+    iflist = False
+    try:
+        iflist = __n__['types'][module][param]['max']
+        if isinstance(iflist, int):
+            if iflist > 1:
+                iflist = True
+        elif isinstance(iflist, str):
+            if iflist == 'unlimited':
+                iflist = True
+    except:
+        pass
+    return iflist
+
 # Get a row in the form of Python dictionary 
-def todict(response):
+def todict(response, module=None):
 
     dict_value = {}
 
@@ -53,14 +64,17 @@ def todict(response):
                     elif not(isinstance(value[1], list)) and value[0] == 'uuid':
                         dict_value[key] = value[1]
                 else:
-                    dict_value[key] = row[key]
+                    if _iflist(module, key):
+                        dict_value[key] = [row[key]]
+                    else:
+                        dict_value[key] = row[key]
     except:
         pass
 
     return dict_value
 
 # Get rows in the form of Python dictionary 
-def todicts(response):
+def todicts(response, module=None):
 
     dicts = [] 
 
@@ -82,7 +96,10 @@ def todicts(response):
                         elif not(isinstance(value[1], list)) and value[0] == 'uuid':
                             dict_value[key] = value[1]
                     else:
-                        dict_value[key] = row[key]
+                        if _iflist(module, key):
+                            dict_value[key] = [row[key]]
+                        else:
+                            dict_value[key] = row[key]
 
             dicts.append(dict_value)
     except:
@@ -558,9 +575,9 @@ def get_current_state():
             v = row[key]
             if isinstance(v, list):
                 if len(v) > 0:
-                    state[key] = todicts(select(table=TABLES[key],where=[]))   
+                    state[key] = todicts(select(table=TABLES[key],where=[]),key)   
             elif isinstance(v, str) or isinstance(v, unicode):
-                state[key] = todict(select(table=TABLES[key],where=[]))
+                state[key] = todict(select(table=TABLES[key],where=[]),key)
 
     return state
 

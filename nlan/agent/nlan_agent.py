@@ -16,7 +16,6 @@ from optparse import OptionParser
 from collections import OrderedDict
 import logging
 import cStringIO
-import ovsdb 
 
 ENVFILE = '/opt/nlan/nlan_env.conf'
 
@@ -78,6 +77,7 @@ def _route(operation, data):
 
 def _linux_init():
 
+    import ovsdb 
     state = ovsdb.get_current_state()
 
     for module in __n__['state_order']:
@@ -148,13 +148,15 @@ if __name__ == "__main__":
     else:
         data = args
 
-    __n__['logger'].info('NLAN Agent initialization completed')
 
     if options.init_action:
         __n__['init'] = options.init_action
+        __n__['logger'].info('NLAN Agent initialization completed\n{}'.format(__n__))
         _linux_init()
     else:
         __n__['init'] = False
+        __n__['logger'].info('NLAN Agent initialization completed\n{}'.format(__n__))
+
         _route(operation=operation, data=data)
 
     #log = out.getvalue()

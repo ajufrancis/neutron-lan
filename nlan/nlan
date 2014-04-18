@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python nlan_master.py $*

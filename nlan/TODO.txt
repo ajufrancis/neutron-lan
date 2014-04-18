@@ -1,4 +1,4 @@
-[1] OVSDB schema analyzer script
+[1] OVSDB schema analyzer script -- DONE!
 
 Why does OVSDB return a string instead of a list, even if it can be seen as a list in the output of ovsdb-client dump?
 Maybe the program needs to refer to the OVSDB schema when converting JSON-RPC output to Python dict.

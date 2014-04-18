@@ -3,6 +3,7 @@
 #
 
 import os
+import nlan_schema
 
 # Note:
 # NLAN modules sometimes refer to "__n__" built-in variable
@@ -12,6 +13,9 @@ import os
 
 # NLAN Master Home Directory
 NLAN_DIR = '/root/neutron-lan/nlan'
+
+# Schema Directory
+SCHEMA_DIR = '/root/neutron-lan/nlan'
 
 # Directory of NLAN agent scripts including NLAN modules
 NLAN_SCP_DIR = os.path.join(NLAN_DIR, 'agent') 
@@ -34,14 +38,22 @@ NLAN_LIBS = ['oputil.py', 'cmdutil.py']
 # NLAN module directories
 NLAN_MOD_DIRS = ['command', 'config']
 
-# OVSDB schema file with NLAN-related addition
-SCHEMA = 'vswitch.schema_2.0.0'
+# NLAN schema file in YAML
+NLAN_SCHEMA = os.path.join(SCHEMA_DIR, 'nlan.schema_0.0.1.yaml')
+# Original OVSDB schema file
+#OVSDB_SCHEMA = os.path.join(SCHEMA_DIR, 'vswitch.schema_2.0.0')
 
+# Target OVSDB schema file merged with NLAN_SCHEMA
+SCHEMA = 'ovsdb_nlan.schema'
+
+state_order, tables, indexes, types = nlan_schema.analyze_schema(NLAN_SCHEMA)
+# NLAN state order (rule: lower states depend on upper states)
+#STATE_ORDER = ['bridges', 'services', 'gateway', 'vxlan', 'subnets']
+STATE_ORDER = state_order 
+# NLAN tables
+TABLES = tables
 # List indexes for NLAN "dvsdvr" state 
-# TODO: dynamically generate this from the OVSDB schema
-INDEXES = {'subnets': 'vni', 'services': 'name'}
-
-# "dvsdvr" state order (rule: lower states depend on upper states)
-# TODO: dynamically generate this from the OVSDB schema
-STATE_ORDER = ['bridges', 'services', 'gateway', 'vxlan', 'subnets']
-
+#INDEXES = {'subnets': 'vni', 'services': 'name'}
+INDEXES = indexes 
+# NLAN state parameter types
+TYPES = types

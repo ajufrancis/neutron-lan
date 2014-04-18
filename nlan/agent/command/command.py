@@ -10,11 +10,12 @@ def list():
     for f in l:
         if f.endswith('.py'):
             with open(os.path.join(d, f), 'r') as ff:
-                print "... file: {} ...".format(f)
                 source = ff.read().rstrip('\n')
                 lines = source.split('\n')
                 for line in lines:
                     if line.startswith('def '):
                         line = line.rstrip(':').split(' ',1)[1]
-                        print "- {}".format(line)
-            print ''
+                        func = line.split('(')[0]
+                        args = line.split('(')[1].rstrip(')').split(',')
+                        args = ' '.join(args)
+                        print "{}.{} {}".format(f[:-3],func,args)
