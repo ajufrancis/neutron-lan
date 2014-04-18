@@ -1,4 +1,3 @@
-
 Tips with managing services:
 
 * http://www.tldp.org/HOWTO/HighQuality-Apps-HOWTO/boot.html
@@ -48,7 +47,7 @@ esac
 
 exit 0
 
-<pre>
+</pre>
 
 <pre>
 root@rpi1:/etc/rc2.d# update-rc.d nlan defaults
