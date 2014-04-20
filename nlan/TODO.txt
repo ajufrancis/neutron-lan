@@ -9,3 +9,9 @@ JSON-RPC respone error handling ==> raise some Exception
 
 [3] CRUD
 Use crud instead of setrow in bridges, vxlan and gateway.
+
+[4] option
+
+$ python nlan_master.py -t openwrt1 --raw 'ip netns exec ns1 ping -c 2 10.0.1.102'
+$ ./nlan --raw ' ... -c ...' fails, since it inculdes '-c' option.
+

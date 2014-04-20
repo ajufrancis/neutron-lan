@@ -1,38 +1,19 @@
 #!/usr/bin/env python
 
 """
-2014/2/6
-
-Usage example: 
-$ python nlan-ssh.py --help
-$ python nlan-ssh.py '*' --scp * 
-$ python nlan-ssh.py '*' --scpmod
-$ python nlan-ssh.py openwrt1 --raw 'cat /etc/hosts'
-$ python nlan-ssh.py '*' init.run
-$ python nlan-ssh.py '*' test.ping 192.168.1.10
-$ python nlan-ssh.py '*' test.hello hello world!
-
-nlan-ssh.py can also execute an arbitrary python module.function:
-$ python nlan-ssh.py '*' os.getenv PATH
-$ python nlan-ssh.py '*' os.path.isdir '/tmp'
-
-CRUD operations:
---add: Create
---get: Read
---update: Update 
---delete: Delete
-
-If ssh login is very slow to start, set UseDNS no in sshd_config.  
-Refer to http://www.openssh.com/faq.html
+2014/2/6, created  
+2014/4/29, merged with nlan_master.py 
 
 """
 import os, sys 
-import yaml
 import paramiko as para, scp
 from optparse import OptionParser
 from time import sleep
+import traceback
+
+import cmdutil
+import yaml, yamldiff
 from env import * 
-from cmdutil import output_cmd
 
 nlanconf = 'nlan_env.conf'
 
@@ -43,8 +24,13 @@ def _printmsg_request(lock, router, platform):
         rp = "NLAN Request to router:{0},platform:{1}".format(router, platform)
         print bar[:5], rp, bar[5+len(rp):] 
 
-def _deploy(router, operation, doc, cmd_list, loglevel):
+def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None):
 
+
+    if doc and not operation or doc and operation == '--raw':
+        doc = ' '.join(doc)
+    if not loglevel:
+        loglevel = ''
     #print router, operation, doc, cmd_list, loglevel
     
     from multiprocessing import Process, Lock, Pipe
@@ -275,7 +261,7 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
         print "\nOK. I will terminate the subprocesses..."
         for l in ssh_sessions:
             pid = str(l[0].pid)
-            sub = output_cmd('ps -p', pid, 'h')
+            sub = cmdutil.output_cmd('ps -p', pid, 'h')
             l[0].terminate()
             l[0].join()
             print "subrocess:", sub 
@@ -285,67 +271,81 @@ def _deploy(router, operation, doc, cmd_list, loglevel):
             l[0].terminate()
         
 
-if __name__=="__main__":
 
-    usage = "usage: %prog [options] [router] [arg]..."
+if __name__=='__main__':
+
+    logo = """
+       _  ____   ___   _  __  
+      / |/ / /  / _ | / |/ /  
+     /    / /__/ __ |/    /   
+    /_/|_/____/_/ |_/_/|_/ 
+
+    """
+
+    usage = logo + "usage: %prog [options] [arg]..."
     parser = OptionParser(usage=usage)
-    parser.add_option("-r", "--raw", help="run a raw shell command on remote routers", action="store_true", default=False)
-    parser.add_option("-a", "--add", help="add NLAN states", action="store_true", default=False)
-    parser.add_option("-g", "--get", help="get NALN states", action="store_true", default=False)
-    parser.add_option("-u", "--update", help="update NLAN states", action="store_true", default=False)
-    parser.add_option("-d", "--delete", help="delete NLAN states", action="store_true", default=False)
+    parser.add_option("-t", "--target", help="target router", action="store", type="string", dest="target")
     parser.add_option("-c", "--scp", help="copy scripts to remote routers", action="store_true", default=False)
     parser.add_option("-m", "--scpmod", help="copy NLAN Agent and NLAN modules to remote routers", action="store_true", default=False)
+    parser.add_option("-a", "--add", help="(CRUD) add NLAN states", action="store_true", default=False)
+    parser.add_option("-g", "--get", help="(CRUD) get NLAN states", action="store_true", default=False)
+    parser.add_option("-u", "--update", help="(CRUD) update NLAN states", action="store_true", default=False)
+    parser.add_option("-d", "--delete", help="(CRUD) delete NLAN states", action="store_true", default=False)
+    parser.add_option("-r", "--raw", help="run a raw shell command on remote routers", action="store_true", default=False)
     parser.add_option("-I", "--info", help="set log level to INFO", action="store_true", default=False)
     parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
+    parser.add_option("-G", "--git", help="use Git archive", action="store_true", default=False)
 
-    
     (options, args) = parser.parse_args()
 
-
-    operation = None 
-
-    router = args[0]
-    if router == '*':
-        router = '__ALL__'
-
-    doc = ' '.join(args[1:])
-    if options.raw:
-	operation = "--raw" 
-	doc = args[1]
+    option = None
+    git = False
+    target = None
+    if options.add:
+        option = '--add'
+    elif options.get:
+        option = '--get'
+    elif options.update:
+        option = '--update'
+    elif options.delete:
+        option = '--delete'
     elif options.scp:
-        operation = "--scp"
-	doc = []
-        for l in args[1:]:
-            doc.append(l)
+        option = '--scp'
     elif options.scpmod:
-        operation = "--scpmod"
-    else:
-        if options.add:
-            operation = "--add" 
-            doc = args[1]
-        elif options.get:
-            operation = "--get"
-            doc = args[1]
-        elif options.update:
-            operation = "--update"
-            doc = args[1]
-        elif options.delete:
-            operation = "--delete"
-            doc = args[1]
+        option = '--scpmod'
+    elif options.raw:
+        option = '--raw'
+    elif options.git:
+        git = True
 
-    loglevel = ''
+    loglevel = None
     if options.info:
-        loglebel = '--info'
+        loglevel = '--info'
     elif options.debug:
         loglevel = '--debug'
-	
-    _deploy(router=router,operation=operation,doc=doc,cmd_list=None,loglevel=loglevel)
 
+    router = '__ALL__'
+    if options.target:
+        router = options.target
 
-def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=''):
-
-    if doc and not operation:
-        doc = ' '.join(doc)
-    
-    _deploy(router=router,operation=operation,doc=doc,cmd_list=cmd_list,loglevel=loglevel)
+    # --add, --delete, --update, --delete, --scp, --scpmod, --raw
+    if option != None:
+        main(router=router, operation=option, doc=args, loglevel=loglevel)
+    else:
+        # NLAN CRUD operations generated from a YAML state file
+        if args[0].endswith('.yaml'):
+            # State files
+            for v in args:
+                cmd_list = yamldiff.crud_diff(v)
+                if len(cmd_list) != 0:
+                    try:
+                        main(router=router, operation='--batch', cmd_list=cmd_list, loglevel=loglevel)
+                    except:
+                        traceback.print_exc()
+                        sys.exit(1)
+                if git:
+                    cmdutil.check_cmd('git add', v)
+                    cmdutil.check_cmd('git commit -m updated')
+        else:
+            # NLAN command module execution
+            main(router=router, doc=args, loglevel=loglevel)
