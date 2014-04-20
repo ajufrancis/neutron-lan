@@ -2,7 +2,7 @@
 
 """
 2014/2/6, created  
-2014/4/29, merged with nlan_master.py 
+2014/4/21, merged with nlan_master.py 
 
 """
 import os, sys 
