@@ -33,7 +33,7 @@ The OrderedDict objects are serialized into string data and sent to target OpenW
                               |                                                 |
                               |         Serialized into str           (OVSDB protocol)     +--> module A
                               |              ----------                         |          |
-                       nlan_master.py ---- /dict data/ stdin over ssh ---> nlan_agent.py --+--> module B
+                            nlan.py ------ /dict data/ stdin over ssh ---> nlan_agent.py --+--> module B
                               |           -----------                                      |
                               |           CRUD operations                                  +--> module C
                               V       <---- stdout/stderr over ssh -------
@@ -43,11 +43,11 @@ The OrderedDict objects are serialized into string data and sent to target OpenW
              
 Refer to [neutron-lan roster file](../nlan/roster.yaml).
 
-"nlan_master.py" can issue multiple requests to routers in parallel at the same time.
+"nlan.py" can issue multiple requests to routers in parallel at the same time.
 
 "nlan-agent.py" returns the results to "nlan.py" via stdout/stderr over ssh.
 
-"nlan-ssh.py' can execute raw commands on the routers with '--raw' option, similar to salt-ssh's '-r' option.
+"nlan.py' can also execute raw commands on the routers with '--raw' option, similar to salt-ssh's '-r' option.
 
 The Python dict object will be like this:
 
@@ -72,12 +72,12 @@ nlan_ssh.py's "--scpmod" option allows me to copy the nlan modules to the target
      Step 1:
      
                          ---------------              Target routers
-     [nlan_ssh.py] -----/Python scripts/-----------> "/opt/nlan" directory
+     [nlan.py] ---------/Python scripts/-----------> "/opt/nlan" directory
                         --------------- /
                         ----------------
       
                          ---------------              Target routers
-     [nlan_ssh.py] -----/Python scripts/-----------> "/opt/nlan" directory
+     [nlan.py] ---------/Python scripts/-----------> "/opt/nlan" directory
                         --------------- /
                         ----------------
                                :
@@ -85,7 +85,7 @@ nlan_ssh.py's "--scpmod" option allows me to copy the nlan modules to the target
      Step 2:
      
                  stdin  ---------------              Target routers
-    [nlan_master.py] --/Python dict   / - - - - - > Agent-scripts under "/opt/nlan" 
+    [nlan.py] ---------/Python dict   / - - - - - > Agent-scripts under "/opt/nlan" 
                       ---------------
                   < - - - - - - - - - - - - stdout
                   < - - - - - - - - - - - - stderr
@@ -116,9 +116,9 @@ Category 2: NLAN Config Modules (like SaltStack state modules):
 - subnets
 - (other modules to be added) 
 
-nlan_master.py reads a YAML file and invoke corresponding config modules on remote routers:
+nlan.py reads a YAML file and invoke corresponding config modules on remote routers:
 <pre>
-$ python nlan_master.py dvsdvr.yaml
+$ python nlan.py dvsdvr.yaml
 </pre>
 
 Category 3: Other python modules
@@ -126,7 +126,7 @@ Category 3: Other python modules
 
 For example, the following will invoke os.getenv module to obtain PATH environement variable:
 <pre>
-$ python nlan_master.py os.getenv PATH
+$ python nlan.py os.getenv PATH
 </pre>
 
 To support CRUD operations, each config module should implement "add", "get", "update" and "delete" functions in it.
@@ -144,42 +144,128 @@ All the way from YAML to OVSDB
 
 The following command reads a local YAML file, generates CRUD operations and invokes modules at each router:
 <pre>
-$ python nlan_master.py dvsdvr.yaml
+$ python nlan.py dvsdvr.yaml
 </pre>
 
 Each remote module stores its 'model' in OVSDB at the end of the configuration process.
 
 Here is a sample output of 'ovsdb-client dump Open_vSwitch':
+
+At "rpi1",
 <pre>
+$ ovsdb-client dump Open_vSwitch
+
+                        :
+
 NLAN table
-_uuid                                bridges                              gateway                              subnets
-                                                                              vxlan
------------------------------------- ------------------------------------ ------------------------------------ -------------------------------------
------------------------------------------------------------------------------ ------------------------------------
-8c0dda8d-1cf8-4f4b-a70f-a63b1050215c af06efd9-df9b-485c-8301-da7d43037003 74f0b0b5-e68b-48e2-8c6b-09b440961dc1 [9f992391-ec60-4ca8-8af7-4fe894d32ab3
-, c91f5e75-9f91-47f7-b0c5-81653a8d57c2, e120f2d7-13fc-4da0-8a08-c3b0a97a985c] 6a578ec1-dcbb-4c40-a6e3-499261243b42
+_uuid                                bridges                              gateway services                               subnets                                                                      vxlan
+------------------------------------ ------------------------------------ ------- -------------------------------------- ---------------------------------------------------------------------------- ------------------------------------
+2928cfe4-1615-4e5a-ad56-5e10b881a9bb b96c47b6-1ace-4ea4-af7c-946d2623cacc []      [bf9038c4-5b02-45d0-adfd-51176b24ca49] [376c0b57-9108-44c1-8fcd-d28634953977, d11f17e3-1457-4a24-b7fd-34710af48ca2] 42da0c85-688a-4231-9082-5e43a63756bd
 
 NLAN_Bridges table
 _uuid                                controller ovs_bridges
 ------------------------------------ ---------- -----------
-af06efd9-df9b-485c-8301-da7d43037003 ""         enabled
+b96c47b6-1ace-4ea4-af7c-946d2623cacc []         enabled
 
 NLAN_Gateway table
-_uuid                                network  rip
------------------------------------- -------- -------
-74f0b0b5-e68b-48e2-8c6b-09b440961dc1 "eth0.2" enabled
+_uuid network rip
+----- ------- ---
+
+NLAN_Service table
+_uuid                                chain                  name
+------------------------------------ ---------------------- --------
+bf9038c4-5b02-45d0-adfd-51176b24ca49 ["dmz.1001", "mz.101"] "snort1"
 
 NLAN_Subnet table
-_uuid                                ip_dvr             ip_vhost             ports      vid vni
------------------------------------- ------------------ -------------------- ---------- --- ---
-e120f2d7-13fc-4da0-8a08-c3b0a97a985c "10.0.1.1/24"      "10.0.1.101/24"      ["eth0.1"] 1   101
-9f992391-ec60-4ca8-8af7-4fe894d32ab3 "10.0.3.1/24"      "10.0.3.101/24"      ["eth0.3"] 3   103
-c91f5e75-9f91-47f7-b0c5-81653a8d57c2 "192.168.100.1/24" "192.168.100.101/24" []         2   1
+_uuid                                default_gw ip_dvr ip_vhost mode peers                              ports        vid vni
+------------------------------------ ---------- ------ -------- ---- ---------------------------------- ------------ --- ----
+376c0b57-9108-44c1-8fcd-d28634953977 []         []     []       []   ["192.168.1.101"]                  ["dmz.1001"] 111 1001
+d11f17e3-1457-4a24-b7fd-34710af48ca2 []         []     []       []   ["192.168.1.102", "192.168.1.103"] ["mz.101"]   1   101
 
 NLAN_VXLAN table
 _uuid                                local_ip        remote_ips
 ------------------------------------ --------------- ---------------------------------------------------
-6a578ec1-dcbb-4c40-a6e3-499261243b42 "192.168.1.101" ["192.168.1.102", "192.168.1.103", "192.168.1.104"]
+42da0c85-688a-4231-9082-5e43a63756bd "192.168.1.104" ["192.168.1.101", "192.168.1.102", "192.168.1.103"]
 </pre>
 
+
+At "openwrt1",
+<pre>
+$ ovsdb-client dump Open_vSwitch
+
+                        :
+NLAN table
+_uuid                                bridges                              gateway                              services subnets
+                                                                               vxlan
+------------------------------------ ------------------------------------ ------------------------------------ -------- ------------------------------------
+------------------------------------------------------------------------------ ------------------------------------
+c34d377e-b97f-48ab-bef9-8ff46ba8719b a93fc4d8-2984-4971-b9ae-f3b701c96a62 0b7c575e-e6cb-4d73-b492-2fc53b9f912c []       [04520957-a9ed-41c9-b839-fd89caa052b
+0, 75558f79-cd81-42e0-850d-e1d5419dd91c, d0b0c61a-147e-4488-972a-e3668ac4230d] 895c1751-2805-4620-9baa-8a29de5b82b4
+
+NLAN_Bridges table
+_uuid                                controller ovs_bridges
+------------------------------------ ---------- -----------
+a93fc4d8-2984-4971-b9ae-f3b701c96a62 []         enabled
+
+NLAN_Gateway table
+_uuid                                network  rip
+------------------------------------ -------- -------
+0b7c575e-e6cb-4d73-b492-2fc53b9f912c "eth0.2" enabled
+
+NLAN_Service table
+_uuid chain name
+----- ----- ----
+
+NLAN_Subnet table
+_uuid                                default_gw ip_dvr             ip_vhost             mode peers                              ports      vid vni
+------------------------------------ ---------- ------------------ -------------------- ---- ---------------------------------- ---------- --- ----
+04520957-a9ed-41c9-b839-fd89caa052b0 []         "10.0.1.1/24"      "10.0.1.101/24"      hub  ["192.168.1.104"]                  ["eth0.1"] 1   1001
+d0b0c61a-147e-4488-972a-e3668ac4230d []         "10.0.3.1/24"      "10.0.3.101/24"      []   ["192.168.1.102", "192.168.1.103"] ["eth0.3"] 3   103
+75558f79-cd81-42e0-850d-e1d5419dd91c []         "192.168.100.1/24" "192.168.100.101/24" []   ["192.168.1.102", "192.168.1.103"] []         2   1
+
+NLAN_VXLAN table
+_uuid                                local_ip        remote_ips
+------------------------------------ --------------- ---------------------------------------------------
+895c1751-2805-4620-9baa-8a29de5b82b4 "192.168.1.101" ["192.168.1.102", "192.168.1.103", "192.168.1.104"]
+</pre>
+
+
+At "openwrt2",
+<pre>
+$ ovsdb-client dump Open_vSwitch
+
+                        :
+NLAN table
+_uuid                                bridges                              gateway services subnets
+                                                  vxlan
+------------------------------------ ------------------------------------ ------- -------- -----------------------------------------------------------------
+------------------------------------------------- ------------------------------------
+bfa24ce6-5d69-4cd3-adfb-fdaffa0ba561 b7c5bdfa-de84-4e59-a673-3a718b3705a6 []      []       [26c7c4a6-fc44-4c41-bcc1-806e4281834b, 34ef67ed-334b-4d9e-a3fa-bd
+8795042f92, eae7e8fb-aeca-4400-bd66-30dc33ca6438] c4dc4f8a-d0ad-4913-bc1a-bf05db8d4823
+
+NLAN_Bridges table
+_uuid                                controller ovs_bridges
+------------------------------------ ---------- -----------
+b7c5bdfa-de84-4e59-a673-3a718b3705a6 []         enabled
+
+NLAN_Gateway table
+_uuid network rip
+----- ------- ---
+
+NLAN_Service table
+_uuid chain name
+----- ----- ----
+
+NLAN_Subnet table
+_uuid                                default_gw      ip_dvr             ip_vhost             mode      peers                              ports      vid vni
+------------------------------------ --------------- ------------------ -------------------- --------- ---------------------------------- ---------- --- ---
+eae7e8fb-aeca-4400-bd66-30dc33ca6438 []              "10.0.1.1/24"      "10.0.1.102/24"      spoke_dvr ["192.168.1.103", "192.168.1.104"] ["eth0.1"] 1   101
+26c7c4a6-fc44-4c41-bcc1-806e4281834b []              "10.0.3.1/24"      "10.0.3.102/24"      []        ["192.168.1.101", "192.168.1.103"] ["eth0.3"] 3   103
+34ef67ed-334b-4d9e-a3fa-bd8795042f92 "192.168.100.1" "192.168.100.2/24" "192.168.100.102/24" []        ["192.168.1.101", "192.168.1.103"] []         2   1
+
+NLAN_VXLAN table
+_uuid                                local_ip        remote_ips
+------------------------------------ --------------- ---------------------------------------------------
+c4dc4f8a-d0ad-4913-bc1a-bf05db8d4823 "192.168.1.102" ["192.168.1.101", "192.168.1.103", "192.168.1.104"]
+</pre>
 

@@ -107,8 +107,17 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
                         lf = os.path.join(NLAN_DIR, f)
                         s.put(lf, NLAN_AGENT_DIR)
                         filelist.append(f)
+                    # scp NLAN Agent etc files
+                    ldir = NLAN_ETC
+                    rdir = NLAN_AGENT_ETC
+                    exitcode = _ssh_exec_command(ssh, 'mkdir -p ' + rdir, None, out, err)
+                    for f in os.listdir(ldir):
+                        ff = os.path.join(ldir, f) 
+                        s.put(ff, rdir)
+                        filelist.append(f)
+
                     # nlan_env.conf generation
-                    rdir_modlist = os.path.join(NLAN_AGENT_DIR, nlanconf)
+                    rdir_nlanconf = os.path.join(NLAN_AGENT_DIR, nlanconf)
                     env = {} 
                     env['router'] = router
                     env['platform'] = platform
@@ -119,12 +128,13 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
                     env['tables'] = TABLES
                     env['indexes'] = INDEXES
                     env['types'] = TYPES 
-                    lf = os.path.join(NLAN_DIR, nlanconf) 
+                    env['etc_dir'] = NLAN_AGENT_ETC
+                    lf = os.path.join('/tmp', '{}.{}'.format(nlanconf,router)) 
                     with open(lf, 'w') as f:
                         f.seek(0)
                         f.truncate()
                         f.write(str(env))
-                    s.put(lf, NLAN_AGENT_DIR)
+                    s.put(lf, rdir_nlanconf)
                     #cmd = 'echo ' + '"'+str(env)+'"' + ' > ' + rdir_modlist 
                     #exitcode = _ssh_exec_command(ssh, cmd, None, out, err)
                     filelist.append(nlanconf)

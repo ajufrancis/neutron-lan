@@ -51,16 +51,19 @@ def analyze_schema(nlan_yaml):
     tables = {}
     indexes = {}
     types = {}
+    dict_schema = {}
     # STATE_ORDER
     nlan_dict = yaml.load(nlan, lya.OrderedDictYAMLLoader)
     columns = nlan_dict['NLAN']['columns']
     yield columns.keys()
     # Hereafter, state order does not matter
     nlan_dict = yaml.load(nlan)
+    columns = nlan_dict['NLAN']['columns']
     for module in columns.keys():
-        tables[module] = columns[module]['type']['key']['refTable']
+        tables[module] = columns[module]['type']
     yield tables
-    for module,table in tables.iteritems():
+    for module in tables.keys():
+        table = tables[module]['key']['refTable'] 
         table = nlan_dict[table]
         types[module] = {}
         if 'indexes' in table:

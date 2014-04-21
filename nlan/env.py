@@ -14,8 +14,8 @@ import nlan_schema
 # NLAN Master Home Directory
 NLAN_DIR = '/root/neutron-lan/nlan'
 
-# Schema Directory
-SCHEMA_DIR = '/root/neutron-lan/nlan'
+# NLAN_ETC
+NLAN_ETC = os.path.join(NLAN_DIR, 'agent/etc')
 
 # Directory of NLAN agent scripts including NLAN modules
 NLAN_SCP_DIR = os.path.join(NLAN_DIR, 'agent') 
@@ -29,6 +29,9 @@ ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
 # NLAN Agent Home Directory
 NLAN_AGENT_DIR = '/opt/nlan'
 
+# NLAN Agent etc directory
+NLAN_AGENT_ETC = os.path.join(NLAN_AGENT_DIR, 'etc')
+
 # NLAN agent script file
 NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan_agent.py')
 
@@ -38,8 +41,11 @@ NLAN_LIBS = ['oputil.py', 'cmdutil.py']
 # NLAN module directories
 NLAN_MOD_DIRS = ['command', 'config']
 
+# NLAN agent etc directory
+NLAN_AGENT_ETC = os.path.join(NLAN_AGENT_DIR, 'etc')
+
 # NLAN schema file in YAML
-NLAN_SCHEMA = os.path.join(SCHEMA_DIR, 'nlan.schema_0.0.1.yaml')
+NLAN_SCHEMA = os.path.join(NLAN_ETC, 'nlan.schema_0.0.1.yaml')
 # Original OVSDB schema file
 #OVSDB_SCHEMA = os.path.join(SCHEMA_DIR, 'vswitch.schema_2.0.0')
 
@@ -56,4 +62,4 @@ TABLES = tables
 #INDEXES = {'subnets': 'vni', 'services': 'name'}
 INDEXES = indexes 
 # NLAN state parameter types
-TYPES = types
+TYPES = types 

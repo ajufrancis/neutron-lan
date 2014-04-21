@@ -11,7 +11,7 @@ def update():
 
     cmd = cmdutil.cmd
     platform = __n__['platform']
-    schema = os.path.join(__n__['agent_dir'], __n__['schema'])
+    schema = os.path.join(__n__['etc_dir'], __n__['schema'])
     stop = None
     start = None
 

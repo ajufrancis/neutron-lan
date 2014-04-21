@@ -5,46 +5,46 @@ DevOps operation
 ----------------
 <pre>
 - copy NLAN Agent and NLAN modules to remote routers
-$ nlan --scpmod
+$ nlan.py --scpmod
 
 - update OVSDB(conf.db) with new schema
-$ nlan db.update
+$ nlan.py db.update
 
 - deploy network service with 'dvsdvr.yaml' state file
-$ nlan dvsdvr.yaml
+$ nlan.py dvsdvr.yaml
 
 - deploy network service with logging enabled (either --info or --debug)
-$ nlan dvsdvr.yaml --info
+$ nlan.py dvsdvr.yaml --info
 
 - execute raw command at remote routers (e.g., ping)
-$ nlan -t openwrt1 --raw 'ping -c4 192.168.1.10'
+$ nlan.py -t openwrt1 --raw 'ping -c4 192.168.1.10'
 </pre>
 
 Maintenance
 -----------
 <pre>
 - echo test
-$ nlan test.echo hello world!
+$ nlan.py test.echo hello world!
 
 - show command list
-$ nlan command.list
+$ nlan.py command.list
 
 - ping test 
-$ nlan test.ping 192.168.1.10
+$ nlan.py test.ping 192.168.1.10
 
 - shutdown all the routers
-$ nlan system.halt
+$ nlan.py system.halt
 
 - reboot all the routers
-$ nlan system.reboot
+$ nlan.py system.reboot
 
 - show NLAN Agent environment
-$ nlan nlan.env
+$ nlan.py nlan.env
 
 - show command list
-$ nlan command.list
+$ nlan.py command.list
 
 - show current all NLAN states in OVSDB
-$ nlan db.state
+$ nlan.py db.state
 
 </pre>

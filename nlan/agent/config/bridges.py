@@ -16,7 +16,8 @@ def add(model):
     cmdp = cmdutil.cmdp
     cmdp('ovs-vsctl add-br br-int')
     cmdp('ovs-vsctl add-br br-tun')
-    cmdp('ovs-ofctl del-flows br-tun')
+    # Default flows must be cleared.
+    cmd('ovs-ofctl del-flows br-tun')
     cmdp('ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun')
     cmdp('ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int')
 

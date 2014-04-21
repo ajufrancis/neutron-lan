@@ -31,12 +31,28 @@ def get_uuid(response):
 def _iflist(module, param):
     iflist = False
     try:
-        iflist = __n__['types'][module][param]['max']
-        if isinstance(iflist, int):
-            if iflist > 1:
+        maxparam = __n__['types'][module][param]['max']
+        if isinstance(maxparam, int):
+            if maxparam > 1:
                 iflist = True
-        elif isinstance(iflist, str):
-            if iflist == 'unlimited':
+        elif isinstance(maxparam, str):
+            if maxparam == 'unlimited':
+                iflist = True
+    except:
+        pass
+    return iflist
+
+
+def _iflist_tables(module):
+    iflist = False
+    try:
+        maxparam = __n__['tables'][module]['max']
+        print maxparam
+        if isinstance(maxparam, int):
+            if int(maxparam) > 1:
+                iflist = True
+        elif isinstance(maxparam, str):
+            if maxparam == 'unlimited':
                 iflist = True
     except:
         pass
@@ -476,7 +492,7 @@ class Row(OvsdbRow):
         self.parent = PARENT
 
         #table = self.__class__.TABLES[module]
-        table = TABLES[module]
+        table = TABLES[module]['key']['refTable']
 
         super(self.__class__, self).__init__(table, index)
 
@@ -573,11 +589,12 @@ def get_current_state():
     for key in row:
         if key != '_uuid' and key != '_version':
             v = row[key]
-            if isinstance(v, list):
+            #if isinstance(v, list):
+            if _iflist_tables(key):
                 if len(v) > 0:
-                    state[key] = todicts(select(table=TABLES[key],where=[]),key)   
+                    state[key] = todicts(select(table=TABLES[key]['key']['refTable'],where=[]),key)   
             elif isinstance(v, str) or isinstance(v, unicode):
-                state[key] = todict(select(table=TABLES[key],where=[]),key)
+                state[key] = todict(select(table=TABLES[key]['key']['refTable'],where=[]),key)
 
     return state
 
