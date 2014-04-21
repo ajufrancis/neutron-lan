@@ -3,7 +3,7 @@ Tips with managing services:
 * http://www.tldp.org/HOWTO/HighQuality-Apps-HOWTO/boot.html
 * http://www.debuntu.org/how-to-managing-services-with-update-rc-d/
 
-/etc/init.d/nlan
+"/etc/init.d/nlan" for Debian
 <pre>
 #! /bin/sh
 #
