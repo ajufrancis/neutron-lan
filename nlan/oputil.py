@@ -1,13 +1,24 @@
 
 class ModelError(Exception):
 
-    def __init__(self, message):
+    def __init__(self, message, model=None, params=None):
 
         self.message = message
+        self.model = model
+        self.params = params
 
     def __str__(self):
 
-        return self.message
+        if self.model and self.params:
+            message = "Model error: {}\nmodel:{}\nparams:{}".format(self.message, str(self.model), str(self.params))
+        elif self.model:
+            message = "Model error: {}\nmodel:{}".format(self.message, str(self.model))
+        elif self.params:
+            message = "Model error: {}\nparams:{}".format(self.message, str(self.params))
+        else:
+            message = "Model error: {}".format(self.message)
+
+        return message
 
 class Model:
 
@@ -36,6 +47,23 @@ class Model:
         else:
             raise ModelError(module + "." + crud + " requires" +  str(args), "or all None")
 
+class SubprocessError(Exception):
+
+    def __init__(self, message, command=None):
+
+        self.message = message
+        self.model = command 
+
+    def __str__(self):
+
+        message = '' 
+        if self.command:
+            message = "{}\ncommand:{}".format(self.message, self.command)
+        else:
+            message = self.message
+
+        return message
+
 def get_roster():
 
     from env import NLAN_DIR 
@@ -52,7 +80,7 @@ def logstr(*args):
 
 if __name__=='__main__':
 
-    print get_roster()
+    #print get_roster()
 
     model = {
         'aaa': 1,
@@ -64,7 +92,26 @@ if __name__=='__main__':
     aaa, bbb, ccc, ddd = m.getparam('aaa', 'bbb', 'ccc', 'ddd')
 
     try:
-        raise ModelError('TTTTTTTT')
+        raise ModelError('Something is wrong')
     except Exception, e:
         print e
 
+    try:
+        raise ModelError('Model is wrong', model)
+    except Exception as e:
+        print e
+        print e.model
+
+    try:
+        raise ModelError('Param is wrong', model, 'aaa')
+    except Exception as e:
+        print e
+        print e.model
+        print e.params
+
+    try:
+        raise ModelError('Params is wrong', None, ['aaa', 'bbb'])
+    except Exception as e:
+        print e
+        print e.model
+        print e.params

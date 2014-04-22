@@ -3,7 +3,7 @@
 #
 
 import os
-from cmdutil import output_cmd
+from cmdutil import cmd, check_cmd, output_cmd
 
 def reboot():
     
@@ -45,12 +45,22 @@ def rc(args=None):
         command['status'] = ['ls /etc/rc.d/']
 
     if args in command:
-        try:
+        # Caution: this is just a workaround to cope with
+        # the situation that OpenWrt's 'enable' always returns
+        # exit code = 1, even if it is successful.
+        if platform == 'openwrt' and args == 'enable':
+            for l in command[args]:
+                # Does not raise an exception even if exit code = 1
+                cmd(l)
+            # Tests if S85nlan exists
+            exitcode = check_cmd('test -f /etc/rc.d/S85nlan')
+            if exitcode == 0:
+                pass
+            else:
+                raise Exception('system.rc: nlan enable failure')
+        else:
             for l in command[args]:
                 print output_cmd(l)
-        except Exception as e:
-            # TODO: openwrt's init script returns exit code 1 even if the operation is successful.
-            print e 
     else:
         return "Usage:\nsystem.rc (enable|update|disable|status)"
         

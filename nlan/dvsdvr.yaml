@@ -30,8 +30,8 @@ openwrt1:
 #     controller: '192.168.1.1:6633'
    gateway:
       rip: enabled
-      network: eth0.2
-#     network: eth2 
+#     network: eth0.2
+      network: eth2 
    vxlan:
       local_ip: <local_ip> 
       remote_ips: <remote_ips>
@@ -41,16 +41,16 @@ openwrt1:
         ip_dvr: '10.0.1.1/24'
         mode: hub
         ip_vhost: '10.0.1.101/24'
-        ports:
-           - eth0.1 
+#       ports:
+#          - eth0.1 
 #          - veth0.1
         peers: <peers> 
       - vid: 3
         vni: 103
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.101/24'
-        ports:
-           - eth0.3
+#       ports:
+#          - eth0.3
 #          - veth0.3
         peers: <peers>
       - vid: 2
@@ -72,16 +72,16 @@ openwrt2:
         ip_dvr: '10.0.1.1/24'
         mode: spoke_dvr
         ip_vhost: '10.0.1.102/24'
-        ports:
-           - eth0.1
+#       ports:
+#          - eth0.1
 #          - veth0.1
         peers: <peers>
       - vid: 3
         vni: 103
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.102/24'
-        ports:
-           - eth0.3
+#       ports:
+#          - eth0.3
 #          - veth0.3
         peers: <peers>
       - vid: 2
@@ -105,16 +105,16 @@ openwrt3:
         ip_dvr: '10.0.1.1/24'
         mode: spoke_dvr
         ip_vhost: '10.0.1.103/24'
-        ports:
-           - eth0.1
+#       ports:
+#          - eth0.1
 #          - veth0.1
         peers: <peers>
       - vid: 3
         vni: 103
         ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.103/24'
-        ports:
-           - eth0.3
+#       ports:
+#          - eth0.3
 #          - veth0.3
         peers: <peers>
       - vid: 2

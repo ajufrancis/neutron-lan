@@ -11,9 +11,9 @@ from oputil import Model
 # Add subnet
 def _add_subnets(vni, vid, ip_dvr, ip_vhost, ports, default_gw):
 	
-    cmd = cmdutil.cmd
+    cmd = cmdutil.check_cmd
     output_cmd = cmdutil.output_cmd
-    cmdp = cmdutil.cmdp
+    cmdp = cmdutil.check_cmdp
 
     row = Row('subnets', ('vni', vni))
   
@@ -172,38 +172,35 @@ def _add_flow_entries(vid, vni, ip_dvr, mode, peers):
 # Mandatory parameters
 # (1) vid, ip_dvr, ip_vhost, default_gw 
 # (2) ports
-def _crud(crud, model):
+def _crud(crud, model, index):
 
     cmd = cmdutil.cmd	
-    for key in model.keys():
-        # key[0] == 'vni'
-        vni = key[1] 
-        m = Model(model[key])
-        vid, ip_dvr, mode, ip_vhost, ports, default_gw, peers = m.getparam('vid', 'ip_dvr', 'mode', 'ip_vhost', 'ports', 'default_gw', 'peers')
-        __n__['logger'].info('Adding a subnet(vlan): ' + str(vid))
-        globals()['_'+crud+'_subnets'](vni=vni, vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
-        globals()['_'+crud+'_flow_entries'](vid, vni, ip_dvr, mode, peers)
+    vni = index[1] 
+    m = Model(model)
+    vid, ip_dvr, mode, ip_vhost, ports, default_gw, peers = m.getparam('vid', 'ip_dvr', 'mode', 'ip_vhost', 'ports', 'default_gw', 'peers')
+    __n__['logger'].info('Adding a subnet(vlan): ' + str(vid))
+    globals()['_'+crud+'_subnets'](vni=vni, vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
+    globals()['_'+crud+'_flow_entries'](vid, vni, ip_dvr, mode, peers)
 
     # OVSDB transaction
-    for key in model.keys():
-        r = Row('subnets', key)
-        r.crud(crud, model[key])
+    r = Row('subnets', index)
+    r.crud(crud, model)
 
-def add(model):
-
-    #paramset = ('vni', 'vid', 'ip_dvr', 'ip_vhost')
-
-    _crud('add', model)
-
-def delete(model):
+def add(model, index):
 
     #paramset = ('vni', 'vid', 'ip_dvr', 'ip_vhost')
 
-    _crud('delete', model)
+    _crud('add', model, index)
 
-def update(model):
+def delete(model, index):
+
+    #paramset = ('vni', 'vid', 'ip_dvr', 'ip_vhost')
+
+    _crud('delete', model, index)
+
+def update(model, index):
 
     #paramset = ()
 
-    _crud('update', model)
+    _crud('update', model, index)
 

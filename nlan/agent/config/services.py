@@ -14,33 +14,31 @@ lxc.network.veth.pair = $
 lxc.network.ipv4 = 0.0.0.0
 """
 
-def add(model):
+def add(model, index):
 
-    for key in model.keys():
+    name = index[1]
+    m = Model(model)
+    function, mode, chain = m.getparam('function', 'mode', 'chain')
 
-        name = key[1]
-        m = Model(model[key])
-        function, mode, chain = m.getparam('function', 'mode', 'chain')
+    conf = os.path.join('/var/lib/lxc', name, 'config')
+    with open(conf, 'r') as f:
+        lines = f.read()
 
-        conf = os.path.join('/var/lib/lxc', name, 'config')
-        with open(conf, 'r') as f:
-            lines = f.read()
+    conf = os.path.join('/var/lib/lxc', name, 'config_nlan')
+    with open(conf, 'w') as f:
+        f.seek(0)
+        f.truncate()
+        f.write(lines)
+        for path in chain: 
+            net = lxc_network.replace('$', path)
+            f.write(net)
 
-        conf = os.path.join('/var/lib/lxc', name, 'config_nlan')
-        with open(conf, 'w') as f:
-            f.seek(0)
-            f.truncate()
-            f.write(lines)
-            for path in chain: 
-                net = lxc_network.replace('$', path)
-                f.write(net)
+    cmd = cmdutil.check_cmd
+    cmd('lxc-start -d -f', conf, '-n', name)
 
-        cmd = cmdutil.check_cmd
-        cmd('lxc-start -d -f', conf, '-n', name)
-
-        #OVSDB transaction
-        r = Row('services', key)
-        r.crud('add', model[key])
+    #OVSDB transaction
+    r = Row('services', index)
+    r.crud('add', model)
 
 
 

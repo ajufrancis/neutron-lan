@@ -1,0 +1,19 @@
+nlan.py                             nlan_agent.py
+		command options
+	      - - - - - - - - - ->
+		   STDIN
+	      >>>>>>>>>>>>>>>>>>>>
+
+		   STDOUT
+	      <<<<<<<<<<<<<<<<<<<< <-- cmd stdout
+		   STDERR
+	      <<<<<<<<<<<<<<<<<<<< <-- cmd stdout \n NLAN Response object (OrderedDict)
+
+	      <- - - - - - - - - -
+		 exit code
+
+
+exit code
+0: successful
+1: error
+

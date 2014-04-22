@@ -23,3 +23,6 @@ Use OrderedDict instead of normal dict
 
 OpenWrt's rc.common return exit code 1, even if it is successful:
 Command '['/etc/init.d/nlan', 'enable']' returned non-zero exit status 1
+
+[7] nlan_agent.py --init start does not work.
+

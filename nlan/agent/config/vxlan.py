@@ -8,8 +8,8 @@ from oputil import Model
 
 def add(model):
     
-    cmdp = cmdutil.cmdp	
-    cmd = cmdutil.cmd	
+    cmd = cmdutil.check_cmd	
+    cmdp = cmdutil.check_cmdp	
     local_ip, remote_ips = Model(model).getparam('local_ip', 'remote_ips')
 
     for remote_ip in remote_ips:

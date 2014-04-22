@@ -7,31 +7,30 @@
 
 import subprocess
 
-logger = None
-try:
-    logger = __n__['logger']
-except:
-    pass
+CalledProcessError = subprocess.CalledProcessError
+
 		
 def _cmd(check, persist, *args):
 
+    cmd_args = []
     args = list(args)
-    cmd_args = '["'
-    for arg in args:
-        if cmd_args == '["':
-            cmd_args += arg.replace(' ', '","')
-        else:
-            cmd_args += '","' + arg.replace(' ', '","')
-    cmd_args += '"]'
-    cmd_args = eval(cmd_args)
-        
+    for l in args:
+        for ll in l.split():
+            cmd_args.append(ll)
     return _cmd2(check=check, persist=persist, args=cmd_args)
 
 
 # If type(args) is list, use this function.
 def _cmd2(check, persist, args):
+   
+    logger = None
+    try:
+        logger = __n__['logger']
+    except:
+        pass
 
-    logstr = 'cmd: ' + ' '.join(args)
+    argstring = ' '.join(args)
+    logstr = 'cmd: ' + argstring 
 
     if persist:
         if __n__['init'] == 'start':
@@ -47,12 +46,43 @@ def _cmd2(check, persist, args):
     if check == 'call':
         return subprocess.call(args, stderr=subprocess.STDOUT)
     elif check == 'check_call':
-        return subprocess.check_call(args, stderr=subprocess.STDOUT)
+        try:
+            return subprocess.check_call(args, stderr=subprocess.STDOUT)
+        except CalledProcessError as e:
+            raise CmdError(argstring, e.returncode) 
+        except Exception as e:
+            raise CmdError(argstring, 1)
     elif check == 'check_output':
-        return subprocess.check_output(args, stderr=subprocess.STDOUT)
+        try:
+            out = None
+            out = subprocess.check_output(args, stderr=subprocess.STDOUT)
+            return out
+        except CalledProcessError as e:
+            raise CmdError(argstring, e.returncode, out)
+        except Exception as e:
+            raise CmdError(argstring, 1)
     else:
 	print("Error: illegal argument -- " + check)
 
+
+class CmdError(Exception):
+
+    def __init__(self, command, returncode, out=None):
+
+        self.message = "Command execution error" 
+        self.command = command
+        self.returncode = returncode
+        self.out = out
+
+    def __str__(self):
+
+        message = ''
+        if self.out:
+            message = "{}\ncommand: {}\nstdout: {}\nexit: {}".format(self.message, self.command, self.out, self.returncode)
+        else:
+            message = "{}\ncommand: {}\nexit: {}".format(self.message, self.command, self.returncode)
+
+        return message
 
 # If you can ignore error condition, use this function.
 def cmd(*args):
@@ -96,12 +126,16 @@ def output_cmd2p(args):
 
 if __name__ == "__main__":
 
-	import sys
-	if len(sys.argv) < 3:
-		check_cmd(sys.argv[1])
-	elif len(sys.argv) == 3:
-		_cmd(sys.argv[2], sys.argv[1])
-	else:
-		print ("Error: requires at least two arguments")
-		
+    import sys
+
+    args = ' '.join(sys.argv[1:])
+    try:
+        #cmd(args)
+        #print check_cmd(args)
+        print output_cmd(args)
+    except CmdError as e:
+        print e
+        print e.command
+        print e.out
+        print e.returncode
 	

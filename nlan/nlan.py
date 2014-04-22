@@ -10,6 +10,8 @@ import paramiko as para, scp
 from optparse import OptionParser
 from time import sleep
 import traceback
+from collections import OrderedDict
+import time, datetime
 
 import cmdutil
 import yaml, yamldiff
@@ -25,7 +27,9 @@ def _printmsg_request(lock, router, platform):
         print bar[:5], rp, bar[5+len(rp):] 
 
 def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None):
-
+    
+    start_datetime = str(datetime.datetime.now())
+    start_utc = time.time()
 
     if doc and not operation or doc and operation == '--raw':
         doc = ' '.join(doc)
@@ -33,7 +37,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
         loglevel = ''
     #print router, operation, doc, cmd_list, loglevel
     
-    from multiprocessing import Process, Lock, Pipe
+    from multiprocessing import Process, Lock, Pipe, Queue
 
     with open(ROSTER_YAML,'r') as r:
         roster = yaml.load(r.read())
@@ -58,7 +62,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
 
 
     # ssh session per sub-process
-    def _ssh_session(lock, router, host, user, passwd, platform, operation, cmd, cmd_args, child):
+    def _ssh_session(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, child):
 
         from cStringIO import StringIO
         out = StringIO()
@@ -151,14 +155,22 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
                         print bar[:5], rp, bar[5+len(rp):] 
                 else:
                     if outvl + errel > 0:
-                        rp = "NLAN Reply from router:{0},platform:{1}".format(router, platform)
+                        rp = "NLAN Response from router:{0},platform:{1}".format(router, platform)
                         print bar[:5], rp, bar[5+len(rp):] 
                 if outvl > 0:
-                    print(outv)
+                    print(outv.rstrip('\n'))
                 if errel > 0:
-                    if outvl > 0:
-                        print ('...')
-                    print(erre)
+                    erre = erre.rstrip('\n').split('\n')
+                    if len(erre) > 1:
+                        print ('... stderr ...')
+                    for l in erre[:-1]:
+                        print l
+                    print ('__ NLAN response __')
+                    response = eval(erre[-1])
+                    finish_utc = time.time()
+                    queue.put([router, response, finish_utc])
+                    for key in response.keys():
+                        print '{}:{}'.format(key, response[key])
 
             out.close()
             err.close()
@@ -173,6 +185,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
 
     ssh_sessions = [] 
     lock = Lock()
+    queue = Queue()
 
     if router == '__ALL__':	
         routers = roster.keys()
@@ -201,7 +214,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
             # Pipe to receive an exitcode from a child process
             parent, child = Pipe()
 
-            ssh_sessions.append([Process(target=_ssh_session, args=(lock, router, host, user, passwd, platform, operation, cmd, cmd_args, child)), parent])
+            ssh_sessions.append([Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, child)), parent])
 
     else:
         for router in routers:
@@ -245,7 +258,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
             # Pipe to receive an exitcode from a child process
             parent, child = Pipe()
 
-            ssh_sessions.append([Process(target=_ssh_session, args=(lock, router, host, user, passwd, platform, operation, cmd, cmd_args, child)), parent])
+            ssh_sessions.append([Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, child)), parent])
  
     # Start subprocesses
     try:
@@ -261,12 +274,6 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
                     exitcode = l[1].recv()
                     l[0].terminate()
                     ssh_sessions.remove(l)
-                    if exitcode > 0:
-                        print ''
-                        raise Exception("NLAN Agent raised an error [exit code = {0}]".format(exitcode)) 
-                #else:
-                #    with lock:
-                #        print str(l[0])
     except KeyboardInterrupt:
         print "\nOK. I will terminate the subprocesses..."
         for l in ssh_sessions:
@@ -277,9 +284,25 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
             print "subrocess:", sub 
         raise Exception("Operation stopped by Keyboard Interruption") 
     finally:
-        for l in ssh_sessions:
-            l[0].terminate()
-        
+        if not queue.empty():
+            title = "Transaction Summary"
+            print bar[:5], title, bar[5+len(title):] 
+            print ""
+            print "Start Time: {}".format(start_datetime)
+            print ""
+            print "Router           Result    Elapsed Time"
+            print "---------------------------------------"
+            for l in ssh_sessions:
+                l[0].terminate()
+            while not queue.empty():
+                smiley = ':-)'
+                l = queue.get() 
+                router = l[0]
+                response = l[1]
+                if response['exit'] > 0:
+                    smiley = 'XXX'
+                print "{:17s} {:3s}   {:10.2f}(sec)".format(router, smiley, l[2] - start_utc)
+            
 
 
 if __name__=='__main__':
@@ -338,7 +361,7 @@ if __name__=='__main__':
     if options.target:
         router = options.target
 
-    # --add, --delete, --update, --delete, --scp, --scpmod, --raw
+    # --add, --get, --update, --delete, --scp, --scpmod, --raw
     if option != None:
         main(router=router, operation=option, doc=args, loglevel=loglevel)
     else:

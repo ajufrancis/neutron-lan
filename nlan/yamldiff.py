@@ -9,7 +9,7 @@ import yaml, lya, datadiff, re, sys
 from collections import OrderedDict
 from difflib import unified_diff
 from cStringIO import StringIO
-from cmdutil import output_cmd
+from cmdutil import output_cmd, CmdError
 from copy import deepcopy
 from env import INDEXES 
 
@@ -148,7 +148,7 @@ def _yaml_load(filename, git=False):
                 data = default 
             else:
                 template_module = get_template_module(StringIO(data).readline())
-        except:
+        except CmdError:
             data = default 
         od = yaml.load(data, lya.OrderedDictYAMLLoader)
 

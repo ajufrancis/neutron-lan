@@ -12,8 +12,8 @@ def add(model):
 
     ovs_bridges, controller = Model(model).getparam('ovs_bridges', 'controller')
 
-    cmd = cmdutil.cmd	
-    cmdp = cmdutil.cmdp
+    cmd = cmdutil.check_cmd	
+    cmdp = cmdutil.check_cmdp
     cmdp('ovs-vsctl add-br br-int')
     cmdp('ovs-vsctl add-br br-tun')
     # Default flows must be cleared.

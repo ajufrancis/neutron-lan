@@ -47,7 +47,6 @@ def _iflist_tables(module):
     iflist = False
     try:
         maxparam = __n__['tables'][module]['max']
-        print maxparam
         if isinstance(maxparam, int):
             if int(maxparam) > 1:
                 iflist = True
