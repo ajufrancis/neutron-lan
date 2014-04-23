@@ -51,7 +51,7 @@ router1:                   add/update       delete
              :                 |              |
     state 2:                   | Downward     | Upward
        param 2-1: value 2-1    | operations   | operations
-       param 2-2: <value a>    |              |
+       param 2-2: &ltvalue a&gt   |              |
              :                 |              |
     state 3:                   |              |
        param 3-1: value 3-1    |              |
