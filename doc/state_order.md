@@ -51,11 +51,11 @@ router1:                   add/update       delete
              :                 |              |
     state 2:                   | Downward     | Upward
        param 2-1: value 2-1    | operations   | operations
-       param 2-2: &ltvalue a&gt   |              |
+       param 2-2: plhd  a      |              |
              :                 |              |
     state 3:                   |              |
        param 3-1: value 3-1    |              |
-       param 3-2: <value b>    |              |
+       param 3-2: plhd b       |              |
              :                 |              |
 router 2:                      |              |
     state 2:                   |              |
@@ -63,5 +63,5 @@ router 2:                      |              |
              :                 V              |
 </pre>
 
-For example, <value b> is dependent on router 2's value 2-1, and <value a> is dependent on router 1's value 1-1.
+For example, "plhd b" as a placeholder is dependent on router 2's value 2-1, and another placeholder "plhd a" is dependent on router 1's value 1-1.
 
