@@ -1,5 +1,5 @@
-Ordering NLAN States and Params blueprint
-=========================================
+Ordering NLAN states and parameters
+===================================
 2014/4/23
 
 Rule 1
