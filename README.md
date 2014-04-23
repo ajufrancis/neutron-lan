@@ -11,6 +11,7 @@ INDEX
 * [Software Defined Networking](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/software_defined_networking.md)
 * [YAML-based network modeling](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/modeling.md)
 * [OVSDB schema for neutron-lan](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/ovsdb-schema.md)
+* [Ordering states and template engine](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/state_order.md)
 * [Service Function](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/service_function.md)
 * [Virtual Subnet](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/virtual_subnet.md)
 * [Working with Quagga](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/quagga.md)
