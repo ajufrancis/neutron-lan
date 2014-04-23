@@ -137,11 +137,12 @@ def _route(operation, data):
                 print >>sys.stderr, str(error)
                 sys.exit(error['exit'])
             else:
-                completed = OrderedDict()
-                completed['message'] = 'Execution completed'
-                completed['exit'] = 0
-                print >>sys.stderr, str(completed)
-                sys.exit(0)
+                if __n__['init'] != 'start':
+                    completed = OrderedDict()
+                    completed['message'] = 'Execution completed'
+                    completed['exit'] = 0
+                    print >>sys.stderr, str(completed)
+                    sys.exit(0)
     else:        
         # Calls a command module
         s = data[0].split('.')
@@ -255,7 +256,6 @@ if __name__ == "__main__":
     else:
         data = args
 
-
     if options.init_action:
         __n__['init'] = options.init_action
         __n__['logger'].info('NLAN Agent initialization completed\n{}'.format(__n__))
@@ -266,7 +266,3 @@ if __name__ == "__main__":
 
         _route(operation=operation, data=data)
 
-    #log = out.getvalue()
-    #if log != '':
-    #print log
-    #out.close()

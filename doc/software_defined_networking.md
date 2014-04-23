@@ -1,9 +1,10 @@
 Software-Defined Networking for neutron-lan
 ===========================================
 
-2013/3/13
+2014/3/13
+2014/4/23
 
-neutron-lan SDN architecture blueprint
+neutron-lan (NLAN) SDN architecture blueprint
 --------------------------------------
 
       +-----------------------------------------------------------+
@@ -12,14 +13,14 @@ neutron-lan SDN architecture blueprint
                                   | http (and websocket?)                                        
                                   V                                    neutron-lan states        Git repo (Global CMDB)
       +------------------------ wsgi -----------------------------+       ----------  git commit +-----------+
-      |             applicatins (python scripts)                  | <--> /YAML data/-  --------> | YAML data |
-      |        Service Abstraction Layer (YAML)                   |     ----------- /- <-------- |           |
+      |                      NLAN Master                          | <--> /YAML data/-  --------> | YAML data |
+      |        Service Abstraction Layer (OrderedDict)            |     ----------- /- <-------- |           |
       +-----------------------------------------------------------+      ----------- / git show  +-----------+
                                   |                                       ----------- 
                                   | Python OrderedDict object over ssh
                                   V                                                   Local CMDB
       +-----------------------------------------------------------+  OVSDB protocol   +----------+
-      |         neutron-lan-agent (python scripts)                | <---------------> | OVSDB    |
+      |     NLAN Agent and NLAN modules (python scripts)          | <---------------> | OVSDB    |
       +-----------------------------------------------------------+                   +----------+
          |*1     |*2        |*3         |*4       |*5       |*6                       OVSDB schema for OVS and NLAN
          V       V          V           V         V         V                         
@@ -86,12 +87,9 @@ via VXLAN VNI 100.
 Host A on Loc. A VLAN 1 can communicate with Host C' on Loc. V VLAN 27
 via IR that has interfaces to both VNI 100 and VNI 103.
  
-The controller is responsible for the mapping between VLANs and VNI.
+The NLAN Master is responsible for configuring the mapping between VLANs and VNI at each router.
 
 [Other DVS/DVR network patterns](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/dvsdvr_patterns.md)
-
-I'm going to study if Proxy ARP is useful for this architecture:
-[Virtual Subnet](http://tools.ietf.org/html/draft-xu-l3vpn-virtual-subnet-03).
 
 
 Logical view of DVS/DVR
@@ -123,12 +121,6 @@ Legend:
 * port-lan: LAN port on OpenWRT router
 * port-wan: WAN port on OpenWRT router
 * Internet GW: In my environment, it corresponds to Home Gateway
-
-Toplogy:
-* There are three types of routing topology: dvr(distributed virtual router), centralized(like neutron network node) and ospf that uses legacy routing protocol "ospf".
-* L2 topology for "dvr": full mesh or partial mesh VXLAN tunnels with VNI slices.
-* L2 topology for "centralized": hub-and-spoke VXLAN tunnels with VNI slices.
-* L2 topology for "ospf": arbitrary topologies.
 
 
 Single DVR IP address for every router
@@ -191,7 +183,7 @@ address in the ARP packet.
 
 table 1
 +--------------------------------------------+
-| matches BC/MC                              | => resubmit(,19)
+| matches BUM                                | => resubmit(,19)
 +--------------------------------------------+
 | matches unicast                            | => resubmit(,20)
 +--------------------------------------------+
@@ -205,7 +197,7 @@ table 19 <== This table will be inserted between table 1 and table 21
 
 table 21
 +--------------------------------------------+
-| BC/MC output flow entries                  |
+| BUM output flow entries                    |
 |              :                             |
 +--------------------------------------------+
 
@@ -243,10 +235,8 @@ NXST_FLOW reply (xid=0x4):
  cookie=0x0, duration=875.708s, table=21, n_packets=2, n_bytes=220, idle_age=867, priority=0 actions=drop
 </pre>
 
-Note: this DVR architecture may need some improvement in future, since packets need to go through two routers (the nearest dvr and Internet GW(HGW or another BBR) to reach the Internet.
-
-Virtual Subnet: Layer 2 networking over /32 routes
---------------------------------------------------
+Virtual Subnet experiment: Layer 2 networking over /32 routes
+-------------------------------------------------------------
 
 Incumbent vendors may prefer Virtual Subnet as discussed in IETF l3vpn wg. I am also interested in it, and [made some experiment on my neutron-lan](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/virtual_subnet.md).
 

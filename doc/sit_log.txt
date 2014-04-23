@@ -1,3 +1,10 @@
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --scpmod
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
@@ -9,19 +16,36 @@ operation: --scpmod
 =+=+= Files copied to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 target_dir: /opt/nlan
 files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'nlan_agent.py', 'oputil.py', 'cmdutil.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
-
+exit: 0
 =+=+= Files copied to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 target_dir: /opt/nlan
 files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'nlan_agent.py', 'oputil.py', 'cmdutil.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
-
+exit: 0
 =+=+= Files copied to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 target_dir: /opt/nlan
 files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'nlan_agent.py', 'oputil.py', 'cmdutil.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
-
+exit: 0
 =+=+= Files copied to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 target_dir: /opt/nlan
 files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'nlan_agent.py', 'oputil.py', 'cmdutil.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:44:35.177639
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         2.55(sec)
+openwrt2          :-)         2.64(sec)
+openwrt3          :-)         2.86(sec)
+rpi1              :-)         3.33(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: rm -rf /opt/nlan
@@ -34,6 +58,27 @@ command: rm -rf /opt/nlan
 =+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: rm -rf /opt/nlan
+exit: 0
+exit: 0
+exit: 0
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:44:39.726398
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.58(sec)
+rpi1              :-)         0.72(sec)
+openwrt3          :-)         0.77(sec)
+openwrt2          :-)         0.79(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --scpmod
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
@@ -45,19 +90,36 @@ operation: --scpmod
 =+=+= Files copied to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 target_dir: /opt/nlan
 files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'nlan_agent.py', 'oputil.py', 'cmdutil.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
-
+exit: 0
+=+=+= Files copied to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'nlan_agent.py', 'oputil.py', 'cmdutil.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
+exit: 0
 =+=+= Files copied to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 target_dir: /opt/nlan
 files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'nlan_agent.py', 'oputil.py', 'cmdutil.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
-
-=+=+= Files copied to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-target_dir: /opt/nlan
-files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'nlan_agent.py', 'oputil.py', 'cmdutil.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
-
+exit: 0
 =+=+= Files copied to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 target_dir: /opt/nlan
 files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'nlan_agent.py', 'oputil.py', 'cmdutil.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:44:42.284047
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         2.35(sec)
+openwrt3          :-)         2.46(sec)
+openwrt2          :-)         2.52(sec)
+rpi1              :-)         2.52(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 command: init.run
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
@@ -66,286 +128,595 @@ command: init.run
 command: init.run
 =+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 command: init.run
-=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-brctl: iface down: No such device
-brctl: iface down: No such device
-brctl: iface down: No such device
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:rpi1,platform:debian +=+=+=+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:44:46.334275
 
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-brctl: iface down: No such device
-brctl: iface down: No such device
-brctl: iface down: No such device
-
-
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-brctl: iface down: No such device
-brctl: iface down: No such device
-brctl: iface down: No such device
-
-
-=+=+= NLAN Reply from router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
-interface down does not exist!
-interface down does not exist!
-
-
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         1.20(sec)
+openwrt2          :-)         1.29(sec)
+openwrt1          :-)         1.29(sec)
+rpi1              :-)         1.43(sec)
 cmd: git show HEAD:dvsdvr.yaml
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
 =+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 operation: --add
 dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('services', {('name', 'snort1'): {'name': 'snort1', 'chain': ['mz.101', 'dmz.1001']}}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}), ('subnets', {('vni', 1001): {'peers': ['192.168.1.101'], 'vid': 111, 'vni': 1001, 'ports': ['dmz.1001']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 1, 'vni': 101, 'ports': ['mz.101']}})])"
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --add
-dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}), ('subnets', {('vni', 1): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.3/24', 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr', 'ports': ['eth0.1']}})])"
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}), ('subnets', {('vni', 1): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.3/24', 'vni': 1}, ('vni', 103): {'ip_vhost': '10.0.3.103/24', 'ip_dvr': '10.0.3.1/24', 'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'vni': 103}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr'}})])"
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --add
-dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}), ('subnets', {('vni', 1): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.2/24', 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 101): {'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr', 'ports': ['eth0.1']}})])"
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}), ('subnets', {('vni', 1): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.2/24', 'vni': 1}, ('vni', 103): {'ip_vhost': '10.0.3.102/24', 'ip_dvr': '10.0.3.1/24', 'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'vni': 103}, ('vni', 101): {'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr'}})])"
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --add
-dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('gateway', {'network': 'eth0.2', 'rip': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}), ('subnets', {('vni', 1): {'ip_vhost': '192.168.100.101/24', 'ip_dvr': '192.168.100.1/24', 'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'vni': 1}, ('vni', 103): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': '10.0.3.1/24', 'ports': ['eth0.3']}, ('vni', 1001): {'peers': ['192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': '10.0.1.1/24', 'mode': 'hub', 'ports': ['eth0.1']}})])"
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-brctl: iface eth0.3: No such device
-brctl: iface eth0.1: No such device
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('gateway', {'network': 'eth2', 'rip': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}), ('subnets', {('vni', 1): {'ip_vhost': '192.168.100.101/24', 'ip_dvr': '192.168.100.1/24', 'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'vni': 1}, ('vni', 103): {'ip_vhost': '10.0.3.101/24', 'ip_dvr': '10.0.3.1/24', 'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'vni': 103}, ('vni', 1001): {'peers': ['192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': '10.0.1.1/24', 'mode': 'hub'}})])"
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:rpi1,platform:debian +=+=+=+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:44:49.487624
 
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-brctl: iface eth0.3: No such device
-brctl: iface eth0.1: No such device
-
-
-=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-brctl: iface eth0.3: No such device
-brctl: iface eth0.1: No such device
-
-
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         2.05(sec)
+openwrt2          :-)         2.17(sec)
+rpi1              :-)         2.29(sec)
+openwrt1          :-)         4.46(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip netns add ns-global
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:44:55.042562
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.31(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip link add veth-global type veth peer name temp
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:44:56.094064
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip link set dev temp netns ns-global
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:44:57.144328
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.32(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip netns exec ns-global ip link set dev temp name eth0
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:44:58.205695
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip netns exec ns-global ip addr add dev eth0 8.8.8.8/24
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:44:59.306400
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.28(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip link set dev veth-global up
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:45:00.383825
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip addr add dev veth-global 8.8.8.1/24
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:45:01.446345
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.28(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip netns exec ns-global ip link set dev eth0 up
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:45:02.507154
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.28(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip netns exec ns-global ip route add default via  8.8.8.1
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:45:03.570201
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.32(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: test.echo Hello World!
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: test.echo Hello World!
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: test.echo Hello World!
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+command: test.echo Hello World!
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+Hello World!
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+Hello World!
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:rpi1,platform:debian +=+=+=+=+=+=+=+=+=+=+=+=+
+Hello World!
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+Hello World!
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:45:04.653171
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.82(sec)
+openwrt1          :-)         0.94(sec)
+rpi1              :-)         0.98(sec)
+openwrt3          :-)         0.99(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: echo a b c
-=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-a b c
-
-
-=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-operation: --raw
-command: ip netns exec ns1 ping -c 2 10.0.1.102
-=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 10.0.1.102
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=64 time=9.789 ms
-64 bytes from 10.0.1.102: seq=1 ttl=64 time=2.165 ms
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=11.400 ms
 
 --- 10.0.1.102 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 2.165/5.977/9.789 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 11.400/11.400/11.400 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:07.179402
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns1 ping -c 2 10.0.1.102
-=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 10.0.1.102
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=64 time=2.213 ms
-64 bytes from 10.0.1.102: seq=1 ttl=64 time=2.187 ms
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=1.932 ms
 
 --- 10.0.1.102 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 2.187/2.200/2.213 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 1.932/1.932/1.932 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:08.235160
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 10.0.3.103
-=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 10.0.3.103
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.3.103 (10.0.3.103): 56 data bytes
-64 bytes from 10.0.3.103: seq=0 ttl=64 time=8.913 ms
-64 bytes from 10.0.3.103: seq=1 ttl=64 time=1.428 ms
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=5.614 ms
 
 --- 10.0.3.103 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.428/5.170/8.913 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 5.614/5.614/5.614 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:09.324767
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 10.0.1.101
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 10.0.1.101
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.101 (10.0.1.101): 56 data bytes
-64 bytes from 10.0.1.101: seq=0 ttl=63 time=14.492 ms
-64 bytes from 10.0.1.101: seq=1 ttl=63 time=1.930 ms
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=12.452 ms
 
 --- 10.0.1.101 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.930/8.211/14.492 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 12.452/12.452/12.452 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:10.394599
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.31(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns1 ping -c 2 192.168.100.1
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 192.168.100.1
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=14.347 ms
-64 bytes from 192.168.100.1: seq=1 ttl=64 time=2.367 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=10.961 ms
 
 --- 192.168.100.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 2.367/8.357/14.347 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 10.961/10.961/10.961 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:11.461901
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns1 ping -c 2 192.168.100.1
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 192.168.100.1
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=13.572 ms
-64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.792 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=10.564 ms
 
 --- 192.168.100.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.792/7.682/13.572 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 10.564/10.564/10.564 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:12.519851
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 192.168.100.1
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 192.168.100.1
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=6.574 ms
-64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.425 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=6.214 ms
 
 --- 192.168.100.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.425/3.999/6.574 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.214/6.214/6.214 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:13.582283
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.32(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ping -c 2 192.168.100.1
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ping -c 1 192.168.100.1
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.157 ms
-64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.032 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=1.510 ms
 
 --- 192.168.100.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.032/1.594/2.157 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 1.510/1.510/1.510 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:14.647071
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 10.0.1.102
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 10.0.1.102
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=63 time=7.134 ms
-64 bytes from 10.0.1.102: seq=1 ttl=63 time=2.157 ms
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=7.728 ms
 
 --- 10.0.1.102 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 2.157/4.645/7.134 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 7.728/7.728/7.728 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:15.723969
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.28(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 10.0.1.1
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 10.0.1.1
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=2.300 ms
-64 bytes from 10.0.1.1: seq=1 ttl=64 time=1.338 ms
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=6.206 ms
 
 --- 10.0.1.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.338/1.819/2.300 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.206/6.206/6.206 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:16.774711
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 10.0.1.1
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 10.0.1.1
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.425 ms
-64 bytes from 10.0.1.1: seq=1 ttl=64 time=0.187 ms
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=0.983 ms
 
 --- 10.0.1.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 0.187/0.806/1.425 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 0.983/0.983/0.983 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:17.842299
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns1 ping -c 2 8.8.8.8
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 8.8.8.8
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.592 ms
-64 bytes from 8.8.8.8: seq=1 ttl=63 time=1.950 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.934 ms
 
 --- 8.8.8.8 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.950/3.771/5.592 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 5.934/5.934/5.934 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:18.939837
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.28(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 8.8.8.8
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 8.8.8.8
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=3.155 ms
-64 bytes from 8.8.8.8: seq=1 ttl=63 time=1.602 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.573 ms
 
 --- 8.8.8.8 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.602/2.378/3.155 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.573/2.573/2.573 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:20.000029
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns1 ping -c 2 8.8.8.8
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 8.8.8.8
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.776 ms
-64 bytes from 8.8.8.8: seq=1 ttl=63 time=2.714 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.686 ms
 
 --- 8.8.8.8 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 2.714/4.245/5.776 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 5.686/5.686/5.686 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:21.074296
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 8.8.8.8
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 8.8.8.8
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.512 ms
-64 bytes from 8.8.8.8: seq=1 ttl=63 time=3.655 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.854 ms
 
 --- 8.8.8.8 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 3.655/5.083/6.512 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.854/6.854/6.854 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:45:22.123539
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 command: system.reboot
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
@@ -354,234 +725,553 @@ command: system.reboot
 command: system.reboot
 =+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 command: system.reboot
-Make sure all the systems have rebooted!
-Enter to proceed the test: 
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:rpi1,platform:debian +=+=+=+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:45:23.193933
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.88(sec)
+openwrt3          :-)         1.00(sec)
+openwrt2          :-)         1.10(sec)
+rpi1              :-)         1.13(sec)
+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  NG
+openwrt2         192.168.1.102  NG
+openwrt1         192.168.1.101  NG
+rpi1             192.168.1.104  NG
+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip netns add ns-global
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:46:04.536544
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.33(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip link add veth-global type veth peer name temp
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:46:05.699399
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.31(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip link set dev temp netns ns-global
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:46:06.691853
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.28(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip netns exec ns-global ip link set dev temp name eth0
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:46:07.656311
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.27(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip netns exec ns-global ip addr add dev eth0 8.8.8.8/24
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:46:08.751506
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.34(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip link set dev veth-global up
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:46:09.824929
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip addr add dev veth-global 8.8.8.1/24
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:46:10.833446
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.27(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip netns exec ns-global ip link set dev eth0 up
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:46:11.778669
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.25(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
 command: ip netns exec ns-global ip route add default via  8.8.8.1
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:46:12.878408
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.37(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: test.echo Hello World!
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: test.echo Hello World!
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: test.echo Hello World!
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+command: test.echo Hello World!
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+Hello World!
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+Hello World!
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+Hello World!
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:rpi1,platform:debian +=+=+=+=+=+=+=+=+=+=+=+=+
+Hello World!
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-22 20:46:14.040192
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         1.03(sec)
+openwrt1          :-)         1.04(sec)
+openwrt2          :-)         1.05(sec)
+rpi1              :-)         1.91(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: echo a b c
-=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-a b c
-
-
-=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-operation: --raw
-command: ip netns exec ns1 ping -c 2 10.0.1.102
-=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 10.0.1.102
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=64 time=12.429 ms
-64 bytes from 10.0.1.102: seq=1 ttl=64 time=2.139 ms
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=11.119 ms
 
 --- 10.0.1.102 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 2.139/7.284/12.429 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 11.119/11.119/11.119 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:17.096634
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.32(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns1 ping -c 2 10.0.1.102
-=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 10.0.1.102
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=64 time=4.692 ms
-64 bytes from 10.0.1.102: seq=1 ttl=64 time=3.693 ms
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=2.109 ms
 
 --- 10.0.1.102 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 3.693/4.192/4.692 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.109/2.109/2.109 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:18.087599
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.26(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 10.0.3.103
-=+=+= NLAN Reply from router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 10.0.3.103
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.3.103 (10.0.3.103): 56 data bytes
-64 bytes from 10.0.3.103: seq=0 ttl=64 time=6.517 ms
-64 bytes from 10.0.3.103: seq=1 ttl=64 time=1.688 ms
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=6.428 ms
 
 --- 10.0.3.103 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.688/4.102/6.517 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.428/6.428/6.428 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:19.177407
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt1          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 10.0.1.101
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 10.0.1.101
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.101 (10.0.1.101): 56 data bytes
-64 bytes from 10.0.1.101: seq=0 ttl=63 time=13.997 ms
-64 bytes from 10.0.1.101: seq=1 ttl=63 time=3.589 ms
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=15.169 ms
 
 --- 10.0.1.101 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 3.589/8.793/13.997 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 15.169/15.169/15.169 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:20.266918
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns1 ping -c 2 192.168.100.1
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 192.168.100.1
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=13.242 ms
-64 bytes from 192.168.100.1: seq=1 ttl=64 time=3.074 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=13.055 ms
 
 --- 192.168.100.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 3.074/8.158/13.242 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 13.055/13.055/13.055 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:21.319767
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.32(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns1 ping -c 2 192.168.100.1
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 192.168.100.1
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=10.243 ms
-64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.686 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=11.862 ms
 
 --- 192.168.100.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.686/5.964/10.243 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 11.862/11.862/11.862 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:22.383051
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 192.168.100.1
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 192.168.100.1
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=5.745 ms
-64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.046 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=6.936 ms
 
 --- 192.168.100.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.046/3.395/5.745 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.936/6.936/6.936 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:23.444133
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ping -c 2 192.168.100.1
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ping -c 1 192.168.100.1
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.368 ms
-64 bytes from 192.168.100.1: seq=1 ttl=64 time=1.112 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.089 ms
 
 --- 192.168.100.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.112/1.740/2.368 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.089/2.089/2.089 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:24.501504
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.28(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 10.0.1.102
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 10.0.1.102
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=63 time=7.870 ms
-64 bytes from 10.0.1.102: seq=1 ttl=63 time=2.459 ms
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=6.871 ms
 
 --- 10.0.1.102 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 2.459/5.164/7.870 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.871/6.871/6.871 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:25.561569
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 10.0.1.1
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 10.0.1.1
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=2.902 ms
-64 bytes from 10.0.1.1: seq=1 ttl=64 time=1.055 ms
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=3.031 ms
 
 --- 10.0.1.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.055/1.978/2.902 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 3.031/3.031/3.031 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:26.621022
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 10.0.1.1
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 10.0.1.1
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.441 ms
-64 bytes from 10.0.1.1: seq=1 ttl=64 time=0.166 ms
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=2.031 ms
 
 --- 10.0.1.1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 0.166/0.803/1.441 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.031/2.031/2.031 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:27.686398
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.28(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns1 ping -c 2 8.8.8.8
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 8.8.8.8
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=4.877 ms
-64 bytes from 8.8.8.8: seq=1 ttl=63 time=1.810 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=4.578 ms
 
 --- 8.8.8.8 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.810/3.343/4.877 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 4.578/4.578/4.578 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:28.733702
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.32(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 8.8.8.8
-=+=+= NLAN Reply from router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 8.8.8.8
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.192 ms
-64 bytes from 8.8.8.8: seq=1 ttl=63 time=1.166 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=4.847 ms
 
 --- 8.8.8.8 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.166/3.179/5.192 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 4.847/4.847/4.847 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:29.792046
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         0.30(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns1 ping -c 2 8.8.8.8
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns1 ping -c 1 8.8.8.8
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.425 ms
-64 bytes from 8.8.8.8: seq=1 ttl=63 time=2.214 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=4.983 ms
 
 --- 8.8.8.8 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 2.214/4.319/6.425 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 4.983/4.983/4.983 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:30.874525
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.29(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --raw
-command: ip netns exec ns3 ping -c 2 8.8.8.8
-=+=+= NLAN Reply from router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: ip netns exec ns3 ping -c 1 8.8.8.8
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=8.994 ms
-64 bytes from 8.8.8.8: seq=1 ttl=63 time=4.655 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.108 ms
 
 --- 8.8.8.8 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 4.655/6.824/8.994 ms
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.108/6.108/6.108 ms
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
+Start Time: 2014-04-22 20:46:31.930181
 
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.30(sec)

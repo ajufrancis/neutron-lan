@@ -15,14 +15,14 @@ Use crud instead of setrow in bridges, vxlan and gateway.
 $ python nlan_master.py -t openwrt1 --raw 'ip netns exec ns1 ping -c 2 10.0.1.102'
 $ ./nlan --raw ' ... -c ...' fails, since it inculdes '-c' option.
 
-[5] ovsdb.py get_current_state
+[5] ovsdb.py get_current_state -- DONE!
 
 Use OrderedDict instead of normal dict
 
-[6] nlan.py system.rc enable
+[6] nlan.py system.rc enable -- DONE! Made a workaround.
 
 OpenWrt's rc.common return exit code 1, even if it is successful:
 Command '['/etc/init.d/nlan', 'enable']' returned non-zero exit status 1
 
-[7] nlan_agent.py --init start does not work.
+[7] nlan_agent.py --init start does not work. -- DONE! Bug fixed.
 

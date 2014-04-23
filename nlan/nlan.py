@@ -6,12 +6,15 @@
 
 """
 import os, sys 
-import paramiko as para, scp
+import paramiko as para
+import scp
+#from paramiko import AuthenticationException, SSHException
 from optparse import OptionParser
 from time import sleep
 import traceback
 from collections import OrderedDict
 import time, datetime
+from cStringIO import StringIO
 
 import cmdutil
 import yaml, yamldiff
@@ -27,7 +30,14 @@ def _printmsg_request(lock, router, platform):
         print bar[:5], rp, bar[5+len(rp):] 
 
 def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None):
-    
+
+    rp = "Ping test to all the target routers"
+    print bar[:5], rp, bar[5+len(rp):] 
+    if _wait(router, PING_CHECK_WAIT) > 0:
+        print ""
+        print "Ping test failure! Transaction cancelled."
+        sys.exit(1)
+
     start_datetime = str(datetime.datetime.now())
     start_utc = time.time()
 
@@ -64,16 +74,18 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
     # ssh session per sub-process
     def _ssh_session(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, child):
 
-        from cStringIO import StringIO
+
         out = StringIO()
         err = StringIO()
-
+        ssh = None
+        response = OrderedDict() 
+        response['exit'] = 0
         exitcode = 0
 
         try:
             ssh = para.SSHClient()
             ssh.set_missing_host_key_policy(para.AutoAddPolicy())
-            ssh.connect(host,username=user,password=passwd)
+            ssh.connect(host,username=user,password=passwd,timeout=SSH_TIMEOUT)
 
 
             if operation != '--scp' and operation != '--scpmod':
@@ -167,18 +179,33 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
                         print l
                     print ('__ NLAN response __')
                     response = eval(erre[-1])
-                    finish_utc = time.time()
-                    queue.put([router, response, finish_utc])
-                    for key in response.keys():
-                        print '{}:{}'.format(key, response[key])
 
+                finish_utc = time.time()
+                queue.put([router, response, finish_utc])
+                for key in response.keys():
+                    print '{}: {}'.format(key, response[key])
+
+        except Exception as e:
+            response['exception'] = type(e).__name__
+            response['message'] = 'See the traceback message'
+            response['exit'] = 1 
+            response['traceeback'] = traceback.format_exc()
+            exitcode = 1
+            finish_utc = time.time()
+            queue.put([router, response , finish_utc])
+            with lock:
+                rp = "NLAN Request Failure router:{0},platform:{1}".format(router, platform)
+                print bar[:5], rp, bar[5+len(rp):] 
+                print ('__ Exception __')
+                for key in response.keys():
+                    print '{}: {}'.format(key, response[key])
+
+        finally:
             out.close()
             err.close()
             ssh.close()
             child.send(exitcode)
 
-        except Exception as e:
-            print e.message
 
 
     routers = []
@@ -269,7 +296,8 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
             if len(ssh_sessions) == 0:
                 break
             sleep(0.5)
-            for l in ssh_sessions:
+            temp = ssh_sessions
+            for l in temp:
                 if not l[0].is_alive():
                     exitcode = l[1].recv()
                     l[0].terminate()
@@ -304,6 +332,54 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
                 print "{:17s} {:3s}   {:10.2f}(sec)".format(router, smiley, l[2] - start_utc)
             
 
+def _wait(router, timeout):
+    import subprocess, time
+    hosts = {} 
+    exit = 0
+    okcheck = True 
+    if timeout < 0:
+        timeout = abs(timeout)
+        okcheck = False 
+
+    with open(ROSTER_YAML,'r') as r:
+        roster = yaml.load(r.read())
+        if router == '__ALL__':
+            for router in roster.keys():
+                hosts[router] = roster[router]['host']
+        else:
+            hosts[router] = roster[router]['host']
+    start = time.time()
+    with open(os.devnull, 'w') as devnull:
+        print "Router           Host           Ping"
+        print "------------------------------------"
+        while True:
+            if len(hosts) == 0:
+                break
+            temp = hosts.copy()
+            for router, host in temp.iteritems():
+                if time.time() - start > timeout:
+                    exit = 1
+                    for router, host in hosts.iteritems():
+                        if okcheck:
+                            print '{:17s}{:15s}NG'.format(router, host)
+                        else:
+                            print '{:17s}{:15s}OK'.format(router, host)
+                    hosts = []
+                    break 
+                command = 'ping -c 1 -W 1 ' + host
+                command = command.split()
+                exitcode = subprocess.call(command, stdout=devnull)
+                if okcheck and exitcode == 0:
+                    del hosts[router]
+                    print '{:17s}{:15s}OK'.format(router, host)
+                elif not okcheck and exitcode > 0:
+                    del hosts[router]
+                    print '{:17s}{:15s}NG'.format(router, host)
+
+    return exit
+
+
+
 
 if __name__=='__main__':
 
@@ -325,6 +401,7 @@ if __name__=='__main__':
     parser.add_option("-u", "--update", help="(CRUD) update NLAN states", action="store_true", default=False)
     parser.add_option("-d", "--delete", help="(CRUD) delete NLAN states", action="store_true", default=False)
     parser.add_option("-r", "--raw", help="run a raw shell command on remote routers", action="store_true", default=False)
+    parser.add_option("-w", "--wait", help="wait until all the routers become accessible (a value < 0 is for NG check, --target also applies)", action="store", type="int", dest="time")
     parser.add_option("-I", "--info", help="set log level to INFO", action="store_true", default=False)
     parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
     parser.add_option("-G", "--git", help="use Git archive", action="store_true", default=False)
@@ -361,8 +438,11 @@ if __name__=='__main__':
     if options.target:
         router = options.target
 
-    # --add, --get, --update, --delete, --scp, --scpmod, --raw
-    if option != None:
+    if options.time:
+        timeout = options.time
+        sys.exit(_wait(router, timeout))
+    # --add, --get, --update, --delete, --scp, --scpmod, --raw, --wait
+    elif option != None:
         main(router=router, operation=option, doc=args, loglevel=loglevel)
     else:
         # NLAN CRUD operations generated from a YAML state file
@@ -382,3 +462,4 @@ if __name__=='__main__':
         else:
             # NLAN command module execution
             main(router=router, doc=args, loglevel=loglevel)
+

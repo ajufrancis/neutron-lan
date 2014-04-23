@@ -63,3 +63,9 @@ TABLES = tables
 INDEXES = indexes 
 # NLAN state parameter types
 TYPES = types 
+
+# SSH connect timeout (in seconds)
+SSH_TIMEOUT = 10.0
+
+# PING check wait time (in seconds)
+PING_CHECK_WAIT = 10

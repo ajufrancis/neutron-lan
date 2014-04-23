@@ -8,6 +8,7 @@ Reference: http://tools.ietf.org/rfc/rfc7047.txt
 """
 
 import random, oputil
+from collections import OrderedDict
 
 DATABASE = 'Open_vSwitch'
 PARENT = 'NLAN'
@@ -581,7 +582,8 @@ def get_vxlan_port(peer):
 
 def get_current_state():
 
-    state = {}
+    #state = {}
+    state = OrderedDict()
 
     row = todict(select('NLAN', []))
 
