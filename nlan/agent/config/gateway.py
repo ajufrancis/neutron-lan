@@ -11,7 +11,9 @@ from oputil import Model
 
 def add(model):
 
-    rip, network = Model(model).getparam('rip', 'network')
+    #rip, network = Model(model).getparam('rip', 'network')
+    m = Model(globals(), 'gateway', model)
+    m.get_all()
 
     if rip == 'enabled':
         __n__['logger'].info('Adding a gateway router: rip')
@@ -46,8 +48,7 @@ def add(model):
         output_cmdp('/etc/init.d/quagga restart')
 
     # OVSDB transaction
-    r = Row('gateway')
-    r.setrow(model)
+    m.add(model)
 
 
 # Unit test

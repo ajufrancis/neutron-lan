@@ -1,5 +1,6 @@
 # 2014/3/17
 # 2014/4/14  Service Chaining ('dvr', 'hub' and 'spoke_dvr' mode)
+# 2014/4/24  get_all()
 # subnets.py
 #
 
@@ -9,27 +10,19 @@ from ovsdb import Row, OvsdbRow, search, get_vxlan_ports
 from oputil import Model
 
 # Add subnet
-def _add_subnets(vni, vid, ip_dvr, ip_vhost, ports, default_gw):
+def _add_subnets():
 	
     cmd = cmdutil.check_cmd
     output_cmd = cmdutil.output_cmd
     cmdp = cmdutil.check_cmdp
 
-    row = Row('subnets', ('vni', vni))
-  
-    vid2 = None
-    if vid:
-        vid2= str(vid)
-    else:
-        vid2 = row['vid']
-
-    ns = "ns"+vid2
-    br = "br"+vid2
-    veth_ns = "veth-ns"+vid2
-    temp_ns = "temp-ns"+vid2
-    int_br = "int-br"+vid2
-    int_dvr = "int-dvr"+vid2
-    svid = str(vid2)
+    svid = str(vid_)
+    ns = "ns"+svid
+    br = "br"+svid
+    veth_ns = "veth-ns"+svid
+    temp_ns = "temp-ns"+svid
+    int_br = "int-br"+svid
+    int_dvr = "int-dvr"+svid
 
     #>>> Adding VLAN and a linux bridge
     if vid:
@@ -101,23 +94,23 @@ def _add_subnets(vni, vid, ip_dvr, ip_vhost, ports, default_gw):
 # 3) mode == 'hub' or 'spoke'
 # No flow entries added
 #
-def _add_flow_entries(vid, vni, ip_dvr, mode, peers):
-
-    vid = str(vid)
-    vni = str(vni)
-    int_dvr = "int-dvr"+vid
-    int_br = "int-br"+vid
+def _add_flow_entries():
+    
+    svid = str(vid_)
+    int_dvr = "int-dvr"+svid
+    int_br = "int-br"+svid
+    svni = str(vni)
 
     if len(search('Controller', ['target'])) == 0:
 
         cmd = cmdutil.check_cmd
 
-        cmd('ovs-ofctl add-flow br-tun', 'table=2,priority=1,tun_id='+vni+',actions=mod_vlan_vid:'+vid+',resubmit(,10)')
+        cmd('ovs-ofctl add-flow br-tun', 'table=2,priority=1,tun_id='+svni+',actions=mod_vlan_vid:'+svid+',resubmit(,10)')
         
         #print ip_dvr, mode
         if ip_dvr and (mode == 'dvr' or not mode):
             defaultgw = ip_dvr.split('/')[0]
-            cmd('ovs-ofctl add-flow br-tun', 'table=19,priority=1,dl_type=0x0806,dl_vlan='+vid+',nw_dst='+defaultgw+',actions=drop')
+            cmd('ovs-ofctl add-flow br-tun', 'table=19,priority=1,dl_type=0x0806,dl_vlan='+svid+',nw_dst='+defaultgw+',actions=drop')
         # Redirects a packet to int_dvr port if nw_dst is a private ip address
         elif ip_dvr and mode == 'spoke_dvr':
             defaultgw = ip_dvr.split('/')[0]
@@ -166,7 +159,7 @@ def _add_flow_entries(vid, vni, ip_dvr, mode, peers):
         vxlan_ports = get_vxlan_ports(peers)
         for vxlan_port in vxlan_ports:
             output_ports = output_ports+',output:'+vxlan_port
-        cmd('ovs-ofctl add-flow br-tun', 'table=21,priority=1,dl_vlan='+vid+',actions=strip_vlan,set_tunnel:'+vni+output_ports)
+        cmd('ovs-ofctl add-flow br-tun', 'table=21,priority=1,dl_vlan='+svid+',actions=strip_vlan,set_tunnel:'+svni+output_ports)
         
 
 # Mandatory parameters
@@ -176,31 +169,26 @@ def _crud(crud, model, index):
 
     cmd = cmdutil.cmd	
     vni = index[1] 
-    m = Model(model)
-    vid, ip_dvr, mode, ip_vhost, ports, default_gw, peers = m.getparam('vid', 'ip_dvr', 'mode', 'ip_vhost', 'ports', 'default_gw', 'peers')
+
+    m = Model(globals(), 'subnets', model, index)
+    m.get_all()
+
     __n__['logger'].info('Adding a subnet(vlan): ' + str(vid))
-    globals()['_'+crud+'_subnets'](vni=vni, vid=vid, ip_dvr=ip_dvr, ip_vhost=ip_vhost, ports=ports, default_gw=default_gw)
-    globals()['_'+crud+'_flow_entries'](vid, vni, ip_dvr, mode, peers)
+    globals()['_'+crud+'_subnets']()
+    globals()['_'+crud+'_flow_entries']()
 
     # OVSDB transaction
-    r = Row('subnets', index)
-    r.crud(crud, model)
+    m.crud(crud, model)
 
 def add(model, index):
-
-    #paramset = ('vni', 'vid', 'ip_dvr', 'ip_vhost')
 
     _crud('add', model, index)
 
 def delete(model, index):
 
-    #paramset = ('vni', 'vid', 'ip_dvr', 'ip_vhost')
-
     _crud('delete', model, index)
 
 def update(model, index):
-
-    #paramset = ()
 
     _crud('update', model, index)
 

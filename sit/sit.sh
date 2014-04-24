@@ -3,7 +3,7 @@
 # 2014/4/23
 # System Integration Test script for NLAN
 
-export PATH=$PATH:$(pwd)
+export PATH=$PATH:../nlan:.
 
 do_sit () {
 
@@ -28,7 +28,7 @@ do_sit () {
     ### NLAN dvsdvr service deployment ###
     #nlan.py dvsdvr.yaml
     #nlan.py dvsdvr.yaml --info
-    nlan.py dvsdvr.yaml $1 
+    nlan.py ../nlan/dvsdvr.yaml $1 
 
     ### CREATE PSEUDO-GLOBAL IP NETWORK ###
     vglobalip.sh
@@ -60,7 +60,7 @@ do_sit () {
 }
 
 echo "do_sit"
-do_sit > ../doc/sit_log.txt
+do_sit > ./sit_log.txt
 if [ $? -gt 0 ]; then
     echo "FAIL"
     exit 1
@@ -69,7 +69,7 @@ else
 fi
 
 echo "do_sit --info"
-do_sit --info > ../doc/sit_info_log.txt
+do_sit --info > ./sit_info_log.txt
 if [ $? -gt 0 ]; then
     echo "FAIL"
     exit 1
@@ -78,7 +78,7 @@ else
 fi
 
 echo "do_sit --debug"
-do_sit --debug > ../doc/sit_debug_log.txt
+do_sit --debug > ./sit_debug_log.txt
 if [ $? -gt 0 ]; then
     echo "FAIL"
     exit 1

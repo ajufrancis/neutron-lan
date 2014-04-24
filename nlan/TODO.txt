@@ -7,7 +7,7 @@ Maybe the program needs to refer to the OVSDB schema when converting JSON-RPC ou
 
 JSON-RPC respone error handling ==> raise some Exception
 
-[3] CRUD
+[3] CRUD -- DONE!
 Use crud instead of setrow in bridges, vxlan and gateway.
 
 [4] option

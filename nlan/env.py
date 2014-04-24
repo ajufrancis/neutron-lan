@@ -36,7 +36,7 @@ NLAN_AGENT_ETC = os.path.join(NLAN_AGENT_DIR, 'etc')
 NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan_agent.py')
 
 # NLAN libraries used by NLAN Agent and NLAN modules
-NLAN_LIBS = ['oputil.py', 'cmdutil.py']
+NLAN_LIBS = ['cmdutil.py', 'errors.py']
 
 # NLAN module directories
 NLAN_MOD_DIRS = ['command', 'config']

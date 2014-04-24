@@ -10,7 +10,10 @@ def add(model):
 
     __n__['logger'].info('Adding bridges: br-int and br-tun')
 
-    ovs_bridges, controller = Model(model).getparam('ovs_bridges', 'controller')
+    #ovs_bridges, controller = Model(model).getparam('ovs_bridges', 'controller')
+    m = Model(globals(), 'bridges', model)
+    m.get_all()
+    #print ovs_bridges, controller, ovs_bridges_, controller_
 
     cmd = cmdutil.check_cmd	
     cmdp = cmdutil.check_cmdp
@@ -44,6 +47,5 @@ def add(model):
         cmd('ovs-ofctl add-flow br-tun', 'table=21,priority=0,actions=drop')
 
     # OVSDB transaction
-    r = Row('bridges')
-    r.setrow(model)
+    m.add(model)
 

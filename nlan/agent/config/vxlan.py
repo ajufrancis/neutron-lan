@@ -10,7 +10,9 @@ def add(model):
     
     cmd = cmdutil.check_cmd	
     cmdp = cmdutil.check_cmdp	
-    local_ip, remote_ips = Model(model).getparam('local_ip', 'remote_ips')
+    #local_ip, remote_ips = Model(model).getparam('local_ip', 'remote_ips')
+    m = Model(globals(), 'vxlan', model)
+    m.get_all()
 
     for remote_ip in remote_ips:
         inf = 'vxlan_' + remote_ip.split('.')[3]
@@ -22,6 +24,5 @@ def add(model):
         cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=1,in_port='+vxlan_port+',actions=resubmit(,2)')
  
     # VSDB transaction
-    r = Row('vxlan')
-    r.setrow(model)
+    m.add(model)
 

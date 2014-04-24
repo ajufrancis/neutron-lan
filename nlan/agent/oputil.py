@@ -1,30 +1,16 @@
-
-class ModelError(Exception):
-
-    def __init__(self, message, model=None, params=None):
-
-        self.message = message
-        self.model = model
-        self.params = params
-
-    def __str__(self):
-
-        if self.model and self.params:
-            message = "Model error: {}\nmodel:{}\nparams:{}".format(self.message, str(self.model), str(self.params))
-        elif self.model:
-            message = "Model error: {}\nmodel:{}".format(self.message, str(self.model))
-        elif self.params:
-            message = "Model error: {}\nparams:{}".format(self.message, str(self.params))
-        else:
-            message = "Model error: {}".format(self.message)
-
-        return message
+from ovsdb import Row
 
 class Model:
 
-    def __init__(self, model):
+
+    def __init__(self, gl, module, model, index=None):
 
         self.model = model
+        self.module = module
+        self.index = index
+        self.gl = gl
+        self.rowobj = Row(module, index)
+        self.row = self.rowobj.getrow()
 
     def getparam(self, *args):
       
@@ -37,6 +23,53 @@ class Model:
             else:
                 yield None
 
+    def getparams(self, *args):
+
+        for key in args:
+
+            # New values
+            if key in self.model:
+                if self.model[key] == '':
+                    self.gl[key] = None
+                else:
+                    self.gl[key] = self.model[key] 
+            else:
+                self.gl[key] = None 
+            # Old values stored in OVSDB            
+            key__ = key+'__'
+            if key in self.row:
+                self.gl[key__] = self.row[key]
+            else:
+                self.gl[key__] = None 
+            # New or Old values
+            key_ = key+'_'
+            if self.gl[key] == None:
+                self.gl[key_] = self.gl[key__]
+            else:
+                self.gl[key_] = self.gl[key]
+            
+    
+    def get_all(self):
+
+        params = tuple(__n__['types'][self.module].keys())
+        self.getparams(*params)
+
+    # ovdsb.Row.crud
+    def crud(self, crud, model):
+        self.rowobj.crud(crud, model)
+
+    # ovdsb.Row.add
+    def add(self, model):
+        self.rowobj.crud('add', model)
+
+    # ovdsb.Row.update
+    def update(self, model):
+        self.rowobj.crud('update', model)
+
+    # ovdsb.Row.delete
+    def delete(self, model):
+        self.rowobj.crud('delete', model)
+
     # args: a set of mandatory parameters
     def checkset(self, module, crud, args):
 
@@ -46,6 +79,7 @@ class Model:
             pass 
         else:
             raise ModelError(module + "." + crud + " requires" +  str(args), "or all None")
+
 
 class SubprocessError(Exception):
 
@@ -64,13 +98,6 @@ class SubprocessError(Exception):
 
         return message
 
-def get_roster():
-
-    from env import NLAN_DIR 
-    import os, yaml
-    roster = os.path.join(NLAN_DIR,'roster.yaml')
-    r = open(roster, 'r')
-    return yaml.load(r.read())
 
 def logstr(*args):
 

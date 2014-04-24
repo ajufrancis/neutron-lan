@@ -13,6 +13,7 @@ from optparse import OptionParser
 from time import sleep
 import traceback
 from collections import OrderedDict
+from multiprocessing import Process, Lock, Pipe, Queue
 import time, datetime
 from cStringIO import StringIO
 
@@ -47,7 +48,6 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
         loglevel = ''
     #print router, operation, doc, cmd_list, loglevel
     
-    from multiprocessing import Process, Lock, Pipe, Queue
 
     with open(ROSTER_YAML,'r') as r:
         roster = yaml.load(r.read())
@@ -71,7 +71,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
         return o.channel.recv_exit_status()
 
 
-    # ssh session per sub-process
+    # ssh session per child process
     def _ssh_session(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, child):
 
 
@@ -287,7 +287,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
 
             ssh_sessions.append([Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, child)), parent])
  
-    # Start subprocesses
+    # Start child processes
     try:
         for l in ssh_sessions:
             l[0].start()
@@ -296,20 +296,20 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
             if len(ssh_sessions) == 0:
                 break
             sleep(0.5)
-            temp = ssh_sessions
+            temp = list(ssh_sessions)
             for l in temp:
                 if not l[0].is_alive():
                     exitcode = l[1].recv()
                     l[0].terminate()
                     ssh_sessions.remove(l)
     except KeyboardInterrupt:
-        print "\nOK. I will terminate the subprocesses..."
+        print "\nOK. I will terminate the child processes..."
         for l in ssh_sessions:
             pid = str(l[0].pid)
             sub = cmdutil.output_cmd('ps -p', pid, 'h')
             l[0].terminate()
             l[0].join()
-            print "subrocess:", sub 
+            print "child process:", sub 
         raise Exception("Operation stopped by Keyboard Interruption") 
     finally:
         if not queue.empty():
@@ -333,13 +333,30 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
             
 
 def _wait(router, timeout):
+
     import subprocess, time
+
+    # child process
+    def _ping(router, host, timeout, devnull, queue):
+
+        start = time.time()
+        okcheck = True
+        if timeout < 0:
+            timeout = abs(timeout)
+            okcheck = False 
+        while True:
+            command = 'ping -c 1 -W 1 ' + host
+            command = command.split()
+            exitcode = subprocess.call(command, stdout=devnull)
+            if okcheck and exitcode == 0 or not okcheck and exitcode > 0:
+                queue.put((router, host, True))
+                break
+            if time.time() - start > timeout:
+                queue.put((router, host, False))
+                break
+
     hosts = {} 
     exit = 0
-    okcheck = True 
-    if timeout < 0:
-        timeout = abs(timeout)
-        okcheck = False 
 
     with open(ROSTER_YAML,'r') as r:
         roster = yaml.load(r.read())
@@ -348,37 +365,48 @@ def _wait(router, timeout):
                 hosts[router] = roster[router]['host']
         else:
             hosts[router] = roster[router]['host']
-    start = time.time()
-    with open(os.devnull, 'w') as devnull:
-        print "Router           Host           Ping"
-        print "------------------------------------"
-        while True:
-            if len(hosts) == 0:
-                break
-            temp = hosts.copy()
-            for router, host in temp.iteritems():
-                if time.time() - start > timeout:
-                    exit = 1
-                    for router, host in hosts.iteritems():
-                        if okcheck:
-                            print '{:17s}{:15s}NG'.format(router, host)
-                        else:
-                            print '{:17s}{:15s}OK'.format(router, host)
-                    hosts = []
-                    break 
-                command = 'ping -c 1 -W 1 ' + host
-                command = command.split()
-                exitcode = subprocess.call(command, stdout=devnull)
-                if okcheck and exitcode == 0:
-                    del hosts[router]
-                    print '{:17s}{:15s}OK'.format(router, host)
-                elif not okcheck and exitcode > 0:
-                    del hosts[router]
-                    print '{:17s}{:15s}NG'.format(router, host)
+     
+    print "Router           Host           Ping"
+    print "------------------------------------"
+    children = []
+    try:
+        with open(os.devnull, 'w') as devnull:
+            queue = Queue()
+            for router, host in hosts.iteritems():
+                child = Process(target=_ping, args=(router, host, timeout, devnull, queue))
+                child.start()
+                children.append(child)
+
+            while True:
+                if len(children) == 0:
+                    break
+                sleep(0.5)
+                temp = list(children)
+                for l in temp:
+                    if not l.is_alive():
+                        l.terminate()
+                        children.remove(l)
+                while not queue.empty():
+                    q = queue.get()
+                    router = q[0]
+                    host = q[1]
+                    result = q[2]
+                    if timeout > 0 and result or timeout < 0 and not result:
+                        print '{:17s}{:15s}OK'.format(router, host)
+                    elif timeout > 0 and not result or timeout < 0 and result:
+                        print '{:17s}{:15s}NG'.format(router, host)
+                    if not result and exit == 0:
+                        exit = 1
+    except KeyboardInterrupt:
+        print "\nOK. I will terminate the subprocesses..."
+        for l in children:
+            pid = str(l.pid)
+            sub = cmdutil.output_cmd('ps -p', pid, 'h')
+            l.terminate()
+            l.join()
+            print "child process:", sub 
 
     return exit
-
-
 
 
 if __name__=='__main__':
@@ -407,6 +435,7 @@ if __name__=='__main__':
     parser.add_option("-G", "--git", help="use Git archive", action="store_true", default=False)
 
     (options, args) = parser.parse_args()
+
 
     option = None
     git = False
@@ -446,7 +475,10 @@ if __name__=='__main__':
         main(router=router, operation=option, doc=args, loglevel=loglevel)
     else:
         # NLAN CRUD operations generated from a YAML state file
-        if args[0].endswith('.yaml'):
+        if len(args) == 0:
+            parser.print_usage()
+            sys.exit(0)
+        elif args[0].endswith('.yaml'):
             # State files
             for v in args:
                 cmd_list = yamldiff.crud_diff(v)

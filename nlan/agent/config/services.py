@@ -17,8 +17,8 @@ lxc.network.ipv4 = 0.0.0.0
 def add(model, index):
 
     name = index[1]
-    m = Model(model)
-    function, mode, chain = m.getparam('function', 'mode', 'chain')
+    m = Model(globals(), 'services', model, index)
+    m.get_all()
 
     conf = os.path.join('/var/lib/lxc', name, 'config')
     with open(conf, 'r') as f:
@@ -37,8 +37,7 @@ def add(model, index):
     cmd('lxc-start -d -f', conf, '-n', name)
 
     #OVSDB transaction
-    r = Row('services', index)
-    r.crud('add', model)
+    m.add(model)
 
 
 

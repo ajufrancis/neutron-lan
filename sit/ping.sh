@@ -1,5 +1,5 @@
 #!/bin/bash
-export PATH=$PATH:$(pwd)
+export PATH=$PATH:../nlan
 nlan.py test.echo 'Hello World!'
 nlan.py -t openwrt1 --raw 'ip netns exec ns1 ping -c 1 10.0.1.102'
 nlan.py -t openwrt1 --raw 'ip netns exec ns1 ping -c 1 10.0.1.102'

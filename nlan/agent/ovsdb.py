@@ -7,7 +7,7 @@ Reference: http://tools.ietf.org/rfc/rfc7047.txt
 
 """
 
-import random, oputil
+import random
 from collections import OrderedDict
 
 DATABASE = 'Open_vSwitch'
@@ -149,6 +149,11 @@ def _row(model):
         model_row[key] = v
     return model_row
 
+def _logstr(*args):
+
+    l = list(args)
+    return '\n'.join(l)
+
 # JSON-RPC transaction
 def _send(request):
 
@@ -181,7 +186,7 @@ def _send(request):
     s.send(pdu)
     response = s.recv(4096)
 
-    __n__['logger'].debug(oputil.logstr('... JSON-RPC request ...', str(pdu), '... JSON-RPC response ...', response))
+    __n__['logger'].debug(_logstr('... JSON-RPC request ...', str(pdu), '... JSON-RPC response ...', response))
 
     return loads(response)
 
@@ -510,13 +515,17 @@ class Row(OvsdbRow):
     def crud(self, crud, model):
 
         if __n__['init'] != 'start':
-
-            ind = self.index[0]
+            
+            ind = None
+            if self.index:
+                ind = self.index[0]
             keys = model.keys()
 
             __n__['logger'].debug("CRUD operation ({0}): {1}".format(crud,str(model)))
 
             if ind in keys and crud == 'add':
+                self.setrow(model)
+            elif not ind and len(self.getrow()) == 0:
                 self.setrow(model)
             elif crud == 'add' or crud == 'update':
                 for k in keys:
@@ -529,7 +538,15 @@ class Row(OvsdbRow):
             else:
                 raise Exception("Parameter error")
 
+    def add(self, model):
+        return self.crud('add', model)
 
+    def update(self, model):
+        return self.crud('update', model)
+    
+    def delete(self, model):
+        return self.crud('delete', model)
+   
     @classmethod
     def clear(cls):
         #response = delete(cls.PARENT, [])

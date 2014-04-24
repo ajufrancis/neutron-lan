@@ -17,7 +17,7 @@ from collections import OrderedDict
 import logging
 import cStringIO
 from cmdutil import CmdError
-from oputil import ModelError
+from errors import ModelError
 import traceback
 
 ENVFILE = '/opt/nlan/nlan_env.conf'

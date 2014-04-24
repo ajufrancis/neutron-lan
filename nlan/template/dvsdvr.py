@@ -2,7 +2,7 @@
 #
 import re
 from yamldiff import *
-from oputil import get_roster
+from util import get_roster
 from env import STATE_ORDER
 
 # Placeholders: <remote_ips> and <peers>
