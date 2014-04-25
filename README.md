@@ -6,7 +6,7 @@ neutron-lan
 
 INDEX
 -----
-* **[neutron-lan project concept(pdf)](https://github.com/alexanderplatz1999/neutron-lan/raw/master/doc/NLAN.pdf)**
+* **neutron-lan project concept[(Google Doc)](https://docs.google.com/presentation/d/1cAHGokqDmtH4qoJg7lWz2Hg0iefx8toigKe3x0xKHg0/pub?start=false&loop=false&delayms=3000)[(pdf)](https://github.com/alexanderplatz1999/neutron-lan/raw/master/doc/NLAN.pdf)**
 * [code](https://github.com/alexanderplatz1999/neutron-lan)
 * [Software Defined Networking](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/software_defined_networking.md)
 * [YAML-based network modeling](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/modeling.md)
