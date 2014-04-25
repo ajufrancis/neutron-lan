@@ -10,10 +10,7 @@ def add(model):
 
     __n__['logger'].info('Adding bridges: br-int and br-tun')
 
-    #ovs_bridges, controller = Model(model).getparam('ovs_bridges', 'controller')
-    m = Model(globals(), 'bridges', model)
-    m.get_all()
-    #print ovs_bridges, controller, ovs_bridges_, controller_
+    m = Model('add', model)
 
     cmd = cmdutil.check_cmd	
     cmdp = cmdutil.check_cmdp
@@ -24,9 +21,9 @@ def add(model):
     cmdp('ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun')
     cmdp('ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int')
 
-    if controller:
+    if _controller:
         # OpenFlow Controller
-        cmdp('ovs-vsctl set-controller br-tun tcp:'+ controller)
+        cmdp('ovs-vsctl set-controller br-tun tcp:'+ _controller)
     else:
         # Flow entries
         r = OvsdbRow('Interface', ('name', 'patch-tun'))
@@ -47,5 +44,5 @@ def add(model):
         cmd('ovs-ofctl add-flow br-tun', 'table=21,priority=0,actions=drop')
 
     # OVSDB transaction
-    m.add(model)
+    m.finalize()
 

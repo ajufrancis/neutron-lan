@@ -16,7 +16,7 @@ def _add_subnets():
     output_cmd = cmdutil.output_cmd
     cmdp = cmdutil.check_cmdp
 
-    svid = str(vid_)
+    svid = str(_vid_)
     ns = "ns"+svid
     br = "br"+svid
     veth_ns = "veth-ns"+svid
@@ -25,7 +25,7 @@ def _add_subnets():
     int_dvr = "int-dvr"+svid
 
     #>>> Adding VLAN and a linux bridge
-    if vid:
+    if _vid:
         cmd('ip netns add' , ns)
         cmd('brctl addbr', br)
         cmd('ip link add', veth_ns, 'type veth peer name', temp_ns)
@@ -46,27 +46,27 @@ def _add_subnets():
         cmd('ip link set dev', br, 'up')
 
     #>>> Adding vHost
-    if ip_vhost:
-        cmd('ip netns exec', ns, 'ip addr add dev eth0', ip_vhost)
+    if _ip_vhost:
+        cmd('ip netns exec', ns, 'ip addr add dev eth0', _ip_vhost)
 
     #>>> Adding DVR gateway address
-    if ip_dvr:
-        cmd('ip addr add dev', int_dvr, ip_dvr)
+    if _ip_dvr:
+        cmd('ip addr add dev', int_dvr, _ip_dvr)
         # Distributed Virtual Router
-        cmd('ip netns exec', ns, 'ip route add default via', ip_dvr.split('/')[0], 'dev eth0')
+        cmd('ip netns exec', ns, 'ip route add default via', _ip_dvr.split('/')[0], 'dev eth0')
 
     #>>> Adding physical ports to the Linux bridge
-    if ports:
-        for port in ports:
+    if _ports:
+        for port in _ports:
             cmd('brctl addif', br, port)
 
     #>>> Default GW for the subnet
-    if default_gw:
+    if _default_gw:
         o = output_cmd('route').splitlines()
         for l in o:
             if l.startswith('default'):
                 cmd('ip route del default')
-        cmd('ip route add default via', default_gw)
+        cmd('ip route add default via', _default_gw)
 	
 
 # Adds flow entries 
@@ -96,11 +96,12 @@ def _add_subnets():
 #
 def _add_flow_entries():
     
-    svid = str(vid_)
+    svid = str(_vid_)
     int_dvr = "int-dvr"+svid
     int_br = "int-br"+svid
-    svni = str(vni)
+    svni = str(_vni_)
 
+    # serarch Open_vSwitch table
     if len(search('Controller', ['target'])) == 0:
 
         cmd = cmdutil.check_cmd
@@ -108,13 +109,13 @@ def _add_flow_entries():
         cmd('ovs-ofctl add-flow br-tun', 'table=2,priority=1,tun_id='+svni+',actions=mod_vlan_vid:'+svid+',resubmit(,10)')
         
         #print ip_dvr, mode
-        if ip_dvr and (mode == 'dvr' or not mode):
-            defaultgw = ip_dvr.split('/')[0]
+        if _ip_dvr and (_mode == 'dvr' or not _mode):
+            defaultgw = _ip_dvr.split('/')[0]
             cmd('ovs-ofctl add-flow br-tun', 'table=19,priority=1,dl_type=0x0806,dl_vlan='+svid+',nw_dst='+defaultgw+',actions=drop')
         # Redirects a packet to int_dvr port if nw_dst is a private ip address
-        elif ip_dvr and mode == 'spoke_dvr':
-            defaultgw = ip_dvr.split('/')[0]
-            mask = ip_dvr.split('/')[1]
+        elif _ip_dvr and _mode == 'spoke_dvr':
+            defaultgw = _ip_dvr.split('/')[0]
+            mask = _ip_dvr.split('/')[1]
             address = defaultgw.split('.')
             shift = 32 - int(mask)
             net = (int(address[0])*256**3+int(address[1])*256**2+int(address[2])*256+int(address[3]))>>shift<<shift
@@ -137,6 +138,7 @@ def _add_flow_entries():
             nw_dst10 = '10.0.0.0/8'
             nw_dst172 = '172.16.0.0/12'
             nw_dst192 = '192.168.0.0/16'
+            
             r = OvsdbRow('Interface', ('name', int_dvr))
             outport = str(r['ofport'])
             r = OvsdbRow('Interface', ('name', int_br))
@@ -149,36 +151,32 @@ def _add_flow_entries():
             # ARP, opcode = 2, TPA = defaultgw
             cmd('ovs-ofctl add-flow br-int', 'table=0,priority=1,in_port='+outport+',dl_type=0x0806,nw_src='+defaultgw+',nw_proto=2,actions=drop')
             cmd('ovs-ofctl add-flow br-int', 'table=1,priority=0,actions=set_field:'+dl_dst+'->dl_dst,output:'+outport)
-        elif ip_dvr and mode == 'hub' or 'spoke':
+        elif _ip_dvr and _mode == 'hub' or 'spoke':
             pass
         else:
             pass 
 
         # Broadcast tree for each vni
         output_ports = ''
-        vxlan_ports = get_vxlan_ports(peers)
+        vxlan_ports = get_vxlan_ports(_peers)
         for vxlan_port in vxlan_ports:
             output_ports = output_ports+',output:'+vxlan_port
         cmd('ovs-ofctl add-flow br-tun', 'table=21,priority=1,dl_vlan='+svid+',actions=strip_vlan,set_tunnel:'+svni+output_ports)
         
 
-# Mandatory parameters
-# (1) vid, ip_dvr, ip_vhost, default_gw 
-# (2) ports
 def _crud(crud, model, index):
 
     cmd = cmdutil.cmd	
     vni = index[1] 
 
-    m = Model(globals(), 'subnets', model, index)
-    m.get_all()
+    m = Model(crud, model, index)
 
-    __n__['logger'].info('Adding a subnet(vlan): ' + str(vid))
+    __n__['logger'].info('Adding a subnet(vlan): ' + str(_vid))
     globals()['_'+crud+'_subnets']()
     globals()['_'+crud+'_flow_entries']()
 
     # OVSDB transaction
-    m.crud(crud, model)
+    m.finalize()
 
 def add(model, index):
 

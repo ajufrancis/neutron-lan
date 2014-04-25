@@ -26,3 +26,5 @@ Command '['/etc/init.d/nlan', 'enable']' returned non-zero exit status 1
 
 [7] nlan_agent.py --init start does not work. -- DONE! Bug fixed.
 
+[8] nlan.py and yamldiff.py dowe not handle -G option.
+

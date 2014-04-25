@@ -1,83 +1,9 @@
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
-openwrt3         192.168.1.103  OK
-openwrt2         192.168.1.102  OK
 openwrt1         192.168.1.101  OK
-rpi1             192.168.1.104  OK
-=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-operation: --scpmod
-=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-operation: --scpmod
-=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-operation: --scpmod
-=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
-operation: --scpmod
-=+=+= Files copied to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-target_dir: /opt/nlan
-files: ['ovsdbrow.py', 'command.py', 'db.py', 'system.py', 'nlan.py', 'test.py', 'init.py', 'vxlan.py', 'bridges.py', 'gateway.py', 'services.py', 'subnets.py', 'nlan_agent.py', 'ovsdb.py', 'oputil.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'vswitch.schema_2.0.0', 'nlan_openwrt', 'ovsdb_nlan.schema', 'nlan_env.conf']
-exit: 0
-=+=+= Files copied to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-target_dir: /opt/nlan
-files: ['ovsdbrow.py', 'command.py', 'db.py', 'system.py', 'nlan.py', 'test.py', 'init.py', 'vxlan.py', 'bridges.py', 'gateway.py', 'services.py', 'subnets.py', 'nlan_agent.py', 'ovsdb.py', 'oputil.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'vswitch.schema_2.0.0', 'nlan_openwrt', 'ovsdb_nlan.schema', 'nlan_env.conf']
-exit: 0
-=+=+= Files copied to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-target_dir: /opt/nlan
-files: ['ovsdbrow.py', 'command.py', 'db.py', 'system.py', 'nlan.py', 'test.py', 'init.py', 'vxlan.py', 'bridges.py', 'gateway.py', 'services.py', 'subnets.py', 'nlan_agent.py', 'ovsdb.py', 'oputil.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'vswitch.schema_2.0.0', 'nlan_openwrt', 'ovsdb_nlan.schema', 'nlan_env.conf']
-exit: 0
-=+=+= Files copied to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
-target_dir: /opt/nlan
-files: ['ovsdbrow.py', 'command.py', 'db.py', 'system.py', 'nlan.py', 'test.py', 'init.py', 'vxlan.py', 'bridges.py', 'gateway.py', 'services.py', 'subnets.py', 'nlan_agent.py', 'ovsdb.py', 'oputil.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'vswitch.schema_2.0.0', 'nlan_openwrt', 'ovsdb_nlan.schema', 'nlan_env.conf']
-exit: 0
-=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-
-Start Time: 2014-04-24 23:51:54.901139
-
-Router           Result    Elapsed Time
----------------------------------------
-openwrt1          :-)         2.44(sec)
-openwrt3          :-)         2.59(sec)
-openwrt2          :-)         2.70(sec)
-rpi1              :-)         3.86(sec)
-=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-Router           Host           Ping
-------------------------------------
-openwrt3         192.168.1.103  OK
 openwrt2         192.168.1.102  OK
-openwrt1         192.168.1.101  OK
-rpi1             192.168.1.104  OK
-=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-operation: --raw
-command: rm -rf /opt/nlan
-=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-operation: --raw
-command: rm -rf /opt/nlan
-=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-operation: --raw
-command: rm -rf /opt/nlan
-=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
-operation: --raw
-command: rm -rf /opt/nlan
-exit: 0
-exit: 0
-exit: 0
-exit: 0
-=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-
-Start Time: 2014-04-24 23:52:00.005584
-
-Router           Result    Elapsed Time
----------------------------------------
-openwrt3          :-)         0.46(sec)
-openwrt1          :-)         0.55(sec)
-openwrt2          :-)         0.58(sec)
-rpi1              :-)         0.74(sec)
-=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-Router           Host           Ping
-------------------------------------
 openwrt3         192.168.1.103  OK
-openwrt2         192.168.1.102  OK
-openwrt1         192.168.1.101  OK
 rpi1             192.168.1.104  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 operation: --scpmod
@@ -89,37 +15,111 @@ operation: --scpmod
 operation: --scpmod
 =+=+= Files copied to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 target_dir: /opt/nlan
-files: ['ovsdbrow.py', 'command.py', 'db.py', 'system.py', 'nlan.py', 'test.py', 'init.py', 'vxlan.py', 'bridges.py', 'gateway.py', 'services.py', 'subnets.py', 'nlan_agent.py', 'ovsdb.py', 'oputil.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'vswitch.schema_2.0.0', 'nlan_openwrt', 'ovsdb_nlan.schema', 'nlan_env.conf']
-exit: 0
-=+=+= Files copied to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
-target_dir: /opt/nlan
-files: ['ovsdbrow.py', 'command.py', 'db.py', 'system.py', 'nlan.py', 'test.py', 'init.py', 'vxlan.py', 'bridges.py', 'gateway.py', 'services.py', 'subnets.py', 'nlan_agent.py', 'ovsdb.py', 'oputil.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'vswitch.schema_2.0.0', 'nlan_openwrt', 'ovsdb_nlan.schema', 'nlan_env.conf']
+files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'oputil.py', 'nlan_agent.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
 exit: 0
 =+=+= Files copied to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 target_dir: /opt/nlan
-files: ['ovsdbrow.py', 'command.py', 'db.py', 'system.py', 'nlan.py', 'test.py', 'init.py', 'vxlan.py', 'bridges.py', 'gateway.py', 'services.py', 'subnets.py', 'nlan_agent.py', 'ovsdb.py', 'oputil.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'vswitch.schema_2.0.0', 'nlan_openwrt', 'ovsdb_nlan.schema', 'nlan_env.conf']
+files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'oputil.py', 'nlan_agent.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
+exit: 0
+=+=+= Files copied to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'oputil.py', 'nlan_agent.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
 exit: 0
 =+=+= Files copied to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 target_dir: /opt/nlan
-files: ['ovsdbrow.py', 'command.py', 'db.py', 'system.py', 'nlan.py', 'test.py', 'init.py', 'vxlan.py', 'bridges.py', 'gateway.py', 'services.py', 'subnets.py', 'nlan_agent.py', 'ovsdb.py', 'oputil.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'vswitch.schema_2.0.0', 'nlan_openwrt', 'ovsdb_nlan.schema', 'nlan_env.conf']
+files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'oputil.py', 'nlan_agent.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:02.109128
+Start Time: 2014-04-25 01:40:06.419551
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          :-)         2.37(sec)
-openwrt2          :-)         2.68(sec)
-openwrt1          :-)         3.00(sec)
-rpi1              :-)         3.28(sec)
+openwrt3          :-)         3.16(sec)
+openwrt1          :-)         3.21(sec)
+openwrt2          :-)         3.34(sec)
+rpi1              :-)         3.67(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
+openwrt3         192.168.1.103  OK
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: rm -rf /opt/nlan
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: rm -rf /opt/nlan
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: rm -rf /opt/nlan
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+operation: --raw
+command: rm -rf /opt/nlan
+exit: 0
+exit: 0
+exit: 0
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-25 01:40:11.642241
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         0.95(sec)
+openwrt1          :-)         0.97(sec)
+openwrt2          :-)         1.02(sec)
+rpi1              :-)         1.03(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt1         192.168.1.101  OK
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+rpi1             192.168.1.104  OK
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+operation: --scpmod
+=+=+= Files copied to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'oputil.py', 'nlan_agent.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
+exit: 0
+=+=+= Files copied to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'oputil.py', 'nlan_agent.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
+exit: 0
+=+=+= Files copied to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'oputil.py', 'nlan_agent.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
+exit: 0
+=+=+= Files copied to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+target_dir: /opt/nlan
+files: ['nlan.py', 'command.py', 'ovsdbrow.py', 'init.py', 'db.py', 'test.py', 'system.py', 'vxlan.py', 'subnets.py', 'gateway.py', 'bridges.py', 'services.py', 'ovsdb.py', 'oputil.py', 'nlan_agent.py', 'cmdutil.py', 'errors.py', 'nlan_debian', 'nlan.schema_0.0.1.yaml', 'nlan_openwrt', 'ovsdb_nlan.schema', 'vswitch.schema_2.0.0', 'nlan_env.conf']
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-25 01:40:14.358072
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         3.11(sec)
+openwrt1          :-)         3.23(sec)
+openwrt3          :-)         3.44(sec)
+rpi1              :-)         3.74(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
 openwrt3         192.168.1.103  OK
+rpi1             192.168.1.104  OK
 openwrt2         192.168.1.102  OK
 openwrt1         192.168.1.101  OK
-rpi1             192.168.1.104  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 command: init.run
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
@@ -132,11 +132,11 @@ command: init.run
 __ NLAN response __
 message: Execution completed
 exit: 0
-=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 __ NLAN response __
 message: Execution completed
 exit: 0
-=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 __ NLAN response __
 message: Execution completed
 exit: 0
@@ -146,15 +146,60 @@ message: Execution completed
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:06.708525
+Start Time: 2014-04-25 01:40:19.527767
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         1.59(sec)
-openwrt2          :-)         2.40(sec)
-openwrt3          :-)         2.77(sec)
-rpi1              :-)         4.28(sec)
-cmd: git show HEAD:../nlan/dvsdvr.yaml
+openwrt1          :-)         1.65(sec)
+openwrt3          :-)         1.70(sec)
+openwrt2          :-)         1.76(sec)
+rpi1              :-)         2.17(sec)
+cmd: git show HEAD:~~~
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+rpi1             192.168.1.104  OK
+openwrt2         192.168.1.102  OK
+openwrt3         192.168.1.103  OK
+openwrt1         192.168.1.101  OK
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('services', {('name', 'snort1'): {'name': 'snort1', 'chain': ['mz.101', 'dmz.1001']}}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}), ('subnets', {('vni', 1001): {'peers': ['192.168.1.101'], 'vid': 111, 'vni': 1001, 'ports': ['dmz.1001']}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 1, 'vni': 101, 'ports': ['mz.101']}})])"
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}), ('subnets', {('vni', 1): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.3/24', 'vni': 1}, ('vni', 103): {'ip_vhost': '10.0.3.103/24', 'ip_dvr': '10.0.3.1/24', 'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'vni': 103}, ('vni', 101): {'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr'}})])"
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}), ('subnets', {('vni', 1): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': '192.168.100.2/24', 'vni': 1}, ('vni', 103): {'ip_vhost': '10.0.3.102/24', 'ip_dvr': '10.0.3.1/24', 'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'vni': 103}, ('vni', 101): {'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': '10.0.1.1/24', 'mode': 'spoke_dvr'}})])"
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('gateway', {'network': 'eth2', 'rip': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}), ('subnets', {('vni', 1): {'ip_vhost': '192.168.100.101/24', 'ip_dvr': '192.168.100.1/24', 'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'vni': 1}, ('vni', 103): {'ip_vhost': '10.0.3.101/24', 'ip_dvr': '10.0.3.1/24', 'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'vni': 103}, ('vni', 1001): {'peers': ['192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': '10.0.1.1/24', 'mode': 'hub'}})])"
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:rpi1,platform:debian +=+=+=+=+=+=+=+=+=+=+=+=+
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-04-25 01:40:23.258913
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         2.74(sec)
+openwrt1          :-)         2.87(sec)
+openwrt2          :-)         2.91(sec)
+rpi1              :-)         3.17(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -165,11 +210,11 @@ command: ip netns add ns-global
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:12.879568
+Start Time: 2014-04-25 01:40:28.087487
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.24(sec)
+openwrt1          :-)         0.38(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -180,11 +225,11 @@ command: ip link add veth-global type veth peer name temp
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:14.486488
+Start Time: 2014-04-25 01:40:29.777953
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.24(sec)
+openwrt1          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -195,11 +240,11 @@ command: ip link set dev temp netns ns-global
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:16.072060
+Start Time: 2014-04-25 01:40:31.445800
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.21(sec)
+openwrt1          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -210,11 +255,11 @@ command: ip netns exec ns-global ip link set dev temp name eth0
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:17.589838
+Start Time: 2014-04-25 01:40:33.093394
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.21(sec)
+openwrt1          :-)         0.32(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -225,11 +270,11 @@ command: ip netns exec ns-global ip addr add dev eth0 8.8.8.8/24
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:19.046817
+Start Time: 2014-04-25 01:40:34.734728
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.22(sec)
+openwrt1          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -240,11 +285,11 @@ command: ip link set dev veth-global up
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:20.537596
+Start Time: 2014-04-25 01:40:36.409867
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.23(sec)
+openwrt1          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -255,11 +300,11 @@ command: ip addr add dev veth-global 8.8.8.1/24
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:22.037264
+Start Time: 2014-04-25 01:40:38.057916
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.23(sec)
+openwrt1          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -270,11 +315,11 @@ command: ip netns exec ns-global ip link set dev eth0 up
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:23.505669
+Start Time: 2014-04-25 01:40:39.703937
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.20(sec)
+openwrt1          :-)         0.32(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -285,18 +330,18 @@ command: ip netns exec ns-global ip route add default via  8.8.8.1
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:24.996594
+Start Time: 2014-04-25 01:40:41.359477
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.18(sec)
+openwrt1          :-)         0.35(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
-openwrt3         192.168.1.103  OK
 openwrt2         192.168.1.102  OK
-openwrt1         192.168.1.101  OK
+openwrt3         192.168.1.103  OK
 rpi1             192.168.1.104  OK
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 command: test.echo Hello World!
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
@@ -305,7 +350,12 @@ command: test.echo Hello World!
 command: test.echo Hello World!
 =+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 command: test.echo Hello World!
-=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+=+=+= NLAN Response from router:rpi1,platform:debian +=+=+=+=+=+=+=+=+=+=+=+=+
+Hello World!
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 Hello World!
 __ NLAN response __
 message: Execution completed
@@ -315,26 +365,21 @@ Hello World!
 __ NLAN response __
 message: Execution completed
 exit: 0
-=+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-Hello World!
-__ NLAN response __
-message: Execution completed
-exit: 0
-=+=+= NLAN Response from router:rpi1,platform:debian +=+=+=+=+=+=+=+=+=+=+=+=+
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 Hello World!
 __ NLAN response __
 message: Execution completed
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:26.532071
+Start Time: 2014-04-25 01:40:43.008111
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          :-)         0.63(sec)
-openwrt2          :-)         0.70(sec)
-openwrt1          :-)         0.76(sec)
-rpi1              :-)         0.94(sec)
+rpi1              :-)         0.87(sec)
+openwrt1          :-)         1.12(sec)
+openwrt2          :-)         1.14(sec)
+openwrt3          :-)         1.21(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -343,27 +388,20 @@ openwrt1         192.168.1.101  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 10.0.1.102
 =+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=14.571 ms
 
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 14.571/14.571/14.571 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:28.585213
+Start Time: 2014-04-25 01:40:45.665646
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          XXX         0.21(sec)
+openwrt1          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -372,27 +410,20 @@ openwrt1         192.168.1.101  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 10.0.1.102
 =+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=2.001 ms
 
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.001/2.001/2.001 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:30.061397
+Start Time: 2014-04-25 01:40:47.308803
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          XXX         0.18(sec)
+openwrt1          :-)         0.32(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -401,27 +432,20 @@ openwrt1         192.168.1.101  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 10.0.3.103
 =+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.3.103 (10.0.3.103): 56 data bytes
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=6.578 ms
 
+--- 10.0.3.103 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.578/6.578/6.578 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:31.558675
+Start Time: 2014-04-25 01:40:48.969705
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          XXX         0.20(sec)
+openwrt1          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -430,27 +454,20 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 10.0.1.101
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.101 (10.0.1.101): 56 data bytes
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=14.293 ms
 
+--- 10.0.1.101 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 14.293/14.293/14.293 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:33.028190
+Start Time: 2014-04-25 01:40:50.612327
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.24(sec)
+openwrt3          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -459,27 +476,20 @@ openwrt2         192.168.1.102  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 192.168.100.1
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=13.324 ms
 
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 13.324/13.324/13.324 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:34.528198
+Start Time: 2014-04-25 01:40:52.263992
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.23(sec)
+openwrt2          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -488,27 +498,20 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 192.168.100.1
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=12.259 ms
 
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 12.259/12.259/12.259 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:35.993057
+Start Time: 2014-04-25 01:40:53.917256
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.18(sec)
+openwrt3          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -517,27 +520,20 @@ openwrt2         192.168.1.102  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 192.168.100.1
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=8.155 ms
 
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 8.155/8.155/8.155 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:37.453433
+Start Time: 2014-04-25 01:40:55.554720
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.25(sec)
+openwrt2          :-)         0.32(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -547,27 +543,19 @@ operation: --raw
 command: ping -c 1 192.168.100.1
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    ping: sendto: Network is unreachable
-        ^
-SyntaxError: invalid syntax
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.994 ms
 
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.994/2.994/2.994 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:38.914122
+Start Time: 2014-04-25 01:40:57.224833
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.24(sec)
+openwrt2          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -576,27 +564,20 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 10.0.1.102
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=7.911 ms
 
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 7.911/7.911/7.911 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:40.400830
+Start Time: 2014-04-25 01:40:58.892720
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.19(sec)
+openwrt3          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -605,27 +586,20 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 10.0.1.1
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=3.680 ms
 
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 3.680/3.680/3.680 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:41.839888
+Start Time: 2014-04-25 01:41:00.578634
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.21(sec)
+openwrt3          :-)         0.37(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -634,27 +608,20 @@ openwrt2         192.168.1.102  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 10.0.1.1
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.383 ms
 
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 1.383/1.383/1.383 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:43.312318
+Start Time: 2014-04-25 01:41:02.297078
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.20(sec)
+openwrt2          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -663,27 +630,20 @@ openwrt2         192.168.1.102  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 8.8.8.8
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=7.166 ms
 
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 7.166/7.166/7.166 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:44.808774
+Start Time: 2014-04-25 01:41:03.988552
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.21(sec)
+openwrt2          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -692,27 +652,20 @@ openwrt2         192.168.1.102  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 8.8.8.8
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=4.514 ms
 
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 4.514/4.514/4.514 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:46.300137
+Start Time: 2014-04-25 01:41:05.660324
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.17(sec)
+openwrt2          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -721,27 +674,20 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 8.8.8.8
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.505 ms
 
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.505/6.505/6.505 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:47.765646
+Start Time: 2014-04-25 01:41:07.293377
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.24(sec)
+openwrt3          :-)         0.32(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -750,34 +696,27 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 8.8.8.8
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=8.182 ms
 
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 8.182/8.182/8.182 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:49.213578
+Start Time: 2014-04-25 01:41:08.936400
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.20(sec)
+openwrt3          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
-openwrt3         192.168.1.103  OK
-openwrt2         192.168.1.102  OK
 openwrt1         192.168.1.101  OK
 rpi1             192.168.1.104  OK
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 command: system.reboot
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
@@ -786,11 +725,11 @@ command: system.reboot
 command: system.reboot
 =+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 command: system.reboot
-=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 __ NLAN response __
 message: Execution completed
 exit: 0
-=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 __ NLAN response __
 message: Execution completed
 exit: 0
@@ -804,27 +743,27 @@ message: Execution completed
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:52:50.719738
+Start Time: 2014-04-25 01:41:10.602804
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          :-)         0.71(sec)
-openwrt2          :-)         0.72(sec)
-openwrt1          :-)         1.02(sec)
-rpi1              :-)         1.59(sec)
+openwrt1          :-)         1.13(sec)
+openwrt2          :-)         1.23(sec)
+openwrt3          :-)         1.24(sec)
+rpi1              :-)         1.48(sec)
 
 Router           Host           Ping
 ------------------------------------
-openwrt3         192.168.1.103  NG
 openwrt2         192.168.1.102  NG
 openwrt1         192.168.1.101  NG
+openwrt3         192.168.1.103  NG
 rpi1             192.168.1.104  NG
 
 Router           Host           Ping
 ------------------------------------
-openwrt3         192.168.1.103  OK
 openwrt2         192.168.1.102  OK
 openwrt1         192.168.1.101  OK
+openwrt3         192.168.1.103  OK
 rpi1             192.168.1.104  OK
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
@@ -836,11 +775,11 @@ command: ip netns add ns-global
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:53:56.348753
+Start Time: 2014-04-25 01:41:56.710968
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.24(sec)
+openwrt1          :-)         0.38(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -851,11 +790,11 @@ command: ip link add veth-global type veth peer name temp
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:53:57.892881
+Start Time: 2014-04-25 01:41:58.506296
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.26(sec)
+openwrt1          :-)         0.37(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -866,11 +805,11 @@ command: ip link set dev temp netns ns-global
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:53:59.415494
+Start Time: 2014-04-25 01:42:00.248079
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.26(sec)
+openwrt1          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -881,11 +820,11 @@ command: ip netns exec ns-global ip link set dev temp name eth0
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:00.924125
+Start Time: 2014-04-25 01:42:01.917814
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.26(sec)
+openwrt1          :-)         0.36(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -896,11 +835,11 @@ command: ip netns exec ns-global ip addr add dev eth0 8.8.8.8/24
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:02.430953
+Start Time: 2014-04-25 01:42:03.622110
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.21(sec)
+openwrt1          :-)         0.36(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -911,11 +850,11 @@ command: ip link set dev veth-global up
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:03.929691
+Start Time: 2014-04-25 01:42:05.269425
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.24(sec)
+openwrt1          :-)         0.37(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -926,11 +865,11 @@ command: ip addr add dev veth-global 8.8.8.1/24
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:05.416322
+Start Time: 2014-04-25 01:42:06.947930
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.19(sec)
+openwrt1          :-)         0.39(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -941,11 +880,11 @@ command: ip netns exec ns-global ip link set dev eth0 up
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:06.945170
+Start Time: 2014-04-25 01:42:08.804240
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.24(sec)
+openwrt1          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -956,18 +895,18 @@ command: ip netns exec ns-global ip route add default via  8.8.8.1
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:08.457947
+Start Time: 2014-04-25 01:42:10.592687
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          :-)         0.25(sec)
+openwrt1          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
-openwrt3         192.168.1.103  OK
 openwrt2         192.168.1.102  OK
-openwrt1         192.168.1.101  OK
+openwrt3         192.168.1.103  OK
 rpi1             192.168.1.104  OK
+openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 command: test.echo Hello World!
 =+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
@@ -976,12 +915,17 @@ command: test.echo Hello World!
 command: test.echo Hello World!
 =+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 command: test.echo Hello World!
-=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+=+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 Hello World!
 __ NLAN response __
 message: Execution completed
 exit: 0
 =+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
+Hello World!
+__ NLAN response __
+message: Execution completed
+exit: 0
+=+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 Hello World!
 __ NLAN response __
 message: Execution completed
@@ -993,14 +937,14 @@ message: Execution completed
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:10.122544
+Start Time: 2014-04-25 01:42:12.266000
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          :-)         0.56(sec)
-openwrt2          :-)         0.57(sec)
-openwrt1          :-)         0.80(sec)
-rpi1              :-)         1.22(sec)
+openwrt3          :-)         1.08(sec)
+openwrt1          :-)         1.08(sec)
+openwrt2          :-)         1.12(sec)
+rpi1              :-)         1.26(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1009,27 +953,20 @@ openwrt1         192.168.1.101  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 10.0.1.102
 =+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=14.411 ms
 
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 14.411/14.411/14.411 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:12.653322
+Start Time: 2014-04-25 01:42:14.931425
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          XXX         0.25(sec)
+openwrt1          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1038,27 +975,20 @@ openwrt1         192.168.1.101  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 10.0.1.102
 =+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=2.109 ms
 
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.109/2.109/2.109 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:14.122595
+Start Time: 2014-04-25 01:42:16.569665
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          XXX         0.21(sec)
+openwrt1          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1067,27 +997,20 @@ openwrt1         192.168.1.101  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 10.0.3.103
 =+=+= NLAN Response from router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt1,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.3.103 (10.0.3.103): 56 data bytes
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=6.793 ms
 
+--- 10.0.3.103 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.793/6.793/6.793 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:15.575224
+Start Time: 2014-04-25 01:42:18.216889
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt1          XXX         0.21(sec)
+openwrt1          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1096,27 +1019,20 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 10.0.1.101
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.101 (10.0.1.101): 56 data bytes
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=16.574 ms
 
+--- 10.0.1.101 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 16.574/16.574/16.574 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:17.022380
+Start Time: 2014-04-25 01:42:19.867338
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.22(sec)
+openwrt3          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1125,27 +1041,20 @@ openwrt2         192.168.1.102  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 192.168.100.1
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=13.220 ms
 
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 13.220/13.220/13.220 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:18.504554
+Start Time: 2014-04-25 01:42:21.535311
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.21(sec)
+openwrt2          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1154,27 +1063,20 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 192.168.100.1
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=11.367 ms
 
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 11.367/11.367/11.367 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:20.001617
+Start Time: 2014-04-25 01:42:23.181499
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.24(sec)
+openwrt3          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1183,27 +1085,20 @@ openwrt2         192.168.1.102  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 192.168.100.1
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=13.560 ms
 
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 13.560/13.560/13.560 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:21.501618
+Start Time: 2014-04-25 01:42:24.852247
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.20(sec)
+openwrt2          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1213,17 +1108,19 @@ operation: --raw
 command: ping -c 1 192.168.100.1
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.425 ms
 
 --- 192.168.100.1 ping statistics ---
-1 packets transmitted, 0 packets received, 100% packet loss
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.425/2.425/2.425 ms
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:22.951687
+Start Time: 2014-04-25 01:42:26.513921
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          :-)        10.22(sec)
+openwrt2          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1232,27 +1129,20 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 10.0.1.102
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=8.391 ms
 
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 8.391/8.391/8.391 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:34.445632
+Start Time: 2014-04-25 01:42:28.172442
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.18(sec)
+openwrt3          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1261,27 +1151,20 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 10.0.1.1
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=3.158 ms
 
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 3.158/3.158/3.158 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:35.908183
+Start Time: 2014-04-25 01:42:29.843888
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.21(sec)
+openwrt3          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1290,27 +1173,20 @@ openwrt2         192.168.1.102  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 10.0.1.1
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=2.669 ms
 
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.669/2.669/2.669 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:37.357381
+Start Time: 2014-04-25 01:42:31.512045
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.21(sec)
+openwrt2          :-)         0.34(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1319,27 +1195,20 @@ openwrt2         192.168.1.102  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 8.8.8.8
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.159 ms
 
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.159/6.159/6.159 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:38.834845
+Start Time: 2014-04-25 01:42:33.184355
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.24(sec)
+openwrt2          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1348,27 +1217,20 @@ openwrt2         192.168.1.102  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 8.8.8.8
 =+=+= NLAN Response from router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt2,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.854 ms
 
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.854/2.854/2.854 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:40.309162
+Start Time: 2014-04-25 01:42:34.838560
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt2          XXX         0.21(sec)
+openwrt2          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1377,27 +1239,20 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns1 ping -c 1 8.8.8.8
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns1": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.437 ms
 
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 5.437/5.437/5.437 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:41.786842
+Start Time: 2014-04-25 01:42:36.491364
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.18(sec)
+openwrt3          :-)         0.33(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
@@ -1406,24 +1261,17 @@ openwrt3         192.168.1.103  OK
 operation: --raw
 command: ip netns exec ns3 ping -c 1 8.8.8.8
 =+=+= NLAN Response from router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+=+
-__ NLAN response __
-=+=+= NLAN Request Failure router:openwrt3,platform:openwrt =+=+=+=+=+=+=+=+=+
-__ Exception __
-exit: 1
-exception: SyntaxError
-message: See the traceback message
-traceeback: Traceback (most recent call last):
-  File "./../nlan/nlan.py", line 181, in _ssh_session
-    response = eval(erre[-1])
-  File "<string>", line 1
-    Cannot open network namespace "ns3": No such file or directory
-              ^
-SyntaxError: invalid syntax
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=8.015 ms
 
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 8.015/8.015/8.015 ms
+exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-04-24 23:54:43.218118
+Start Time: 2014-04-25 01:42:38.123007
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          XXX         0.19(sec)
+openwrt3          :-)         0.34(sec)

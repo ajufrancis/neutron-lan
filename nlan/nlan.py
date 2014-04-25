@@ -30,7 +30,7 @@ def _printmsg_request(lock, router, platform):
         rp = "NLAN Request to router:{0},platform:{1}".format(router, platform)
         print bar[:5], rp, bar[5+len(rp):] 
 
-def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None):
+def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None, git=False):
 
     rp = "Ping test to all the target routers"
     print bar[:5], rp, bar[5+len(rp):] 
@@ -472,7 +472,7 @@ if __name__=='__main__':
         sys.exit(_wait(router, timeout))
     # --add, --get, --update, --delete, --scp, --scpmod, --raw, --wait
     elif option != None:
-        main(router=router, operation=option, doc=args, loglevel=loglevel)
+        main(router=router, operation=option, doc=args, loglevel=loglevel, git=git)
     else:
         # NLAN CRUD operations generated from a YAML state file
         if len(args) == 0:
@@ -481,7 +481,7 @@ if __name__=='__main__':
         elif args[0].endswith('.yaml'):
             # State files
             for v in args:
-                cmd_list = yamldiff.crud_diff(v)
+                cmd_list = yamldiff.crud_diff(v, git=git)
                 if len(cmd_list) != 0:
                     try:
                         main(router=router, operation='--batch', cmd_list=cmd_list, loglevel=loglevel)

@@ -1,16 +1,27 @@
+# 2014/4/25, Model class
+#
 from ovsdb import Row
+import inspect
 
 class Model:
 
+    # This constructor automatically generates state variables:
+    # _param, _param_ and param_
+    def __init__(self, operation, model, index=None):
 
-    def __init__(self, gl, module, model, index=None):
-
+        self.operation = operation
         self.model = model
-        self.module = module
         self.index = index
-        self.gl = gl
-        self.rowobj = Row(module, index)
+        # Gets a caller's module name from a frame object
+        cf = inspect.currentframe()
+        of = inspect.getouterframes(cf)
+        self.gl = of[1][0].f_globals
+        self.module = self.gl['__name__'] 
+        # Get the current state from OVSDB
+        self.rowobj = Row(self.module, index)
         self.row = self.rowobj.getrow()
+        # Generates state variables
+        self._get_all()
 
     def getparam(self, *args):
       
@@ -28,47 +39,39 @@ class Model:
         for key in args:
 
             # New values
+            _key = '_'+key
             if key in self.model:
                 if self.model[key] == '':
-                    self.gl[key] = None
+                    self.gl[_key] = None
                 else:
-                    self.gl[key] = self.model[key] 
+                    self.gl[_key] = self.model[key] 
             else:
-                self.gl[key] = None 
+                self.gl[_key] = None 
             # Old values stored in OVSDB            
-            key__ = key+'__'
-            if key in self.row:
-                self.gl[key__] = self.row[key]
-            else:
-                self.gl[key__] = None 
-            # New or Old values
             key_ = key+'_'
-            if self.gl[key] == None:
-                self.gl[key_] = self.gl[key__]
+            if key in self.row:
+                self.gl[key_] = self.row[key]
             else:
-                self.gl[key_] = self.gl[key]
+                self.gl[key_] = None 
+            # New or Old values
+            _key_ = '_'+key+'_'
+            if self.gl[_key] == None:
+                # from old value
+                self.gl[_key_] = self.gl[key_]
+            else:
+                # from new value
+                self.gl[_key_] = self.gl[_key]
             
     
-    def get_all(self):
-
+    def _get_all(self):
         params = tuple(__n__['types'][self.module].keys())
         self.getparams(*params)
 
+
     # ovdsb.Row.crud
-    def crud(self, crud, model):
-        self.rowobj.crud(crud, model)
+    def finalize(self):
+        self.rowobj.crud(self.operation, self.model)
 
-    # ovdsb.Row.add
-    def add(self, model):
-        self.rowobj.crud('add', model)
-
-    # ovdsb.Row.update
-    def update(self, model):
-        self.rowobj.crud('update', model)
-
-    # ovdsb.Row.delete
-    def delete(self, model):
-        self.rowobj.crud('delete', model)
 
     # args: a set of mandatory parameters
     def checkset(self, module, crud, args):

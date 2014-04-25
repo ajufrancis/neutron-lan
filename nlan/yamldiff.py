@@ -130,17 +130,12 @@ def dict_merge(target, *args):
 # This function is a YAML serializer generating a list of 
 # "node.path=value" from a YAML file.
 # Returns a list of path=value.
-def _yaml_load(filename, git=False):
+def _yaml_load(filename, gitshow):
 
     od = None
     template_module = None
 
-    if not git:
-        with open(filename, 'r') as f:
-            od = yaml.load(f, lya.OrderedDictYAMLLoader)
-            f.seek(0)
-            template_module = get_template_module(f.readline())
-    else:
+    if gitshow:
         default = "vacant: true"
         try:
             data = output_cmd('git show HEAD:' + filename)
@@ -151,6 +146,11 @@ def _yaml_load(filename, git=False):
         except CmdError:
             data = default 
         od = yaml.load(data, lya.OrderedDictYAMLLoader)
+    else:
+        with open(filename, 'r') as f:
+            od = yaml.load(f, lya.OrderedDictYAMLLoader)
+            f.seek(0)
+            template_module = get_template_module(f.readline())
 
     #print od
     base = lya.AttrDict(od)
@@ -221,12 +221,16 @@ def _diff(list1, list2):
 # Outputs CRUD operations list for nlan-ssh.py
 # making diff between two YAML files.
 # crud_list: a list of [node, operation, model]
-def crud_diff(filename):
+def crud_diff(filename, git=False):
+
+    # After
+    (list2, state_order2) = _yaml_load(filename, gitshow=False)
 
     # Before
-    (list1, state_order1) = _yaml_load(filename, git=True)
-    # After
-    (list2, state_order2) = _yaml_load(filename)
+    if not git:
+        filename = '~~~' 
+
+    (list1, state_order1) = _yaml_load(filename, gitshow=True)
     
     lines = _diff(list1=list1, list2=list2)
     add_delete = []
