@@ -118,7 +118,7 @@ openwrt3:
 #          - veth0.3
         peers: <peers>
       - vid: 2
-        vni: 1
+        vni: 5
         ip_dvr: '192.168.100.3/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.103/24'

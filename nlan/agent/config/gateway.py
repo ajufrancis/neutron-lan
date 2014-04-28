@@ -7,11 +7,11 @@
 
 from cmdutil import output_cmd, output_cmd2, output_cmdp, output_cmd2p
 from ovsdb import Row
-from oputil import Model
+from oputil import Model 
 
 def add(model):
 
-    m = Model('add', model)
+    model.params()
 
     if _rip == 'enabled':
         __n__['logger'].info('Adding a gateway router: rip')
@@ -46,7 +46,7 @@ def add(model):
         output_cmdp('/etc/init.d/quagga restart')
 
     # OVSDB transaction
-    m.finalize()
+    model.finalize()
 
 
 # Unit test

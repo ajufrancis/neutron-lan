@@ -14,11 +14,11 @@ def _decode_list(data):
         elif isinstance(item, list):
             item = _decode_list(item)
         elif isinstance(item, dict):
-            item = _decode_dict(item)
+            item = decode_dict(item)
         rv.append(item)
     return rv
 
-def _decode_dict(data):
+def decode_dict(data):
     rv = {}
     for key, value in data.iteritems():
         if isinstance(key, unicode):
@@ -28,7 +28,7 @@ def _decode_dict(data):
         elif isinstance(value, list):
             value = _decode_list(value)
         elif isinstance(value, dict):
-            value = _decode_dict(value)
+            value = decode_dict(value)
         rv[key] = value
     return rv
 
@@ -38,7 +38,7 @@ def merge_schema(nlan_yaml, ovsdb_json):
         ovs = f.read()
     with open(nlan_yaml, 'r') as f:
         nlan = f.read()
-    ovs_dict = json.loads(ovs, object_hook=_decode_dict)
+    ovs_dict = json.loads(ovs, object_hook=decode_dict)
     nlan_dict = yaml.load(nlan)
     for key, value in nlan_dict.iteritems():
         ovs_dict['tables'][key] = value
@@ -102,7 +102,7 @@ if __name__ == '__main__':
         elif options.yaml:
             if ovsdb_json:
                 with open(ovsdb_json, 'r') as f:
-                    d = json.loads(f.read(), object_hook=_decode_dict)
+                    d = json.loads(f.read(), object_hook=decode_dict)
                     print yaml.dump(d)
         elif options.analyze:
             state_order, tables, indexes, types = analyze_schema(nlan_yaml)
@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
     """
     f = open(sys.argv[2], 'r').read()
-    d = json.loads(f, object_hook=_decode_dict)
+    d = json.loads(f, object_hook=decode_dict)
     print "##### Python Dictionary #####"
     print d
     
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     print "##### Merged JSON #####"
     print j
     
-    d = json.loads(j, object_hook=_decode_dict)
+    d = json.loads(j, object_hook=decode_dict)
     y = yaml.dump(d)
     print "##### Merged YAML #####"
     print y

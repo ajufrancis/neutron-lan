@@ -10,7 +10,7 @@ def add(model):
 
     __n__['logger'].info('Adding bridges: br-int and br-tun')
 
-    m = Model('add', model)
+    model.params()
 
     cmd = cmdutil.check_cmd	
     cmdp = cmdutil.check_cmdp
@@ -44,5 +44,6 @@ def add(model):
         cmd('ovs-ofctl add-flow br-tun', 'table=21,priority=0,actions=drop')
 
     # OVSDB transaction
-    m.finalize()
+    model.finalize()
+
 

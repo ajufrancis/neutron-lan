@@ -170,7 +170,15 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
                         rp = "NLAN Response from router:{0},platform:{1}".format(router, platform)
                         print bar[:5], rp, bar[5+len(rp):] 
                 if outvl > 0:
-                    print(outv.rstrip('\n'))
+                    outv = outv.rstrip('\n').split('\n')
+                    for l in outv:
+                        try:
+                            d = eval(l)
+                            if isinstance(d, OrderedDict):
+                                l = yaml.dump(d) 
+                        except Exception as e:
+                            pass 
+                        print l
                 if errel > 0:
                     erre = erre.rstrip('\n').split('\n')
                     if len(erre) > 1:
@@ -312,6 +320,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
             print "child process:", sub 
         raise Exception("Operation stopped by Keyboard Interruption") 
     finally:
+        exit = 0
         if not queue.empty():
             title = "Transaction Summary"
             print bar[:5], title, bar[5+len(title):] 
@@ -329,7 +338,10 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
                 response = l[1]
                 if response['exit'] > 0:
                     smiley = 'XXX'
+                    exit = 1
                 print "{:17s} {:3s}   {:10.2f}(sec)".format(router, smiley, l[2] - start_utc)
+        if exit > 0:
+            raise Exception("NLAN transaction failure")
             
 
 def _wait(router, timeout):
@@ -485,12 +497,12 @@ if __name__=='__main__':
                 if len(cmd_list) != 0:
                     try:
                         main(router=router, operation='--batch', cmd_list=cmd_list, loglevel=loglevel)
+                        if git:
+                            cmdutil.check_cmd('git add', v)
+                            cmdutil.check_cmd('git commit -m updated')
                     except:
                         traceback.print_exc()
                         sys.exit(1)
-                if git:
-                    cmdutil.check_cmd('git add', v)
-                    cmdutil.check_cmd('git commit -m updated')
         else:
             # NLAN command module execution
             main(router=router, doc=args, loglevel=loglevel)

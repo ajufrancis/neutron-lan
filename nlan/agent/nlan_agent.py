@@ -77,28 +77,32 @@ def _route(operation, data):
     
     if operation:
         # Calls config modules 
+        from oputil import Model
         if __n__['init'] != 'start':
             data = eval(data)
         results = []
         error = None 
-        func = None
+        module = None
         ind = None
         try:
-            for func in data.keys():
-                __import__(func)
-                module = sys.modules[func] 
-                call = 'module.' + operation
-                model = data[func]
-                if func in __n__['indexes']:
+            for module in data.keys():
+                _mod = __import__(module, globals(), locals(), [operation], -1)
+                call = _mod.__dict__[operation]
+                model = data[module]
+                if module in __n__['indexes']:
                     for ind in model:
-                        m = model[ind]
-                        __n__['logger'].info('function:{0}.{1}, index:{3}, model:{2}'.format(func, operation, str(m), str(ind)))
-                        result = eval(call)(m, ind)
+                        _model = model[ind]
+                        __n__['logger'].info('function:{0}.{1}, index:{3}, model:{2}'.format(module, operation, str(model), str(ind)))
+                        m = Model(operation, module, _model, ind)
+                        # Routes a requested model to a config module
+                        result = call(m)
                         if result:
                             results.append(result)
                 else:
-                    __n__['logger'].info('function:{0}.{1}, model:{2}'.format(func, operation, str(model)))
-                    result = eval(call)(model)
+                    __n__['logger'].info('function:{0}.{1}, model:{2}'.format(module, operation, str(model)))
+                    m = Model(operation, module, model)
+                    # Routes a requested model to a config module 
+                    result = call(m)
                     if result:
                         results.append(result)
         except CmdError as e:
@@ -109,7 +113,7 @@ def _route(operation, data):
             error['stdout'] = e.out
             error['exit'] = e.returncode 
             error['operation'] = operation
-            error['progress'] = _progress(data, func, ind)
+            error['progress'] = _progress(data, module, ind)
         except ModelError as e:
             error = OrderedDict()
             error['exception'] = 'ModelError'
@@ -118,7 +122,7 @@ def _route(operation, data):
             error['parms'] = str(e.params)
             error['exit'] = 1
             error['operation'] = operation
-            error['progress'] = _progress(data, func, ind)
+            error['progress'] = _progress(data, module, ind)
             error['traceback'] = traceback.format_exc() 
         except Exception as e:
             error = OrderedDict()
@@ -126,7 +130,7 @@ def _route(operation, data):
             error['message'] = 'See the traceback message'
             error['exit'] = 1
             error['operation'] = operation
-            error['progress'] = _progress(data, func, ind)
+            error['progress'] = _progress(data, module, ind)
             error['traceback'] = traceback.format_exc() 
         finally:
             if len(results) > 0:
@@ -146,17 +150,16 @@ def _route(operation, data):
     else:        
         # Calls a command module
         s = data[0].split('.')
-        func = '.'.join(s[:-1])
-        method = s[-1]
+        command = '.'.join(s[:-1])
+        func = s[-1]
         error = None 
         result = None
         try:
-            __import__(func)
-            module = sys.modules[func]
-            call = 'module.' + method
+            _mod = __import__(command, globals(), locals(), [func], -1)
+            call = _mod.__dict__[func]
             args = tuple(data[1:])
-            __n__['logger'].info('function:{0}.{1}, args:{2}'.format(func, method, str(args)))
-            result = eval(call)(*args)
+            __n__['logger'].info('function:{0}.{1}, args:{2}'.format(command, func, str(args)))
+            result = call(*args)
         except CmdError as e:
             error = OrderedDict()
             error['exception'] = 'CmdError'

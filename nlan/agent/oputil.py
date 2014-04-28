@@ -7,21 +7,15 @@ class Model:
 
     # This constructor automatically generates state variables:
     # _param, _param_ and param_
-    def __init__(self, operation, model, index=None):
+    def __init__(self, operation, module, model, index=None):
 
         self.operation = operation
         self.model = model
         self.index = index
-        # Gets a caller's module name from a frame object
-        cf = inspect.currentframe()
-        of = inspect.getouterframes(cf)
-        self.gl = of[1][0].f_globals
-        self.module = self.gl['__name__'] 
+        self.module = module 
         # Get the current state from OVSDB
         self.rowobj = Row(self.module, index)
         self.row = self.rowobj.getrow()
-        # Generates state variables
-        self._get_all()
 
     def getparam(self, *args):
       
@@ -34,7 +28,7 @@ class Model:
             else:
                 yield None
 
-    def getparams(self, *args):
+    def _params(self, *args):
 
         for key in args:
 
@@ -63,9 +57,14 @@ class Model:
                 self.gl[_key_] = self.gl[_key]
             
     
-    def _get_all(self):
+    def params(self):
+        
+        cf = inspect.currentframe()
+        of = inspect.getouterframes(cf)
+        self.gl = of[1][0].f_globals
+
         params = tuple(__n__['types'][self.module].keys())
-        self.getparams(*params)
+        self._params(*params)
 
 
     # ovdsb.Row.crud

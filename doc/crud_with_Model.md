@@ -2,9 +2,10 @@ CRUD with Model object
 ======================
 2014/4/25
 
+In a NLAN config module,
 <pre>
-from oputil import Model
-m = Model(operation, model, index)
+def add(model):
+    model.params()
 </pre>
 
 Then the function automatically generates the following variables in the global name space.
@@ -44,6 +45,56 @@ d      None     None   _d=None  _d_=None d_=None
 Treat them like 'final' variables in Java: never change the values in the module.
 To finalize the process, call the following function to save the parameters in OVSDB:
 <pre>
-m.finalize()
+    model.finalize()
 </pre>
+
+
+Rollback mechanism (just an idea)
+---------------------------------
+2014/4/28
+
+I made an experiment on "subnets.py" as an example, following the idea above, and after having wrote some scripts, I found that the CRUD operations in the script seemed like OpenFlow entries:
+- It is basically a list of add/delete commands.
+- If some match condition is satisfied, then CRUD operation(s) are performed. Repeat that until the bottom of the command entries.
+
+Basic rule of match condition:
+
+For add,
+  if _parm:
+      command _param_
+
+For delete,
+  if _param:
+      command param_
+
+Create a Command entries mimicing OpenFlow table:
+
+Table 0
+<idx><match><add_command><add_params><del_command><del_params><resubmit><prev_idx>
+<idx><match><add_command><add_params><del_command><del_params><resubmit><prev_idx>
+<idx><match><add_command><add_params><del_command><del_params><resubmit><prev_idx>
+Table 1
+<idx><match><add_command><add_params><del_command><del_params><resubmit><prev_idx>
+<idx><match><add_command><add_params><del_command><del_params><resubmit><prev_idx>
+<idx><match><add_command><add_params><del_command><del_params><resubmit><prev_idx>
+Table 2
+<idx><match><add_command><add_params><del_command><del_params><resubmit><prev_idx>
+<idx><match><add_command><add_params><del_command><del_params><resubmit><prev_idx>
+<idx><match><add_command><add_params><del_command><del_params><resubmit><prev_idx>
+                           :
+
+The table is dynamically created when add/delete/update operation is called.
+
+If the command executions fails at some point, then a rollback procedure takes over:
+- Revert the execution order
+- In case of add failure, del upwards following prev_idx.
+- In case of del failure, add upwards following prev_idx.
+
+Every entry is executed in try: and except:
+
+try:
+   add/del_command add/del_params
+except:
+   rollback(idx)
+
 

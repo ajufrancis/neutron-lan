@@ -28,3 +28,5 @@ Command '['/etc/init.d/nlan', 'enable']' returned non-zero exit status 1
 
 [8] nlan.py and yamldiff.py dowe not handle -G option.
 
+[9] vid modification in dvsdvr.yaml results in an add operation, not an update operation.
+

@@ -14,16 +14,15 @@ lxc.network.veth.pair = $
 lxc.network.ipv4 = 0.0.0.0
 """
 
-def add(model, index):
+def add(operation):
 
-    name = index[1]
-    m = Model('add', model, index)
+    operation.params()
 
-    conf = os.path.join('/var/lib/lxc', name, 'config')
+    conf = os.path.join('/var/lib/lxc', _name_, 'config')
     with open(conf, 'r') as f:
         lines = f.read()
 
-    conf = os.path.join('/var/lib/lxc', name, 'config_nlan')
+    conf = os.path.join('/var/lib/lxc', _name_, 'config_nlan')
     with open(conf, 'w') as f:
         f.seek(0)
         f.truncate()
@@ -33,11 +32,8 @@ def add(model, index):
             f.write(net)
 
     cmd = cmdutil.check_cmd
-    cmd('lxc-start -d -f', conf, '-n', name)
+    cmd('lxc-start -d -f', conf, '-n', _name_)
 
     #OVSDB transaction
-    m.finalize()
-
-
-
+    operation.finalize()
 
