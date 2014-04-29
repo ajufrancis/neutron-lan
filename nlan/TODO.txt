@@ -10,7 +10,7 @@ JSON-RPC respone error handling ==> raise some Exception
 [3] CRUD -- DONE!
 Use crud instead of setrow in bridges, vxlan and gateway.
 
-[4] option
+[4] option -- DONE!
 
 $ python nlan_master.py -t openwrt1 --raw 'ip netns exec ns1 ping -c 2 10.0.1.102'
 $ ./nlan --raw ' ... -c ...' fails, since it inculdes '-c' option.
@@ -26,7 +26,20 @@ Command '['/etc/init.d/nlan', 'enable']' returned non-zero exit status 1
 
 [7] nlan_agent.py --init start does not work. -- DONE! Bug fixed.
 
-[8] nlan.py and yamldiff.py dowe not handle -G option.
+[8] nlan.py and yamldiff.py dose not handle -G option.
 
 [9] vid modification in dvsdvr.yaml results in an add operation, not an update operation.
+
+[10] yamldiff.py cannot generate diff for list.
+peers:
+  - 192.168.1.101
+  - 192.168.1.102
+
+peers:
+  - 192.168.1.101
+  - 192.168.1.103
+  - 192.168.1.102
+
+In this case, yamldiff should generate add peers 192.168.1.103, not update peers with all the addresses.
+
 

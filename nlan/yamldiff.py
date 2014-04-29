@@ -355,12 +355,12 @@ if __name__=='__main__':
     print get_template_module(firstline)
 
     print '----- test: yaml_load: before  -----'
-    (list1, state_order1) = _yaml_load(sys.argv[1], git=True)
+    (list1, state_order1) = _yaml_load(sys.argv[1], gitshow=True)
     for l in list1:
         print l
 
     print '----- test: yaml_load: after -----'
-    (list2, state_order2) = _yaml_load(sys.argv[1])
+    (list2, state_order2) = _yaml_load(sys.argv[1], gitshow=False)
     for l in list2:
         print l
         
