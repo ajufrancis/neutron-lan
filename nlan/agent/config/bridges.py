@@ -6,14 +6,15 @@ import cmdutil
 from ovsdb import Row, OvsdbRow
 from oputil import Model 
 
+cmd = cmdutil.check_cmd	
+cmdp = cmdutil.check_cmdp
+
 def add(model):
 
     __n__['logger'].info('Adding bridges: br-int and br-tun')
 
     model.params()
 
-    cmd = cmdutil.check_cmd	
-    cmdp = cmdutil.check_cmdp
     cmdp('ovs-vsctl add-br br-int')
     cmdp('ovs-vsctl add-br br-tun')
     # Default flows must be cleared.
@@ -28,7 +29,7 @@ def add(model):
         # Flow entries
         r = OvsdbRow('Interface', ('name', 'patch-tun'))
         patch_tun = str(r['ofport'])
-        cmd('ovs-ofctl del-flows br-tun')
+        #cmd('ovs-ofctl del-flows br-tun')
         cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=1,in_port='+patch_tun+',actions=resubmit(,1)')
         cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=0,actions=drop')
         cmd('ovs-ofctl add-flow br-tun', 'table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,19)')
@@ -46,4 +47,23 @@ def add(model):
     # OVSDB transaction
     model.finalize()
 
+
+def delete(model):
+
+    __n__['logger'].info('Deleting bridges: br-int and br-tun')
+
+    model.params()
+    
+    if _controller:
+        # OpenFlow Controller
+        cmd('ovs-vsctl del-controller br-tun')
+
+    cmd('ovs-ofctl del-flows br-tun')
+    cmd('ovs-vsctl del-port br-tun patch-tun')
+    cmd('ovs-vsctl del-port br-int patch-int')
+    cmd('ovs-vsctl del-br br-tun')
+    cmd('ovs-vsctl del-br br-int')
+
+    # OVSDB transaction
+    model.finalize()
 

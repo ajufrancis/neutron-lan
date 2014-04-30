@@ -80,7 +80,6 @@ def _delete_subnets():
 	
     cmd = cmdutil.check_cmd
     output_cmd = cmdutil.output_cmd
-    cmdp = cmdutil.check_cmdp
 
     svid = str(vid_)
     ns = "ns"+svid
@@ -119,8 +118,8 @@ def _delete_subnets():
         cmd('ip link set dev', veth_ns, 'down')
         cmd('brctl delif', br, int_br)
         cmd('brctl delif', br, veth_ns)
-        cmdp('ovs-vsctl del-port br-int', int_dvr)
-        cmdp('ovs-vsctl del-port br-int', int_br)
+        cmd('ovs-vsctl del-port br-int', int_dvr)
+        cmd('ovs-vsctl del-port br-int', int_br)
         cmd('brctl delbr', br)
         cmd('ip netns delete', ns)
 
