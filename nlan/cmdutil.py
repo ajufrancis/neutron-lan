@@ -24,8 +24,12 @@ def _cmd(check, persist, *args):
 def _cmd2(check, persist, args):
    
     logger = None
+    init = False
     try:
-        logger = __n__['logger']
+        if 'logger' in __n__:
+            logger = __n__['logger']
+        if 'init' in __n__ and __n__['init'] == 'start':
+            init = True
     except:
         pass
 
@@ -33,9 +37,10 @@ def _cmd2(check, persist, args):
     logstr = 'cmd: ' + argstring 
 
     if persist:
-        if __n__['init'] == 'start':
+        if init:
             logstr = logstr + ' [SKIPPED...]'
-            logger.debug(logstr)
+            if logger:
+                logger.debug(logstr)
             return
 
     if logger:
@@ -127,15 +132,88 @@ def output_cmd2p(args):
 if __name__ == "__main__":
 
     import sys
+    import unittest
+    import __builtin__
 
-    args = ' '.join(sys.argv[1:])
-    try:
-        #cmd(args)
-        #print check_cmd(args)
-        print output_cmd(args)
-    except CmdError as e:
-        print e
-        print e.command
-        print e.out
-        print e.returncode
-	
+    class TestSequenceFunctions(unittest.TestCase):
+
+        def setUp(self):
+            pass
+
+        def testCmd(self):
+            self.assertEqual(cmd('ovs-vsctl -V'),0)
+            self.assertEqual(cmd('ovs-vsctl', '-V'),0)
+            self.assertEqual(cmd('ovs-vsctl -v'),1)
+            self.assertEqual(cmd('ovs-vsctl', '-v'),1)
+
+        def testCmd2(self):
+            self.assertEqual(cmd2(['ovs-vsctl', '-V']),0)
+            self.assertEqual(cmd2(['ovs-vsctl', '-v']),1)
+
+        def testCheckCmd(self):
+            self.assertEqual(check_cmd('ovs-vsctl -V'),0)
+            self.assertEqual(check_cmd('ovs-vsctl', '-V'),0)
+            with self.assertRaises(CmdError):
+                check_cmd('ovs-vsctl -v')
+
+        def testCheckCmd2(self):
+            self.assertEqual(check_cmd2(['ovs-vsctl', '-V']),0)
+            with self.assertRaises(CmdError):
+                check_cmd2(['ovs-vsctl', '-v'])
+
+        def testOutputCmd(self):
+            self.assertIsInstance(output_cmd('ovs-vsctl -V'),str)
+            self.assertIsInstance(output_cmd('ovs-vsctl', '-V'),str)
+            with self.assertRaises(CmdError):
+                output_cmd('ovs-vsctl -v')
+
+        def testOutputCmd2(self):
+            self.assertIsInstance(output_cmd2(['ovs-vsctl', '-V']),str)
+            with self.assertRaises(CmdError):
+                output_cmd2(['ovs-vsctl', '-v'])
+       
+        def cmdpPrep(self):
+            if '__n__' in __builtin__.__dict__:
+                del __builtin__.__dict__['__n__']
+            self.cmdp_output = 0
+            self.outputcmdp_output = 0
+            self.checkcmdp_output = str
+
+        def testCmdp(self):
+            self.cmdpPrep()
+            self.assertEqual(cmdp('ovs-vsctl -V'),self.cmdp_output)
+
+        def testOutputCmdp(self):
+            self.cmdpPrep()
+            self.assertEqual(check_cmdp('ovs-vsctl -V'),self.outputcmdp_output)
+
+        def testOutputCmdp(self):
+            self.cmdpPrep()
+            self.assertIsInstance(output_cmdp('ovs-vsctl -V'),self.checkcmdp_output)
+        
+        def cmdpPrep2(self):
+            if '__n__' not in __builtin__.__dict__:
+                __builtin__.__dict__['__n__'] = {}
+            __n__['init'] = 'start'
+            self.cmdp_output = None 
+            self.outputcmdp_output = None 
+            self.checkcmdp_output = None 
+        
+        def testCmdp2(self):
+            self.cmdpPrep2()
+            self.assertEqual(cmdp('ovs-vsctl -V'),self.cmdp_output)
+
+        def testOutputCmdp2(self):
+            self.cmdpPrep2()
+            self.assertEqual(check_cmdp('ovs-vsctl -V'),self.outputcmdp_output)
+
+        def testOutputCmdp2(self):
+            self.cmdpPrep2()
+            self.assertEqual(output_cmdp('ovs-vsctl -V'),self.checkcmdp_output)
+
+        def tearDown(self):
+            #print self.out.read()
+            pass 
+
+    unittest.main(verbosity=2)
+

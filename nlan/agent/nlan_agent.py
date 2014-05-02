@@ -29,7 +29,8 @@ def _init(envfile = ENVFILE):
 
     # Environment setting
     with open(envfile, 'r') as envfile:
-        __builtins__.__n__ = eval(envfile.read())
+        import __builtin__
+        __builtin__.__dict__['__n__'] = eval(envfile.read())
 
     logger = logging.getLogger("nlan_agent")
     logger.setLevel(logging.DEBUG)
