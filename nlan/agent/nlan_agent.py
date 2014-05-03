@@ -25,13 +25,7 @@ ENVFILE = '/opt/nlan/nlan_env.conf'
 #out = cStringIO.StringIO()
 out = sys.stdout
 
-def _init(envfile = ENVFILE):
-
-    # Environment setting
-    with open(envfile, 'r') as envfile:
-        import __builtin__
-        __builtin__.__dict__['__n__'] = eval(envfile.read())
-
+def setlogger(d):
     logger = logging.getLogger("nlan_agent")
     logger.setLevel(logging.DEBUG)
     handler = logging.StreamHandler(out)
@@ -40,7 +34,16 @@ def _init(envfile = ENVFILE):
     formatter = logging.Formatter(header+"\n%(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    __n__['logger'] = logger
+    d['logger'] = logger
+
+def _init(envfile = ENVFILE):
+
+    # Environment setting
+    with open(envfile, 'r') as envfile:
+        import __builtin__
+        __builtin__.__dict__['__n__'] = eval(envfile.read())
+
+    setlogger(__n__)
 
     # Insert system pathes for the modules
     for f in __n__['mod_dir']:

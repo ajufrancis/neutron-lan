@@ -12,6 +12,16 @@ from collections import OrderedDict
 
 DATABASE = 'Open_vSwitch'
 PARENT = 'NLAN'
+
+import __builtin__
+# For unit testing
+if '__n__' not in __builtin__.__dict__:
+    with open('nlan_env.conf', 'r') as f:
+        __builtin__.__dict__['__n__'] = eval(f.read())
+    import nlan_agent
+    nlan_agent.setlogger(__n__)
+    __n__['init'] = 'xxx'
+
 TABLES = __n__['tables']
 
 def _index():
@@ -589,8 +599,8 @@ def get_vxlan_ports(peers=None):
 
 def get_vxlan_port(peer):
 
-    tablesearch = search('Interface', 'type', 'vxlan', ['ofport', 'options']
-)
+    tablesearch = search('Interface', ['ofport', 'options'], 'type', 'vxlan')
+
     for l in tablesearch:
         if l['options']['remote_ip'] == peer:
             return l['ofport']
@@ -622,7 +632,15 @@ def get_current_state():
 # Unit test
 if __name__=='__main__':
 
-#    __builtins__.__n__ = {'platform': 'openwrt'}
+    def _printcount(response):
+        c = get_count(response)
+        if c == 1:
+            print 'SUCCESS, get_count: {}'.format(str(c))
+        else:
+            print 'FAILURE, get_count: {}'.format(str(c))
+
+    # Clear NLAN tables
+    Row.clear()
 
     where = [[
         "vni",
@@ -632,7 +650,6 @@ if __name__=='__main__':
 
     print "##### Insert test: 'NLAN' table #####"
     response = insert('NLAN', {})
-    print str(get_count(response))
 
     row = {
         "vid": 101,
@@ -643,17 +660,17 @@ if __name__=='__main__':
    
     print "##### Insert and Mutate test: 'NLAN_Subnet' table #####"
     response = insert_mutate('NLAN_Subnet', row, 'NLAN', 'subnets')
-    print str(get_count(response))
+    _printcount(response)
 
     print "##### Select test #####" 
     select('NLAN_Subnet', where)
-    print search('NLAN_Subnet', "vid", 101, ["vni", "ip_dvr"])
+    print "##### Select (search) test #####"
+    print search('NLAN_Subnet', ["vni", "ip_dvr"], "vid", 101)
 
     # This transaction shuld fail, since a row with vni=1001
     # has already been inserted.
     print "##### Insert and Mutate test: 'NLAN_Subnet' table #####"
     response = insert_mutate('NLAN_Subnet', row, 'NLAN', 'subnets')
-    print str(get_count(response))
 
     select('NLAN_Subnet', where)
 
@@ -667,34 +684,39 @@ if __name__=='__main__':
 
     response = select('NLAN_Subnet', where)
     print str(todict(response))
+    _printcount(response)
    
     # Creates an instance of OVSDB O/R mapper 
     print "##### Row instance creation test #####"
     row = Row('subnets', ('vni', 1001))
     print "row: " + str(row.row)
-    print "_uuid: " + row['_uuid']
+    #print "_uuid: " + row['_uuid']
 
+    print "----- add 'ports' ------"
     row['ports'] = ["eth0", "eth1"]
+    print "----- add 'ip_dvr' ------"
     row['ip_dvr'] = '10.0.111.222/24'
-
+    print "----- row ------"
     print row.getrow()
-
+    print "----- del 'ports' ------"
     del row['ports']
     print row['ports']
+    print "----- del 'vid' ------"
     del row['vid']
     print row['vid']
+    print "----- Select ------"
     select('NLAN_Subnet', where)
    
     print "##### Delete test ######"
     
     # This fuction call fails, since one reference remains in 'NLAN' table.
+    print "----- This test fails ------"
     delete('NLAN_Subnet', where)
-    
+    print "----- Row.delrow() ------"
     #mutate_delete('NLAN_Subnet', where, 'NLAN', 'subnets')
     row.delrow()
-
+    print "----- Select ------"
     response = select('NLAN', [])
-    
     print str(todict(response))
 
     print "##### Row class test #####"
@@ -704,19 +726,21 @@ if __name__=='__main__':
         "ip_dvr": "10.0.0.1/24",
         "ports": ["eth0", "veth-test"]
         }
-
+    print "----- Row.setrow(model) -----"
     row.setrow(model)
+    print "----- Row.getrow() -----"
     v = row.getrow()
     print v
     for key in v.keys():
         print key + ': ' + str(v[key])
     #row.delrow()
     #print (row.getrow())
+    print "----- Row.clear() -----"
     Row.clear()
 
     print "##### Row class test2 #####"
     row = Row('subnets', ('vni', 1001))
-    print "## crud: add ##"
+    print "----- crud: add -----"
     model = {
         "vid": 101,
         "vni": 1001,
@@ -725,14 +749,14 @@ if __name__=='__main__':
         }
     row.crud('add', model)
     print row.getrow()
-    print "## crud: update """
+    print "----- crud: update -----"
     model = {
         "ip_dvr": "20.0.0.1/24",
         "ports": ["eth0"]
         }
     row.crud('update', model)
     print row.getrow()
-    print "## crud: delete ##"
+    print "----- crud: delete -----"
     model = {
         "vid": 101,
         "ip_dvr": "20.0.0.1/24",
@@ -740,18 +764,19 @@ if __name__=='__main__':
         }
     row.crud('delete', model)
     print row.getrow()
+    print "----- Row.clear() -----"
     Row.clear()
 
     print "##### OvsdbRow class test #####"
     try:
-        r = OvsdbRow('Interface', ('name', 'vxlan'))
+        r = OvsdbRow('Interface', ('type', 'vxlan'))
         print 'ofport: ' + str(r['ofport'])
     except:
         pass
 
     print "##### Ovsdb search test #####"
     try:
-        print search('Interface', 'type', 'vxlan', ['ofport', 'options'])
+        print search('Interface', ['ofport', 'options'], 'type', 'vxlan')
     except:
         pass
 
