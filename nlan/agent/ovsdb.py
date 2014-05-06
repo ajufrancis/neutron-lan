@@ -13,12 +13,12 @@ from collections import OrderedDict
 DATABASE = 'Open_vSwitch'
 PARENT = 'NLAN'
 
-import __builtin__
 # For unit testing
-if '__n__' not in __builtin__.__dict__:
+if __name__ == '__main__':
+    import __builtin__
+    import nlan_agent
     with open('nlan_env.conf', 'r') as f:
         __builtin__.__dict__['__n__'] = eval(f.read())
-    import nlan_agent
     nlan_agent.setlogger(__n__)
     __n__['init'] = 'xxx'
 
@@ -446,33 +446,32 @@ class OvsdbRow(object):
 
     def __delitem__(self, key):
 
-        # TODO: this is an ugly coding... improve it!
-        def _default(value):
-            t = type(value)
-            d = None
-            if t == int:
-                d = 0
-            elif t == str or t == unicode:
-                d = ''
-            elif t == list:
-                tt = type(value[0])
-                if tt == int:
-                    d = 0
-                elif tt == str or tt == unicode:
-                    d = ''
-            if d == None:
-                raise Exception ("Type error")
-            else:
-                return d
+        """
+       (RFC7047)
+       The operation inserts "row" into "table".  If "row" does not specify
+       values for all the columns in "table", those columns receive default
+       values.  The default value for a column depends on its type.  The
+       default for a column whose <type> specifies a "min" of 0 is an empty
+       set or empty map.  Otherwise, the default is a single value or a
+       single key-value pair, whose value(s) depend on its <atomic-type>:
 
-        value = self.row[key]
-        row = {key: _default(value)}
-        update(self.table, self.where, row)
+       o  "integer" or "real": 0
+       o  "boolean": false
+       o  "string": "" (the empty string)
+       o  "uuid": 00000000-0000-0000-0000-000000000000 
+        """
+        def _default(self, type_):
+            if type_ == 'integer' or type_ == 'real':
+                return 0
+            elif type_ == 'boolean':
+                return False 
+            elif type_ == 'string':
+                return '' 
+
+        default = _default(self, __n__['types'][self.module][key]['key']['type'])
+        update(self.table, self.where, {key: default})
         self.row[key] = None
 
-    #def __getattr__(self, key):
-    #    return self.row[key]
-    
     def getrow(self):
         return self.row
 
@@ -500,7 +499,8 @@ class Row(OvsdbRow):
     # Creates an instance of a row 
     def __init__(self, module, index=None):
 
-        response = insert('NLAN', {})
+        if len(todict(select('NLAN', []))) == 0:
+            insert('NLAN', {})
         self.module = module
 
         #self.parent = self.__class__.PARENT
@@ -609,20 +609,17 @@ def get_vxlan_port(peer):
 
 def get_current_state():
 
-    #state = {}
     state = OrderedDict()
 
     row = todict(select('NLAN', []))
 
     for key in row:
-        if key != '_uuid' and key != '_version':
-            v = row[key]
-            #if isinstance(v, list):
-            if _iflist_tables(key):
-                if len(v) > 0:
-                    state[key] = todicts(select(table=TABLES[key]['key']['refTable'],where=[]),key)   
-            elif isinstance(v, str) or isinstance(v, unicode):
-                state[key] = todict(select(table=TABLES[key]['key']['refTable'],where=[]),key)
+        v = row[key]
+        if _iflist_tables(key):
+            if len(v) > 0:
+                state[key] = todicts(select(table=TABLES[key]['key']['refTable'],where=[]),key)   
+        elif isinstance(v, str) or isinstance(v, unicode):
+            state[key] = todict(select(table=TABLES[key]['key']['refTable'],where=[]),key)
 
     return state
 
