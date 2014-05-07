@@ -109,8 +109,6 @@ def logstr(*args):
 
 if __name__=='__main__':
 
-    #print get_roster()
-
     model = {
         'aaa': 1,
         'bbb': '2',

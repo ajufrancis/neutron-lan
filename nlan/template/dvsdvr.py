@@ -2,8 +2,7 @@
 #
 import re
 from yamldiff import *
-from util import get_roster
-from env import STATE_ORDER
+from env import STATE_ORDER, ROSTER
 
 # Placeholders: <remote_ips> and <peers>
 def fillout(template):
@@ -12,15 +11,11 @@ def fillout(template):
     vnis = {}
     chain = {}
 
-    roster = get_roster()
-
-    #print template
-
     for l in template:
         if re.search('vxlan.local_ip', l):
             router = get_node(l)
             #ips[router] = get_value(l)
-            ips[router] = roster[router]['host']
+            ips[router] = ROSTER[router]['host']
         if re.search('vid=', l):
             router = get_node(l)
             vni = get_index_value(l)

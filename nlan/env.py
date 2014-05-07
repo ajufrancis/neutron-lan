@@ -3,6 +3,7 @@
 #
 
 import os
+import yaml
 import nlan_schema
 
 # Note:
@@ -25,6 +26,10 @@ NLAN_SSH = os.path.join(NLAN_DIR, 'nlan_ssh.py')
 
 # roster file 
 ROSTER_YAML = os.path.join(NLAN_DIR,'roster.yaml')
+roster = {}
+with open(ROSTER_YAML, 'r') as f:
+    roster = yaml.load(f.read())
+ROSTER = roster
 
 # NLAN Agent Home Directory
 NLAN_AGENT_DIR = '/opt/nlan'

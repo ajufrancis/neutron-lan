@@ -49,10 +49,6 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
     #print router, operation, doc, cmd_list, loglevel
     
 
-    with open(ROSTER_YAML,'r') as r:
-        roster = yaml.load(r.read())
-
-
     def _ssh_exec_command(ssh, cmd, cmd_args, out, err):
 
         i,o,e = ssh.exec_command(cmd)
@@ -224,7 +220,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
     queue = Queue()
 
     if router == '_ALL':	
-        routers = roster.keys()
+        routers = ROSTER.keys()
     else:
         routers.append(router)
 
@@ -235,10 +231,10 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
             operation = l[1]
             doc = l[2]
 
-            host = roster[router]['host']
-            user = roster[router]['user']
-            passwd = roster[router]['passwd']	
-            platform = roster[router]['platform']
+            host = ROSTER[router]['host']
+            user = ROSTER[router]['user']
+            passwd = ROSTER[router]['passwd']	
+            platform = ROSTER[router]['platform']
 
             cmd = NLAN_AGENT + ' ' + operation + ' --envfile ' + os.path.join(NLAN_AGENT_DIR, nlanconf) + ' ' + loglevel
             cmd_args = doc
@@ -254,10 +250,10 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
 
     else:
         for router in routers:
-            host = roster[router]['host']
-            user = roster[router]['user']
-            passwd = roster[router]['passwd']	
-            platform = roster[router]['platform']
+            host = ROSTER[router]['host']
+            user = ROSTER[router]['user']
+            passwd = ROSTER[router]['passwd']	
+            platform = ROSTER[router]['platform']
             cmd = ''
             cmd_args = ''
             if operation == '--raw':
@@ -376,13 +372,11 @@ def _wait(router, timeout):
     hosts = {} 
     exit = 0
 
-    with open(ROSTER_YAML,'r') as r:
-        roster = yaml.load(r.read())
-        if router == '_ALL':
-            for router in roster.keys():
-                hosts[router] = roster[router]['host']
-        else:
-            hosts[router] = roster[router]['host']
+    if router == '_ALL':
+        for router in ROSTER.keys():
+            hosts[router] = ROSTER[router]['host']
+    else:
+        hosts[router] = ROSTER[router]['host']
      
     print "Router           Host           Ping"
     print "------------------------------------"
