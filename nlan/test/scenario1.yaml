@@ -12,6 +12,11 @@
         args:
             bridges:
                 ovs_bridges: enabled
+  - test: 'add bridges ovs-vsctl'
+    nlan:
+        router: openwrt1
+        options: --raw
+        args: 'ovs-vsctl show'
   - test: 'add bridges confirmation'
     nlan:
         router: openwrt1
@@ -26,6 +31,11 @@
         args:
             bridges:
                 ovs_bridges: enabled
+  - test: 'delete bridges ovs-vsctl'
+    nlan:
+        router: openwrt1
+        options: --raw
+        args: 'ovs-vsctl show'
   - test: 'delete bridges confirmation'
     nlan:
         router: openwrt1
