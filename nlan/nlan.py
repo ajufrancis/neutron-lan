@@ -30,7 +30,7 @@ def _printmsg_request(lock, router, platform):
         rp = "NLAN Request to router:{0},platform:{1}".format(router, platform)
         print bar[:5], rp, bar[5+len(rp):] 
 
-def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None, git=False):
+def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, git=False):
 
     rp = "Ping test to all the target routers"
     print bar[:5], rp, bar[5+len(rp):] 
@@ -80,6 +80,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
         ssh = None
         response = OrderedDict() 
         response['exit'] = 0
+        stdout = None
         exitcode = 0
 
         try:
@@ -170,8 +171,8 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
                         rp = "NLAN Response from router:{0},platform:{1}".format(router, platform)
                         print bar[:5], rp, bar[5+len(rp):] 
                 if outvl > 0:
-                    outv = outv.rstrip('\n').split('\n')
-                    for l in outv:
+                    stdout = outv.rstrip('\n').split('\n')
+                    for l in stdout:
                         try:
                             d = eval(l)
                             if isinstance(d, OrderedDict):
@@ -189,7 +190,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
                     response = eval(erre[-1])
 
                 finish_utc = time.time()
-                queue.put([router, response, finish_utc])
+                queue.put({'router':router, 'stdout':stdout, 'response':response, 'finish_utc':finish_utc})
                 for key in response.keys():
                     print '{}: {}'.format(key, response[key])
 
@@ -200,7 +201,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
             response['traceeback'] = traceback.format_exc()
             exitcode = 1
             finish_utc = time.time()
-            queue.put([router, response , finish_utc])
+            queue.put({'router':router, 'stdout':stdout, 'response':response, 'finish_utc':finish_utc})
             with lock:
                 rp = "NLAN Request Failure router:{0},platform:{1}".format(router, platform)
                 print bar[:5], rp, bar[5+len(rp):] 
@@ -222,7 +223,7 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
     lock = Lock()
     queue = Queue()
 
-    if router == '__ALL__':	
+    if router == '_ALL':	
         routers = roster.keys()
     else:
         routers.append(router)
@@ -331,17 +332,22 @@ def main(router='__ALL__',operation=None, doc=None, cmd_list=None, loglevel=None
             print "---------------------------------------"
             for l in ssh_sessions:
                 l[0].terminate()
+            result = [] 
             while not queue.empty():
                 smiley = ':-)'
                 l = queue.get() 
-                router = l[0]
-                response = l[1]
+                router = l['router']
+                stdout = l['stdout']
+                response = l['response']
                 if response['exit'] > 0:
                     smiley = 'XXX'
                     exit = 1
-                print "{:17s} {:3s}   {:10.2f}(sec)".format(router, smiley, l[2] - start_utc)
+                print "{:17s} {:3s}   {:10.2f}(sec)".format(router, smiley, l['finish_utc'] - start_utc)
+                result.append(l)
         if exit > 0:
             raise Exception("NLAN transaction failure")
+        else:
+            return result
             
 
 def _wait(router, timeout):
@@ -372,7 +378,7 @@ def _wait(router, timeout):
 
     with open(ROSTER_YAML,'r') as r:
         roster = yaml.load(r.read())
-        if router == '__ALL__':
+        if router == '_ALL':
             for router in roster.keys():
                 hosts[router] = roster[router]['host']
         else:
@@ -475,9 +481,12 @@ if __name__=='__main__':
     elif options.debug:
         loglevel = '--debug'
 
-    router = '__ALL__'
+    router = '_ALL'
     if options.target:
         router = options.target
+
+    if option == '--add' or option == '--update' or option == '--delete':
+        args = args[0]
 
     if options.time:
         timeout = options.time

@@ -36,18 +36,20 @@ def _uuid_name():
 def get_uuid(response):
     return response["result"][0]["rows"][0]["_uuid"][1]
 
-# OVSDB returns a non-list value even if it's 'max' is greater than 1.
-# NLAN assumes that a value with 'max' greater than 1 is a list object
+# OVSDB returns a non-list value under the following condition:
+# - either min or max is not 1 => supposed to be a list of values.
+# - it has only one member in the list.
+# NLAN assumes that a value with 'max' greater than 1 is a list
 # even if it has only one member in the list.
 def _iflist(module, param):
     iflist = False
     try:
-        maxparam = __n__['types'][module][param]['max']
-        if isinstance(maxparam, int):
-            if maxparam > 1:
+        max_ = __n__['types'][module][param]['max']
+        if isinstance(max_, int):
+            if max_ > 1:
                 iflist = True
-        elif isinstance(maxparam, str):
-            if maxparam == 'unlimited':
+        elif isinstance(max_, str):
+            if max_ == 'unlimited':
                 iflist = True
     except:
         pass
@@ -69,68 +71,58 @@ def _iflist_tables(module):
     return iflist
 
 # Get a row in the form of Python dictionary 
-def todict(response, module=None):
+def _todict(row, module=None):
 
-    dict_value = {}
+    dict_value = {} 
 
-    try:
-        row = response["result"][0]["rows"][0]
-
-        for key in row.keys():
-            if key != '_uuid' and key != '_version':
-                value = row[key]
-                if isinstance(value, list):
-                    if isinstance(value[1], list) and value[0] == 'set':
-                        dict_value[key] = value[1]
-                    if isinstance(value[1], list) and value[0] == 'map':
+    for key in row.keys():
+        if key != '_uuid' and key != '_version':
+            value = row[key]
+            if isinstance(value, list):
+                v = value[1]
+                if isinstance(v, list) and value[0] == 'set':
+                    if len(v) > 0:
+                        dict_value[key] = v
+                    else:
+                        #dict_value[key] = None
+                        pass
+                if isinstance(v, list) and value[0] == 'map':
+                    if len(v) > 0:
                         d = {} 
-                        for l in value[1]:
+                        for l in v:
                             d[l[0]] = l[1]
                         dict_value[key] = d
-                    elif not(isinstance(value[1], list)) and value[0] == 'uuid':
-                        dict_value[key] = value[1]
-                else:
-                    if _iflist(module, key):
-                        dict_value[key] = [row[key]]
                     else:
-                        dict_value[key] = row[key]
-    except:
-        pass
+                        #dict_value[key] = None
+                        pass
+                elif not(isinstance(v, list)) and value[0] == 'uuid':
+                    dict_value[key] = v
+            else:  #TODO: add a procedure for map
+                if _iflist(module, key):
+                    dict_value[key] = [row[key]]
+                else:
+                    dict_value[key] = row[key]
 
     return dict_value
 
+# Get a row in the form of Python dictionary 
+def todict(response, module=None):
+    dict_ = {}
+    try:
+        row = response["result"][0]["rows"][0]
+        dict_ = _todict(row, module)
+    except:  # JSON-RPC response has an empty list for "rows"
+        pass
+    return dict_
+
 # Get rows in the form of Python dictionary 
 def todicts(response, module=None):
-
     dicts = [] 
-
     try:
         for row in response["result"][0]["rows"]:
-            dict_value = {}
-
-            for key in row.keys():
-                if key != '_uuid' and key != '_version':
-                    value = row[key]
-                    if isinstance(value, list):
-                        if isinstance(value[1], list) and value[0] == 'set':
-                            dict_value[key] = value[1]
-                        if isinstance(value[1], list) and value[0] == 'map':
-                            d = {} 
-                            for l in value[1]:
-                                d[l[0]] = l[1]
-                            dict_value[key] = d
-                        elif not(isinstance(value[1], list)) and value[0] == 'uuid':
-                            dict_value[key] = value[1]
-                    else:
-                        if _iflist(module, key):
-                            dict_value[key] = [row[key]]
-                        else:
-                            dict_value[key] = row[key]
-
-            dicts.append(dict_value)
-    except:
+            dicts.append(_todict(row, module))
+    except:  # JSON-RPC response has an empty list for "rows"
         pass
-
     return dicts
 
             
@@ -180,7 +172,7 @@ def _send(request):
         pass 
 
     if dist == 'openwrt':
-        dumps = json.JsonWriter().write  
+        dumps = json.JsonWriter().write
         loads = json.JsonReader().read
         sock = '/var/run/db.sock'
     else:
@@ -459,16 +451,52 @@ class OvsdbRow(object):
        o  "boolean": false
        o  "string": "" (the empty string)
        o  "uuid": 00000000-0000-0000-0000-000000000000 
-        """
-        def _default(self, type_):
-            if type_ == 'integer' or type_ == 'real':
-                return 0
-            elif type_ == 'boolean':
-                return False 
-            elif type_ == 'string':
-                return '' 
+        
+        (RFC7047)
+        If "min" and "max" are both 1 and "value" is not specified, the
+        type is the scalar type specified by "key".
 
-        default = _default(self, __n__['types'][self.module][key]['key']['type'])
+        If "min" is not 1 or "max" is not 1, or both, and "value" is not
+        specified, the type is a set of scalar type "key".
+
+        If "value" is specified, the type is a map from type "key" to type
+        "value".
+        """
+        min_ = 1
+        max_ = 1
+        type_ = None 
+        value_exists = False
+        schema =  __n__['types'][self.module][key]
+        if 'min' in schema:
+            min_ = schema['min']
+        if 'max' in schema:
+            max_ = schema['max']
+        if isinstance(schema['key'], dict):
+            type_ = schema['key']['type']
+        else:
+            type_ = schema['key']
+        if 'value' in schema:
+            value_exists = True
+
+        default = None 
+        set_ = ["set", []]  # Empty set
+        map_ = ["map", []]  # Empty map
+
+        if value_exists:  # map
+            default = map_
+        elif min_ == 1 and max_ == 1:  # Scalar type
+            if type_ == 'integer' or type_ == 'real':
+                default = 0 
+            elif type_ == 'string':
+                default = ""
+            elif type_ == 'boolean':
+                default = False
+            else:
+                # This case never happens
+                pass
+        else:  # set
+            default = set_ 
+        
         update(self.table, self.where, {key: default})
         self.row[key] = None
 
@@ -616,10 +644,18 @@ def get_current_state():
     for key in row:
         v = row[key]
         if _iflist_tables(key):
-            if len(v) > 0:
-                state[key] = todicts(select(table=TABLES[key]['key']['refTable'],where=[]),key)   
+            if v:
+                d = todicts(select(table=TABLES[key]['key']['refTable'],where=[]),key)   
+                if len(d) > 0:
+                    state[key] = d  
+                else:
+                    pass
         elif isinstance(v, str) or isinstance(v, unicode):
-            state[key] = todict(select(table=TABLES[key]['key']['refTable'],where=[]),key)
+            d = todict(select(table=TABLES[key]['key']['refTable'],where=[]),key)
+            if len(d) > 0:
+                state[key] = d
+            else:
+                pass
 
     return state
 

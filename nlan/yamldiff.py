@@ -11,7 +11,7 @@ from difflib import unified_diff
 from cStringIO import StringIO
 from cmdutil import output_cmd, CmdError
 from copy import deepcopy
-from env import INDEXES 
+from env import INDEXES, STATE_ORDER 
 
 # Simple object serializer for int, list, str and OrderedObject
 def dumps(value):
@@ -207,9 +207,8 @@ def _yaml_load(filename, gitshow):
         __import__(template_module)
         module = sys.modules[template_module]
         values = module.fillout(values)
-        state_order = module.STATE_ORDER
 
-    return (sorted(values), state_order)
+    return (sorted(values), STATE_ORDER)
 
 #
 # Returns diff in the unified format.

@@ -1,0 +1,33 @@
+# 2014/05/07 
+# NLAN Modules testing
+#
+  - test: 'copy the latest modules to the targets'
+    command: 'nlan.py -m'
+  - test: initialization
+    command: 'nlan.py init.run'
+  - test: 'add bridges'
+    nlan:
+        router: openwrt1
+        options: --add
+        args:
+            bridges:
+                ovs_bridges: enabled
+  - test: 'add bridges confirmation'
+    nlan:
+        router: openwrt1
+        args: 'db.state'
+        assert:
+            bridges:
+                ovs_bridges: enabled
+  - test: 'delete bridges'
+    nlan:
+        router: openwrt1
+        options: --delete
+        args:
+            bridges:
+                ovs_bridges: enabled
+  - test: 'delete bridges confirmation'
+    nlan:
+        router: openwrt1
+        args: 'db.state'
+        assert: null
