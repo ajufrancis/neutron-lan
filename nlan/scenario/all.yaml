@@ -1,0 +1,7 @@
+- do: bridges.yaml
+- sleep: 3
+- do: gateway.yaml
+- sleep: 3
+- do: vxlan.yaml
+- sleep: 3
+- do: services.yaml

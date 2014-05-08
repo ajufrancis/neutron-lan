@@ -314,6 +314,20 @@ def crud_diff(filename, git=False):
             dic = {router: {ope: {module: idx_key_value}}}
         dict_merge(crud_dict, dic)
 
+    # Introduces _index key for list
+    for router, v in crud_dict.iteritems():
+        for ope, v2 in v.iteritems():
+            for module, v3 in v2.iteritems():
+                temp_list = []
+                for key, v4 in v3.iteritems():
+                    print key, v4
+                    if isinstance(key, tuple):
+                        d = {'_index': list(key)} 
+                        dict_merge(d, v4)
+                        temp_list.append(d)
+                if len(temp_list) > 0:
+                    crud_dict[router][ope][module] = temp_list
+
     # Generates final output
     crud_list = []
     state_order1r = state_order1[::-1]

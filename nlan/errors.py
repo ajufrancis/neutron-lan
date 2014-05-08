@@ -22,11 +22,11 @@ class ModelError(Exception):
     def __str__(self):
 
         if self.model and self.params:
-            message = "{}\nmodel:{}\nparams:{}".format(self.message, str(self.model), str(self.params))
+            message = "{}\nmodel: {}\nparams: {}".format(self.message, str(self.model), str(self.params))
         elif self.model:
-            message = "{}\nmodel:{}".format(self.message, str(self.model))
+            message = "{}\nmodel: {}".format(self.message, str(self.model))
         elif self.params:
-            message = "{}\nparams:{}".format(self.message, str(self.params))
+            message = "{}\nparams: {}".format(self.message, str(self.params))
         else:
             message = "{}".format(self.message)
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
             model = {'a': 1, 'b': 'c'}
             params = ['a', 'b']
             message = 'TEST'
-            result = "{}\nmodel:{}\nparams:{}".format(message, str(model), str(params))
+            result = "{}\nmodel: {}\nparams: {}".format(message, str(model), str(params))
             with self.assertRaises(ModelError):
                 try:
                     raise ModelError(message=message, model=model, params=params)

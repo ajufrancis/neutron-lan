@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, sys, time
+import os, sys, time, copy
 from optparse import OptionParser
 from collections import OrderedDict
 import logging
@@ -35,21 +35,22 @@ def _init(envfile = ENVFILE):
     setlogger(__n__)
 
 # Progress of deployment
-def _progress(data, func, ind):
+def _progress(data, func, _index):
     progress = OrderedDict()
     modules = data.keys()
     hereafter = False
     for mod in modules:
         if mod in __n__['indexes']:
             progress[mod] = {}
-            for idx in data[mod]:
+            for l in data[mod]:
+                idx = l['_index']
                 if hereafter:
-                    progress[mod][idx] = False
-                elif mod == func and idx == ind:
-                    progress[mod][idx] = False
+                    progress[mod][tuple(idx)] = False
+                elif mod == func and idx == _index:
+                    progress[mod][tuple(idx)] = False
                     hereafter = True
                 else:
-                    progress[mod][idx] = True
+                    progress[mod][tuple(idx)] = True
         else:
             if hereafter:
                 progress[mod] = False
@@ -68,20 +69,23 @@ def _route(operation, data):
         from oputil import Model
         if __n__['init'] != 'start':
             data = eval(data)
+        _data = copy.deepcopy(data)
         results = []
         error = None 
         module = None
-        ind = None
+        _index = None
         try:
             for module in data.keys():
                 _mod = __import__('config.'+module, globals(), locals(), [operation], -1)
                 call = _mod.__dict__[operation]
                 model = data[module]
                 if module in __n__['indexes']:
-                    for ind in model:
-                        _model = model[ind]
-                        __n__['logger'].info('function:{0}.{1}, index:{3}, model:{2}'.format(module, operation, str(model), str(ind)))
-                        m = Model(operation, module, _model, ind)
+                    #for ind in model:
+                    for _model in model:
+                        _index = _model['_index']
+                        del _model['_index']
+                        __n__['logger'].info('function:{0}.{1}, index:{3}, model:{2}'.format(module, operation, str(_model), str(_index)))
+                        m = Model(operation, module, _model, _index)
                         # Routes a requested model to a config module
                         result = call(m)
                         if result:
@@ -97,29 +101,28 @@ def _route(operation, data):
             error = OrderedDict()
             error['exception'] = 'CmdError'
             error['message'] = e.message
+            error['traceback'] = traceback.format_exc() 
             error['command'] = e.command
             error['stdout'] = e.out
             error['exit'] = e.returncode 
             error['operation'] = operation
-            error['progress'] = _progress(data, module, ind)
+            error['progress'] = _progress(_data, module, _index)
         except ModelError as e:
             error = OrderedDict()
             error['exception'] = 'ModelError'
             error['message'] = e.message
-            error['model'] = str(e.model)
-            error['parms'] = str(e.params)
+            error['traceback'] = traceback.format_exc() 
             error['exit'] = 1
             error['operation'] = operation
-            error['progress'] = _progress(data, module, ind)
-            error['traceback'] = traceback.format_exc() 
+            error['progress'] = _progress(_data, module, _index)
         except Exception as e:
             error = OrderedDict()
             error['exception'] = type(e).__name__ 
             error['message'] = 'See the traceback message'
+            error['traceback'] = traceback.format_exc() 
             error['exit'] = 1
             error['operation'] = operation
-            error['progress'] = _progress(data, module, ind)
-            error['traceback'] = traceback.format_exc() 
+            error['progress'] = _progress(_data, module, _index)
         finally:
             if len(results) > 0:
                 # STDOUT

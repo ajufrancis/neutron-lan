@@ -14,11 +14,15 @@ lxc.network.veth.pair = $
 lxc.network.ipv4 = 0.0.0.0
 """
 
+cmd = cmdutil.check_cmd
+
 def add(model):
 
     model.params()
 
-    print _name, name_
+    cmd('lxc-stop -n', _name_)
+
+    #print _name, name_
     conf = os.path.join('/var/lib/lxc', _name_, 'config')
     with open(conf, 'r') as f:
         lines = f.read()
@@ -28,11 +32,11 @@ def add(model):
         f.seek(0)
         f.truncate()
         f.write(lines)
-        for path in _chain: 
-            net = lxc_network.replace('$', path)
-            f.write(net)
+        if _chain:
+            for path in _chain: 
+                net = lxc_network.replace('$', path)
+                f.write(net)
 
-    cmd = cmdutil.check_cmd
     cmd('lxc-start -d -f', conf, '-n', _name_)
 
     #OVSDB transaction
@@ -55,7 +59,6 @@ def delete(model):
             f.truncate()
             f.write(lines)
 
-        cmd = cmdutil.check_cmd
         cmd('lxc-start -d -f', conf, '-n', name_)
     else:
         raise ModelError("illegal operation", model=model.model)
@@ -85,7 +88,6 @@ def update(model):
                 net = lxc_network.replace('$', path)
                 f.write(net)
 
-        cmd = cmdutil.check_cmd
         cmd('lxc-start -d -f', conf, '-n', name_)
 
     #OVSDB transaction
