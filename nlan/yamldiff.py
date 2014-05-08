@@ -346,29 +346,40 @@ def crud_diff(filename, git=False):
 if __name__=='__main__':
 
     import sys
+    import unittest
 
-    print '----- test: get_template_module -----'
-    firstline = '#!test1.test2'
-    print get_template_module(firstline)
-    firstline = '##!test1.test2'
-    print get_template_module(firstline)
+    class TestSequenceFunctions(unittest.TestCase):
 
-    print '----- test: yaml_load: before  -----'
-    (list1, state_order1) = _yaml_load(sys.argv[1], gitshow=True)
-    for l in list1:
-        print l
+        def testGetTemplateModule(self):
 
-    print '----- test: yaml_load: after -----'
-    (list2, state_order2) = _yaml_load(sys.argv[1], gitshow=False)
-    for l in list2:
-        print l
-        
-    print '----- test: diff -----'
-    v = _diff(list1, list2)
-    for l in v:
-        print l
-   
-    print '----- test: crud_diff -----'
-    crud_list = crud_diff(sys.argv[1])
-    for l in crud_list:
-        print l
+            firstline = '#!test1.test2'
+            result = 'test1.test2'
+            self.assertEqual(get_template_module(firstline), result)
+
+            firstline = '##!test1.test2'
+            result = None 
+            self.assertEqual(get_template_module(firstline), result)
+
+    if len(sys.argv) > 1:
+
+        print '----- test: yaml_load: before  -----'
+        (list1, state_order1) = _yaml_load(sys.argv[1], gitshow=True)
+        for l in list1:
+            print l
+
+        print '----- test: yaml_load: after -----'
+        (list2, state_order2) = _yaml_load(sys.argv[1], gitshow=False)
+        for l in list2:
+            print l
+            
+        print '----- test: diff -----'
+        v = _diff(list1, list2)
+        for l in v:
+            print l
+       
+        print '----- test: crud_diff -----'
+        crud_list = crud_diff(sys.argv[1])
+        for l in crud_list:
+            print l
+    else:
+        unittest.main(verbosity=2)

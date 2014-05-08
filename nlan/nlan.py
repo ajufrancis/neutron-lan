@@ -20,10 +20,12 @@ from cStringIO import StringIO
 import cmdutil
 import yaml, yamldiff
 from env import * 
+from errors import NlanException
 
 nlanconf = 'nlan_env.conf'
 
 bar = '=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+'
+bar2 = '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
 
 def _printmsg_request(lock, router, platform):
     with lock:
@@ -135,7 +137,6 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                     env['router'] = router
                     env['platform'] = platform
                     env['agent_dir'] = NLAN_AGENT_DIR
-                    env['mod_dir'] = NLAN_MOD_DIRS 
                     env['schema'] = SCHEMA
                     env['state_order'] = STATE_ORDER
                     env['tables'] = TABLES
@@ -165,7 +166,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                 else:
                     if outvl + errel > 0:
                         rp = "NLAN Response from router:{0},platform:{1}".format(router, platform)
-                        print bar[:5], rp, bar[5+len(rp):] 
+                        print bar2[:5], rp, bar2[5+len(rp):] 
                 if outvl > 0:
                     stdout = outv.rstrip('\n').split('\n')
                     for l in stdout:
@@ -341,7 +342,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                 print "{:17s} {:3s}   {:10.2f}(sec)".format(router, smiley, l['finish_utc'] - start_utc)
                 result.append(l)
         if exit > 0:
-            raise Exception("NLAN transaction failure")
+            raise NlanException("NLAN transaction failure", result=result)
         else:
             return result
             

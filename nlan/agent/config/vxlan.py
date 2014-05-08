@@ -36,10 +36,6 @@ def delete(model):
     
     model.params()
 
-    if _local_ip:
-        # All remote IPs must be deleted before deleting local IP
-        if not (set(_remote_ips) == set(remote_ips_)):
-            raise ModelError('"local_ip" cannot be deleted') 
     if _remote_ips:
         # vxlan_ports = get_vxlan_ports(_remote_ips) 
         # TODO: yamldiff.py does not work on list parameters very well.
@@ -51,9 +47,15 @@ def delete(model):
             inf = 'vxlan_' + remote_ip.split('.')[3]
             __n__['logger'].info('Deleting a VXLAN tunnel: ' + inf)
             cmd('ovs-vsctl del-port br-tun', inf)
+    
+    if _local_ip:
+        # All remote IPs must be deleted before deleting local IP
+        if remote_ips_:
+            if not (set(_remote_ips) == set(remote_ips_)):
+                raise ModelError('"local_ip" cannot be deleted') 
 
-        # VSDB transaction
-        model.finalize()
+    # VSDB transaction
+    model.finalize()
 
 
 def update(model):
@@ -74,7 +76,7 @@ def update(model):
             cmd('ovs-vsctl del-port br-tun', inf)
        
         # Add those interfaces and flows again to change the local IP address
-        for remote_ip in remote_ips_:
+        for remote_ip in _remote_ips_:
             inf = 'vxlan_' + remote_ip.split('.')[3]
             __n__['logger'].info('Deleting a VXLAN tunnel: ' + inf)
             cmdp('ovs-vsctl add-port br-tun', inf, '-- set interface', inf, 'type=vxlan options:in_key=flow', 'options:local_ip='+_local_ip_, 'options:out_key=flow', 'options:remote_ip='+remote_ip)

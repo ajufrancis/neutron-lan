@@ -1,16 +1,5 @@
 #!/usr/bin/env python
 
-"""
-This "nlan-agent.py" works as a remote agent, accepting requests from
-"nlan-ssh.py" and invoking modules depending on the input data.
-
-Local Test
-$ python nlan-agent.py --update <<EOF
-"OrderedDict([('subnets', {'@vni:101': {'vid': '5'}})])"
-> EOF
-$ python nlan-agent.py --update "OrderedDict([('subnets', {'@vni:101': {'vid': '5'}})])"
-$ python nlan-agent.py --update "{'subnets': {'@vni:101': {'vid': 5}}}"
-"""
 import os, sys, time
 from optparse import OptionParser
 from collections import OrderedDict
@@ -44,11 +33,6 @@ def _init(envfile = ENVFILE):
         __builtin__.__dict__['__n__'] = eval(envfile.read())
 
     setlogger(__n__)
-
-    # Insert system pathes for the modules
-    for f in __n__['mod_dir']:
-        ff = os.path.join(__n__['agent_dir'], f)
-        sys.path.insert(0, ff)
 
 # Progress of deployment
 def _progress(data, func, ind):
@@ -90,7 +74,7 @@ def _route(operation, data):
         ind = None
         try:
             for module in data.keys():
-                _mod = __import__(module, globals(), locals(), [operation], -1)
+                _mod = __import__('config.'+module, globals(), locals(), [operation], -1)
                 call = _mod.__dict__[operation]
                 model = data[module]
                 if module in __n__['indexes']:
@@ -130,7 +114,7 @@ def _route(operation, data):
             error['traceback'] = traceback.format_exc() 
         except Exception as e:
             error = OrderedDict()
-            error['exception'] = 'Exception'
+            error['exception'] = type(e).__name__ 
             error['message'] = 'See the traceback message'
             error['exit'] = 1
             error['operation'] = operation
@@ -159,7 +143,7 @@ def _route(operation, data):
         error = None 
         result = None
         try:
-            _mod = __import__(command, globals(), locals(), [func], -1)
+            _mod = __import__('command.'+command, globals(), locals(), [func], -1)
             call = _mod.__dict__[func]
             args = tuple(data[1:])
             __n__['logger'].info('function:{0}.{1}, args:{2}'.format(command, func, str(args)))

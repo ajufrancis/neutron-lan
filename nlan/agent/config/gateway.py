@@ -8,49 +8,112 @@
 from cmdutil import output_cmd, output_cmd2, output_cmdp, output_cmd2p
 from ovsdb import Row
 from oputil import Model 
+from errors import ModelError
 
-def add(model):
-
-    model.params()
-
-    if _rip == 'enabled':
-        __n__['logger'].info('Adding a gateway router: rip')
-
-    args = """
-    configure terminal
-    interface {0}
-    link-detect
-    exit
-    router rip
-    version 2
-    redistribute connected
-    network {0}
-    exit
-    exit
-    write
-    exit
-    """.format(_network)
-
+def _vtysh(args):
     cmd_args = ['vtysh'] 
     for line in args.split('\n')[1:-1]:
         cmd_args.append('-c')
         cmd_args.append(line.lstrip())
-
     try:
         output_cmd2p(cmd_args)
     # Fails if zebrad and ripd have not been started yet.
     except:
         output_cmdp('/etc/init.d/quagga start')
         output_cmd2p(cmd_args)
-
         output_cmdp('/etc/init.d/quagga restart')
 
-    # OVSDB transaction
-    model.finalize()
+def add(model):
+
+    model.params()
+
+    if not _rip or not _network:
+        raise ModelError('requires both _rip and _network', model=model.model)
+
+    else:
+        __n__['logger'].info('Adding a gateway router: rip')
+
+        args = """
+        configure terminal
+        interface {0}
+        link-detect
+        exit
+        router rip
+        version 2
+        redistribute connected
+        network {0}
+        exit
+        exit
+        write
+        exit
+        """.format(_network)
+
+        _vtysh(args)
+
+        # OVSDB transaction
+        model.finalize()
 
 
-# Unit test
-if __name__=='__main__':
-    model = {'rip': 'enabled', 'network': 'eth2'}
-    add(model)
+def delete(model):
+
+    model.params()
+
+    if not _rip or not _network:
+        raise ModelError('requires both _rip and _network', model=model.model)
+    
+    else:
+        __n__['logger'].info('Deleting a gateway router: rip')
+
+        args = """
+        configure terminal
+        interface {0}
+        no link-detect
+        exit
+        router rip
+        no version 2
+        no redistribute connected
+        no network {0}
+        exit
+        exit
+        write
+        exit
+        """.format(_network)
+
+        _vtysh(args)
+
+        # OVSDB transaction
+        model.finalize()
+
+
+def update(model):
+
+    model.params()
+
+    if not rip_ or not _network:
+        raise ModelError('requires rip_ and _network', model=model.model)
+    
+    else:
+        __n__['logger'].info('Updating a gateway router: rip')
+
+        args = """
+        configure terminal
+        interface {0}
+        no link-detect
+        exit
+        interface {1}
+        link-detect
+        exit
+        router rip
+        no network {0}
+        network {1}
+        exit
+        exit
+        write
+        exit
+        """.format(network_, _network_)
+
+        _vtysh(args)
+        
+        # OVSDB transaction
+        model.finalize()
 

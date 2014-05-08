@@ -141,36 +141,36 @@ if __name__ == "__main__":
             pass
 
         def testCmd(self):
-            self.assertEqual(cmd('ovs-vsctl -V'),0)
-            self.assertEqual(cmd('ovs-vsctl', '-V'),0)
-            self.assertEqual(cmd('ovs-vsctl -v'),1)
-            self.assertEqual(cmd('ovs-vsctl', '-v'),1)
+            self.assertEqual(cmd('uname -r'),0)
+            self.assertEqual(cmd('uname', '-r'),0)
+            self.assertEqual(cmd('uname -R'),1)
+            self.assertEqual(cmd('uname', '-R'),1)
 
         def testCmd2(self):
-            self.assertEqual(cmd2(['ovs-vsctl', '-V']),0)
-            self.assertEqual(cmd2(['ovs-vsctl', '-v']),1)
+            self.assertEqual(cmd2(['uname', '-r']),0)
+            self.assertEqual(cmd2(['uname', '-R']),1)
 
         def testCheckCmd(self):
-            self.assertEqual(check_cmd('ovs-vsctl -V'),0)
-            self.assertEqual(check_cmd('ovs-vsctl', '-V'),0)
+            self.assertEqual(check_cmd('uname -r'),0)
+            self.assertEqual(check_cmd('uname', '-r'),0)
             with self.assertRaises(CmdError):
-                check_cmd('ovs-vsctl -v')
+                check_cmd('uname -R')
 
         def testCheckCmd2(self):
-            self.assertEqual(check_cmd2(['ovs-vsctl', '-V']),0)
+            self.assertEqual(check_cmd2(['uname', '-r']),0)
             with self.assertRaises(CmdError):
-                check_cmd2(['ovs-vsctl', '-v'])
+                check_cmd2(['uname', '-R'])
 
         def testOutputCmd(self):
-            self.assertIsInstance(output_cmd('ovs-vsctl -V'),str)
-            self.assertIsInstance(output_cmd('ovs-vsctl', '-V'),str)
+            self.assertIsInstance(output_cmd('uname -r'),str)
+            self.assertIsInstance(output_cmd('uname', '-r'),str)
             with self.assertRaises(CmdError):
-                output_cmd('ovs-vsctl -v')
+                output_cmd('uname -R')
 
         def testOutputCmd2(self):
-            self.assertIsInstance(output_cmd2(['ovs-vsctl', '-V']),str)
+            self.assertIsInstance(output_cmd2(['uname', '-r']),str)
             with self.assertRaises(CmdError):
-                output_cmd2(['ovs-vsctl', '-v'])
+                output_cmd2(['uname', '-R'])
        
         def cmdpPrep(self):
             if '__n__' in __builtin__.__dict__:
@@ -181,15 +181,15 @@ if __name__ == "__main__":
 
         def testCmdp(self):
             self.cmdpPrep()
-            self.assertEqual(cmdp('ovs-vsctl -V'),self.cmdp_output)
+            self.assertEqual(cmdp('uname -r'),self.cmdp_output)
 
         def testOutputCmdp(self):
             self.cmdpPrep()
-            self.assertEqual(check_cmdp('ovs-vsctl -V'),self.outputcmdp_output)
+            self.assertEqual(check_cmdp('uname -r'),self.outputcmdp_output)
 
         def testOutputCmdp(self):
             self.cmdpPrep()
-            self.assertIsInstance(output_cmdp('ovs-vsctl -V'),self.checkcmdp_output)
+            self.assertIsInstance(output_cmdp('uname -r'),self.checkcmdp_output)
         
         def cmdpPrep2(self):
             if '__n__' not in __builtin__.__dict__:
@@ -201,18 +201,17 @@ if __name__ == "__main__":
         
         def testCmdp2(self):
             self.cmdpPrep2()
-            self.assertEqual(cmdp('ovs-vsctl -V'),self.cmdp_output)
+            self.assertEqual(cmdp('uname -r'),self.cmdp_output)
 
         def testOutputCmdp2(self):
             self.cmdpPrep2()
-            self.assertEqual(check_cmdp('ovs-vsctl -V'),self.outputcmdp_output)
+            self.assertEqual(check_cmdp('uname -r'),self.outputcmdp_output)
 
         def testOutputCmdp2(self):
             self.cmdpPrep2()
-            self.assertEqual(output_cmdp('ovs-vsctl -V'),self.checkcmdp_output)
+            self.assertEqual(output_cmdp('uname -r'),self.checkcmdp_output)
 
         def tearDown(self):
-            #print self.out.read()
             pass 
 
     unittest.main(verbosity=2)
