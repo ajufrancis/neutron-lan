@@ -26,19 +26,19 @@ def service(*args):
 def rc(args=None):
 
     platform = __n__['platform']
-    etc_dir = __n__['etc_dir']
+    share_dir = __n__['share_dir']
 
     init_script = None 
     command = {} 
     chmod = 'chmod 755 /etc/init.d/nlan'
     if platform == 'debian':
-        init_script = os.path.join(etc_dir, 'nlan_debian')
+        init_script = os.path.join(share_dir, 'nlan_debian')
         command['enable'] = ['cp {} /etc/init.d/nlan'.format(init_script), chmod, 'update-rc.d nlan defaults']
         command['update'] = ['cp {} /etc/init.d/nlan'.format(init_script)]
         command['disable'] = ['rm /etc/init.d/nlan', 'update-rc.d nlan remove']
         command['status'] = ['ls /etc/rc2.d/']
     elif platform == 'openwrt':
-        init_script = os.path.join(etc_dir, 'nlan_openwrt')
+        init_script = os.path.join(share_dir, 'nlan_openwrt')
         command['enable'] = ['cp {} /etc/init.d/nlan'.format(init_script), chmod, '/etc/init.d/nlan enable']
         command['update'] = ['cp {} /etc/init.d/nlan'.format(init_script)]
         command['disable'] = ['/etc/init.d/nlan disable', 'rm /etc/init.d/nlan']

@@ -123,8 +123,8 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                         s.put(lf, NLAN_AGENT_DIR)
                         filelist.append(f)
                     # scp NLAN Agent etc files
-                    ldir = NLAN_ETC
-                    rdir = NLAN_AGENT_ETC
+                    ldir = os.path.join(NLAN_DIR, 'agent/share')
+                    rdir = os.path.join(NLAN_AGENT_DIR, 'share')
                     exitcode = _ssh_exec_command(ssh, 'mkdir -p ' + rdir, None, out, err)
                     for f in os.listdir(ldir):
                         ff = os.path.join(ldir, f) 
@@ -142,7 +142,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                     env['tables'] = TABLES
                     env['indexes'] = INDEXES
                     env['types'] = TYPES 
-                    env['etc_dir'] = NLAN_AGENT_ETC
+                    env['share_dir'] = rdir
                     lf = os.path.join('/tmp', '{}.{}'.format(nlanconf,router)) 
                     with open(lf, 'w') as f:
                         f.seek(0)
@@ -448,7 +448,6 @@ if __name__=='__main__':
     parser.add_option("-G", "--git", help="use Git archive", action="store_true", default=False)
 
     (options, args) = parser.parse_args()
-
 
     option = None
     git = False

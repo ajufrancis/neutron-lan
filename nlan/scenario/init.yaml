@@ -1,7 +1,7 @@
 # 2014/05/08 
 # NLAN Modules testing
 #
-  - comment: 'copy the latest modules to the targets'
+  - comment: copy the latest modules to the targets
     nlan:
         router: openwrt1
         options: --scpmod

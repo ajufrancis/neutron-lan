@@ -8,6 +8,7 @@ import cmdutil
 import re
 from ovsdb import Row, OvsdbRow, search, get_vxlan_ports 
 from oputil import Model
+from errors import ModelError
 
 
 nw_dst10 = '10.0.0.0/8'
@@ -16,7 +17,7 @@ nw_dst192 = '192.168.0.0/16'
 
 
 # Add subnet
-def _add_subnets():
+def _add_subnets(model):
 	
     cmd = cmdutil.check_cmd
     output_cmd = cmdutil.output_cmd
@@ -54,12 +55,16 @@ def _add_subnets():
     #>>> Adding vHost
     if _ip_vhost:
         cmd('ip netns exec', ns, 'ip addr add dev eth0', _ip_vhost)
+        if _ip_dvr_:
+            # Distributed Virtual Router
+            cmd('ip netns exec', ns, 'ip route add default via', _ip_dvr_.split('/')[0], 'dev eth0')
 
     #>>> Adding DVR gateway address
     if _ip_dvr:
         cmd('ip addr add dev', int_dvr, _ip_dvr)
-        # Distributed Virtual Router
-        cmd('ip netns exec', ns, 'ip route add default via', _ip_dvr.split('/')[0], 'dev eth0')
+        if ip_vhost_:
+            # Distributed Virtual Router
+            cmd('ip netns exec', ns, 'ip route add default via', _ip_dvr.split('/')[0], 'dev eth0')
 
     #>>> Adding physical ports to the Linux bridge
     if _ports:
@@ -76,7 +81,7 @@ def _add_subnets():
 	
 
 # Delete subnet
-def _delete_subnets():
+def _delete_subnets(model):
 	
     cmd = cmdutil.check_cmd
     output_cmd = cmdutil.output_cmd
@@ -149,7 +154,7 @@ def _delete_subnets():
 # 3) mode == 'hub' or 'spoke'
 # No flow entries added
 #
-def _flow_entries(ope):
+def _flow_entries(ope, model):
     
     # serarch Open_vSwitch table
     if len(search('Controller', ['target'])) == 0:
@@ -178,7 +183,9 @@ def _flow_entries(ope):
             else:
                 cmd('ovs-ofctl del-flows br-tun table=2,tun_id={svni}'.format(**params))
         
-        #print ip_dvr, mode
+        if _mode and not _ip_dvr:
+            raise ModelError('_mode requires _ip_dvr', model=model.model, params='_mode')
+
         if _ip_dvr and (_mode == 'dvr' or not _mode):
             if ope:
                 cmd('ovs-ofctl add-flow br-tun', 'table=19,priority=1,dl_type=0x0806,dl_vlan={svid},nw_dst={defaultgw},actions=drop'.format(**params))
@@ -261,22 +268,22 @@ def _flow_entries(ope):
 def add(model):
     model.params()
     __n__['logger'].info('Adding a subnet(vlan): ' + str(_vid))
-    _add_subnets()
-    _flow_entries('add')
+    _add_subnets(model)
+    _flow_entries('add', model)
     model.finalize()
 
 def delete(model):
     model.params()
     __n__['logger'].info('Deleting a subnet(vlan): ' + str(_vid))
-    _flow_entries('delete')
-    _delete_subnets()
+    _flow_entries('delete', model)
+    _delete_subnets(model)
     model.finalize()
 
 def update(model):
     model.params()
     __n__['logger'].info('Updating a subnet(vlan): ' + str(_vid))
-    _flow_entries('delete')
-    _delete_subnets()
-    _add_subnets()
-    _flow_entries('add')
+    _flow_entries('delete', model)
+    _delete_subnets(model)
+    _add_subnets(model)
+    _flow_entries('add', model)
     model.finalize()

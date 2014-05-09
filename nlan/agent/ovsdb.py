@@ -97,7 +97,7 @@ def _todict(row, module=None):
                         pass
                 elif not(isinstance(v, list)) and value[0] == 'uuid':
                     dict_value[key] = v
-            else:  #TODO: add a procedure for map
+            else: 
                 if _iflist(module, key):
                     dict_value[key] = [row[key]]
                 else:
@@ -139,15 +139,20 @@ def get_count(response):
 
     return count 
 
-# Conversion between a Python list object and a list value
+# Converts a Python list/dict object into set/map
 # as defined in RFC7047.
 def _row(model):
 
     model_row = {}
     for key in model.keys():
         v = model[key]
-        if isinstance(model[key], list):
+        if isinstance(v, list):
             v = ["set", v]
+        elif isinstance(v, dict):
+            l = []
+            for kk, vv in v.iteritems():
+                l.append([kk, vv])
+            v = ["map", l]
         model_row[key] = v
     return model_row
 
@@ -535,9 +540,26 @@ class Row(OvsdbRow):
         self.parent = PARENT
 
         #table = self.__class__.TABLES[module]
-        table = TABLES[module]['key']['refTable']
+        self.table = TABLES[module]['key']['refTable']
 
-        super(self.__class__, self).__init__(table, index)
+        self.index = index
+        self.where = [] 
+        
+        if self.index != None:
+
+            column = self.index[0]
+            value = self.index[1]
+
+            self.where = [[
+                column,
+                "==",
+                value
+                ]]
+
+        response = select(self.table, self.where)
+        self.row = todict(response, self.module)
+        
+        #super(self.__class__, self).__init__(table, module, index)
 
     def setrow(self, model):
         row = _row(model)
@@ -608,8 +630,6 @@ def search(table, columns, key=None, value=None):
 # Obtains ofport <=> peers mapping data for vxlan ports
 # to construct broadcast trees for each vni
 def get_vxlan_ports(peers=None):
-
-    #print peers, type(peers)
 
     ofports = []
     tablesearch = search('Interface', ['ofport', 'options'], 'type', 'vxlan')

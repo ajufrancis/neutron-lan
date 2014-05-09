@@ -10,10 +10,12 @@ from optparse import OptionParser
 import dictdiffer
 import nlan, cmdutil, env
 from errors import NlanException
+from util import remove_item
 
 bar = '//////////////////////////////////////////////////////////////////////////////'
 
 router = '_ALL' 
+prev = None
 
 def _args_od(args, reverse=False):
     od = OrderedDict()
@@ -34,6 +36,7 @@ def _print_failure():
     print 'XXXXXXXXXXXXXXXX'
     print 'XXX FAILURE! XXX'
     print 'XXXXXXXXXXXXXXXX'
+
 
 def do(scenario, dirname):
 
@@ -63,6 +66,7 @@ def do(scenario, dirname):
                         args = _args_od(v, reverse=True)
                     else:
                         args = _args_od(v)
+                    prev = args
                     args = str(args)
                 else:
                     args = v.split()
@@ -74,6 +78,8 @@ def do(scenario, dirname):
                     if ll['assert']:  # not null
                         args1 = dict(eval(result[0]['stdout'][0]))
                         args2 = ll['assert']
+                        if args2 == '_prev':
+                            args2 = remove_item(prev, '_index')
                         try:
                             assert len(list(dictdiffer.diff(args1, args2))) == 0
                             _print_success()

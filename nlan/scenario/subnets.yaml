@@ -1,0 +1,123 @@
+# 2014/05/09 
+# NLAN Modules testing
+#
+  - do: init.yaml
+  - comment: add bridges, vxlan and subnets
+    nlan:
+        router: openwrt1
+        options: --add
+        args:
+            bridges:
+                ovs_bridges: enabled
+            vxlan:
+                local_ip: 192.168.1.101
+                remote_ips:
+                    - 192.168.1.102
+                    - 192.168.1.103
+            subnets:
+                - _index: [vni, 10]
+                  vid: 1
+                  vni: 10
+  - comment: confirmation
+    nlan:
+        args: db.state
+        assert: _prev
+  - comment: add ip_dvr
+    nlan:
+        router: openwrt1
+        options: --add
+        args:
+            subnets:
+                - _index: [vni, 10]
+                  ip_dvr: 10.0.1.1/24
+  - comment: confirmation
+    nlan:
+        args: db.getrow subnets vni 10
+        assert:
+            vni: 10
+            vid: 1
+            ip_dvr: 10.0.1.1/24
+  - comment: add ip_vhost
+    nlan:
+        router: openwrt1
+        options: --add
+        args:
+            subnets:
+                - _index: [vni, 10]
+                  ip_vhost: 10.0.1.101/24
+  - comment: confirmation
+    nlan:
+        args: db.getrow subnets vni 10
+        assert:
+            vni: 10
+            vid: 1
+            ip_dvr: 10.0.1.1/24
+            ip_vhost: 10.0.1.101/24
+  - comment: add ports
+    nlan:
+        options: --add
+        args:
+            subnets:
+                - _index: [vni, 10]
+                  ports:
+                    - eth2
+  - comment: confirmation
+    nlan:
+        args: db.getrow subnets vni 10
+        assert:
+            vni: 10
+            vid: 1
+            ip_dvr: 10.0.1.1/24
+            ip_vhost: 10.0.1.101/24
+            ports:
+                - eth2
+  - comment: add peers 
+    nlan:
+        options: --add
+        args:
+            subnets:
+                - _index: [vni, 10]
+                  peers:
+                    - 192.168.1.102
+                    - 192.168.1.103
+  - comment: confirmation
+    nlan:
+        args: db.getrow subnets vni 10
+        assert:
+            vni: 10
+            vid: 1
+            ip_dvr: 10.0.1.1/24
+            ip_vhost: 10.0.1.101/24
+            ports:
+                - eth2
+            peers:
+                - 192.168.1.102
+                - 192.168.1.103
+  - comment: add mode w/o ip_dvr (fails) 
+    nlan:
+        options: --add
+        args:
+            subnets:
+                - _index: [vni, 10]
+                  mode: dvr
+        assertRaises:
+            type: ModelError
+  - comment: delete ip_dvr
+    nlan:
+        options: --add
+        args:
+            subnets:
+                - _index: [vni, 10]
+                  ip_dvr: 10.0.1.1/24
+                  mode: dvr
+  - comment: confirmation
+    nlan:
+        args: db.getrow subnets vni 10
+        assert:
+            vni: 10
+            vid: 1
+            ip_dvr: 10.0.1.1/24
+            ip_vhost: 10.0.1.101/24
+            ports:
+                - eth2
+

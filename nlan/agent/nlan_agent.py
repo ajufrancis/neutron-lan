@@ -80,7 +80,6 @@ def _route(operation, data):
                 call = _mod.__dict__[operation]
                 model = data[module]
                 if module in __n__['indexes']:
-                    #for ind in model:
                     for _model in model:
                         _index = _model['_index']
                         del _model['_index']
@@ -191,14 +190,13 @@ def _linux_init():
 
         if module in __n__['indexes'] and module in state:
             ind_key = __n__['indexes'][module]
-            substate = state[module]
-            temp = {} 
-            for l in substate:
-                temp[(ind_key, l[ind_key])]=l
-            model = {module: temp}
-
+            for d in state[module]: # dict in the list
+                d['_index'] = [ind_key, d[ind_key]] # Adds _index
+            model = {module: state[module]}
         elif module in state:
             model = {module: state[module]}
+
+        print model
 
         if model:
             __n__['logger'].debug("Linux init, model: " + str(model))

@@ -1,5 +1,5 @@
 #from env import NLAN_DIR 
-import os, yaml
+import os, copy, yaml
 
 # [Reference] http://stackoverflow.com/questions/956867/how-to-get-string-objects-instead-of-unicode-ones-from-json-in-python
 def _decode_list(data):
@@ -28,6 +28,33 @@ def decode_dict(data):
         rv[key] = value
     return rv
 
+# Remove a specific key/value pair from data 
+def remove_item(data, key):
+
+    def _process_list(d):
+        for l in d:
+            if isinstance(l, list):
+                _process_list(l)
+            elif isinstance(l, dict):
+                _process_dict(l)
+
+    def _process_dict(d):
+        if key in d:
+            del d[key]
+        for k, v in d.iteritems():
+            if isinstance(v, list):
+                _process_list(v)
+            elif isinstance(v, dict):
+                _process_dict(v)
+
+    if isinstance(data, list):
+        _process_list(data)
+    elif isinstance(data, dict):
+        _process_dict(data)
+
+    return data
+
+
 if __name__ == '__main__':
 
     import unittest
@@ -49,5 +76,18 @@ if __name__ == '__main__':
             self.assertIsInstance(sample_value, unicode) 
             self.assertNotIsInstance(sample_value, str)
             self.assertEqual(len(list(dictdiffer.diff(dict_data1, dict_data2))), 0)
+
+        def testRemoveItem(self):
+
+            data1 = {'a':1, 'b':2, 'X':3, 'c':['d', {'X':4, 'e':5}]}
+            data1R = {'a':1, 'b':2, 'c':['d', {'e':5}]}
+            data2 = ['a', 'b', {'c':1, 'd':[{'X':2, 'e':3}, 'f']}]
+            data2R = ['a', 'b', {'c':1, 'd':[{'e':3}, 'f']}]
+
+            data1 = remove_item(data1, 'X')
+            self.assertEqual(len(list(dictdiffer.diff(data1, data1R))),0)
+
+            data2 = remove_item(data2, 'X')
+            self.assertEqual(len(list(dictdiffer.diff(data2, data2R))),0)
 
     unittest.main(verbosity=2)
