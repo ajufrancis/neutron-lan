@@ -43,18 +43,17 @@ def get_uuid(response):
 # even if it has only one member in the list.
 def _iflist(module, param):
     iflist = False
-    try:
-        max_ = __n__['types'][module][param]['max']
-        if isinstance(max_, int):
-            if max_ > 1:
-                iflist = True
-        elif isinstance(max_, str):
-            if max_ == 'unlimited':
-                iflist = True
-    except:
-        pass
+    if module:
+        if 'value' not in __n__['types'][module][param]: # if it is a map?
+            if 'max' in __n__['types'][module][param]:
+                max_ = __n__['types'][module][param]['max']
+                if isinstance(max_, int):
+                    if max_ > 1:
+                        iflist = True
+                elif isinstance(max_, str):
+                    if max_ == 'unlimited':
+                        iflist = True
     return iflist
-
 
 def _iflist_tables(module):
     iflist = False
@@ -84,7 +83,6 @@ def _todict(row, module=None):
                     if len(v) > 0:
                         dict_value[key] = v
                     else:
-                        #dict_value[key] = None
                         pass
                 if isinstance(v, list) and value[0] == 'map':
                     if len(v) > 0:
@@ -93,7 +91,6 @@ def _todict(row, module=None):
                             d[l[0]] = l[1]
                         dict_value[key] = d
                     else:
-                        #dict_value[key] = None
                         pass
                 elif not(isinstance(v, list)) and value[0] == 'uuid':
                     dict_value[key] = v
@@ -129,14 +126,11 @@ def todicts(response, module=None):
 # Get a value of count in the JSON-RPC response
 def get_count(response):
 
-    dict_value = {}
-
     count = 0
-    try:
-        count = response["result"][1]["count"]
-    except:
-        pass
-
+    result = response["result"]
+    for l in result:
+        if 'count' in l:
+            count = l['count']
     return count 
 
 # Converts a Python list/dict object into set/map
@@ -434,6 +428,11 @@ class OvsdbRow(object):
         v = value
         if isinstance(v, list):
             v = ["set", v]
+        elif isinstance(v, dict):
+            l = []
+            for kk, vv in v.iteritems():
+                l.append([kk,vv])
+            v = ["map", l]
         row = {key: v}
         update(self.table, self.where, row)
         self.row[key] = value
@@ -503,7 +502,8 @@ class OvsdbRow(object):
             default = set_ 
         
         update(self.table, self.where, {key: default})
-        self.row[key] = None
+        #self.row[key] = None
+        del self.row[key]
 
     def getrow(self):
         return self.row
@@ -565,7 +565,7 @@ class Row(OvsdbRow):
         row = _row(model)
         response = insert_mutate(self.table, row, self.parent, self.module)
         response = select(self.table, self.where)
-        self.row = todict(response)
+        self.row = todict(response, self.module)
 
     def delrow(self):
         response = mutate_delete(self.table, self.where, self.parent, self.module)
@@ -625,7 +625,13 @@ def search(table, columns, key=None, value=None):
             ]]
 
     response = select(table, where, columns)
-    return todicts(response)
+    tables = __n__['tables']
+    module = None
+    for k, v in tables.iteritems():
+        if v['key']['refTable'] == table:
+            module = k
+            break
+    return todicts(response, module)
 
 # Obtains ofport <=> peers mapping data for vxlan ports
 # to construct broadcast trees for each vni
@@ -707,7 +713,7 @@ if __name__=='__main__':
     row = {
         "vid": 101,
         "vni": 1001,
-        "ip_dvr": "10.0.0.1/24",
+        "ip_dvr": ["map", [["addr","10.0.0.1/24"],["mode","dvr"]]],
         #"ports": ["set", ["eth0", "veth-test"]]
         }
    
@@ -722,22 +728,22 @@ if __name__=='__main__':
 
     # This transaction shuld fail, since a row with vni=1001
     # has already been inserted.
-    print "##### Insert and Mutate test: 'NLAN_Subnet' table #####"
+    print "##### Insert and Mutate test: 'NLAN_Subnet' table (fails) #####"
     response = insert_mutate('NLAN_Subnet', row, 'NLAN', 'subnets')
 
     select('NLAN_Subnet', where)
 
     print "##### Update test #####"
     row = {
-            "ip_dvr": "10.0.1.2/24",
+            "ip_dvr": ["map",[["addr", "10.0.1.2/24"]]],
             "ports": ["set", ["eth0", "veth-test"]]
           }
 
-    update('NLAN_Subnet', where, row)
+    response = update('NLAN_Subnet', where, row)
+    _printcount(response)
 
     response = select('NLAN_Subnet', where)
-    print str(todict(response))
-    _printcount(response)
+    print str(todict(response, 'subnets'))
    
     # Creates an instance of OVSDB O/R mapper 
     print "##### Row instance creation test #####"
@@ -748,15 +754,13 @@ if __name__=='__main__':
     print "----- add 'ports' ------"
     row['ports'] = ["eth0", "eth1"]
     print "----- add 'ip_dvr' ------"
-    row['ip_dvr'] = '10.0.111.222/24'
+    row['ip_dvr'] = {'addr':'10.0.111.222/24'}
     print "----- row ------"
     print row.getrow()
     print "----- del 'ports' ------"
     del row['ports']
-    print row['ports']
     print "----- del 'vid' ------"
     del row['vid']
-    print row['vid']
     print "----- Select ------"
     select('NLAN_Subnet', where)
    
@@ -776,7 +780,7 @@ if __name__=='__main__':
     model = {
         "vid": 101,
         "vni": 1001,
-        "ip_dvr": "10.0.0.1/24",
+        "ip_dvr": {"addr":"10.0.0.1/24"},
         "ports": ["eth0", "veth-test"]
         }
     print "----- Row.setrow(model) -----"
@@ -797,14 +801,14 @@ if __name__=='__main__':
     model = {
         "vid": 101,
         "vni": 1001,
-        "ip_dvr": "10.0.0.1/24",
+        "ip_dvr": {"addr":"10.0.0.1/24"},
         "ports": ["eth0", "veth-test"]
         }
     row.crud('add', model)
     print row.getrow()
     print "----- crud: update -----"
     model = {
-        "ip_dvr": "20.0.0.1/24",
+            "ip_dvr": {"addr":"20.0.0.1/24", "mode":"dvr"},
         "ports": ["eth0"]
         }
     row.crud('update', model)
@@ -812,7 +816,7 @@ if __name__=='__main__':
     print "----- crud: delete -----"
     model = {
         "vid": 101,
-        "ip_dvr": "20.0.0.1/24",
+        "ip_dvr": {"addr": "20.0.0.1/24", "mode": "dvr"},
         "ports": ["eth0"]
         }
     row.crud('delete', model)
@@ -820,16 +824,9 @@ if __name__=='__main__':
     print "----- Row.clear() -----"
     Row.clear()
 
-    print "##### OvsdbRow class test #####"
-    try:
-        r = OvsdbRow('Interface', ('type', 'vxlan'))
-        print 'ofport: ' + str(r['ofport'])
-    except:
-        pass
-
     print "##### Ovsdb search test #####"
     try:
-        print search('Interface', ['ofport', 'options'], 'type', 'vxlan')
+        print search('Interface', ['ofport', 'options'], 'type', 'patch')
     except:
         pass
 

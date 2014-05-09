@@ -57,14 +57,14 @@ def _add_subnets(model):
         cmd('ip netns exec', ns, 'ip addr add dev eth0', _ip_vhost)
         if _ip_dvr_:
             # Distributed Virtual Router
-            cmd('ip netns exec', ns, 'ip route add default via', _ip_dvr_.split('/')[0], 'dev eth0')
+            cmd('ip netns exec', ns, 'ip route add default via', _ip_dvr_['addr'].split('/')[0], 'dev eth0')
 
     #>>> Adding DVR gateway address
     if _ip_dvr:
-        cmd('ip addr add dev', int_dvr, _ip_dvr)
+        cmd('ip addr add dev', int_dvr, _ip_dvr['addr'])
         if ip_vhost_:
             # Distributed Virtual Router
-            cmd('ip netns exec', ns, 'ip route add default via', _ip_dvr.split('/')[0], 'dev eth0')
+            cmd('ip netns exec', ns, 'ip route add default via', _ip_dvr['addr'].split('/')[0], 'dev eth0')
 
     #>>> Adding physical ports to the Linux bridge
     if _ports:
@@ -108,8 +108,8 @@ def _delete_subnets(model):
 
     #>>> Deleting DVR gateway address
     if _ip_dvr:
-        cmd('ip netns exec', ns, 'ip route delete default via', ip_dvr_.split('/')[0], 'dev eth0')
-        cmd('ip addr delete dev', int_dvr, ip_dvr_)
+        cmd('ip netns exec', ns, 'ip route delete default via', ip_dvr_['addr'].split('/')[0], 'dev eth0')
+        cmd('ip addr delete dev', int_dvr, ip_dvr_['addr'])
     
     #>>> Deleting vHost
     if _ip_vhost:
@@ -165,12 +165,12 @@ def _flow_entries(ope, model):
             params['svni'] = str(_vni_)
             params['svid'] = str(_vid_)
             if _ip_dvr:
-                params['defaultgw'] = _ip_dvr.split('/')[0]
+                params['defaultgw'] = _ip_dvr['addr'].split('/')[0]
         else:
             params['svni'] = str(vni_)
             params['svid'] = str(vid_)
             if _ip_dvr:
-                params['defaultgw'] = ip_dvr_.split('/')[0]
+                params['defaultgw'] = ip_dvr_['addr'].split('/')[0]
 
         int_dvr = "int-dvr" + params['svid']
         int_br = "int-br" + params['svid']
@@ -183,19 +183,19 @@ def _flow_entries(ope, model):
             else:
                 cmd('ovs-ofctl del-flows br-tun table=2,tun_id={svni}'.format(**params))
         
-        if _mode and not _ip_dvr:
-            raise ModelError('_mode requires _ip_dvr', model=model.model, params='_mode')
+        if _ip_dvr and 'mode' not in _ip_dvr:
+            raise ModelError('requires "mode"', model=model.model, params='mode')
 
-        if _ip_dvr and (_mode == 'dvr' or not _mode):
+        if _ip_dvr and _ip_dvr['mode'] == 'dvr':
             if ope:
                 cmd('ovs-ofctl add-flow br-tun', 'table=19,priority=1,dl_type=0x0806,dl_vlan={svid},nw_dst={defaultgw},actions=drop'.format(**params))
             else:
                 cmd('ovs-ofctl del-flows br-tun', 'table=19,dl_type=0x0806,dl_vlan={svid},nw_dst={defaultgw}'.format(**params))
 
         # Redirects a packet to int_dvr port if nw_dst is a private ip address
-        elif _ip_dvr and _mode == 'spoke_dvr':
+        elif _ip_dvr and _ip_dvr['mode'] == 'spoke_dvr':
            
-            mask = _ip_dvr.split('/')[1]
+            mask = _ip_dvr['addr'].split('/')[1]
             address = params['defaultgw'].split('.')
             shift = 32 - int(mask)
             net = (int(address[0])*256**3+int(address[1])*256**2+int(address[2])*256+int(address[3]))>>shift<<shift
@@ -248,7 +248,7 @@ def _flow_entries(ope, model):
                 cmd('{cmddel} table=0,in_port={outport},dl_type=0x0806,nw_src={defaultgw},nw_proto=2'.format(**params))
                 cmd('{cmddel} table=1,in_port={inport}'.format(**params))
 
-        elif _ip_dvr and _mode == 'hub' or 'spoke':
+        elif _ip_dvr and _ip_dvr['mode'] == 'hub' or 'spoke':
             pass
         else:
             pass 

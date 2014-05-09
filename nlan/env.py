@@ -34,7 +34,7 @@ NLAN_LIBS = ['cmdutil.py', 'errors.py']
 NLAN_MOD_DIRS = ['command', 'config']
 
 # NLAN schema file in YAML (local)
-NLAN_SCHEMA = os.path.join(NLAN_DIR, 'agent/share/nlan.schema_0.0.1.yaml')
+NLAN_SCHEMA = os.path.join(NLAN_DIR, 'agent/share/nlan.schema_0.0.2.yaml')
 
 # Target OVSDB schema, merged with NLAN_SCHEMA
 SCHEMA = 'ovsdb_nlan.schema'

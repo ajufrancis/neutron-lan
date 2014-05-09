@@ -7,7 +7,6 @@
 # Ver 0.4: 2014/3/28
 # Ver 0.5: 2014/4/3, works with a template engine
 # Ver 0.6: 2014/4/11, Service Function Chaining (NFV)
-# Ver 0.7: 2014/5/9, ip_dvr as a map
 #
 # OpenWRT DVS/DVR YAML config file
 #
@@ -39,9 +38,8 @@ openwrt1:
    subnets:
       - vid: 1
         vni: 1001
-        ip_dvr:
-            addr: '10.0.1.1/24'
-            mode: hub
+        ip_dvr: '10.0.1.1/24'
+        mode: hub
         ip_vhost: '10.0.1.101/24'
 #       ports:
 #          - eth0.1 
@@ -49,9 +47,7 @@ openwrt1:
         peers: <peers> 
       - vid: 3
         vni: 103
-        ip_dvr:
-            addr: '10.0.3.1/24'
-            mode: dvr
+        ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.101/24'
 #       ports:
 #          - eth0.3
@@ -59,9 +55,7 @@ openwrt1:
         peers: <peers>
       - vid: 2
         vni: 1
-        ip_dvr: 
-            addr: '192.168.100.1/24'
-            mode: dvr
+        ip_dvr: '192.168.100.1/24'
         ip_vhost: '192.168.100.101/24'
         peers: <peers> 
 
@@ -75,9 +69,8 @@ openwrt2:
    subnets:
       - vid: 1
         vni: 101
-        ip_dvr: 
-            addr: '10.0.1.1/24'
-            mode: spoke_dvr
+        ip_dvr: '10.0.1.1/24'
+        mode: spoke_dvr
         ip_vhost: '10.0.1.102/24'
 #       ports:
 #          - eth0.1
@@ -85,9 +78,7 @@ openwrt2:
         peers: <peers>
       - vid: 3
         vni: 103
-        ip_dvr:
-            addr: '10.0.3.1/24'
-            mode: dvr
+        ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.102/24'
 #       ports:
 #          - eth0.3
@@ -95,9 +86,7 @@ openwrt2:
         peers: <peers>
       - vid: 2
         vni: 1
-        ip_dvr:
-            addr: '192.168.100.2/24'
-            mode: dvr
+        ip_dvr: '192.168.100.2/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.102/24'
         peers: <peers> 
@@ -113,9 +102,8 @@ openwrt3:
    subnets:
       - vid: 1
         vni: 101
-        ip_dvr:
-            addr: '10.0.1.1/24'
-            mode: spoke_dvr
+        ip_dvr: '10.0.1.1/24'
+        mode: spoke_dvr
         ip_vhost: '10.0.1.103/24'
 #       ports:
 #          - eth0.1
@@ -123,9 +111,7 @@ openwrt3:
         peers: <peers>
       - vid: 3
         vni: 103
-        ip_dvr:
-            addr: '10.0.3.1/24'
-            mode: dvr
+        ip_dvr: '10.0.3.1/24'
         ip_vhost: '10.0.3.103/24'
 #       ports:
 #          - eth0.3
@@ -133,9 +119,7 @@ openwrt3:
         peers: <peers>
       - vid: 2
         vni: 1
-        ip_dvr:
-            addr: '192.168.100.3/24'
-            mode: dvr
+        ip_dvr: '192.168.100.3/24'
         default_gw: '192.168.100.1'
         ip_vhost: '192.168.100.103/24'
         peers: <peers> 
