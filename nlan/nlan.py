@@ -445,12 +445,13 @@ if __name__=='__main__':
     parser.add_option("-w", "--wait", help="wait until all the routers become accessible (a value < 0 is for NG check, --target also applies)", action="store", type="int", dest="time")
     parser.add_option("-I", "--info", help="set log level to INFO", action="store_true", default=False)
     parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
-    parser.add_option("-G", "--git", help="use Git archive", action="store_true", default=False)
+    parser.add_option("-G", "--git", help="use local Git repo", action="store_true", default=False)
+    parser.add_option("-R", "--rollback", help="rollback to last Git commit", action="store_true", default=False)
 
     (options, args) = parser.parse_args()
 
     option = None
-    git = False
+    git = -1 
     target = None
     if options.add:
         option = '--add'
@@ -467,7 +468,9 @@ if __name__=='__main__':
     elif options.raw:
         option = '--raw'
     elif options.git:
-        git = True
+        git = 0 
+    elif options.rollback:
+        git = 1
 
     loglevel = None
     if options.info:
@@ -500,7 +503,7 @@ if __name__=='__main__':
                 if len(cmd_list) != 0:
                     try:
                         main(router=router, operation='--batch', cmd_list=cmd_list, loglevel=loglevel)
-                        if git:
+                        if git == 0:
                             cmdutil.check_cmd('git add', v)
                             cmdutil.check_cmd('git commit -m updated')
                     except:

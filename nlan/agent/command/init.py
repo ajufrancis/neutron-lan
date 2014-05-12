@@ -54,6 +54,7 @@ def run():
         for interface in bridges[brname]:
             cmd('ip link set dev', interface, 'down')
             cmd('brctl delif', brname, interface)
+            cmd('ip link set dev', interface, 'up')
         cmd('ip link set dev', brname, 'down')
         cmd('brctl delbr', brname)
 

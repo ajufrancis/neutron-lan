@@ -23,37 +23,35 @@ def _add_subnets(model):
     output_cmd = cmdutil.output_cmd
     cmdp = cmdutil.check_cmdp
 
-    svid = str(_vid_)
-    ns = "ns"+svid
-    br = "br"+svid
-    veth_ns = "veth-ns"+svid
-    temp_ns = "temp-ns"+svid
-    int_br = "int-br"+svid
-    int_dvr = "int-dvr"+svid
+    svni = str(_vni_)
+    ns = "ns"+svni
+    br = "br"+svni
+    veth_ns = "veth-ns"+svni
+    temp_ns = "temp-ns"+svni
+    int_br = "int-br"+svni
+    int_dvr = "int-dvr"+svni
 
     #>>> Adding VLAN and a linux bridge
     if _vid:
-        cmd('ip netns add' , ns)
         cmd('brctl addbr', br)
-        cmd('ip link add', veth_ns, 'type veth peer name', temp_ns)
-        cmd('ip link set dev', temp_ns, 'netns', ns)
-        cmd('ip netns exec', ns, 'ip link set dev', temp_ns, 'name eth0')
-        cmdp('ovs-vsctl add-port br-int', int_br, 'tag='+svid, '-- set interface', int_br, 'type=internal')
-        cmdp('ovs-vsctl add-port br-int', int_dvr, 'tag='+svid, '-- set interface', int_dvr, 'type=internal')
-        cmd('brctl addif', br, veth_ns)
+        cmdp('ovs-vsctl add-port br-int', int_br, 'tag='+svni, '-- set interface', int_br, 'type=internal')
+        cmdp('ovs-vsctl add-port br-int', int_dvr, 'tag='+svni, '-- set interface', int_dvr, 'type=internal')
         cmd('brctl addif', br, int_br)
-        cmd('ip link set dev', veth_ns, 'promisc on')
-        cmd('ip link set dev', veth_ns, 'up')
-        #cmd('ip netns exec', ns, 'ip link set dev eth0 promisc on')
-        cmd('ip netns exec', ns, 'ip link set dev eth0 up')
         cmd('ip link set dev', int_br, 'promisc on')
         cmd('ip link set dev', int_br, 'up')
-        #cmd('ip link set dev', int_dvr, 'promisc on')
         cmd('ip link set dev', int_dvr, 'up')
         cmd('ip link set dev', br, 'up')
 
     #>>> Adding vHost
     if _ip_vhost:
+        cmd('ip netns add' , ns)
+        cmd('ip link add', veth_ns, 'type veth peer name', temp_ns)
+        cmd('ip link set dev', temp_ns, 'netns', ns)
+        cmd('ip netns exec', ns, 'ip link set dev', temp_ns, 'name eth0')
+        cmd('brctl addif', br, veth_ns)
+        cmd('ip link set dev', veth_ns, 'promisc on')
+        cmd('ip link set dev', veth_ns, 'up')
+        cmd('ip netns exec', ns, 'ip link set dev eth0 up')
         cmd('ip netns exec', ns, 'ip addr add dev eth0', _ip_vhost)
         if _ip_dvr_:
             # Distributed Virtual Router
@@ -86,13 +84,13 @@ def _delete_subnets(model):
     cmd = cmdutil.check_cmd
     output_cmd = cmdutil.output_cmd
 
-    svid = str(vid_)
-    ns = "ns"+svid
-    br = "br"+svid
-    veth_ns = "veth-ns"+svid
-    temp_ns = "temp-ns"+svid
-    int_br = "int-br"+svid
-    int_dvr = "int-dvr"+svid
+    svni = str(vni_)
+    ns = "ns"+svni
+    br = "br"+svni
+    veth_ns = "veth-ns"+svni
+    temp_ns = "temp-ns"+svni
+    int_br = "int-br"+svni
+    int_dvr = "int-dvr"+svni
 
     #>>> Default GW for the subnet
     if _default_gw:
@@ -108,25 +106,29 @@ def _delete_subnets(model):
 
     #>>> Deleting DVR gateway address
     if _ip_dvr:
-        cmd('ip netns exec', ns, 'ip route delete default via', ip_dvr_['addr'].split('/')[0], 'dev eth0')
+        if ip_vhost_:
+            cmd('ip netns exec', ns, 'ip route delete default via', ip_dvr_['addr'].split('/')[0], 'dev eth0')
         cmd('ip addr delete dev', int_dvr, ip_dvr_['addr'])
     
     #>>> Deleting vHost
     if _ip_vhost:
+        if _ip_dvr_:
+            cmd('ip netns exec', ns, 'ip route delete default via', ip_dvr_['addr'].split('/')[0], 'dev eth0')
         cmd('ip netns exec', ns, 'ip addr delete dev eth0', ip_vhost_)
+        cmd('ip netns exec', ns, 'ip link set dev eth0 down')
+        cmd('ip link set dev', veth_ns, 'down')
+        cmd('brctl delif', br, veth_ns)
+        cmd('ip netns delete', ns)
 
     #>>> Deleting VLAN and a linux bridge
     if _vid:
         cmd('ip link set dev', int_dvr, 'down')
         cmd('ip link set dev', int_br, 'down')
-        cmd('ip netns exec', ns, 'ip link set dev eth0 down')
-        cmd('ip link set dev', veth_ns, 'down')
         cmd('brctl delif', br, int_br)
-        cmd('brctl delif', br, veth_ns)
         cmd('ovs-vsctl del-port br-int', int_dvr)
         cmd('ovs-vsctl del-port br-int', int_br)
+        cmd('ip link set dev', br, 'down')
         cmd('brctl delbr', br)
-        cmd('ip netns delete', ns)
 
 
 # Adds flow entries 
@@ -161,19 +163,19 @@ def _flow_entries(ope, model):
 
         params = {}
 
-        if ope:
+        if ope == 'add':
             params['svni'] = str(_vni_)
             params['svid'] = str(_vid_)
             if _ip_dvr:
                 params['defaultgw'] = _ip_dvr['addr'].split('/')[0]
-        else:
+        else: # 'delete'
             params['svni'] = str(vni_)
             params['svid'] = str(vid_)
             if _ip_dvr:
                 params['defaultgw'] = ip_dvr_['addr'].split('/')[0]
 
-        int_dvr = "int-dvr" + params['svid']
-        int_br = "int-br" + params['svid']
+        int_dvr = "int-dvr" + params['svni']
+        int_br = "int-br" + params['svni']
 
         cmd = cmdutil.check_cmd
 
@@ -267,13 +269,20 @@ def _flow_entries(ope, model):
 ### CRUD operations ###
 def add(model):
     model.params()
-    __n__['logger'].info('Adding a subnet(vlan): ' + str(_vid))
-    _add_subnets(model)
-    _flow_entries('add', model)
-    model.finalize()
+    if _vni_ and _vid_:
+        __n__['logger'].info('Adding a subnet(vlan): ' + str(_vid))
+        _add_subnets(model)
+        _flow_entries('add', model)
+        model.finalize()
+    else:
+        raise ModelError("requires at least _vni and _vid", model=model.model)
 
 def delete(model):
     model.params()
+    if _vni and _vid_:
+        raise ModelError("vid still exists")
+    if _vid and (_ip_dvr_ or _ip_vhost_ or _peers_ or _ports_ or _default_gw_):
+            raise ModelError("the other params still exits", model=model.model)
     __n__['logger'].info('Deleting a subnet(vlan): ' + str(_vid))
     _flow_entries('delete', model)
     _delete_subnets(model)
@@ -281,6 +290,8 @@ def delete(model):
 
 def update(model):
     model.params()
+    if _vni or _vid:
+        raise ModelError('update not allowed for vni and vid', model=model.model)
     __n__['logger'].info('Updating a subnet(vlan): ' + str(_vid))
     _flow_entries('delete', model)
     _delete_subnets(model)

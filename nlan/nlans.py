@@ -81,10 +81,12 @@ def do(scenario, dirname):
                         if args2 == '_prev':
                             args2 = remove_item(prev, '_index')
                         try:
-                            assert len(list(dictdiffer.diff(args1, args2))) == 0
+                            diff = list(dictdiffer.diff(args1, args2))
+                            assert len(diff) == 0
                             _print_success()
                         except Exception as e:
                             _print_failure()
+                            print diff 
                             print traceback.format_exc()
                     else:  # null
                         if result[0]['stdout']:

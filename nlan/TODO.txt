@@ -42,7 +42,5 @@ peers:
 
 In this case, yamldiff should generate add peers 192.168.1.103, not update peers with all the addresses.
 
-[11] A pair of ip_dvr and mode should be expressed as a 'map' data on OVSDB.
-
-
+[11] A pair of ip_dvr and mode should be expressed as a 'map' data on OVSDB. -- DONE!
 

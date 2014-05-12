@@ -220,16 +220,21 @@ def _diff(list1, list2):
 # Outputs CRUD operations list for nlan-ssh.py
 # making diff between two YAML files.
 # crud_list: a list of [node, operation, model]
-def crud_diff(filename, git=False):
+def crud_diff(filename, git=-1):
 
-    # After
-    (list2, state_order2) = _yaml_load(filename, gitshow=False)
-
-    # Before
-    if not git:
-        filename = '~~~' 
-
-    (list1, state_order1) = _yaml_load(filename, gitshow=True)
+    if git <= 0: # w/o Git or diff between the current file and git show HEAD: 
+        # After
+        (list2, state_order2) = _yaml_load(filename, gitshow=False)
+        # Before
+        if git < 0:
+            filename = '~~~' 
+        (list1, state_order1) = _yaml_load(filename, gitshow=True)
+    else: # Rollback to git show HEAD:
+        # After
+        (list2, state_order2) = _yaml_load(filename, gitshow=True)
+        # Before
+        filename = '~~~'
+        (list1, state_order1) = _yaml_load(filename, gitshow=True)
     
     lines = _diff(list1=list1, list2=list2)
     add_delete = []

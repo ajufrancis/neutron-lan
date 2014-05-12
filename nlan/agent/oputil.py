@@ -50,12 +50,15 @@ class Model:
             # New or Old values
             _key_ = '_'+key+'_'
             if self.gl[_key] == None:
-                # from old value
+                # Desired state: old value
                 self.gl[_key_] = self.gl[key_]
             else:
-                # from new value
-                self.gl[_key_] = self.gl[_key]
-            
+                if self.operation == 'add' or self.operation == 'update':
+                    # Desired state: new value
+                    self.gl[_key_] = self.gl[_key]
+                else:  # 'delete'
+                    # Desierd state: None
+                    self.gl[_key_] = None 
     
     def params(self):
         
@@ -70,17 +73,6 @@ class Model:
     # ovdsb.Row.crud
     def finalize(self):
         self.rowobj.crud(self.operation, self.model)
-
-
-    # args: a set of mandatory parameters
-    def checkset(self, module, crud, args):
-
-        a = sets.Set(args)
-        b = sets.Set(self.model.keys())
-        if len(a - b) == 0 or len(a & c) == 0:
-            pass 
-        else:
-            raise ModelError(module + "." + crud + " requires" +  str(args), "or all None")
 
 
 class SubprocessError(Exception):
