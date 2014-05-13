@@ -41,7 +41,7 @@ The OrderedDict objects are serialized into string data and sent to target OpenW
                         / Roster   /  
                        ------------
              
-Refer to [neutron-lan roster file](../nlan/roster.yaml).
+Refer to [neutron-lan roster file](../etc/roster.yaml).
 
 "nlan.py" can issue multiple requests to routers in parallel at the same time.
 
