@@ -45,8 +45,8 @@ def _cmd2(check, persist, args):
 
     if logger:
         logger.debug(logstr)
-    else:
-        print logstr
+    #else:
+    #    print logstr
 	
     if check == 'call':
         return subprocess.call(args, stderr=subprocess.STDOUT)

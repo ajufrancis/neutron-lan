@@ -1,0 +1,442 @@
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+rpi1             192.168.1.104  OK
+openwrt3         192.168.1.103  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+--- STDOUT from router:openwrt3,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt3
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt3', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb75443ac>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:init.run, args:()
+--- RESPONSE from router:openwrt3,platform:openwrt
+message: Execution completed
+exit: 0
+--- STDOUT from router:openwrt1,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt1
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt1', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb76406ac>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:init.run, args:()
+--- RESPONSE from router:openwrt1,platform:openwrt
+message: Execution completed
+exit: 0
+--- STDOUT from router:openwrt2,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt2
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt2', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb767570c>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:init.run, args:()
+--- RESPONSE from router:openwrt2,platform:openwrt
+message: Execution completed
+exit: 0
+--- STDOUT from router:rpi1,platform:debian
+[INFO] module:nlan_agent,function:<module>,router:rpi1
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'rpi1', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'debian', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb7259c0c>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:init.run, args:()
+--- RESPONSE from router:rpi1,platform:debian
+message: Execution completed
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-05-13 02:01:06.463808
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         1.85(sec)
+openwrt1          :-)         1.87(sec)
+openwrt2          :-)         1.93(sec)
+rpi1              :-)         2.01(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+openwrt1         192.168.1.101  OK
+openwrt2         192.168.1.102  OK
+rpi1             192.168.1.104  OK
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('services', [{'name': 'snort1', 'chain': ['mz.101', 'dmz.1001'], '_index': ['name', 'snort1']}]), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}), ('subnets', [{'ports': ['dmz.1001'], 'peers': ['192.168.1.101'], 'vni': 1001, 'vid': 111, '_index': ['vni', 1001]}, {'ports': ['mz.101'], 'peers': ['192.168.1.102', '192.168.1.103'], 'vni': 101, 'vid': 1, '_index': ['vni', 101]}])])"
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}), ('subnets', [{'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, '_index': ['vni', 1], 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.3/24'), ('mode', 'dvr')]), 'vni': 1}, {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, '_index': ['vni', 103], 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}, {'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, '_index': ['vni', 101], 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}])])"
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}), ('subnets', [{'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, '_index': ['vni', 1], 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.2/24'), ('mode', 'dvr')]), 'vni': 1}, {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, '_index': ['vni', 103], 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}, {'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, '_index': ['vni', 101], 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}])])"
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('gateway', {'network': 'eth2', 'rip': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}), ('subnets', [{'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, '_index': ['vni', 1], 'ip_vhost': '192.168.100.101/24', 'vni': 1, 'ip_dvr': OrderedDict([('addr', '192.168.100.1/24'), ('mode', 'dvr')])}, {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, '_index': ['vni', 103], 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}, {'peers': ['192.168.1.104'], 'vid': 1, '_index': ['vni', 1001], 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'hub')])}])])"
+--- STDOUT from router:openwrt3,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt3
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt3', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb7516fac>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router:openwrt3
+Adding bridges: br-int and br-tun
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:vxlan.add, model:{'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}
+[INFO] module:vxlan,function:add,router:openwrt3
+Adding a VXLAN tunnel: vxlan_102
+[INFO] module:vxlan,function:add,router:openwrt3
+Adding a VXLAN tunnel: vxlan_101
+[INFO] module:vxlan,function:add,router:openwrt3
+Adding a VXLAN tunnel: vxlan_104
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:subnets.add, index:['vni', 1], model:{'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.3/24'), ('mode', 'dvr')]), 'vni': 1}
+[INFO] module:subnets,function:add,router:openwrt3
+Adding a subnet(vlan): 2
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:subnets.add, index:['vni', 103], model:{'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
+[INFO] module:subnets,function:add,router:openwrt3
+Adding a subnet(vlan): 3
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:subnets.add, index:['vni', 101], model:{'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}
+[INFO] module:subnets,function:add,router:openwrt3
+Adding a subnet(vlan): 1
+--- RESPONSE from router:openwrt3,platform:openwrt
+message: Execution completed
+exit: 0
+--- STDOUT from router:openwrt2,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt2
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt2', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb75c626c>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router:openwrt2
+Adding bridges: br-int and br-tun
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}
+[INFO] module:vxlan,function:add,router:openwrt2
+Adding a VXLAN tunnel: vxlan_103
+[INFO] module:vxlan,function:add,router:openwrt2
+Adding a VXLAN tunnel: vxlan_101
+[INFO] module:vxlan,function:add,router:openwrt2
+Adding a VXLAN tunnel: vxlan_104
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:subnets.add, index:['vni', 1], model:{'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.2/24'), ('mode', 'dvr')]), 'vni': 1}
+[INFO] module:subnets,function:add,router:openwrt2
+Adding a subnet(vlan): 2
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:subnets.add, index:['vni', 103], model:{'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
+[INFO] module:subnets,function:add,router:openwrt2
+Adding a subnet(vlan): 3
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:subnets.add, index:['vni', 101], model:{'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}
+[INFO] module:subnets,function:add,router:openwrt2
+Adding a subnet(vlan): 1
+--- RESPONSE from router:openwrt2,platform:openwrt
+message: Execution completed
+exit: 0
+--- STDOUT from router:rpi1,platform:debian
+[INFO] module:nlan_agent,function:<module>,router:rpi1
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'rpi1', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'debian', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb728b7cc>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router:rpi1
+Adding bridges: br-int and br-tun
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:services.add, index:['name', 'snort1'], model:{'name': 'snort1', 'chain': ['mz.101', 'dmz.1001']}
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}
+[INFO] module:vxlan,function:add,router:rpi1
+Adding a VXLAN tunnel: vxlan_103
+[INFO] module:vxlan,function:add,router:rpi1
+Adding a VXLAN tunnel: vxlan_102
+[INFO] module:vxlan,function:add,router:rpi1
+Adding a VXLAN tunnel: vxlan_101
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:subnets.add, index:['vni', 1001], model:{'peers': ['192.168.1.101'], 'ports': ['dmz.1001'], 'vni': 1001, 'vid': 111}
+[INFO] module:subnets,function:add,router:rpi1
+Adding a subnet(vlan): 111
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:subnets.add, index:['vni', 101], model:{'peers': ['192.168.1.102', '192.168.1.103'], 'ports': ['mz.101'], 'vni': 101, 'vid': 1}
+[INFO] module:subnets,function:add,router:rpi1
+Adding a subnet(vlan): 1
+--- RESPONSE from router:rpi1,platform:debian
+message: Execution completed
+exit: 0
+--- STDOUT from router:openwrt1,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt1
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt1', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb75f420c>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[INFO] module:bridges,function:add,router:openwrt1
+Adding bridges: br-int and br-tun
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:gateway.add, model:{'network': 'eth2', 'rip': 'enabled'}
+[INFO] module:gateway,function:add,router:openwrt1
+Adding a gateway router: rip
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}
+[INFO] module:vxlan,function:add,router:openwrt1
+Adding a VXLAN tunnel: vxlan_103
+[INFO] module:vxlan,function:add,router:openwrt1
+Adding a VXLAN tunnel: vxlan_102
+[INFO] module:vxlan,function:add,router:openwrt1
+Adding a VXLAN tunnel: vxlan_104
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:subnets.add, index:['vni', 1], model:{'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.101/24', 'vni': 1, 'ip_dvr': OrderedDict([('addr', '192.168.100.1/24'), ('mode', 'dvr')])}
+[INFO] module:subnets,function:add,router:openwrt1
+Adding a subnet(vlan): 2
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:subnets.add, index:['vni', 103], model:{'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
+[INFO] module:subnets,function:add,router:openwrt1
+Adding a subnet(vlan): 3
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:subnets.add, index:['vni', 1001], model:{'peers': ['192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'hub')])}
+[INFO] module:subnets,function:add,router:openwrt1
+Adding a subnet(vlan): 1
+--- RESPONSE from router:openwrt1,platform:openwrt
+message: Execution completed
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-05-13 02:01:10.288887
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt2          :-)         3.35(sec)
+openwrt3          :-)         3.36(sec)
+rpi1              :-)         3.51(sec)
+openwrt1          :-)         5.00(sec)
+--- STDOUT from router:openwrt2,platform:openwrt
+Hello World!
+--- STDOUT from router:openwrt1,platform:openwrt
+Hello World!
+--- STDOUT from router:openwrt3,platform:openwrt
+Hello World!
+--- STDOUT from router:rpi1,platform:debian
+Hello World!
+--- STDOUT from router:openwrt1,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=12.790 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 12.790/12.790/12.790 ms
+--- STDOUT from router:openwrt1,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=2.317 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.317/2.317/2.317 ms
+--- STDOUT from router:openwrt1,platform:openwrt
+PING 10.0.3.103 (10.0.3.103): 56 data bytes
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=7.744 ms
+
+--- 10.0.3.103 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 7.744/7.744/7.744 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 10.0.1.101 (10.0.1.101): 56 data bytes
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=15.182 ms
+
+--- 10.0.1.101 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 15.182/15.182/15.182 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=20.750 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 20.750/20.750/20.750 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=11.484 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 11.484/11.484/11.484 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=5.047 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 5.047/5.047/5.047 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.233 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.233/2.233/2.233 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=9.083 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 9.083/9.083/9.083 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=3.135 ms
+
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 3.135/3.135/3.135 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.379 ms
+
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 1.379/1.379/1.379 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.341 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 5.341/5.341/5.341 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.842 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.842/2.842/2.842 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.717 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.717/6.717/6.717 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.611 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.611/6.611/6.611 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+Hello World!
+--- STDOUT from router:openwrt3,platform:openwrt
+Hello World!
+--- STDOUT from router:openwrt1,platform:openwrt
+Hello World!
+--- STDOUT from router:rpi1,platform:debian
+Hello World!
+--- STDOUT from router:openwrt1,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=14.269 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 14.269/14.269/14.269 ms
+--- STDOUT from router:openwrt1,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=3.026 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 3.026/3.026/3.026 ms
+--- STDOUT from router:openwrt1,platform:openwrt
+PING 10.0.3.103 (10.0.3.103): 56 data bytes
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=10.805 ms
+
+--- 10.0.3.103 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 10.805/10.805/10.805 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 10.0.1.101 (10.0.1.101): 56 data bytes
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=21.299 ms
+
+--- 10.0.1.101 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 21.299/21.299/21.299 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=10.710 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 10.710/10.710/10.710 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=11.035 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 11.035/11.035/11.035 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=5.666 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 5.666/5.666/5.666 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.751 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.751/2.751/2.751 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=9.945 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 9.945/9.945/9.945 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=5.219 ms
+
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 5.219/5.219/5.219 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.064 ms
+
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 1.064/1.064/1.064 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.192 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.192/6.192/6.192 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=3.607 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 3.607/3.607/3.607 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.062 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 5.062/5.062/5.062 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=8.773 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 8.773/8.773/8.773 ms

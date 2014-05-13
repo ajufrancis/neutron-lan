@@ -150,10 +150,10 @@ def _row(model):
         model_row[key] = v
     return model_row
 
-def _logstr(*args):
-
-    l = list(args)
-    return '\n'.join(l)
+#def _logstr(*args):
+#
+#    l = list(args)
+#    return '\n'.join(l)
 
 # JSON-RPC transaction
 def _send(request):
@@ -187,7 +187,9 @@ def _send(request):
     s.send(pdu)
     response = s.recv(4096)
 
-    __n__['logger'].debug(_logstr('... JSON-RPC request ...', str(pdu), '... JSON-RPC response ...', response))
+    #__n__['logger'].debug(_logstr('... JSON-RPC request ...', str(pdu), '... JSON-RPC response ...', response))
+    transaction = '--json-rpc:{"request":%s, "response":%s}' % (str(pdu),response)
+    __n__['logger'].debug(transaction)
 
     return loads(response)
 

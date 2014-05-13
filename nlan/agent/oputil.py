@@ -29,6 +29,10 @@ class Model:
                 yield None
 
     def _params(self, *args):
+       
+        init = False
+        if __n__['init'] == 'start':
+            init = True
 
         for key in args:
 
@@ -43,9 +47,9 @@ class Model:
                 self.gl[_key] = None 
             # Old values stored in OVSDB            
             key_ = key+'_'
-            if key in self.row:
+            if key in self.row and not init:
                 self.gl[key_] = self.row[key]
-            else:
+            else: # including __n__['init'] == 'start'
                 self.gl[key_] = None 
             # New or Old values
             _key_ = '_'+key+'_'

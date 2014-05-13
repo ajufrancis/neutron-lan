@@ -1,0 +1,5448 @@
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt3         192.168.1.103  OK
+rpi1             192.168.1.104  OK
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+command: init.run
+--- STDOUT from router:openwrt3,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt3
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt3', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb75593ac>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:init.run, args:()
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: lxc-ls
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl --if-exists del-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl --if-exists del-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl show
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns101 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl delif br101 veth-ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev br101 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl delbr br101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns103 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl delif br103 veth-ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev br103 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl delbr br103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns1 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl delif br1 veth-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl delbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns list
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns del ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns del ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns del--- STDOUT from router:openwrt1,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt1
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt1', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb760c6ac>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:init.run, args:()
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: lxc-ls
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl --if-exists del-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl --if-exists del-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl show
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns1001 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl delif br1001 veth-ns1001
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns1001 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev br1001 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl delbr br1001
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns103 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl delif br103 veth-ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev br103 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl delbr br103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns1 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl delif br1 veth-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl delbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns list
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns del ns-global
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns del ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip n ns1
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 239578
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: delete
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 239578
+  result:
+  - count: 1
+--- RESPONSE from router:openwrt3,platform:openwrt
+message: Execution completed
+exit: 0
+--- STDOUT from router:openwrt2,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt2
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt2', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb766270c>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:init.run, args:()
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: lxc-ls
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl --if-exists del-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl --if-exists del-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl show
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns101 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl delif br101 veth-ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev br101 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl delbr br101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns103 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl delif br103 veth-ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev br103 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl delbr br103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns1 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl delif br1 veth-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev br1 down
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl delbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns list
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns del ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns del ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns del netns del ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns del ns1001
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 286436
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: delete
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 286436
+  result:
+  - count: 1
+--- RESPONSE from router:openwrt1,platform:openwrt
+message: Execution completed
+exit: 0
+s101
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 480511
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: delete
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 480511
+  result:
+  - count: 1
+--- RESPONSE from router:openwrt2,platform:openwrt
+message: Execution completed
+exit: 0
+--- STDOUT from router:rpi1,platform:debian
+[INFO] module:nlan_agent,function:<module>,router:rpi1
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'rpi1', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'debian', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb72fcc0c>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:init.run, args:()
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: lxc-ls
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: lxc-stop -n snort1
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: lxc-stop -n snort2
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl --if-exists del-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl --if-exists del-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl show
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev dmz.1001 down
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl delif br1001 dmz.1001
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev dmz.1001 up
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev br1001 down
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl delbr br1001
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev mz.101 down
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl delif br101 mz.101
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev mz.101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev br101 down
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl delbr br101
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip netns list
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 408519
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: delete
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 408519
+  result:
+  - count: 1
+--- RESPONSE from router:rpi1,platform:debian
+message: Execution completed
+exit: 0
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-05-13 02:03:45.309617
+
+Router           Result    Elapsed Time
+---------------------------------------
+openwrt3          :-)         1.63(sec)
+openwrt1          :-)         1.71(sec)
+openwrt2          :-)         1.79(sec)
+rpi1              :-)         1.87(sec)
+=+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+Router           Host           Ping
+------------------------------------
+openwrt2         192.168.1.102  OK
+openwrt1         192.168.1.101  OK
+rpi1             192.168.1.104  OK
+openwrt3         192.168.1.103  OK
+=+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('services', [{'name': 'snort1', 'chain': ['mz.101', 'dmz.1001'], '_index': ['name', 'snort1']}]), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}), ('subnets', [{'ports': ['dmz.1001'], 'peers': ['192.168.1.101'], 'vni': 1001, 'vid': 111, '_index': ['vni', 1001]}, {'ports': ['mz.101'], 'peers': ['192.168.1.102', '192.168.1.103'], 'vni': 101, 'vid': 1, '_index': ['vni', 101]}])])"
+=+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}), ('subnets', [{'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, '_index': ['vni', 1], 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.3/24'), ('mode', 'dvr')]), 'vni': 1}, {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, '_index': ['vni', 103], 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}, {'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, '_index': ['vni', 101], 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}])])"
+=+=+= NLAN Request to router:openwrt2,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}), ('subnets', [{'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, '_index': ['vni', 1], 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.2/24'), ('mode', 'dvr')]), 'vni': 1}, {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, '_index': ['vni', 103], 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}, {'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, '_index': ['vni', 101], 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}])])"
+=+=+= NLAN Request to router:openwrt1,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
+operation: --add
+dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('gateway', {'network': 'eth2', 'rip': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}), ('subnets', [{'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, '_index': ['vni', 1], 'ip_vhost': '192.168.100.101/24', 'vni': 1, 'ip_dvr': OrderedDict([('addr', '192.168.100.1/24'), ('mode', 'dvr')])}, {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, '_index': ['vni', 103], 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}, {'peers': ['192.168.1.104'], 'vid': 1, '_index': ['vni', 1001], 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'hub')])}])])"
+--- STDOUT from router:rpi1,platform:debian
+[INFO] module:nlan_agent,function:<module>,router:rpi1
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'rpi1', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'debian', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb73227cc>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 748824
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 748824
+  result:
+  - rows: []
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 871014
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row: {}
+    table: NLAN
+response:
+  error: null
+  id: 871014
+  result:
+  - uuid:
+    - uuid
+    - 0f4f8f9f-37a1-4d00-bf1e-18e7e033b1b2
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 585294
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Bridges
+    where: []
+response:
+  error: null
+  id: 585294
+  result:
+  - rows: []
+[INFO] module:bridges,function:add,router:rpi1
+Adding bridges: br-int and br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 716148
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: Interface
+    where:
+    - - name
+      - ==
+      - patch-tun
+response:
+  error: null
+  id: 716148
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - ac7f71a8-4881-46ef-bd71-ca048507a61a
+      _version:
+      - uuid
+      - 95e978a1-ea13-4bde-8607-ee7929ef877d
+      admin_state:
+      - set
+      - []
+      bfd:
+      - map
+      - []
+      bfd_status:
+      - map
+      - []
+      cfm_fault:
+      - set
+      - []
+      cfm_fault_status:
+      - set
+      - []
+      cfm_flap_count:
+      - set
+      - []
+      cfm_health:
+      - set
+      - []
+      cfm_mpid:
+      - set
+      - []
+      cfm_remote_mpids:
+      - set
+      - []
+      cfm_remote_opstate:
+      - set
+      - []
+      duplex:
+      - set
+      - []
+      external_ids:
+      - map
+      - []
+      ifindex: 0
+      ingress_policing_burst: 0
+      ingress_policing_rate: 0
+      lacp_current:
+      - set
+      - []
+      link_resets:
+      - set
+      - []
+      link_speed:
+      - set
+      - []
+      link_state:
+      - set
+      - []
+      mac:
+      - set
+      - []
+      mac_in_use: 8e:8c:fb:7f:99:7c
+      mtu:
+      - set
+      - []
+      name: patch-tun
+      ofport: 1
+      ofport_request:
+      - set
+      - []
+      options:
+      - map
+      - - - peer
+          - patch-int
+      other_config:
+      - map
+      - []
+      statistics:
+      - map
+      - - - collisions
+          - 0
+        - - rx_bytes
+          - 0
+        - - rx_crc_err
+          - 0
+        - - rx_dropped
+          - 0
+        - - rx_errors
+          - 0
+        - - rx_frame_err
+          - 0
+        - - rx_over_err
+          - 0
+        - - rx_packets
+          - 0
+        - - tx_bytes
+          - 0
+        - - tx_dropped
+          - 0
+        - - tx_errors
+          - 0
+        - - tx_packets
+          - 0
+      status:
+      - map
+      - []
+      type: patch
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=1,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,19)
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,20)
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=3,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=19,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=20,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=0,actions=drop
+[DEBUG] module:ovsdb,function:crud,router:rpi1
+CRUD operation (add): {'ovs_bridges': 'enabled'}
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 560313
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      ovs_bridges: enabled
+    table: NLAN_Bridges
+    uuid-name: temp_162592
+  - mutations:
+    - - bridges
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_162592
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 560313
+  result:
+  - uuid:
+    - uuid
+    - 150aacb3-3b40-4a2e-ae91-868a8ced88ae
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 275437
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Bridges
+    where: []
+response:
+  error: null
+  id: 275437
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 150aacb3-3b40-4a2e-ae91-868a8ced88ae
+      _version:
+      - uuid
+      - 83f11b16-8d4e-4c3c-a224-9be5e2a1cb13
+      controller:
+      - set
+      - []
+      ovs_bridges: enabled
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:services.add, index:['name', 'snort1'], model:{'name': 'snort1', 'chain': ['mz.101', 'dmz.1001']}
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 332570
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 332570
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 0f4f8f9f-37a1-4d00-bf1e-18e7e033b1b2
+      _version:
+      - uuid
+      - 8d8d475a-d895-4384-a760-7681ac6e4105
+      bridges:
+      - uuid
+      - 150aacb3-3b40-4a2e-ae91-868a8ced88ae
+      gateway:
+      - set
+      - []
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - []
+      vxlan:
+      - set
+      - []
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 19114
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Service
+    where:
+    - - name
+      - ==
+      - snort1
+response:
+  error: null
+  id: 19114
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: lxc-stop -n snort1
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: lxc-start -d -f /var/lib/lxc/snort1/config_nlan -n snort1
+[DEBUG] module:ovsdb,function:crud,router:rpi1
+CRUD operation (add): {'name': 'snort1', 'chain': ['mz.101', 'dmz.1001']}
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 359958
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      chain:
+      - set
+      - - mz.101
+        - dmz.1001
+      name: snort1
+    table: NLAN_Service
+    uuid-name: temp_995526
+  - mutations:
+    - - services
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_995526
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 359958
+  result:
+  - uuid:
+    - uuid
+    - 962340f1-9dc7-4619-a657-e23c7550f79d
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 4570
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Service
+    where:
+    - - name
+      - ==
+      - snort1
+response:
+  error: null
+  id: 4570
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 962340f1-9dc7-4619-a657-e23c7550f79d
+      _version:
+      - uuid
+      - ecc20507-56d0-4d4c-8a99-b901c99d7a9c
+      chain:
+      - set
+      - - dmz.1001
+        - mz.101
+      name: snort1
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 627210
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 627210
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 0f4f8f9f-37a1-4d00-bf1e-18e7e033b1b2
+      _version:
+      - uuid
+      - 36906b41-b0fc-4b2a-ac35-78f81bd1df92
+      bridges:
+      - uuid
+      - 150aacb3-3b40-4a2e-ae91-868a8ced88ae
+      gateway:
+      - set
+      - []
+      services:
+      - uuid
+      - 962340f1-9dc7-4619-a657-e23c7550f79d
+      subnets:
+      - set
+      - []
+      vxlan:
+      - set
+      - []
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 682806
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_VXLAN
+    where: []
+response:
+  error: null
+  id: 682806
+  result:
+  - rows: []
+[INFO] module:vxlan,function:add,router:rpi1
+Adding a VXLAN tunnel: vxlan_103
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-port br-tun vxlan_103 -- set interface vxlan_103 type=vxlan options:in_key=flow options:local_ip=192.168.1.104 options:out_key=flow options:remote_ip=192.168.1.103
+[INFO] module:vxlan,function:add,router:rpi1
+Adding a VXLAN tunnel: vxlan_102
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-port br-tun vxlan_102 -- set interface vxlan_102 type=vxlan options:in_key=flow options:local_ip=192.168.1.104 options:out_key=flow options:remote_ip=192.168.1.102
+[INFO] module:vxlan,function:add,router:rpi1
+Adding a VXLAN tunnel: vxlan_101
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-port br-tun vxlan_101 -- set interface vxlan_101 type=vxlan options:in_key=flow options:local_ip=192.168.1.104 options:out_key=flow options:remote_ip=192.168.1.101
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 728286
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 728286
+  result:
+  - rows:
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.104
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.104
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.104
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.103
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=4,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=3,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=2,actions=resubmit(,2)
+[DEBUG] module:ovsdb,function:crud,router:rpi1
+CRUD operation (add): {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 985333
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      local_ip: 192.168.1.104
+      remote_ips:
+      - set
+      - - 192.168.1.103
+        - 192.168.1.102
+        - 192.168.1.101
+    table: NLAN_VXLAN
+    uuid-name: temp_47597
+  - mutations:
+    - - vxlan
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_47597
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 985333
+  result:
+  - uuid:
+    - uuid
+    - 366a0994-104c-409a-8e1c-c5a8744f3b4c
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 830670
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_VXLAN
+    where: []
+response:
+  error: null
+  id: 830670
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 366a0994-104c-409a-8e1c-c5a8744f3b4c
+      _version:
+      - uuid
+      - 0ab3eb3c-7754-4470-8e11-17fb79243c24
+      local_ip: 192.168.1.104
+      remote_ips:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.102
+        - 192.168.1.103
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:subnets.add, index:['vni', 1001], model:{'peers': ['192.168.1.101'], 'ports': ['dmz.1001'], 'vni': 1001, 'vid': 111}
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 526421
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 526421
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 0f4f8f9f-37a1-4d00-bf1e-18e7e033b1b2
+      _version:
+      - uuid
+      - 9dd59e88-919e-416e-9f12-d72dd180d0f5
+      bridges:
+      - uuid
+      - 150aacb3-3b40-4a2e-ae91-868a8ced88ae
+      gateway:
+      - set
+      - []
+      services:
+      - uuid
+      - 962340f1-9dc7-4619-a657-e23c7550f79d
+      subnets:
+      - set
+      - []
+      vxlan:
+      - uuid
+      - 366a0994-104c-409a-8e1c-c5a8744f3b4c
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 289818
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 1001
+response:
+  error: null
+  id: 289818
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:rpi1
+Adding a subnet(vlan): 111
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl addbr br1001
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-port br-int int-br1001 tag=111 -- set interface int-br1001 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-port br-int int-dvr1001 tag=111 -- set interface int-dvr1001 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl addif br1001 int-br1001
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev int-br1001 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev int-br1001 up
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev int-dvr1001 up
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev br1001 up
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl addif br1001 dmz.1001
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 853376
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 853376
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=1001,actions=mod_vlan_vid:111,resubmit(,10)
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 199041
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 199041
+  result:
+  - rows:
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.104
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.104
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.104
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.103
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=111,actions=strip_vlan,set_tunnel:1001,output:4
+[DEBUG] module:ovsdb,function:crud,router:rpi1
+CRUD operation (add): {'peers': ['192.168.1.101'], 'ports': ['dmz.1001'], 'vni': 1001, 'vid': 111}
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 973068
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      peers:
+      - set
+      - - 192.168.1.101
+      ports:
+      - set
+      - - dmz.1001
+      vid: 111
+      vni: 1001
+    table: NLAN_Subnet
+    uuid-name: temp_114652
+  - mutations:
+    - - subnets
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_114652
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 973068
+  result:
+  - uuid:
+    - uuid
+    - 4437c936-ed9e-4582-8ee6-e3e412f3f444
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 918027
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 1001
+response:
+  error: null
+  id: 918027
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 4437c936-ed9e-4582-8ee6-e3e412f3f444
+      _version:
+      - uuid
+      - e541dd9f-1516-49cb-9e74-b58d86a5972b
+      default_gw:
+      - set
+      - []
+      ip_dvr:
+      - map
+      - []
+      ip_vhost:
+      - set
+      - []
+      peers: 192.168.1.101
+      ports: dmz.1001
+      vid: 111
+      vni: 1001
+[INFO] module:nlan_agent,function:_route,router:rpi1
+function:subnets.add, index:['vni', 101], model:{'peers': ['192.168.1.102', '192.168.1.103'], 'ports': ['mz.101'], 'vni': 101, 'vid': 1}
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 734188
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 734188
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 0f4f8f9f-37a1-4d00-bf1e-18e7e033b1b2
+      _version:
+      - uuid
+      - b2bb6fd7-fb26-4fe7-97f1-d2f9f3260692
+      bridges:
+      - uuid
+      - 150aacb3-3b40-4a2e-ae91-868a8ced88ae
+      gateway:
+      - set
+      - []
+      services:
+      - uuid
+      - 962340f1-9dc7-4619-a657-e23c7550f79d
+      subnets:
+      - uuid
+      - 4437c936-ed9e-4582-8ee6-e3e412f3f444
+      vxlan:
+      - uuid
+      - 366a0994-104c-409a-8e1c-c5a8744f3b4c
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 646225
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 101
+response:
+  error: null
+  id: 646225
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:rpi1
+Adding a subnet(vlan): 1
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl addbr br101
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-port br-int int-br101 tag=1 -- set interface int-br101 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-vsctl add-port br-int int-dvr101 tag=1 -- set interface int-dvr101 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl addif br101 int-br101
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev int-br101 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev int-br101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev int-dvr101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ip link set dev br101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: brctl addif br101 mz.101
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 225074
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 225074
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=101,actions=mod_vlan_vid:1,resubmit(,10)
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 698286
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 698286
+  result:
+  - rows:
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.104
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.104
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.104
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.103
+[DEBUG] module:cmdutil,function:_cmd2,router:rpi1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=1,actions=strip_vlan,set_tunnel:101,output:3,output:2
+[DEBUG] module:ovsdb,function:crud,router:rpi1
+CRUD operation (add): {'peers': ['192.168.1.102', '192.168.1.103'], 'ports': ['mz.101'], 'vni': 101, 'vid': 1}
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 621783
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      peers:
+      - set
+      - - 192.168.1.102
+        - 192.168.1.103
+      ports:
+      - set
+      - - mz.101
+      vid: 1
+      vni: 101
+    table: NLAN_Subnet
+    uuid-name: temp_522185
+  - mutations:
+    - - subnets
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_522185
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 621783
+  result:
+  - uuid:
+    - uuid
+    - 4db6d3d6-0436-4600-9f08-696243f3c1c6
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:rpi1
+request:
+  id: 636414
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 101
+response:
+  error: null
+  id: 636414
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 4db6d3d6-0436-4600-9f08-696243f3c1c6
+      _version:
+      - uuid
+      - 799a2cdb-e2a2-4ca2-9faa-4a657b32c7c6
+      default_gw:
+      - set
+      - [--- STDOUT from router:openwrt3,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt3
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt3', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb750dfac>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 546372
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 546372
+  result:
+  - rows: []
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 288532
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row: {}
+    table: NLAN
+response:
+  error: null
+  id: 288532
+  result:
+  - uuid:
+    - uuid
+    - 5abfe066-15ea-49aa-8fb7-24a5b5c00605
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 74344
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Bridges
+    where: []
+response:
+  error: null
+  id: 74344
+  result:
+  - rows: []
+[INFO] module:bridges,function:add,router:openwrt3
+Adding bridges: br-int and br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 428717
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: Interface
+    where:
+    - - name
+      - ==
+      - patch-tun
+response:
+  error: null
+  id: 428717
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 292d6053-67cc-4aad-9015-a7f6b8979ebd
+      _version:
+      - uuid
+      - 3895a900-baa8-45b1-98a0-4dd9708e5099
+      admin_state:
+      - set
+      - []
+      bfd:
+      - map
+      - []
+      bfd_status:
+      - map
+      - []
+      cfm_fault:
+      - set
+      - []
+      cfm_fault_status:
+      - set
+      - []
+      cfm_flap_count:
+      - set
+      - []
+      cfm_health:
+      - set
+      - []
+      cfm_mpid:
+      - set
+      - []
+      cfm_remote_mpids:
+      - set
+      - []
+      cfm_remote_opstate:
+      - set
+      - []
+      duplex:
+      - set
+      - []
+      external_ids:
+      - map
+      - []
+      ifindex: 0
+      ingress_policing_burst: 0
+      ingress_policing_rate: 0
+      lacp_current:
+      - set
+      - []
+      link_resets:
+      - set
+      - []
+      link_speed:
+      - set
+      - []
+      link_state:
+      - set
+      - []
+      mac:
+      - set
+      - []
+      mac_in_use: f2:7f:8e:b1:8a:19
+      mtu:
+      - set
+      - []
+      name: patch-tun
+      ofport: 1
+      ofport_request:
+      - set
+      - []
+      options:
+      - map
+      - - - peer
+          - patch-int
+      other_config:
+      - map
+      - []
+      statistics:
+      - map
+      - - - collisions
+          - 0
+        - - rx_bytes
+          - 0
+        - - rx_crc_err
+          - 0
+        - - rx_dropped
+          - 0
+        - - rx_errors
+          - 0
+        - - rx_frame_err
+          - 0
+        - - rx_over_err
+          - 0
+        - - rx_packets
+          - 0
+        - - tx_bytes
+          - 0
+        - - tx_dropped
+          - 0
+        - - tx_errors
+          - 0
+        - - tx_packets
+          - 0
+      status:
+      - map
+      - []
+      type: patch
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=1,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=0,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,19)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,20)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=2,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=3,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=19,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=20,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=21,priority=0,actions=drop
+[DEBUG] module:ovsdb,function:crud,router:openwrt3
+CRUD operation (add): {'ovs_bridges': 'enabled'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 52614
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      ovs_bridges: enabled
+    table: NLAN_Bridges
+    uuid-name: temp_507400
+  - mutations:
+    - - bridges
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_507400
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 52614
+  result:
+  - uuid:
+    - uuid
+    - a1b8f80d-04c2-43a4-afc6-ee03d3b23b38
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 733013
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Bridges
+    where: []
+response:
+  error: null
+  id: 733013
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - a1b8f80d-04c2-43a4-afc6-ee03d3b23b38
+      _version:
+      - uuid
+      - b77740e4-72fc-49ae-a279-819eded3f371
+      controller:
+      - set
+      - []
+      ovs_bridges: enabled
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+func]
+      ip_dvr:
+      - map
+      - []
+      ip_vhost:
+      - set
+      - []
+      peers:
+      - set
+      - - 192.168.1.102
+        - 192.168.1.103
+      ports: mz.101
+      vid: 1
+      vni: 101
+--- RESPONSE from router:rpi1,platform:debian
+message: Execution completed
+exit: 0
+tion:vxlan.add, model:{'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 289208
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 289208
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 5abfe066-15ea-49aa-8fb7-24a5b5c00605
+      _version:
+      - uuid
+      - 3776a55e-e274-40b2-b728-753d2ad3affc
+      bridges:
+      - uuid
+      - a1b8f80d-04c2-43a4-afc6-ee03d3b23b38
+      gateway:
+      - set
+      - []
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - []
+      vxlan:
+      - set
+      - []
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 679389
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_VXLAN
+    where: []
+response:
+  error: null
+  id: 679389
+  result:
+  - rows: []
+[INFO] module:vxlan,function:add,router:openwrt3
+Adding a VXLAN tunnel: vxlan_102
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-tun vxlan_102 -- set interface vxlan_102 type=vxlan options:in_key=flow options:local_ip=192.168.1.103 options:out_key=flow options:remote_ip=192.168.1.102
+[INFO] module:vxlan,function:add,router:openwrt3
+Adding a VXLAN tunnel: vxlan_101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-tun vxlan_101 -- set interface vxlan_101 type=vxlan options:in_key=flow options:local_ip=192.168.1.103 options:out_key=flow options:remote_ip=192.168.1.101
+[INFO] module:vxlan,function:add,router:openwrt3
+Adding a VXLAN tunnel: vxlan_104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-tun vxlan_104 -- set interface vxlan_104 type=vxlan options:in_key=flow options:local_ip=192.168.1.103 options:out_key=flow options:remote_ip=192.168.1.104
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 682095
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 682095
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=3,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=2,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=4,actions=resubmit(,2)
+[DEBUG] module:ovsdb,function:crud,router:openwrt3
+CRUD operation (add): {'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 281518
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      local_ip: 192.168.1.103
+      remote_ips:
+      - set
+      - - 192.168.1.102
+        - 192.168.1.101
+        - 192.168.1.104
+    table: NLAN_VXLAN
+    uuid-name: temp_453170
+  - mutations:
+    - - vxlan
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_453170
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 281518
+  result:
+  - uuid:
+    - uuid
+    - 4c2b7489-b493-44c2-8dbd-e6a432f827e1
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 254586
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_VXLAN
+    where: []
+response:
+  error: null
+  id: 254586
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 4c2b7489-b493-44c2-8dbd-e6a432f827e1
+      _version:
+      - uuid
+      - 178197cf-672f-4d1b-b3aa-7750a6faf694
+      local_ip: 192.168.1.103
+      remote_ips:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.102
+        - 192.168.1.104
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:subnets.add, index:['vni', 1], model:{'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.3/24'), ('mode', 'dvr')]), 'vni': 1}
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 693610
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 693610
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 5abfe066-15ea-49aa-8fb7-24a5b5c00605
+      _version:
+      - uuid
+      - dadf7b67-091a-4958-a44c-ceb468ce526f
+      bridges:
+      - uuid
+      - a1b8f80d-04c2-43a4-afc6-ee03d3b23b38
+      gateway:
+      - set
+      - []
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - []
+      vxlan:
+      - uuid
+      - 4c2b7489-b493-44c2-8dbd-e6a432f827e1
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 577395
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 1
+response:
+  error: null
+  id: 577395
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:openwrt3
+Adding a subnet(vlan): 2
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl addbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-int int-br1 tag=2 -- set interface int-br1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-int int-dvr1 tag=2 -- set interface int-dvr1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl addif br1 int-br1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev int-br1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev int-br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev int-dvr1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns add ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link add veth-ns1 type veth peer name temp-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev temp-ns1 netns ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns1 ip link set dev temp-ns1 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl addif br1 veth-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns1 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns1 ip addr add dev eth0 192.168.100.103/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns1 ip route add default via 192.168.100.3 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip addr add dev int-dvr1 192.168.100.3/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: route
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip route add default via 192.168.100.1
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 296537
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 296537
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=1,actions=mod_vlan_vid:2,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=2,nw_dst=192.168.100.3,actions=drop
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 765622
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 765622
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=2,actions=strip_vlan,set_tunnel:1,output:3,output:2
+[DEBUG] module:ovsdb,function:crud,router:openwrt3
+CRUD operation (add): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.3/24'), ('mode', 'dvr')]), 'vni': 1}
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 293427
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      default_gw: 192.168.100.1
+      ip_dvr:
+      - map
+      - - - addr
+          - 192.168.100.3/24
+        - - mode
+          - dvr
+      ip_vhost: 192.168.100.103/24
+      peers:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.102
+      vid: 2
+      vni: 1
+    table: NLAN_Subnet
+    uuid-name: temp_844604
+  - mutations:
+    - - subnets
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_844604
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 293427
+  result:
+  - uuid:
+    - uuid
+    - 7844ee78-c9bc-4663-a129-e9bc25fa7c40
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 783491
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 1
+response:
+  error: null
+  id: 783491
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 7844ee78-c9bc-4663-a129-e9bc25fa7c40
+      _version:
+      - uuid
+      - 0762a393-c51f-45a9-baf5-6d0b69620486
+      default_gw: 192.168.100.1
+      ip_dvr:
+      - map
+      - - - addr
+          - 192.168.100.3/24
+        - - mode
+          - dvr
+      ip_vhost: 192.168.100.103/24
+      peers:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.102
+      ports:
+      - set
+      - []
+      vid: 2
+      vni: 1
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:subnets.add, index:['vni', 103], model:{'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 87997
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 87997
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 5abfe066-15ea-49aa-8fb7-24a5b5c00605
+      _version:
+      - uuid
+      - 76175b52-ca3c-439f-93a7-f04c5ae5df4e
+      bridges:
+      - uuid
+      - a1b8f80d-04c2-43a4-afc6-ee03d3b23b38
+      gateway:
+      - set
+      - []
+      services:
+      - set
+      - []
+      subnets:
+      - uuid
+      - 7844ee78-c9bc-4663-a129-e9bc25fa7c40
+      vxlan:
+      - uuid
+      - 4c2b7489-b493-44c2-8dbd-e6a432f827e1
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 110411
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 103
+response:
+  error: null
+  id: 110411
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:openwrt3
+Adding a subnet(vlan): 3
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl addbr br103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-int int-br103 tag=3 -- set interface int-br103 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-int int-dvr103 tag=3 -- set interface int-dvr103 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl addif br103 int-br103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev int-br103 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev int-br103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev int-dvr103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev br103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns add ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link add veth-ns103 type veth peer name temp-ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev temp-ns103 netns ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns103 ip link set dev temp-ns103 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl addif br103 veth-ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns103 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns103 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns103 ip addr add dev eth0 10.0.3.103/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns103 ip route add default via 10.0.3.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip addr add dev int-dvr103 10.0.3.1/24
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 431559
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 431559
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=103,actions=mod_vlan_vid:3,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=3,nw_dst=10.0.3.1,actions=drop
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 210120
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 210120
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=3,actions=strip_vlan,set_tunnel:103,output:3,output:2
+[DEBUG] module:ovsdb,function:crud,router:openwrt3
+CRUD operation (add): {'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 848948
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      ip_dvr:
+      - map
+      - - - addr
+          - 10.0.3.1/24
+        - - mode
+          - dvr
+      ip_vhost: 10.0.3.103/24
+      peers:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.102
+      vid: 3
+      vni: 103
+    table: NLAN_Subnet
+    uuid-name: temp_182915
+  - mutations:
+    - - subnets
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_182915
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 848948
+  result:
+  - uuid:
+    - uuid
+    - 62c5f4df-639a-4d3c-975c-3a345421c6a6
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 630712
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 103
+response:
+  error: null
+  id: 630712
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 62c5f4df-639a-4d3c-975c-3a345421c6a6
+      _version:
+      - uuid
+      - fe08de1b-c9c6-4343-9a7f-62c7b03a5a1e
+      default_gw:
+      - set
+      - []
+      ip_dvr:
+      - map
+      - - - addr
+          - 10.0.3.1/24
+        - - mode
+          - dvr
+      ip_vhost: 10.0.3.103/24
+      peers:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.102
+      ports:
+      - set
+      - []
+      vid: 3
+      vni: 103
+[INFO] module:nlan_agent,function:_route,router:openwrt3
+function:subnets.add, index:['vni', 101], model:{'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 670473
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 670473
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 5abfe066-15ea-49aa-8fb7-24a5b5c00605
+      _version:
+      - uuid
+      - 649ecf32-db05-46ea-bab4-ee19a42ede23
+      bridges:
+      - uuid
+      - a1b8f80d-04c2-43a4-afc6-ee03d3b23b38
+      gateway:
+      - set
+      - []
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - - - uuid
+          - 62c5f4df-639a-4d3c-975c-3a345421c6a6
+        - - uuid
+          - 7844ee78-c9bc-4663-a129-e9bc25fa7c40
+      vxlan:
+      - uuid
+      - 4c2b7489-b493-44c2-8dbd-e6a432f827e1
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 319303
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 101
+response:
+  error: null
+  id: 319303
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:openwrt3
+Adding a subnet(vlan): 1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl addbr br101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-int int-br101 tag=1 -- set interface int-br101 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-vsctl add-port br-int int-dvr101 tag=1 -- set interface int-dvr101 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl addif br101 int-br101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev int-br101 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev int-br101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev int-dvr101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev br101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns add ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link add veth-ns101 type veth peer name temp-ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev temp-ns101 netns ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns101 ip link set dev temp-ns101 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: brctl addif br101 veth-ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns101 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link set dev veth-ns101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns101 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns101 ip addr add dev eth0 10.0.1.103/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip netns exec ns101 ip route add default via 10.0.1.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip addr add dev int-dvr101 10.0.1.1/24
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 381839
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 381839
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=101,actions=mod_vlan_vid:1,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ip link show dev int-dvr101
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 398175
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: Interface
+    where:
+    - - name
+      - ==
+      - int-dvr101
+response:
+  error: null
+  id: 398175
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - d29264e9-963c-441b-a127-c7820fd8dc71
+      _version:
+      - uuid
+      - 08a21977-4965-4b3b-8634-f9cf33802cef
+      admin_state: up
+      bfd:
+      - map
+      - []
+      bfd_status:
+      - map
+      - []
+      cfm_fault:
+      - set
+      - []
+      cfm_fault_status:
+      - set
+      - []
+      cfm_flap_count:
+      - set
+      - []
+      cfm_health:
+      - set
+      - []
+      cfm_mpid:
+      - set
+      - []
+      cfm_remote_mpids:
+      - set
+      - []
+      cfm_remote_opstate:
+      - set
+      - []
+      duplex:
+      - set
+      - []
+      external_ids:
+      - map
+      - []
+      ifindex: 44
+      ingress_policing_burst: 0
+      ingress_policing_rate: 0
+      lacp_current:
+      - set
+      - []
+      link_resets: 2
+      link_speed:
+      - set
+      - []
+      link_state: up
+      mac:
+      - set
+      - []
+      mac_in_use: 7a:bd:d2:01:c4:64
+      mtu: 1500
+      name: int-dvr101
+      ofport: 7
+      ofport_request:
+      - set
+      - []
+      options:
+      - map
+      - []
+      other_config:
+      - map
+      - []
+      statistics:
+      - map
+      - - - collisions
+          - 0
+        - - rx_bytes
+          - 0
+        - - rx_crc_err
+          - 0
+        - - rx_dropped
+          - 0
+        - - rx_errors
+          - 0
+        - - rx_frame_err
+          - 0
+        - - rx_over_err
+          - 0
+        - - rx_packets
+          - 0
+        - - tx_bytes
+          - 0
+        - - tx_dropped
+          - 0
+        - - tx_errors
+          - 0
+        - - tx_packets
+          - 0
+      status:
+      - map
+      - - - driver_name
+          - openvswitch
+      type: internal
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 385511
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: Interface
+    where:
+    - - name
+      - ==
+      - int-br101
+response:
+  error: null
+  id: 385511
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - bf1aab64-4ca7-4671-a35a-53616cf6c35b
+      _version:
+      - uuid
+      - e59c0724-7101-45e0-bd67-fb166ca7a066
+      admin_state: up
+      bfd:
+      - map
+      - []
+      bfd_status:
+      - map
+      - []
+      cfm_fault:
+      - set
+      - []
+      cfm_fault_status:
+      - set
+      - []
+      cfm_flap_count:
+      - set
+      - []
+      cfm_health:
+      - set
+      - []
+      cfm_mpid:
+      - set
+      - []
+      cfm_remote_mpids:
+      - set
+      - []
+      cfm_remote_opstate:
+      - set
+      - []
+      duplex:
+      - set
+      - []
+      external_ids:
+      - map
+      - []
+      ifindex: 43
+      ingress_policing_burst: 0
+      ingress_policing_rate: 0
+      lacp_current:
+      - set
+      - []
+      link_resets: 2
+      link_speed:
+      - set
+      - []
+      link_state: up
+      mac:
+      - set
+      - []
+      mac_in_use: 0a:0a:67:bc:be:10
+      mtu: 1500
+      name: int-br101
+      ofport: 6
+      ofport_request:
+      - set
+      - []
+      options:
+      - map
+      - []
+      other_config:
+      - map
+      - []
+      statistics:
+      - map
+      - - - collisions
+          - 0
+        - - rx_bytes
+          - 0
+        - - rx_crc_err
+          - 0
+        - - rx_dropped
+          - 0
+        - - rx_errors
+          - 0
+        - - rx_frame_err
+          - 0
+        - - rx_over_err
+          - 0
+        - - rx_packets
+          - 0
+        - - tx_bytes
+          - 0
+        - - tx_dropped
+          - 0
+        - - tx_errors
+          - 0
+        - - tx_packets
+          - 0
+      status:
+      - map
+      - - - driver_name
+          - openvswitch
+      type: internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-int table=0,priority=2,in_port=6,dl_type=0x0800,nw_dst=10.0.1.0/24,actions=normal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=10.0.0.0/8,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=172.16.0.0/12,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=192.168.0.0/16,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=7,dl_type=0x0806,nw_src=10.0.1.1,nw_proto=2,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-int table=1,priority=0,in_port=6,actions=set_field:7a:bd:d2:01:c4:64->dl_dst,output:7
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 447685
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 447685
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.103
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt3
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=1,actions=strip_vlan,set_tunnel:101,output:2,output:4
+[DEBUG] module:ovsdb,function:crud,router:openwrt3
+CRUD operation (add): {'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 388772
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      ip_dvr:
+      - map
+      - - - addr
+          - 10.0.1.1/24
+        - - mode
+          - spoke_dvr
+      ip_vhost: 10.0.1.103/24
+      peers:
+      - set
+      - - 192.168.1.102
+        - 192.168.1.104
+      vid: 1
+      vni: 101
+    table: NLAN_Subnet
+    uuid-name: temp_459043
+  - mutations:
+    - - subnets
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_459043
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 388772
+  result:
+  - uuid:
+    - uuid
+    - 4adcd976-932a-4d07-a6e5-f3355f03fb11
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt3
+request:
+  id: 948074
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 101
+response:
+  error: null
+  --- STDOUT from router:openwrt2,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt2
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt2', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb760426c>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 334020
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 334020
+  result:
+  - rows: []
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 958561
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row: {}
+    table: NLAN
+response:
+  error: null
+  id: 958561
+  result:
+  - uuid:
+    - uuid
+    - 142a837e-2b20-4ea9-8fa7-d3e18d8b8c29
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 643651
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Bridges
+    where: []
+response:
+  error: null
+  id: 643651
+  result:
+  - rows: []
+[INFO] module:bridges,function:add,router:openwrt2
+Adding bridges: br-int and br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 566487
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: Interface
+    where:
+    - - name
+      - ==
+      - patch-tun
+response:
+  error: null
+  id: 566487
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 0c23e369-ccbe-47fe-b9f3-fbb4327a3d73
+      _version:
+      - uuid
+      - 06666873-feaa-4a53-99ef-bbde36136df2
+      admin_state:
+      - set
+      - []
+      bfd:
+      - map
+      - []
+      bfd_status:
+      - map
+      - []
+      cfm_fault:
+      - set
+      - []
+      cfm_fault_status:
+      - set
+      - []
+      cfm_flap_count:
+      - set
+      - []
+      cfm_health:
+      - set
+      - []
+      cfm_mpid:
+      - set
+      - []
+      cfm_remote_mpids:
+      - set
+      - []
+      cfm_remote_opstate:
+      - set
+      - []
+      duplex:
+      - set
+      - []
+      external_ids:
+      - map
+      - []
+      ifindex: 0
+      ingress_policing_burst: 0
+      ingress_policing_rate: 0
+      lacp_current:
+      - set
+      - []
+      link_resets:
+      - set
+      - []
+      link_speed:
+      - set
+      - []
+      link_state:
+      - set
+      - []
+      mac:
+      - set
+      - []
+      mac_in_use: da:5c:d5:46:fc:05
+      mtu:
+      - set
+      - []
+      name: patch-tun
+      ofport: 1
+      ofport_request:
+      - set
+      - []
+      options:
+      - map
+      - - - peer
+          - patch-int
+      other_config:
+      - map
+      - []
+      statistics:
+      - map
+      - - - collisions
+          - 0
+        - - rx_bytes
+          - 0
+        - - rx_crc_err
+          - 0
+        - - rx_dropped
+          - 0
+        - - rx_errors
+          - 0
+        - - rx_frame_err
+          - 0
+        - - rx_over_err
+          - 0
+        - - rx_packets
+          - 0
+        - - tx_bytes
+          - 0
+        - - tx_dropped
+          - 0
+        - - tx_errors
+          - 0
+        - - tx_packets
+          - 0
+      status:
+      - map
+      - []
+      type: patch
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=1,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=0,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,19)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,20)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=2,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=3,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=19,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=20,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=21,priority=0,actions=drop
+[DEBUG] module:ovsdb,function:crud,router:openwrt2
+CRUD operation (add): {'ovs_bridges': 'enabled'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 244627
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      ovs_bridges: enabled
+    table: NLAN_Bridges
+    uuid-name: temp_480353
+  - mutations:
+    - - bridges
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_480353
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 244627
+  result:
+  - uuid:
+    - uuid
+    - 344b8972-4f6b-458a-b683-0684e87ec934
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 378375
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Bridges
+    where: []
+response:
+  error: null
+  id: 378375
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 344b8972-4f6b-458a-b683-0684e87ec934
+      _version:
+      - uuid
+      - e84bf8a7-ab39-463b-97d9-6f702f88e9fa
+      controller:
+      - set
+      - []
+      ovs_bridges: enabled
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 294073
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 294073
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 142a837e-2b20-4ea9-8fa7-d3e18d8b8c29
+      _version:
+      - uuid
+      - d70f5663-600a-4ab7-90e6-d0f31a17e7ed
+      bridges:
+      - uuid
+      - 344b8972-4f6b-458a-b683-0684e87ec934
+      gateway:
+      - set
+      - []
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - []
+      vxlan:
+      - set
+      - []
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 676150
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_VXLAN
+    where: []
+response:
+  error: null
+  id: 676150
+  result:
+  - rows: []
+[INFO] module:vxlan,function:add,router:openwrt2
+Adding a VXLAN tunnel: vxlan_103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-tun vxlan_103 -- set interface vxlan_103 type=vxlan options:in_key=flow options:local_ip=192.168.1.102 options:out_key=flow options:remote_ip=192.168.1.103
+[INFO] module:vxlan,function:add,router:openwrt2
+Adding a VXLAN tunnel: vxlan_101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-tun vxlan_101 -- set interface vxlan_101 type=vxlan options:in_key=flow options:local_ip=192.168.1.102 options:out_key=flow options:remote_ip=192.168.1.101
+[INFO] module:vxlan,function:add,router:openwrt2
+Adding a VXLAN tunnel: vxlan_104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-tun vxlan_104 -- set interface vxlan_104 type=vxlan options:in_key=flow options:local_ip=192.168.1.102 options:out_key=flow options:remote_ip=192.168.1.104
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 7747
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 7747
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.103
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=3,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=2,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=4,actions=resubmit(,2)
+[DEBUG] module:ovsdb,function:crud,router:openwrt2
+CRUD operation (add): {'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 516844
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      local_ip: 192.168.1.102
+      remote_ips:
+      - set
+      - - 192.168.1.103
+        - 192.168.1.101
+        - 192.168.1.104
+    table: NLAN_VXLAN
+    uuid-name: temp_456170
+  - mutations:
+    - - vxlan
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_456170
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 516844
+  result:
+  - uuid:
+    - uuid
+    - ab315461-37e4-43c9-bec8-ffb78e8d17f3
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 992963
+  method: tid: 948074
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 4adcd976-932a-4d07-a6e5-f3355f03fb11
+      _version:
+      - uuid
+      - 374be93f-a920-442a-bd98-a55964c836cc
+      default_gw:
+      - set
+      - []
+      ip_dvr:
+      - map
+      - - - addr
+          - 10.0.1.1/24
+        - - mode
+          - spoke_dvr
+      ip_vhost: 10.0.1.103/24
+      peers:
+      - set
+      - - 192.168.1.102
+        - 192.168.1.104
+      ports:
+      - set
+      - []
+      vid: 1
+      vni: 101
+--- RESPONSE from router:openwrt3,platform:openwrt
+message: Execution completed
+exit: 0
+ransact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_VXLAN
+    where: []
+response:
+  error: null
+  id: 992963
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - ab315461-37e4-43c9-bec8-ffb78e8d17f3
+      _version:
+      - uuid
+      - 5acc0f24-9ecb-46fd-9fd6-4203b175fbcf
+      local_ip: 192.168.1.102
+      remote_ips:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.103
+        - 192.168.1.104
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:subnets.add, index:['vni', 1], model:{'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.2/24'), ('mode', 'dvr')]), 'vni': 1}
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 740600
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 740600
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 142a837e-2b20-4ea9-8fa7-d3e18d8b8c29
+      _version:
+      - uuid
+      - 94a0cdb2-0473-40e2-8634-9550a03e9227
+      bridges:
+      - uuid
+      - 344b8972-4f6b-458a-b683-0684e87ec934
+      gateway:
+      - set
+      - []
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - []
+      vxlan:
+      - uuid
+      - ab315461-37e4-43c9-bec8-ffb78e8d17f3
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 305837
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 1
+response:
+  error: null
+  id: 305837
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:openwrt2
+Adding a subnet(vlan): 2
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl addbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-int int-br1 tag=2 -- set interface int-br1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-int int-dvr1 tag=2 -- set interface int-dvr1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl addif br1 int-br1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev int-br1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev int-br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev int-dvr1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns add ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link add veth-ns1 type veth peer name temp-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev temp-ns1 netns ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns1 ip link set dev temp-ns1 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl addif br1 veth-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns1 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns1 ip addr add dev eth0 192.168.100.102/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns1 ip route add default via 192.168.100.2 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip addr add dev int-dvr1 192.168.100.2/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: route
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip route add default via 192.168.100.1
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 965101
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 965101
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=1,actions=mod_vlan_vid:2,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=2,nw_dst=192.168.100.2,actions=drop
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 218432
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 218432
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.103
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=2,actions=strip_vlan,set_tunnel:1,output:3,output:2
+[DEBUG] module:ovsdb,function:crud,router:openwrt2
+CRUD operation (add): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.2/24'), ('mode', 'dvr')]), 'vni': 1}
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 306043
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      default_gw: 192.168.100.1
+      ip_dvr:
+      - map
+      - - - addr
+          - 192.168.100.2/24
+        - - mode
+          - dvr
+      ip_vhost: 192.168.100.102/24
+      peers:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.103
+      vid: 2
+      vni: 1
+    table: NLAN_Subnet
+    uuid-name: temp_271557
+  - mutations:
+    - - subnets
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_271557
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 306043
+  result:
+  - uuid:
+    - uuid
+    - ea1bdea2-8e44-451e-904d-1d1afda05052
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 594831
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 1
+response:
+  error: null
+  id: 594831
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - ea1bdea2-8e44-451e-904d-1d1afda05052
+      _version:
+      - uuid
+      - b8966724-ab4d-4154-a217-f7ae13c419ca
+      default_gw: 192.168.100.1
+      ip_dvr:
+      - map
+      - - - addr
+          - 192.168.100.2/24
+        - - mode
+          - dvr
+      ip_vhost: 192.168.100.102/24
+      peers:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.103
+      ports:
+      - set
+      - []
+      vid: 2
+      vni: 1
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:subnets.add, index:['vni', 103], model:{'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 303779
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 303779
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 142a837e-2b20-4ea9-8fa7-d3e18d8b8c29
+      _version:
+      - uuid
+      - 37ff76a6-9932-4187-bd1d-40734afef510
+      bridges:
+      - uuid
+      - 344b8972-4f6b-458a-b683-0684e87ec934
+      gateway:
+      - set
+      - []
+      services:
+      - set
+      - []
+      subnets:
+      - uuid
+      - ea1bdea2-8e44-451e-904d-1d1afda05052
+      vxlan:
+      - uuid
+      - ab315461-37e4-43c9-bec8-ffb78e8d17f3
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 199348
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 103
+response:
+  error: null
+  id: 199348
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:openwrt2
+Adding a subnet(vlan): 3
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl addbr br103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-int int-br103 tag=3 -- set interface int-br103 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-int int-dvr103 tag=3 -- set interface int-dvr103 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl addif br103 int-br103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev int-br103 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev int-br103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev int-dvr103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev br103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns add ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link add veth-ns103 type veth peer name temp-ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev temp-ns103 netns ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns103 ip link set dev temp-ns103 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl addif br103 veth-ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns103 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns103 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns103 ip addr add dev eth0 10.0.3.102/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns103 ip route add default via 10.0.3.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip addr add dev int-dvr103 10.0.3.1/24
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 932552
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 932552
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=103,actions=mod_vlan_vid:3,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=3,nw_dst=10.0.3.1,actions=drop
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 140561
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 140561
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.103
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=3,actions=strip_vlan,set_tunnel:103,output:3,output:2
+[DEBUG] module:ovsdb,function:crud,router:openwrt2
+CRUD operation (add): {'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 735454
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      ip_dvr:
+      - map
+      - - - addr
+          - 10.0.3.1/24
+        - - mode
+          - dvr
+      ip_vhost: 10.0.3.102/24
+      peers:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.103
+      vid: 3
+      vni: 103
+    table: NLAN_Subnet
+    uuid-name: temp_933493
+  - mutations:
+    - - subnets
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_933493
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 735454
+  result:
+  - uuid:
+    - uuid
+    - 5b1f538a-ae42-4ad4-b8f8-4984b058687c
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 632399
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 103
+response:
+  error: null
+  id: 632399
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 5b1f538a-ae42-4ad4-b8f8-4984b058687c
+      _version:
+      - uuid
+      - d0ee36e9-9ce1-4220-9fa3-66d987726231
+      default_gw:
+      - set
+      - []
+      ip_dvr:
+      - map
+      - - - addr
+          - 10.0.3.1/24
+        - - mode
+          - dvr
+      ip_vhost: 10.0.3.102/24
+      peers:
+      - set
+      - - 192.168.1.101
+        - 192.168.1.103
+      ports:
+      - set
+      - []
+      vid: 3
+      vni: 103
+[INFO] module:nlan_agent,function:_route,router:openwrt2
+function:subnets.add, index:['vni', 101], model:{'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 365923
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 365923
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 142a837e-2b20-4ea9-8fa7-d3e18d8b8c29
+      _version:
+      - uuid
+      - ff205a5a-b389-4c3c-aafc-633aafb6ccfd
+      bridges:
+      - uuid
+      - 344b8972-4f6b-458a-b683-0684e87ec934
+      gateway:
+      - set
+      - []
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - - - uuid
+          - 5b1f538a-ae42-4ad4-b8f8-4984b058687c
+        - - uuid
+          - ea1bdea2-8e44-451e-904d-1d1afda05052
+      vxlan:
+      - uuid
+      - ab315461-37e4-43c9-bec8-ffb78e8d17f3
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 13426
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 101
+response:
+  error: null
+  id: 13426
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:openwrt2
+Adding a subnet(vlan): 1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl addbr br101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-int int-br101 tag=1 -- set interface int-br101 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-vsctl add-port br-int int-dvr101 tag=1 -- set interface int-dvr101 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl addif br101 int-br101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev int-br101 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev int-br101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev int-dvr101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev br101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns add ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link add veth-ns101 type veth peer name temp-ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev temp-ns101 netns ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns101 ip link set dev temp-ns101 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: brctl addif br101 veth-ns101
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns101 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link set dev veth-ns101 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns101 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns101 ip addr add dev eth0 10.0.1.102/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip netns exec ns101 ip route add default via 10.0.1.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip addr add dev int-dvr101 10.0.1.1/24
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 142022
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 142022
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=101,actions=mod_vlan_vid:1,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ip link show dev int-dvr101
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 182472
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: Interface
+    where:
+    - - name
+      - ==
+      - int-dvr101
+response:
+  error: null
+  id: 182472
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - a1737123-e126-4cb1-ba18-140874f970e5
+      _version:
+      - uuid
+      - b9e4cc8e-2f52-443a-b1a6-54bc90e9b113
+      admin_state: up
+      bfd:
+      - map
+      - []
+      bfd_status:
+      - map
+      - []
+      cfm_fault:
+      - set
+      - []
+      cfm_fault_status:
+      - set
+      - []
+      cfm_flap_count:
+      - set
+      - []
+      cfm_health:
+      - set
+      - []
+      cfm_mpid:
+      - set
+      - []
+      cfm_remote_mpids:
+      - set
+      - []
+      cfm_remote_opstate:
+      - set
+      - []
+      duplex:
+      - set
+      - []
+      external_ids:
+      - map
+      - []
+      ifindex: 44
+      ingress_policing_burst: 0
+      ingress_policing_rate: 0
+      lacp_current:
+      - set
+      - []
+      link_resets: 2
+      link_speed:
+      - set
+      - []
+      link_state: up
+      mac:
+      - set
+      - []
+      mac_in_use: 5e:be:21:73:46:13
+      mtu: 1500
+      name: int-dvr101
+      ofport: 7
+      ofport_request:
+      - set
+      - []
+      options:
+      - map
+      - []
+      other_config:
+      - map
+      - []
+      statistics:
+      - map
+      - - - collisions
+          - 0
+        - - rx_bytes
+          - 0
+        - - rx_crc_err
+          - 0
+        - - rx_dropped
+          - 0
+        - - rx_errors
+          - 0
+        - - rx_frame_err
+          - 0
+        - - rx_over_err
+          - 0
+        - - rx_packets
+          - 0
+        - - tx_bytes
+          - 0
+        - - tx_dropped
+          - 0
+        - - tx_errors
+          - 0
+        - - tx_packets
+          - 0
+      status:
+      - map
+      - - - driver_name
+          - openvswitch
+      type: internal
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 426994
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: Interface
+    where:
+    - - name
+      - ==
+      - int-br101
+response:
+  error: null
+  id: 426994
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 587a04a6-8107-450b-a546-95a54e37eaf6
+      _version:
+      - uuid
+      - 99ac165e-d1d6-44da-ab5b-f68229787889
+      admin_state: up
+      bfd:
+      - map
+      - []
+      bfd_status:
+      - map
+      - []
+      cfm_fault:
+      - set
+      - []
+      cfm_fault_status:
+      - set
+      - []
+      cfm_flap_count:
+      - set
+      - []
+      cfm_health:
+      - set
+      - []
+      cfm_mpid:
+      - set
+      - []
+      cfm_remote_mpids:
+      - set
+      - []
+      cfm_remote_opstate:
+      - set
+      - []
+      duplex:
+      - set
+      - []
+      external_ids:
+      - map
+      - []
+      ifindex: 43
+      ingress_policing_burst: 0
+      ingress_policing_rate: 0
+      lacp_current:
+      - set
+      - []
+      link_resets: 2
+      link_speed:
+      - set
+      - []
+      link_state: up
+      mac:
+      - set
+      - []
+      mac_in_use: 36:8e:a7:8c:8f:6b
+      mtu: 1500
+      name: int-br101
+      ofport: 6
+      ofport_request:
+      - set
+      - []
+      options:
+      - map
+      - []
+      other_config:
+      - map
+      - []
+      statistics:
+      - map
+      - - - collisions
+          - 0
+        - - rx_bytes
+          - 0
+        - - rx_crc_err
+          - 0
+        - - rx_dropped
+          - 0
+        - - rx_errors
+          - 0
+        - - rx_frame_err
+          - 0
+        - - rx_over_err
+          - 0
+        - - rx_packets
+          - 0
+        - - tx_bytes
+          - 0
+        - - tx_dropped
+          - 0
+        - - tx_errors
+          - 0
+        - - tx_packets
+          - 0
+      status:
+      - map
+      - - - driver_name
+          - openvswitch
+      type: internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-int table=0,priority=2,in_port=6,dl_type=0x0800,nw_dst=10.0.1.0/24,actions=normal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=10.0.0.0/8,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=172.16.0.0/12,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=6,dl_type=0x0800,nw_dst=192.168.0.0/16,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-int table=0,priority=1,in_port=7,dl_type=0x0806,nw_src=10.0.1.1,nw_proto=2,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-int table=1,priority=0,in_port=6,actions=set_field:5e:be:21:73:46:13->dl_dst,output:7
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 754728
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 754728
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.101
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.103
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.102
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt2
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=1,actions=strip_vlan,set_tunnel:101,output:2,output:4
+[DEBUG] module:ovsdb,function:crud,router:openwrt2
+CRUD operation (add): {'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 144020
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      ip_dvr:
+      - map
+      - - - addr
+          - 10.0.1.1/24
+        - - mode
+          - spoke_dvr
+      ip_vhost: 10.0.1.102/24
+      peers:
+      - set
+      - - 192.168.1.103
+        - 192.168.1.104
+      vid: 1
+      vni: 101
+    table: NLAN_Subnet
+    uuid-name: temp_20517
+  - mutations:
+    - - subnets
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_20517
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 144020
+  result:
+  - uuid:
+    - uuid
+    - 11d00625-edeb-4942-a1ed-4ff97e56b51c
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt2
+request:
+  id: 25988
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 101
+response:
+  error: null
+  id:--- STDOUT from router:openwrt1,platform:openwrt
+[INFO] module:nlan_agent,function:<module>,router:openwrt1
+NLAN Agent initialization completed
+{'share_dir': '/opt/nlan/share', 'router': 'openwrt1', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'indexes': {'services': 'name', 'subnets': 'vni'}, 'platform': 'openwrt', 'init': False, 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb761720c>, 'schema': 'ovsdb_nlan.schema'}
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:bridges.add, model:{'ovs_bridges': 'enabled'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 335062
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 335062
+  result:
+  - rows: []
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 753543
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row: {}
+    table: NLAN
+response:
+  error: null
+  id: 753543
+  result:
+  - uuid:
+    - uuid
+    - 9149baa9-dd26-4ca3-b109-95cb8853242a
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 125905
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Bridges
+    where: []
+response:
+  error: null
+  id: 125905
+  result:
+  - rows: []
+[INFO] module:bridges,function:add,router:openwrt1
+Adding bridges: br-int and br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-br br-int
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-br br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl del-flows br-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 488023
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: Interface
+    where:
+    - - name
+      - ==
+      - patch-tun
+response:
+  error: null
+  id: 488023
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 2fae1185-3092-460c-9123-843848517be1
+      _version:
+      - uuid
+      - 7758b748-5a4b-4dd6-ab43-a0cf7cd898c2
+      admin_state:
+      - set
+      - []
+      bfd:
+      - map
+      - []
+      bfd_status:
+      - map
+      - []
+      cfm_fault:
+      - set
+      - []
+      cfm_fault_status:
+      - set
+      - []
+      cfm_flap_count:
+      - set
+      - []
+      cfm_health:
+      - set
+      - []
+      cfm_mpid:
+      - set
+      - []
+      cfm_remote_mpids:
+      - set
+      - []
+      cfm_remote_opstate:
+      - set
+      - []
+      duplex:
+      - set
+      - []
+      external_ids:
+      - map
+      - []
+      ifindex: 0
+      ingress_policing_burst: 0
+      ingress_policing_rate: 0
+      lacp_current:
+      - set
+      - []
+      link_resets:
+      - set
+      - []
+      link_speed:
+      - set
+      - []
+      link_state:
+      - set
+      - []
+      mac:
+      - set
+      - []
+      mac_in_use: 96:3a:a1:79:0f:68
+      mtu:
+      - set
+      - []
+      name: patch-tun
+      ofport: 1
+      ofport_request:
+      - set
+      - []
+      options:
+      - map
+      - - - peer
+          - patch-int
+      other_config:
+      - map
+      - []
+      statistics:
+      - map
+      - - - collisions
+          - 0
+        - - rx_bytes
+          - 0
+        - - rx_crc_err
+          - 0
+        - - rx_dropped
+          - 0
+        - - rx_errors
+          - 0
+        - - rx_frame_err
+          - 0
+        - - rx_over_err
+          - 0
+        - - rx_packets
+          - 0
+        - - tx_bytes
+          - 0
+        - - tx_dropped
+          - 0
+        - - tx_errors
+          - 0
+        - - tx_packets
+          - 0
+      status:
+      - map
+      - []
+      type: patch
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=1,actions=resubmit(,1)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,19)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,20)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=3,priority=0,actions=drop
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=19,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=20,priority=0,actions=resubmit(,21)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=0,actions=drop
+[DEBUG] module:ovsdb,function:crud,router:openwrt1
+CRUD operation (add): {'ovs_bridges': 'enabled'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 984700
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      ovs_bridges: enabled
+    table: NLAN_Bridges
+    uuid-name: temp_381904
+  - mutations:
+    - - bridges
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_381904
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 984700
+  result:
+  - uuid:
+    - uuid
+    - 8a7cf150-923d-4e10-9526-619f005d47e6
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 4135
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Bridges
+    where: []
+response:
+  error: null
+  id: 4135
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 8a7cf150-923d-4e10-9526-619f005d47e6
+      _version:
+      - uuid
+      - 08afb22d-2c0d-495e-b0ea-fefac23e1a92
+      controller:
+      - set
+      - []
+      ovs_bridges: enabled
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:gateway.add, model:{'network': 'eth2', 'rip': 'enabled'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 177221
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 177221
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 9149baa9-dd26-4ca3-b109-95cb8853242a
+      _version:
+      - uuid
+      - 55ea3f75-26f9-47d2-934b-92516d43fd71
+      bridges:
+      - uuid
+      - 8a7cf150-923d-4e10-9526-619f005d47e6
+      gateway:
+      - set
+      - []
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - []
+      vxlan:
+      - set
+      - []
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 664850
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Gateway
+    where: []
+response:
+  error: null
+  id: 664850
+  result:
+  - rows: []
+[INFO] module:gateway,function:add,router:openwrt1
+Adding a gateway router: rip
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: vtysh -c configure terminal -c interface eth2 -c link-detect -c exit -c router rip -c version 2 -c redistribute connected -c network eth2 -c exit -c exit -c write -c exit
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: /etc/init.d/quagga start
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: vtysh -c configure terminal -c interface eth2 -c link-detect -c exit -c router rip -c version 2 -c redistribute connected -c network eth2 -c exit -c exit -c write -c exit
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: /etc/init.d/quagga restart
+[DEBUG] module:ovsdb,function:crud,router:openwrt1
+CRUD operation (add): {'network': 'eth2', 'rip': 'enabled'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 278654
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      network: eth2
+      rip: enabled
+    table: NLAN_Gateway
+    uuid-name: temp_438269
+  - mutations:
+    - - gateway
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_438269
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 278654
+  result:
+  - uuid:
+    - uuid
+    - 9da2a140-2b2c-4a29-92ad-5ff62ab12b50
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 27258
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Gateway
+    where: []
+response:
+  error: null
+  id: 27258
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 9da2a140-2b2c-4a29-92ad-5ff62ab12b50
+      _version:
+      - uuid
+      - 331017d7-12a6-4fb5-9af7-542b149aef5a
+      network: eth2
+      rip: enabled
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 848225
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 848225
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 9149baa9-dd26-4ca3-b109-95cb8853242a
+      _version:
+      - uuid
+      - a86855ba-2aa6-439d-89b5-d4c269fa9a84
+      bridges:
+      - uuid
+      - 8a7cf150-923d-4e10-9526-619f005d47e6
+      gateway:
+      - uuid
+      - 9da2a140-2b2c-4a29-92ad-5ff62ab12b50
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - []
+      vxlan:
+      - set
+      - []
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 939711
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_VXLAN
+    where: []
+response:
+  error: null
+  id: 939711
+  result:
+  - rows: []
+[INFO] module:vxlan,function:add,router:openwrt1
+Adding a VXLAN tunnel: vxlan_103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-tun vxlan_103 -- set interface vxlan_103 type=vxlan options:in_key=flow options:local_ip=192.168.1.101 options:out_key=flow options:remote_ip=192.168.1.103
+[INFO] module:vxlan,function:add,router:openwrt1
+Adding a VXLAN tunnel: vxlan_102
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-tun vxlan_102 -- set interface vxlan_102 type=vxlan options:in_key=flow options:local_ip=192.168.1.101 options:out_key=flow options:remote_ip=192.168.1.102
+[INFO] module:vxlan,function:add,router:openwrt1
+Adding a VXLAN tunnel: vxlan_104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-tun vxlan_104 -- set interface vxlan_104 type=vxlan options:in_key=flow options:local_ip=192.168.1.101 options:out_key=flow options:remote_ip=192.168.1.104
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 988495
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 988495
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.101
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.101
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.103
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.101
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=3,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=2,actions=resubmit(,2)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=4,actions=resubmit(,2)
+[DEBUG] module:ovsdb,function:crud,router:openwrt1
+CRUD operation (add): {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 487417
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      local_ip: 192.168.1.101
+      remote_ips:
+      - set
+      - - 192.168.1.103
+        - 192.168.1.102
+        - 192.168.1.104
+    table: NLAN_VXLAN
+    uuid-name: temp_220249
+  - mutations:
+    - - vxlan
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_220249
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 487417
+  result:
+  - uuid:
+    - uuid
+    - 302addd0-2ac8-401c-aeaf-8c87287f28c6
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 687693
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_VXLAN
+    where: []
+response:
+  error: null
+  id: 687693
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 302addd0-2ac8-401c-aeaf-8c87287f28c6
+      _version:
+      - uuid
+      - e1041e9e-fd8e-44cf-bd47-f706aed0d80c
+      local_ip: 192.168.1.101
+      remote_ips:
+      - set
+      - - 192.168.1.102
+        - 192.168.1.103
+        - 192.168.1.104
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:subnets.add, index:['vni', 1], model:{'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.101/24', 'vni': 1, 'ip_dvr': OrderedDict([('addr', '192.168.100.1/24'), ('mode', 'dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 890281
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 890281
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 9149baa9-dd26-4ca3-b109-95cb8853242a
+      _version:
+      - uuid
+      - ed9be550-7989-460d-94c8-0a4abe804138
+      bridges:
+      - uuid
+      - 8a7cf150-923d-4e10-9526-619f005d47e6
+      gateway:
+      - uuid
+      - 9da2a140-2b2c-4a29-92ad-5ff62ab12b50
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - []
+      vxlan:
+      - uuid
+      - 302addd0-2ac8-401c-aeaf-8c87287f28c6
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 783451
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 1
+response:
+  error: null
+  id: 783451
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:openwrt1
+Adding a subnet(vlan): 2
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl addbr br1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-int int-br1 tag=2 -- set interface int-br1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-int int-dvr1 tag=2 -- set interface int-dvr1 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl addif br1 int-br1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev int-br1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev int-br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev int-dvr1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev br1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns add ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link add veth-ns1 type veth peer name temp-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev temp-ns1 netns ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns1 ip link set dev temp-ns1 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl addif br1 veth-ns1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns1 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns1 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns1 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns1 ip addr add dev eth0 192.168.100.101/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns1 ip route add default via 192.168.100.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip addr add dev int-dvr1 192.168.100.1/24
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 524504
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 524504
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=1,actions=mod_vlan_vid:2,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=2,nw_dst=192.168.100.1,actions=drop
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 848865
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 848865
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.101
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.101
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.103
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.101
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=2,actions=strip_vlan,set_tunnel:1,output:3,output:2
+[DEBUG] module:ovsdb,function:crud,router:openwrt1
+CRUD operation (add): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.101/24', 'vni': 1, 'ip_dvr': OrderedDict([('addr', '192.168.100.1/24'), ('mode', 'dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 716251
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      ip_dvr:
+      - map
+      - - - addr
+          - 192.168.100.1/24
+        - - mode
+          - dvr
+      ip_vhost: 192.168.100.101/24
+      peers:
+      - set
+      - - 192.168.1.102
+        - 192.168.1.103
+      vid: 2
+      vni: 1
+    table: NLAN_Subnet
+    uuid-name: temp_655409
+  - mutations:
+    - - subnets
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_655409
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 716251
+  result:
+  - uuid:
+    - uuid
+    - 3d7dd85f-d91f-446b-a290-76be5c21b17a
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 494279
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 1
+response:
+  error: null
+  id: 494279
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 3d7dd85f-d91f-446b-a290-76be5c21b17a
+      _version:
+      - uuid
+      - 50b17f49-b496-4c9d-8c80-27b7a4269cb7
+      default_gw:
+      - set
+      - []
+      ip_dvr:
+      - map
+      - - - addr
+          - 192.168.100.1/24
+        - - mode
+          - dvr
+      ip_vhost: 192.168.100.101/24
+      peers:
+      - set
+      - - 192.168.1.102
+        - 192.168.1.103
+      ports:
+      - set
+      - []
+      vid: 2
+      vni: 1
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:subnets.add, index:['vni', 103], model:{'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 335410
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 335410
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 9149baa9-dd26-4ca3-b109-95cb8853242a
+      _version:
+      - uuid
+      - 6709bdd2-724d-4ab0-8418-f809c57ffa14
+      bridges:
+      - uuid
+      - 8a7cf150-923d-4e10-9526-619f005d47e6
+      gateway:
+      - uuid
+      - 9da2a140-2b2c-4a29-92ad-5ff62ab12b50
+      services:
+      - set
+      - []
+      subnets:
+      - uuid
+      - 3d7dd85f-d91f-446b-a290-76be5c21b17a
+      vxlan:
+      - uuid
+      - 302addd0-2ac8-401c-aeaf-8c87287f28c6
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 510246
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 103
+response:
+  error: null
+  id: 510246
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:openwrt1
+Adding a subnet(vlan): 3
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl addbr br103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-int int-br103 tag=3 -- set interface int-br103 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-int int-dvr103 tag=3 -- set interface int-dvr103 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl addif br103 int-br103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev int-br103 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev int-br103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev int-dvr103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev br103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns add ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link add veth-ns103 type veth peer name temp-ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev temp-ns103 netns ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns103 ip link set dev temp-ns103 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl addif br103 veth-ns103
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns103 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns103 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns103 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns103 ip addr add dev eth0 10.0.3.101/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns103 ip route add default via 10.0.3.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip addr add dev int-dvr103 10.0.3.1/24
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 322105
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 322105
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=103,actions=mod_vlan_vid:3,resubmit(,10)
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=19,priority=1,dl_type=0x0806,dl_vlan=3,nw_dst=10.0.3.1,actions=drop
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 632627
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 632627
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.101
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 2
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.101
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.103
+    - ofport: 4
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.101
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.104
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=21,priority=1,dl_vlan=3,actions=strip_vlan,set_tunnel:103,output:3,output:2
+[DEBUG] module:ovsdb,function:crud,router:openwrt1
+CRUD operation (add): {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 521405
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: insert
+    row:
+      ip_dvr:
+      - map
+      - - - addr
+          - 10.0.3.1/24
+        - - mode
+          - dvr
+      ip_vhost: 10.0.3.101/24
+      peers:
+      - set
+      - - 192.168.1.102
+        - 192.168.1.103
+      vid: 3
+      vni: 103
+    table: NLAN_Subnet
+    uuid-name: temp_438807
+  - mutations:
+    - - subnets
+      - insert
+      - - set
+        - - - named-uuid
+            - temp_438807
+    op: mutate
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 521405
+  result:
+  - uuid:
+    - uuid
+    - b10c8327-0fb6-4300-bc28-e548496ca096
+  - count: 1
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 530880
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 103
+response:
+  error: null
+  id: 530880
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - b10c8327-0fb6-4300-bc28-e548496ca096
+      _version:
+      - uuid
+      - c15ec9da-1d39-48a5-9ebc-936ea14a56eb
+      default_gw:
+      - set
+      - []
+      ip_dvr:
+      - map
+      - - - addr
+          - 10.0.3.1/24
+        - - mode
+          - dvr
+      ip_vhost: 10.0.3.101/24
+      peers:
+      - set
+      - - 192.168.1.102
+        - 192.168.1.103
+      ports:
+      - set
+      - []
+      vid: 3
+      vni: 103
+[INFO] module:nlan_agent,function:_route,router:openwrt1
+function:subnets.add, index:['vni', 1001], model:{'peers': ['192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'hub')])}
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 736496
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN
+    where: []
+response:
+  error: null
+  id: 736496
+  result:
+  - rows:
+    - _uuid:
+      - uuid
+      - 9149baa9-dd26-4ca3-b109-95cb8853242a
+      _version:
+      - uuid
+      - a05ade08-b243-4367-bc23-ae6674cd3e28
+      bridges:
+      - uuid
+      - 8a7cf150-923d-4e10-9526-619f005d47e6
+      gateway:
+      - uuid
+      - 9da2a140-2b2c-4a29-92ad-5ff62ab12b50
+      services:
+      - set
+      - []
+      subnets:
+      - set
+      - - - uuid
+          - 3d7dd85f-d91f-446b-a290-76be5c21b17a
+        - - uuid
+          - b10c8327-0fb6-4300-bc28-e548496ca096
+      vxlan:
+      - uuid
+      - 302addd0-2ac8-401c-aeaf-8c87287f28c6
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 568777
+  method: transact
+  params:
+  - Open_vSwitch
+  - op: select
+    table: NLAN_Subnet
+    where:
+    - - vni
+      - ==
+      - 1001
+response:
+  error: null
+  id: 568777
+  result:
+  - rows: []
+[INFO] module:subnets,function:add,router:openwrt1
+Adding a subnet(vlan): 1
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl addbr br1001
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-int int-br1001 tag=1 -- set interface int-br1001 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-vsctl add-port br-int int-dvr1001 tag=1 -- set interface int-dvr1001 type=internal
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl addif br1001 int-br1001
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev int-br1001 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev int-br1001 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev int-dvr1001 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev br1001 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns add ns1001
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link add veth-ns1001 type veth peer name temp-ns1001
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev temp-ns1001 netns ns1001
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns1001 ip link set dev temp-ns1001 name eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: brctl addif br1001 veth-ns1001
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns1001 promisc on
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip link set dev veth-ns1001 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns1001 ip link set dev eth0 up
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns1001 ip addr add dev eth0 10.0.1.101/24
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip netns exec ns1001 ip route add default via 10.0.1.1 dev eth0
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ip addr add dev int-dvr1001 10.0.1.1/24
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 572075
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - target
+    op: select
+    table: Controller
+    where: []
+response:
+  error: null
+  id: 572075
+  result:
+  - rows: []
+[DEBUG] module:cmdutil,function:_cmd2,router:openwrt1
+cmd: ovs-ofctl add-flow br-tun table=2,priority=1,tun_id=1001,actions=mod_vlan_vid:1,resubmit(,10)
+[DEBUG] module:ovsdb,function:_send,router:openwrt1
+request:
+  id: 831497
+  method: transact
+  params:
+  - Open_vSwitch
+  - columns:
+    - ofport
+    - options
+    op: select
+    table: Interface
+    where:
+    - - type
+      - ==
+      - vxlan
+response:
+  error: null
+  id: 831497
+  result:
+  - rows:
+    - ofport: 3
+      options:
+      - map
+      - - - in_key
+          - flow
+        - - local_ip
+          - 192.168.1.101
+        - - out_key
+          - flow
+        - - remote_ip
+          - 192.168.1.102
+    - ofport: 2
+   
+OK. I will terminate the child processes...
+child process: 10167 tty1     Sl+    0:00 python /root/neutron-lan/nlan/nlan.py deploy --debug -v
+
+child process: 10168 tty1     Sl+    0:00 python /root/neutron-lan/nlan/nlan.py deploy --debug -v
+
+=+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+Start Time: 2014-05-13 02:03:48.574090
+
+Router           Result    Elapsed Time
+---------------------------------------
+rpi1              :-)         3.41(sec)
+openwrt3          :-)         3.76(sec)
+
+OK. I will terminate the child processes...
+child process: 10343 tty1     Sl+    0:00 python /root/neutron-lan/nlan/nlan.py test.echo Hello World!
+
+child process: 10344 tty1     Sl+    0:00 python /root/neutron-lan/nlan/nlan.py test.echo Hello World!
+
+child process: 10345 tty1     Z+     0:00 [python] <defunct>
+
+child process: 10346 tty1     S+     0:00 python /root/neutron-lan/nlan/nlan.py test.echo Hello World!
+
+
+OK. I will terminate the subprocesses...
+child process: 10356 tty1     S+     0:00 python /root/neutron-lan/nlan/nlan.py -t openwrt1 --raw ip netns exec ns1001 ping -c 1 10.0.1.102
+
+--- STDOUT from router:openwrt1,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=10.589 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 10.589/10.589/10.589 ms
+
+OK. I will terminate the child processes...
+child process: 10358 tty1     Z+     0:00 [python] <defunct>
+
+
+OK. I will terminate the subprocesses...
+child process: 10363 tty1     Z+     0:00 [python] <defunct>
+
+
+OK. I will terminate the child processes...
+child process: 10367 tty1     S+     0:00 python /root/neutron-lan/nlan/nlan.py -t openwrt1 --raw ip netns exec ns1001 ping -c 1 10.0.1.102
+

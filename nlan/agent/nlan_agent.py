@@ -196,8 +196,6 @@ def _linux_init():
         elif module in state:
             model = {module: state[module]}
 
-        print model
-
         if model:
             __n__['logger'].debug("Linux init, model: " + str(model))
             _route('add', model) 
@@ -250,7 +248,7 @@ if __name__ == "__main__":
 
     if options.init_action:
         __n__['init'] = options.init_action
-        __n__['logger'].info('NLAN Agent initialization completed\n{}'.format(__n__))
+        __n__['logger'].debug('NLAN Agent initialization completed\n{}'.format(__n__))
         _linux_init()
     else:
         __n__['init'] = False

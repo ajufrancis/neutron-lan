@@ -5,13 +5,13 @@
 # Utilities to generate diff betwen two YAML files:
 # one is a local YAML file, and the other is one in a local git repo.
 
-import yaml, lya, datadiff, re, sys
+import yaml, lya, datadiff, re, sys, os
 from collections import OrderedDict
 from difflib import unified_diff
 from cStringIO import StringIO
 from cmdutil import output_cmd, CmdError
 from copy import deepcopy
-from env import INDEXES, STATE_ORDER 
+from env import INDEXES, STATE_ORDER, WORK_TREE, GIT_OPTIONS
 
 # Simple object serializer for int, list, str and OrderedObject
 def dumps(value):
@@ -138,7 +138,7 @@ def _yaml_load(filename, gitshow):
     if gitshow:
         default = "vacant: true"
         try:
-            data = output_cmd('git show HEAD:' + filename)
+            data = output_cmd('git', GIT_OPTIONS, 'show HEAD:' + filename)
             if data == '':
                 data = default 
             else:
@@ -147,7 +147,7 @@ def _yaml_load(filename, gitshow):
             data = default 
         od = yaml.load(data, lya.OrderedDictYAMLLoader)
     else:
-        with open(filename, 'r') as f:
+        with open(os.path.join(WORK_TREE, filename), 'r') as f:
             od = yaml.load(f, lya.OrderedDictYAMLLoader)
             f.seek(0)
             template_module = get_template_module(f.readline())
@@ -221,6 +221,7 @@ def _diff(list1, list2):
 # making diff between two YAML files.
 # crud_list: a list of [node, operation, model]
 def crud_diff(filename, git=-1):
+
 
     if git <= 0: # w/o Git or diff between the current file and git show HEAD: 
         # After
@@ -325,7 +326,6 @@ def crud_diff(filename, git=-1):
             for module, v3 in v2.iteritems():
                 temp_list = []
                 for key, v4 in v3.iteritems():
-                    print key, v4
                     if isinstance(key, tuple):
                         d = {'_index': list(key)} 
                         dict_merge(d, v4)

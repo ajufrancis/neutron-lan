@@ -24,6 +24,7 @@ def _add_subnets(model):
     cmdp = cmdutil.check_cmdp
 
     svni = str(_vni_)
+    svid = str(_vid)
     ns = "ns"+svni
     br = "br"+svni
     veth_ns = "veth-ns"+svni
@@ -34,8 +35,8 @@ def _add_subnets(model):
     #>>> Adding VLAN and a linux bridge
     if _vid:
         cmd('brctl addbr', br)
-        cmdp('ovs-vsctl add-port br-int', int_br, 'tag='+svni, '-- set interface', int_br, 'type=internal')
-        cmdp('ovs-vsctl add-port br-int', int_dvr, 'tag='+svni, '-- set interface', int_dvr, 'type=internal')
+        cmdp('ovs-vsctl add-port br-int', int_br, 'tag='+svid, '-- set interface', int_br, 'type=internal')
+        cmdp('ovs-vsctl add-port br-int', int_dvr, 'tag='+svid, '-- set interface', int_dvr, 'type=internal')
         cmd('brctl addif', br, int_br)
         cmd('ip link set dev', int_br, 'promisc on')
         cmd('ip link set dev', int_br, 'up')

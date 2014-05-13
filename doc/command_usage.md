@@ -1,8 +1,8 @@
 NLAN Command Usage
 ==================
 
-DevOps operation
-----------------
+DevOps operations
+-----------------
 <pre>
 - copy NLAN Agent and NLAN modules to remote routers
 $ nlan.py -m
@@ -16,8 +16,14 @@ $ nlan.py system.rc update
 - update OVSDB(conf.db) with new schema
 $ nlan.py db.update
 
-- deploy network service with 'dvsdvr.yaml' state file
-$ nlan.py dvsdvr.yaml
+- deploy a network service with a default state file
+$ nlan.py deploy 
+
+- deploy a network service with a default state file and with verbose output
+$ nlan.py -v deploy
+
+- deploy a network service with a specific state file (e.g., 'state.yaml')
+$ nlan.py state.yaml 
 
 - deploy network service with logging enabled (either --info or --debug)
 $ nlan.py dvsdvr.yaml --info
@@ -35,6 +41,23 @@ $ nlan.py -w 100
 $ nlan.py -w -50 
 </pre>
 
+Working with a local Git repo
+------------------------------
+<pre>
+- deploy a network service with a default state file (the state file is commited to the local git repo after the deployment)
+$ nlan.py -G deploy 
+
+- rollback to the previous state
+$ nlan.py init.run
+$ nlan.py -R deploy
+</pre>
+
+Scenario Runner
+---------------
+<pre>
+- execute a scenario (e.g., a scenario 'all.yaml')
+$ nlans.py all.yaml
+</pre>
 
 Maintenance
 -----------
@@ -62,6 +85,19 @@ $ nlan.py db.state
 
 - show the current NLAN state in OVSDB at a specific router
 $ nlan.py -t openwrt1 db.state
+
+- show a specific NLAN row in OVSDB (e.g., subnets vni=101)
+$ nlan.py db.getrow subnets vni 101
+</pre>
+
+
+NLAN schema update
+------------------
+<pre>
+Update 'schema.sh' at first. Then,
+$ schema.sh
+$ nlan -m
+$ nlan db.update 
 </pre>
 
 

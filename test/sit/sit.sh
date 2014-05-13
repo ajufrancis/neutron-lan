@@ -21,14 +21,10 @@ do_sit () {
     nlan.py --scpmod
 
     ### NLAN INITIALIZATION  ###
-    #nlan.py init.run
-    #nlan.py init.run --info
-    nlan.py init.run $1 
+    nlan.py init.run $* 
 
     ### NLAN dvsdvr service deployment ###
-    #nlan.py dvsdvr.yaml
-    #nlan.py dvsdvr.yaml --info
-    nlan.py ../nlan/dvsdvr.yaml $1 
+    nlan.py deploy $* 
 
     ### CREATE PSEUDO-GLOBAL IP NETWORK ###
     vglobalip.sh
@@ -40,9 +36,7 @@ do_sit () {
     nlan.py system.reboot
 
     ### WAIT UNTIL ALL THE ROUTERS HAVE BEEN REBOOTED ###
-    echo ""
     nlan.py -w -50
-    echo ""
     nlan.py -w 100
 
     if [ $? -gt 0 ]; then
@@ -68,8 +62,8 @@ else
     echo "SUCCESS"
 fi
 
-echo "do_sit --info"
-do_sit --info > ./sit_info_log.txt
+echo "do_sit --info -v"
+do_sit --info -v > ./sit_info_log.txt
 if [ $? -gt 0 ]; then
     echo "FAIL"
     exit 1
@@ -77,8 +71,8 @@ else
     echo "SUCCESS"
 fi
 
-echo "do_sit --debug"
-do_sit --debug > ./sit_debug_log.txt
+echo "do_sit --debug -v"
+do_sit --debug -v > ./sit_debug_log.txt
 if [ $? -gt 0 ]; then
     echo "FAIL"
     exit 1

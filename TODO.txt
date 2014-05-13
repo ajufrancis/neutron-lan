@@ -1,11 +1,35 @@
+[2] JSON-RPC error handling
+
+JSON-RPC respone error handling ==> raise some Exception
+
+[9] vid modification in dvsdvr.yaml results in an add operation, not an update operation.
+
+[10] yamldiff.py cannot generate diff for list.
+peers:
+  - 192.168.1.101
+  - 192.168.1.102
+
+peers:
+  - 192.168.1.101
+  - 192.168.1.103
+  - 192.168.1.102
+
+In this case, yamldiff should generate add peers 192.168.1.103, not update peers with all the addresses.
+
+[12] sit_debug stalls somehow.
+
+[13] nlan_agent.py local mode: state deployment w/o using nlan.py.
+
+[14] State audit: YAML -- active state -- OVSDB consistency
+
+[15] NLAN Agent on Windows, without OVSDB or with SQLITE as a local DB.
+
+-----
+
 [1] OVSDB schema analyzer script -- DONE!
 
 Why does OVSDB return a string instead of a list, even if it can be seen as a list in the output of ovsdb-client dump?
 Maybe the program needs to refer to the OVSDB schema when converting JSON-RPC output to Python dict.
-
-[2] JSON-RPC error handling
-
-JSON-RPC respone error handling ==> raise some Exception
 
 [3] CRUD -- DONE!
 Use crud instead of setrow in bridges, vxlan and gateway.
@@ -26,21 +50,7 @@ Command '['/etc/init.d/nlan', 'enable']' returned non-zero exit status 1
 
 [7] nlan_agent.py --init start does not work. -- DONE! Bug fixed.
 
-[8] nlan.py and yamldiff.py dose not handle -G option.
-
-[9] vid modification in dvsdvr.yaml results in an add operation, not an update operation.
-
-[10] yamldiff.py cannot generate diff for list.
-peers:
-  - 192.168.1.101
-  - 192.168.1.102
-
-peers:
-  - 192.168.1.101
-  - 192.168.1.103
-  - 192.168.1.102
-
-In this case, yamldiff should generate add peers 192.168.1.103, not update peers with all the addresses.
+[8] nlan.py and yamldiff.py dose not handle -G option. -- DONE! Also added -R option.
 
 [11] A pair of ip_dvr and mode should be expressed as a 'map' data on OVSDB. -- DONE!
 
