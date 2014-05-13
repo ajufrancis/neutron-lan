@@ -18,7 +18,7 @@ And I have learned from SaltStack that YAML is a very simple modeling language. 
 YAML for modeling neutron-lan
 -----------------------------
 
-Refer to [neutron-lan YAML state file](../nlan/dvsdvr.yaml).
+Refer to [neutron-lan YAML state file](../etc/state.yaml).
 
 When an administrator has finished modifying the state file, he or she executes a neutron-lan command "nlan_master.py" to generete CRUD operations (add/delete/set) in the form of Python OrderedDict objects, comparing the file and the one archived in a local git repo.
 
