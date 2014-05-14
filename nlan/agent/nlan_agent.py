@@ -5,34 +5,34 @@ from optparse import OptionParser
 from collections import OrderedDict
 import logging
 import cStringIO
+import traceback
+
 from cmdutil import CmdError
 from errors import ModelError
-import traceback
+from agentutil import parse_args
 
 ENVFILE = '/opt/nlan/nlan_env.conf'
 
-#out = cStringIO.StringIO()
-out = sys.stdout
-
-def setlogger(d):
-    logger = logging.getLogger("nlan_agent")
-    logger.setLevel(logging.DEBUG)
-    handler = logging.StreamHandler(out)
-    handler.setLevel(logging.DEBUG)
-    header = "[%(levelname)s] module:%(module)s,function:%(funcName)s,router:{}".format(__n__['router'])
-    formatter = logging.Formatter(header+"\n%(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    d['logger'] = logger
-
-def _init(envfile = ENVFILE):
+def _init(envfile=ENVFILE, loglevel=logging.WARNING):
 
     # Environment setting
     with open(envfile, 'r') as envfile:
         import __builtin__
         __builtin__.__dict__['__n__'] = eval(envfile.read())
 
-    setlogger(__n__)
+    # Logger setting
+    logger = logging.getLogger("nlan_agent")
+    logger.setLevel(logging.DEBUG)
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.DEBUG)
+    header = None
+    header = "[%(levelname)s] %(asctime)s module:%(module)s,function:%(funcName)s,router:{}".format(__n__['router'])
+    formatter = logging.Formatter(header+"\n%(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    logger.setLevel(loglevel)
+    __n__['logger'] = logger
+
 
 # Progress of deployment
 def _progress(data, func, _index):
@@ -64,11 +64,14 @@ def _progress(data, func, _index):
 # Routing a request to a module
 def _route(operation, data):
     
+    exit = 0
+
     if operation:
         # Calls config modules 
         from oputil import Model
         if __n__['init'] != 'start':
-            data = eval(data)
+            if isinstance(data, str) and (data.startswith('OrderedDict') or data.startswith('{')):
+                data = eval(data)
         _data = copy.deepcopy(data)
         results = []
         error = None 
@@ -129,14 +132,13 @@ def _route(operation, data):
                     print o
             if error:
                 print >>sys.stderr, str(error)
-                sys.exit(error['exit'])
+                exit = sys.exit(error['exit'])
             else:
                 if __n__['init'] != 'start':
                     completed = OrderedDict()
                     completed['message'] = 'Execution completed'
                     completed['exit'] = 0
                     print >>sys.stderr, str(completed)
-                    sys.exit(0)
     else:        
         # Calls a command module
         s = data[0].split('.')
@@ -169,20 +171,22 @@ def _route(operation, data):
                 print result 
             if error:
                 print >>sys.stderr, str(error)
-                sys.exit(error['exit'])
+                exit= sys.exit(error['exit'])
             else:
                 completed = OrderedDict()
                 completed['message'] = 'Execution completed'
                 completed['exit'] = 0
                 print >>sys.stderr, str(completed)
-                sys.exit(0)
 
+    return exit
 
 
 def _linux_init():
 
     import ovsdb 
     state = ovsdb.get_current_state()
+    
+    exit = 0
 
     for module in __n__['state_order']:
 
@@ -198,7 +202,9 @@ def _linux_init():
 
         if model:
             __n__['logger'].debug("Linux init, model: " + str(model))
-            _route('add', model) 
+            exit = _route('add', model) 
+
+    return exit
 
 
 if __name__ == "__main__":
@@ -228,31 +234,39 @@ if __name__ == "__main__":
     elif options.delete:
 	operation = 'delete'	
 
-    if options.filename:
-        _init(options.filename)
-    else:
-        _init()
-
     loglevel = logging.WARNING
     if options.info:
         loglevel = logging.INFO
     elif options.debug:
         loglevel = logging.DEBUG
-    __n__['logger'].setLevel(loglevel)
+
+    if options.filename:
+        _init(options.filename, loglevel=loglevel)
+    else:
+        _init(loglevel=loglevel)
+
 	
     data = None 
-    if operation:
+    if operation and len(args) == 0:
+        # Obtains CRUD data from nlan.py via SSH
         data = sys.stdin.read().replace('"','') 
+    elif operation and len(args) > 0:
+        # Obtains CRUD data from command arguments
+        data = parse_args(args[0], *args[1:])
     else:
+        # Command module arguments
         data = args
 
+    __n__['logger'].info('NLAN Agent initialization completed')
+    __n__['logger'].debug('__n__: {}'.format(__n__))
+
+    exit = 0
     if options.init_action:
         __n__['init'] = options.init_action
-        __n__['logger'].debug('NLAN Agent initialization completed\n{}'.format(__n__))
-        _linux_init()
+        exit = _linux_init()
     else:
         __n__['init'] = False
-        __n__['logger'].info('NLAN Agent initialization completed\n{}'.format(__n__))
-
-        _route(operation=operation, data=data)
+        exit = _route(operation=operation, data=data)
+    __n__['logger'].info('NLAN Agent execution completed')
+    sys.exit(exit)
 

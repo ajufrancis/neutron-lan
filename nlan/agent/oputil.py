@@ -102,39 +102,55 @@ def logstr(*args):
     l = list(args)
     return '\n'.join(l)
 
+# Converts command arguments into a model
+def parse_args(module, *args):
 
-if __name__=='__main__':
+    schema = __n__['types'][module]
+    
+    def _type(key):
+        
+        if 'value' in schema[key]: # dict
+            type_ = schema[key]['value']['type']
+            if type_ == 'string':
+                return (dict, str)
+            elif type_ == 'integer':
+                return (dict, int)
+            else:
+                return None
+        else:
+            type_ = schema[key]['key']['type']
+            t = None
+            if type_ == 'string':
+                t = str 
+            elif type_ == 'integer':
+                t = int
+            if int(schema[key]['max']) > 1:  # list
+                return (list, t)
+            else:
+                return (None, t)
 
-    model = {
-        'aaa': 1,
-        'bbb': '2',
-        'ccc': ['xxx', 'yyy']
-        }
+    model = {}
 
-    m = Model(model)
-    aaa, bbb, ccc, ddd = m.getparam('aaa', 'bbb', 'ccc', 'ddd')
+    for s in args:
+        ss = s.split('=')
+        k = s[0]
+        v = s[1]
+        t = _type(k)
+        if t[0] == None:
+            value = t[1](v)
+            model[k] = value
+        elif t[0] == dict:
+            value = {}
+            for item in v.split(','):
+                pair = item.split(':')
+                value[pair[0]] = t[1](pair[1])
+            model[k] = value
+        elif t[0] == list:
+            value = []
+            for item in v.split(','):
+                value.append(t[1](item))
+            model[k] = value
 
-    try:
-        raise ModelError('Something is wrong')
-    except Exception, e:
-        print e
+    return model
+                
 
-    try:
-        raise ModelError('Model is wrong', model)
-    except Exception as e:
-        print e
-        print e.model
-
-    try:
-        raise ModelError('Param is wrong', model, 'aaa')
-    except Exception as e:
-        print e
-        print e.model
-        print e.params
-
-    try:
-        raise ModelError('Params is wrong', None, ['aaa', 'bbb'])
-    except Exception as e:
-        print e
-        print e.model
-        print e.params

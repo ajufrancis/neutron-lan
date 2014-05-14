@@ -63,6 +63,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
             i.write(cmd_args)
             i.flush()
             i.channel.shutdown_write()
+
         result = o.read()
         error = e.read()
         if result != '': 
@@ -155,8 +156,6 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                         f.truncate()
                         f.write(str(env))
                     s.put(lf, rdir_nlanconf)
-                    #cmd = 'echo ' + '"'+str(env)+'"' + ' > ' + rdir_modlist 
-                    #exitcode = _ssh_exec_command(ssh, cmd, None, out, err)
                     filelist.append(nlanconf)
                 
                 if verbose:
@@ -179,13 +178,14 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                             d = json.loads(json_rpc, object_hook=util.decode_dict)
                             l = _toyaml(d)
                         else:
-                            try:
-                                d = eval(l)
-                                if isinstance(d, OrderedDict) or isinstance(d, dict):
-                                    l = _toyaml(d)
-                            except Exception as e:
-                                pass 
-                        print l
+                            if l.startswith("OrderedDict") or l.startswith("{"):
+                                try:
+                                    d = eval(l)
+                                    if isinstance(d, OrderedDict) or isinstance(d, dict):
+                                        l = _toyaml(d)
+                                except Exception:
+                                    pass 
+                        print l  # STDOUT 
                 if errel > 0:
                     erre = erre.rstrip('\n').split('\n')
                     if len(erre) > 1:
@@ -194,13 +194,14 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                         print l
                     response = eval(erre[-1])
 
-                finish_utc = time.time()
-                queue.put({'router':router, 'stdout':stdout, 'response':response, 'finish_utc':finish_utc})
                 if isinstance(response, dict) or isinstance(response, OrderedDict):
                     if 'exit' not in response or 'exit' in response and (response['exit'] > 0 or verbose):
                         print "--- RESPONSE from router:{0},platform:{1}".format(router, platform)
                         for key, value in response.iteritems():
                             print '{}: {}'.format(key, value)
+                
+                finish_utc = time.time()
+                queue.put({'router':router, 'response':response, 'finish_utc':finish_utc})
 
         except Exception as e:
             response['exception'] = type(e).__name__
@@ -209,7 +210,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
             response['traceeback'] = traceback.format_exc()
             exitcode = 1
             finish_utc = time.time()
-            queue.put({'router':router, 'stdout':stdout, 'response':response, 'finish_utc':finish_utc})
+            queue.put({'router':router, 'response':response, 'finish_utc':finish_utc})
             with lock:
                 rp = "NLAN Request Failure router:{0},platform:{1}".format(router, platform)
                 print bar[:5], rp, bar[5+len(rp):] 
@@ -352,7 +353,6 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                 smiley = ':-)'
                 l = queue.get() 
                 router = l['router']
-                stdout = l['stdout']
                 response = l['response']
                 if response['exit'] > 0:
                     smiley = 'XXX'
