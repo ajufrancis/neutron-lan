@@ -73,13 +73,14 @@ def do(scenario, dirname):
             if 'router' in ll:
                 router = ll['router']
             try:
-                result = nlan.main(router=router, operation=options, doc=args)
+                result = nlan.main(router=router, operation=options, doc=args, output_stdout=True)
                 if 'assert' in ll:
                     if ll['assert']:  # not null
                         args1 = dict(eval(result[0]['stdout'][0]))
                         args2 = ll['assert']
                         if args2 == '_prev':
                             args2 = remove_item(prev, '_index')
+                        diff = None
                         try:
                             diff = list(dictdiffer.diff(args1, args2))
                             assert len(diff) == 0

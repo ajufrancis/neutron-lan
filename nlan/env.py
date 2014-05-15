@@ -41,7 +41,7 @@ NLAN_AGENT_DIR = '/opt/nlan'
 NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan_agent.py')
 
 # NLAN libraries shared by both NLAN Master(local) and NLAN Agent(remote)
-NLAN_LIBS = ['cmdutil.py', 'errors.py']
+NLAN_LIBS = ['cmdutil.py', 'errors.py', 'argsmodel.py']
 
 # NLAN module directories (python packages)
 NLAN_MOD_DIRS = ['command', 'config']

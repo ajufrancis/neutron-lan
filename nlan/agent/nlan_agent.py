@@ -9,7 +9,7 @@ import traceback
 
 from cmdutil import CmdError
 from errors import ModelError
-from agentutil import parse_args
+import argsmodel 
 
 ENVFILE = '/opt/nlan/nlan_env.conf'
 
@@ -73,32 +73,32 @@ def _route(operation, data):
             if isinstance(data, str) and (data.startswith('OrderedDict') or data.startswith('{')):
                 data = eval(data)
         _data = copy.deepcopy(data)
-        results = []
+        results = OrderedDict() 
         error = None 
         module = None
         _index = None
         try:
-            for module in data.keys():
-                _mod = __import__('config.'+module, globals(), locals(), [operation], -1)
-                call = _mod.__dict__[operation]
-                model = data[module]
-                if module in __n__['indexes']:
-                    for _model in model:
-                        _index = _model['_index']
-                        del _model['_index']
-                        __n__['logger'].info('function:{0}.{1}, index:{3}, model:{2}'.format(module, operation, str(_model), str(_index)))
-                        m = Model(operation, module, _model, _index)
-                        # Routes a requested model to a config module
-                        result = call(m)
-                        if result:
-                            results.append(result)
-                else:
+            for module, model in data.iteritems():
+                if operation == 'get': # CRUD get operation
+                    import ovsdb
                     __n__['logger'].info('function:{0}.{1}, model:{2}'.format(module, operation, str(model)))
-                    m = Model(operation, module, model)
-                    # Routes a requested model to a config module 
-                    result = call(m)
-                    if result:
-                        results.append(result)
+                    results = ovsdb.get_state(module, model)  
+                else: # CRUD add/update/delete operation
+                    _mod = __import__('config.'+module, globals(), locals(), [operation], -1)
+                    call = _mod.__dict__[operation]
+                    if module in __n__['indexes']:
+                        for _model in model:
+                            _index = _model['_index']
+                            del _model['_index']
+                            __n__['logger'].info('function:{0}.{1}, index:{3}, model:{2}'.format(module, operation, str(_model), str(_index)))
+                            m = Model(operation, module, _model, _index)
+                            # Routes a requested model to a config module
+                            call(m)
+                    else:
+                        __n__['logger'].info('function:{0}.{1}, model:{2}'.format(module, operation, str(model)))
+                        m = Model(operation, module, model)
+                        # Routes a requested model to a config module 
+                        call(m)
         except CmdError as e:
             error = OrderedDict()
             error['exception'] = 'CmdError'
@@ -108,7 +108,8 @@ def _route(operation, data):
             error['stdout'] = e.out
             error['exit'] = e.returncode 
             error['operation'] = operation
-            error['progress'] = _progress(_data, module, _index)
+            if operation != 'get':
+                error['progress'] = _progress(_data, module, _index)
         except ModelError as e:
             error = OrderedDict()
             error['exception'] = 'ModelError'
@@ -116,7 +117,8 @@ def _route(operation, data):
             error['traceback'] = traceback.format_exc() 
             error['exit'] = 1
             error['operation'] = operation
-            error['progress'] = _progress(_data, module, _index)
+            if operation != 'get':
+                error['progress'] = _progress(_data, module, _index)
         except Exception as e:
             error = OrderedDict()
             error['exception'] = type(e).__name__ 
@@ -124,12 +126,12 @@ def _route(operation, data):
             error['traceback'] = traceback.format_exc() 
             error['exit'] = 1
             error['operation'] = operation
-            error['progress'] = _progress(_data, module, _index)
+            if operation != 'get':
+                error['progress'] = _progress(_data, module, _index)
         finally:
             if len(results) > 0:
                 # STDOUT
-                for o in results:
-                    print o
+                print results
             if error:
                 print >>sys.stderr, str(error)
                 exit = sys.exit(error['exit'])
@@ -252,7 +254,7 @@ if __name__ == "__main__":
         data = sys.stdin.read().replace('"','') 
     elif operation and len(args) > 0:
         # Obtains CRUD data from command arguments
-        data = parse_args(args[0], *args[1:])
+        data = argsmodel.parse_args(operation, args[0], *args[1:])
     else:
         # Command module arguments
         data = args

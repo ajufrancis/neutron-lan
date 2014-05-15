@@ -2,7 +2,6 @@
 
 JSON-RPC respone error handling ==> raise some Exception
 
-
 [13] nlan_agent.py local mode: state deployment w/o using nlan.py.
 
 [14] State audit: YAML -- active state -- OVSDB consistency
@@ -12,6 +11,12 @@ JSON-RPC respone error handling ==> raise some Exception
 [16] Run nlan_agent.py within a linux container (by using lxc-execute/lxc-init).
 
 I have already built lxc-capable linux kernel for OpenWrt and Raspbian. For the simulation environment, I need to re-build lxc-capable OpenWrt image for x86 w/ lxc support.
+
+[17] State params for delete operations
+
+Allow them to have None value.
+
+[18] argsmodel.py  schema_help output, working with enum
 
 -----
 
@@ -60,8 +65,11 @@ In this case, yamldiff should generate add peers 192.168.1.103, not update peers
 
 [12] sit_debug stalls somehow. -- DONE! This problem seems to be a Python's bug:
 
-queue.put({'a':<very large object>})
-l = queue.get()
+queue.put({<key>:<very large object>})
+l = queue.get() # still copyting the object to the parent process
 
 Reference: http://bryceboe.com/2011/01/28/the-python-multiprocessing-queue-and-large-objects/
+
+So I added an parameter output_stdout to the "main" function in nlan.py:
+if False, stdout is not put in the queue.
 

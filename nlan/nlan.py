@@ -16,12 +16,12 @@ from collections import OrderedDict
 from multiprocessing import Process, Lock, Pipe, Queue
 import time, datetime
 from cStringIO import StringIO
+import json
 
-import cmdutil, util
+import cmdutil, util, argsmodel
 import yaml, yamldiff
 from env import * 
 from errors import NlanException
-import json
 
 nlanconf = 'nlan_env.conf'
 
@@ -35,7 +35,7 @@ def _printmsg_request(lock, router, platform):
 
 _toyaml = lambda d: yaml.dump(util.decode(d), default_flow_style=False).rstrip('\n') 
 
-def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, git=False, verbose=False):
+def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, git=False, verbose=False, output_stdout=False):
 
     rp = "Ping test to all the target routers"
     if verbose:
@@ -52,7 +52,6 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
         doc = ' '.join(doc)
     if not loglevel:
         loglevel = ''
-    #print router, operation, doc, cmd_list, loglevel
     
 
     def _ssh_exec_command(ssh, cmd, cmd_args, out, err):
@@ -75,16 +74,17 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
 
 
     # ssh session per child process
-    def _ssh_session(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, child, verbose):
+    def _ssh_session(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, verbose, output_stdout=False):
 
 
         out = StringIO()
         err = StringIO()
         ssh = None
+        
+        stdout = None
+        finish_utc = None
         response = OrderedDict() 
         response['exit'] = 0
-        stdout = None
-        exitcode = 0
 
         try:
             ssh = para.SSHClient()
@@ -200,17 +200,12 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                         for key, value in response.iteritems():
                             print '{}: {}'.format(key, value)
                 
-                finish_utc = time.time()
-                queue.put({'router':router, 'response':response, 'finish_utc':finish_utc})
 
         except Exception as e:
             response['exception'] = type(e).__name__
             response['message'] = 'See the traceback message'
             response['exit'] = 1 
             response['traceeback'] = traceback.format_exc()
-            exitcode = 1
-            finish_utc = time.time()
-            queue.put({'router':router, 'response':response, 'finish_utc':finish_utc})
             with lock:
                 rp = "NLAN Request Failure router:{0},platform:{1}".format(router, platform)
                 print bar[:5], rp, bar[5+len(rp):] 
@@ -219,11 +214,18 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                     print '{}: {}'.format(key, response[key])
 
         finally:
+            finish_utc = time.time()
+            result = {}
+            if output_stdout:
+                result['stdout'] = stdout
+            result['router'] = router
+            result['response'] = response
+            result['finish_utc'] = finish_utc
+            queue.put(result)
+
             out.close()
             err.close()
             ssh.close()
-            child.send(exitcode)
-
 
 
     routers = []
@@ -257,10 +259,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                 print 'operation: ' + operation 
                 print 'dict_args: ' + cmd_args
 
-            # Pipe to receive an exitcode from a child process
-            parent, child = Pipe()
-
-            ssh_sessions.append([Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, child, verbose)), parent])
+            ssh_sessions.append(Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, verbose, output_stdout)))
 
     else:
         for router in routers:
@@ -306,37 +305,34 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                     print 'operation: ' + operation 
                     print 'dict_args: ' + cmd_args
 
-            # Pipe to receive an exitcode from a child process
-            parent, child = Pipe()
-
-            ssh_sessions.append([Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, child, verbose)), parent])
+            ssh_sessions.append(Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, verbose, output_stdout)))
  
     # Start child processes
     try:
         for l in ssh_sessions:
-            l[0].start()
+            l.start()
 
         while True:
             if len(ssh_sessions) == 0:
                 break
-            sleep(0.5)
+            sleep(0.05)
             temp = list(ssh_sessions)
             for l in temp:
-                if not l[0].is_alive():
-                    exitcode = l[1].recv()
-                    l[0].terminate()
+                if not l.is_alive():
+                    l.terminate()
                     ssh_sessions.remove(l)
     except KeyboardInterrupt:
         print "\nOK. I will terminate the child processes..."
         for l in ssh_sessions:
             pid = str(l[0].pid)
             sub = cmdutil.output_cmd('ps -p', pid, 'h')
-            l[0].terminate()
-            l[0].join()
+            l.terminate()
+            l.join()
             print "child process:", sub 
         raise Exception("Operation stopped by Keyboard Interruption") 
     finally:
         exit = 0
+        results = [] 
         if not queue.empty():
             if verbose:
                 title = "Transaction Summary"
@@ -347,23 +343,22 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                 print "Router           Result    Elapsed Time"
                 print "---------------------------------------"
             for l in ssh_sessions:
-                l[0].terminate()
-            result = [] 
+                l.terminate()
             while not queue.empty():
                 smiley = ':-)'
-                l = queue.get() 
-                router = l['router']
-                response = l['response']
+                result = queue.get() 
+                router = result['router']
+                response = result['response']
                 if response['exit'] > 0:
                     smiley = 'XXX'
                     exit = 1
                 if verbose:
-                    print "{:17s} {:3s}   {:10.2f}(sec)".format(router, smiley, l['finish_utc'] - start_utc)
-                result.append(l)
+                    print "{:17s} {:3s}   {:10.2f}(sec)".format(router, smiley, result['finish_utc'] - start_utc)
+                results.append(result)
         if exit > 0:
-            raise NlanException("NLAN transaction failure", result=result)
+            raise NlanException("NLAN transaction failure", result=results)
         else:
-            return result
+            return results # A bunch of results from child processes
             
 
 def _wait(router, timeout, verbose):
@@ -477,14 +472,20 @@ if __name__=='__main__':
     git = -1 
     target = None
     verbose = False
+    crud = False
+
     if options.add:
         option = '--add'
+        crud = True
     elif options.get:
         option = '--get'
+        crud = True
     elif options.update:
         option = '--update'
+        crud = True
     elif options.delete:
         option = '--delete'
+        crud = True
     elif options.scp:
         option = '--scp'
     elif options.scpmod:
@@ -509,38 +510,35 @@ if __name__=='__main__':
     if options.target:
         router = options.target
 
-    if option == '--add' or option == '--update' or option == '--delete':
-        args = args[0]
+    # Default state file
+    if not crud and not option and len(args) == 1 and args[0] == 'deploy':
+        args[0] = NLAN_STATE
 
-    if options.time:
-        timeout = options.time
-        sys.exit(_wait(router, timeout, verbose))
-    # --add, --get, --update, --delete, --scp, --scpmod, --raw, --wait
-    elif option != None:
-        main(router=router, operation=option, doc=args, loglevel=loglevel, git=git, verbose=verbose)
-    else:
-        # NLAN CRUD operations generated from a YAML state file
-        if len(args) == 0:
-            parser.print_usage()
-            sys.exit(0)
-        # State files
-        if len(args) == 1 and args[0] == 'deploy':
-            args[0] = NLAN_STATE
-        if args[0].endswith('yaml'):
+    try: # Execution
+        if options.time: # --wait
+            timeout = options.time
+            _wait(router, timeout, verbose)
+        elif not crud and option: # --scp, --scpmod, --raw
+            main(router=router, operation=option, doc=args, loglevel=loglevel, git=git, verbose=verbose)
+        elif not crud and not option and len(args) > 0 and args[0].endswith('yaml'): # Batch operation
             for v in args:
                 if v.endswith('yaml'):
                     if os.path.exists(os.path.join(NLAN_ETC, v)):
                         cmd_list = yamldiff.crud_diff(v, git=git)
                         if len(cmd_list) != 0:
-                            try:
-                                main(router=router, operation='--batch', cmd_list=cmd_list, loglevel=loglevel, verbose=verbose)
-                                if git == 0:
-                                    cmdutil.check_cmd('git', GIT_OPTIONS, 'add', v)
-                                    cmdutil.check_cmd('git', GIT_OPTIONS, 'commit -m updated')
-                            except:
-                                traceback.print_exc()
-                                sys.exit(1)
-        else:
-            # NLAN command module execution
+                            main(router=router, operation='--batch', cmd_list=cmd_list, loglevel=loglevel, verbose=verbose)
+                            if git == 0:
+                                cmdutil.check_cmd('git', GIT_OPTIONS, 'add', v)
+                                cmdutil.check_cmd('git', GIT_OPTIONS, 'commit -m updated')
+        elif not crud and not option and len(args) > 0: # NLAN command module execution
             main(router=router, doc=args, loglevel=loglevel, verbose=verbose)
+        elif crud and len(args) > 0: # CRUD operation
+            operation = option.lstrip('-') 
+            doc = str(argsmodel.parse_args(operation, args[0], *args[1:]))
+            main(router=router, operation=option, doc=doc, loglevel=loglevel, verbose=verbose)
+        else:
+            parser.print_usage()
+    except:
+            traceback.print_exc()
+            sys.exit(1)
 

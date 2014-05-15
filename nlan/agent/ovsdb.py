@@ -635,6 +635,21 @@ def search(table, columns, key=None, value=None):
             break
     return todicts(response, module)
 
+def nlan_search(module, columns=None, key=None, value=None): 
+
+    where = [] 
+    if key and value:
+        where = [[
+            key,
+            "==",
+            value
+            ]]
+
+    table = __n__['tables'][module]['key']['refTable']
+    response = select(table, where, columns)
+    return todicts(response, module)
+    
+
 # Obtains ofport <=> peers mapping data for vxlan ports
 # to construct broadcast trees for each vni
 def get_vxlan_ports(peers=None):
@@ -686,6 +701,39 @@ def get_current_state():
                 pass
 
     return state
+
+
+# CRUD get operation
+def get_state(module, model):
+
+    results = OrderedDict() 
+
+    if module in __n__['indexes']:
+        l = []
+        if model:
+            for _model in model:
+                _index = _model['_index']
+                del _model['_index']
+                columns = None
+                if len(_model) > 0:
+                    columns = []
+                    for k in _model:
+                        columns.append(k)
+                s = nlan_search(module, columns, _index[0], _index[1])
+                if len(s) > 0:
+                    l.append(s[0])
+            results[module] = l
+        else:
+            s = nlan_search(module)
+            if len(s) > 0:
+                results[module] = s
+    else:
+        s = nlan_search(module)
+        if len(s) > 0:
+            results[module] = s[0]
+
+    return results
+
 
 
 #######################################################################

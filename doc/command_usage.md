@@ -52,6 +52,21 @@ $ nlan.py init.run
 $ nlan.py -R deploy
 </pre>
 
+CRUD operations (using nlan.py)
+-----------------------------------------
+<pre>
+$ nlan.py --add bridges ovs_bridges=enabled
+$ nlan.py -t openwrt1 --add vxlan local_ip=192.168.1.101 remote_ips=192.168.1.102,192.168.1.103
+$ nlan.py -t openwrt1 --add subnets _index=vni,10 vid=1 vni=10
+$ nlan.py -t openwrt1 --add subnets _index=vni,10 ip_dvr=addr:10.0.1.9/24,mode:dvr
+$ nlan.py -t openwrt1 --update subnets _index=vni,10 ip_dvr=addr:10.0.1.1/24,mode:dvr
+$ nlan.py -t openwrt1 --add subnets _index=vni,10 ip_vhost=10.0.1.101/24
+$ nlan.py -t openwrt1 --delete subnets _index=vni,10 ip_vhost=10.0.1.101/24
+$ nlan.py -t openwrt1 --get subnets _index=vni,10 ip_dvr 
+$ nlan.py -t openwrt1 --get subnets _index=vni,10
+$ nlan.py -t openwrt1 --get subnets
+</pre>
+
 Local CRUD operations (w/o using nlan.py)
 -----------------------------------------
 <pre>
@@ -62,6 +77,9 @@ $ nlan_agent.py --add subnets _index=vni,10 ip_dvr=addr:10.0.1.9/24,mode:dvr
 $ nlan_agent.py --update subnets _index=vni,10 ip_dvr=addr:10.0.1.1/24,mode:dvr
 $ nlan_agent.py --add subnets _index=vni,10 ip_vhost=10.0.1.101/24
 $ nlan_agent.py --delete subnets _index=vni,10 ip_vhost=10.0.1.101/24
+$ nlan_agent.py --get subnets _index=vni,10 ip_dvr 
+$ nlan_agent.py --get subnets _index=vni,10
+$ nlan_agent.py --get subnets
 </pre>
 
 
