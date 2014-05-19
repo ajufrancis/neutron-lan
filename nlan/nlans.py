@@ -38,19 +38,21 @@ def _print_failure():
     print 'XXXXXXXXXXXXXXXX'
 
 
-def do(scenario, dirname):
+def do(scenario, dirname, interactive):
 
     for l in scenario:
         if 'do' in l:
             do_file = os.path.join(dirname, l['do'])
             with open(do_file, 'r') as f:
                 scenario = yaml.load(f.read())
-            do(scenario, dirname)
+            do(scenario, dirname, interactive)
         if 'sleep' in l:
             time.sleep(int(l['sleep']))
         if 'comment' in l:
             rp = "TEST: {}".format(l['comment'])
             print bar[:5], rp, bar[5+len(rp):]
+        if interactive:
+            raw_input("Press Enter to continue...") 
         if 'command' in l:
             cmdutil.check_cmd(l['command'])
         if 'nlan' in l:
@@ -104,6 +106,9 @@ def do(scenario, dirname):
                 else:
                     raise
 
+        
+
+
 if __name__ == '__main__':
 
     logo = """
@@ -116,6 +121,7 @@ if __name__ == '__main__':
 
     usage = logo + "usage: %prog [scenario_file]"
     parser = OptionParser(usage=usage)
+    parser.add_option("-i", "--interactive", help="interactive mode", action="store_true", default=False)
 
     options, args = parser.parse_args()
 
@@ -123,7 +129,7 @@ if __name__ == '__main__':
         with open(args[0], 'r') as f:
             scenario = yaml.load(f.read())
         dirname = os.path.dirname(args[0])
-        do(scenario, dirname)
+        do(scenario, dirname, options.interactive)
     else:
         parser.print_usage()
         

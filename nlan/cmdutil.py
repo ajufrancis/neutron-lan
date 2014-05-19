@@ -82,12 +82,7 @@ class CmdError(Exception):
     def __str__(self):
 
         message = ''
-        if self.out:
-            message = "{}\ncommand: {}\nstdout: {}\nexit: {}".format(self.message, self.command, self.out, self.returncode)
-        else:
-            message = "{}\ncommand: {}\nexit: {}".format(self.message, self.command, self.returncode)
-
-        return message
+        return self.message
 
 # If you can ignore error condition, use this function.
 def cmd(*args):

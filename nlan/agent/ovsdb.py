@@ -99,28 +99,36 @@ def _todict(row, module=None):
                     dict_value[key] = [row[key]]
                 else:
                     dict_value[key] = row[key]
-
-    return dict_value
+    if dict_value:
+        return dict_value
+    else:
+        return None
 
 # Get a row in the form of Python dictionary 
 def todict(response, module=None):
-    dict_ = {}
-    try:
-        row = response["result"][0]["rows"][0]
+    rows = response["result"][0]["rows"]
+    if isinstance(rows, list) and len(rows) == 0: # Empty list
+        return None 
+    else:
+        row = rows[0]
         dict_ = _todict(row, module)
-    except:  # JSON-RPC response has an empty list for "rows"
-        pass
-    return dict_
+        return dict_
 
 # Get rows in the form of Python dictionary 
 def todicts(response, module=None):
     dicts = [] 
-    try:
-        for row in response["result"][0]["rows"]:
-            dicts.append(_todict(row, module))
-    except:  # JSON-RPC response has an empty list for "rows"
-        pass
-    return dicts
+    rows = response["result"][0]["rows"]
+    for row in rows:
+        if isinstance(row, dict) and not row: # Empty dict
+            pass 
+        else:
+            d = _todict(row, module)
+            if d:
+                dicts.append(d)
+    if len(dicts) == 0:
+        return None
+    else:
+        return dicts
 
             
 # Get a value of count in the JSON-RPC response
@@ -534,7 +542,7 @@ class Row(OvsdbRow):
     # Creates an instance of a row 
     def __init__(self, module, index=None):
 
-        if len(todict(select('NLAN', []))) == 0:
+        if not todict(select('NLAN', [])):
             insert('NLAN', {})
         self.module = module
 
@@ -573,7 +581,8 @@ class Row(OvsdbRow):
         response = mutate_delete(self.table, self.where, self.parent, self.module)
         self.row = {} 
 
-    
+   
+    # add/update/delete 
     def crud(self, crud, model):
 
         if __n__['init'] != 'start':
@@ -587,7 +596,7 @@ class Row(OvsdbRow):
 
             if ind in keys and crud == 'add':
                 self.setrow(model)
-            elif not ind and len(self.getrow()) == 0:
+            elif not ind and not self.getrow():
                 self.setrow(model)
             elif crud == 'add' or crud == 'update':
                 for k in keys:
@@ -684,23 +693,26 @@ def get_current_state():
 
     row = todict(select('NLAN', []))
 
-    for key in row:
-        v = row[key]
-        if _iflist_tables(key):
-            if v:
-                d = todicts(select(table=TABLES[key]['key']['refTable'],where=[]),key)   
-                if len(d) > 0:
-                    state[key] = d  
+    if row:
+        for key in row:
+            v = row[key]
+            if _iflist_tables(key):
+                if v:
+                    d = todicts(select(table=TABLES[key]['key']['refTable'],where=[]),key)   
+                    if d:
+                        state[key] = d  
+                    else:
+                        pass
+            elif isinstance(v, str) or isinstance(v, unicode):
+                d = todict(select(table=TABLES[key]['key']['refTable'],where=[]),key)
+                if d:
+                    state[key] = d
                 else:
                     pass
-        elif isinstance(v, str) or isinstance(v, unicode):
-            d = todict(select(table=TABLES[key]['key']['refTable'],where=[]),key)
-            if len(d) > 0:
-                state[key] = d
-            else:
-                pass
 
-    return state
+        return state
+    else:
+        return None
 
 
 # CRUD get operation
@@ -708,7 +720,7 @@ def get_state(module, model):
 
     results = OrderedDict() 
 
-    if module in __n__['indexes']:
+    if module in __n__['indexes']: # list type
         l = []
         if model:
             for _model in model:
@@ -720,19 +732,28 @@ def get_state(module, model):
                     for k in _model:
                         columns.append(k)
                 s = nlan_search(module, columns, _index[0], _index[1])
-                if len(s) > 0:
+                if s:
                     l.append(s[0])
-            results[module] = l
+            if len(l) > 0:
+                results[module] = l
         else:
             s = nlan_search(module)
-            if len(s) > 0:
+            if s:
                 results[module] = s
-    else:
-        s = nlan_search(module)
-        if len(s) > 0:
+    else: # non list type
+        columns = None 
+        if model:
+            columns = []
+            for k in model:
+                columns.append(k)
+        s = nlan_search(module, columns, key=None, value=None)
+        if s:
             results[module] = s[0]
 
-    return results
+    if results:
+        return results
+    else:
+        return None
 
 
 

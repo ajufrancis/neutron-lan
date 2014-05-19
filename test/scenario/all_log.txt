@@ -5,8 +5,8 @@
 exception: ModelError
 message: cannot add _controller w/o _ovs_bridges_
 traceback: Traceback (most recent call last):
-  File "/opt/nlan/nlan_agent.py", line 99, in _route
-    result = call(m)
+  File "/opt/nlan/nlan_agent.py", line 101, in _route
+    call(m)
   File "/opt/nlan/config/bridges.py", line 52, in add
     raise ModelError(message='cannot add _controller w/o _ovs_bridges_', model=model.model)
 ModelError: cannot add _controller w/o _ovs_bridges_
@@ -20,15 +20,15 @@ progress: OrderedDict([('bridges', False)])
 ****************
 ///// TEST: add, _ovs_bridges and not _controller //////////////////////////////
 --- STDOUT from router:openwrt1,platform:openwrt
-[INFO] 2014-05-15 01:24:09,176 module:nlan_agent,function:<module>,router:openwrt1
+[INFO] 2014-05-19 01:41:23,014 module:nlan_agent,function:<module>,router:openwrt1
 NLAN Agent initialization completed
-[DEBUG] 2014-05-15 01:24:09,178 module:nlan_agent,function:<module>,router:openwrt1
-__n__: {'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'platform': 'openwrt', 'share_dir': '/opt/nlan/share', 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb7642a2c>, 'router': 'openwrt1', 'schema': 'ovsdb_nlan.schema', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'indexes': {'services': 'name', 'subnets': 'vni'}}
-[INFO] 2014-05-15 01:24:09,259 module:nlan_agent,function:_route,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,016 module:nlan_agent,function:<module>,router:openwrt1
+__n__: {'tables': {'services': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Service'}, 'min': 0}, 'bridges': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Bridges'}, 'min': 0}, 'gateway': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_Gateway'}, 'min': 0}, 'vxlan': {'max': 1, 'key': {'type': 'uuid', 'refTable': 'NLAN_VXLAN'}, 'min': 0}, 'subnets': {'max': 'unlimited', 'key': {'type': 'uuid', 'refTable': 'NLAN_Subnet'}, 'min': 0}}, 'agent_dir': '/opt/nlan', 'platform': 'openwrt', 'share_dir': '/opt/nlan/share', 'state_order': ['bridges', 'services', 'gateway', 'vxlan', 'subnets'], 'logger': <logging.Logger object at 0xb75c696c>, 'router': 'openwrt1', 'schema': 'ovsdb_nlan.schema', 'types': {'services': {'name': {'max': 1, 'key': {'type': 'string'}, 'min': 1}, 'chain': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}, 'bridges': {'controller': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ovs_bridges': {'max': 1, 'key': {'enum': ['set', ['enabled']], 'type': 'string'}, 'min': 0}}, 'gateway': {'network': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'rip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'vxlan': {'remote_ips': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'local_ip': {'max': 1, 'key': {'type': 'string'}, 'min': 0}}, 'subnets': {'peers': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}, 'vid': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 4095, 'type': 'integer'}, 'min': 0}, 'ip_vhost': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'vni': {'max': 1, 'key': {'minInteger': 0, 'maxInteger': 16777215, 'type': 'integer'}, 'min': 1}, 'ip_dvr': {'max': 2, 'value': {'type': 'string'}, 'key': {'enum': ['set', ['addr', 'mode']], 'type': 'string'}, 'min': 0}, 'default_gw': {'max': 1, 'key': {'type': 'string'}, 'min': 0}, 'ports': {'max': 'unlimited', 'key': {'type': 'string'}, 'min': 0}}}, 'indexes': {'services': 'name', 'subnets': 'vni'}}
+[INFO] 2014-05-19 01:41:23,121 module:nlan_agent,function:_route,router:openwrt1
 function:bridges.add, model:{'ovs_bridges': 'enabled'}
-[DEBUG] 2014-05-15 01:24:09,269 module:ovsdb,function:_send,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,132 module:ovsdb,function:_send,router:openwrt1
 request:
-  id: 441915
+  id: 999963
   method: transact
   params:
   - Open_vSwitch
@@ -37,15 +37,15 @@ request:
     where: []
 response:
   error: null
-  id: 441915
+  id: 999963
   result:
   - rows:
     - _uuid:
       - uuid
-      - 1f1bdb53-d3ca-467f-81aa-a9bb35cf4cc1
+      - 68a1b04b-0355-415e-aa6e-579826648669
       _version:
       - uuid
-      - 5259584f-8bd2-459f-a68f-d34fe3f1dedf
+      - 5a547165-e60a-4bb8-aa7e-b7df4da8cee8
       bridges:
       - set
       - []
@@ -61,9 +61,9 @@ response:
       vxlan:
       - set
       - []
-[DEBUG] 2014-05-15 01:24:09,275 module:ovsdb,function:_send,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,137 module:ovsdb,function:_send,router:openwrt1
 request:
-  id: 826854
+  id: 111178
   method: transact
   params:
   - Open_vSwitch
@@ -72,17 +72,17 @@ request:
     table: NLAN
 response:
   error: null
-  id: 826854
+  id: 111178
   result:
   - uuid:
     - uuid
-    - 6d1e1c10-caff-4db8-9b3d-c62f3ea3d1d7
+    - 28f96740-c67e-4cb8-b010-9f3c319659a2
   - details: transaction causes "NLAN" table to contain 2 rows, greater than the schema-defined
       limit of 1 row(s)
     error: constraint violation
-[DEBUG] 2014-05-15 01:24:09,279 module:ovsdb,function:_send,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,141 module:ovsdb,function:_send,router:openwrt1
 request:
-  id: 854855
+  id: 676322
   method: transact
   params:
   - Open_vSwitch
@@ -91,24 +91,24 @@ request:
     where: []
 response:
   error: null
-  id: 854855
+  id: 676322
   result:
   - rows: []
-[INFO] 2014-05-15 01:24:09,282 module:bridges,function:add,router:openwrt1
+[INFO] 2014-05-19 01:41:23,142 module:bridges,function:add,router:openwrt1
 Adding bridges: br-int and br-tun
-[DEBUG] 2014-05-15 01:24:09,308 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,165 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-vsctl add-br br-int
-[DEBUG] 2014-05-15 01:24:09,338 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,187 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-vsctl add-br br-tun
-[DEBUG] 2014-05-15 01:24:09,379 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,224 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl del-flows br-tun
-[DEBUG] 2014-05-15 01:24:09,394 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,241 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-vsctl add-port br-int patch-int -- set interface patch-int type=patch options:peer=patch-tun
-[DEBUG] 2014-05-15 01:24:09,420 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,263 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-vsctl add-port br-tun patch-tun -- set interface patch-tun type=patch options:peer=patch-int
-[DEBUG] 2014-05-15 01:24:09,447 module:ovsdb,function:_send,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,284 module:ovsdb,function:_send,router:openwrt1
 request:
-  id: 159728
+  id: 217474
   method: transact
   params:
   - Open_vSwitch
@@ -120,15 +120,15 @@ request:
       - patch-tun
 response:
   error: null
-  id: 159728
+  id: 217474
   result:
   - rows:
     - _uuid:
       - uuid
-      - e7b21d73-8c57-467e-aefc-1a042532303b
+      - 52a15351-29f9-4191-bb92-b44c948433a4
       _version:
       - uuid
-      - 14b62cd3-810a-4bd7-aefe-074102254d44
+      - bc47d69e-95e9-41a5-95ae-254f4d1c82df
       admin_state:
       - set
       - []
@@ -183,7 +183,7 @@ response:
       mac:
       - set
       - []
-      mac_in_use: e6:72:c8:00:2c:00
+      mac_in_use: 3e:9f:f5:e4:34:82
       mtu:
       - set
       - []
@@ -229,31 +229,31 @@ response:
       - map
       - []
       type: patch
-[DEBUG] 2014-05-15 01:24:09,461 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,301 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl add-flow br-tun table=0,priority=1,in_port=1,actions=resubmit(,1)
-[DEBUG] 2014-05-15 01:24:09,473 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,309 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl add-flow br-tun table=0,priority=0,actions=drop
-[DEBUG] 2014-05-15 01:24:09,482 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,318 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,19)
-[DEBUG] 2014-05-15 01:24:09,493 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,328 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl add-flow br-tun table=1,priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00,actions=resubmit(,20)
-[DEBUG] 2014-05-15 01:24:09,504 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,338 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl add-flow br-tun table=2,priority=0,actions=drop
-[DEBUG] 2014-05-15 01:24:09,518 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,348 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl add-flow br-tun table=3,priority=0,actions=drop
-[DEBUG] 2014-05-15 01:24:09,530 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,357 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl add-flow br-tun table=10,priority=1,actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
-[DEBUG] 2014-05-15 01:24:09,544 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,365 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl add-flow br-tun table=19,priority=0,actions=resubmit(,21)
-[DEBUG] 2014-05-15 01:24:09,554 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,373 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl add-flow br-tun table=20,priority=0,actions=resubmit(,21)
-[DEBUG] 2014-05-15 01:24:09,563 module:cmdutil,function:_cmd2,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,382 module:cmdutil,function:_cmd2,router:openwrt1
 cmd: ovs-ofctl add-flow br-tun table=21,priority=0,actions=drop
-[DEBUG] 2014-05-15 01:24:09,573 module:ovsdb,function:crud,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,391 module:ovsdb,function:crud,router:openwrt1
 CRUD operation (add): {'ovs_bridges': 'enabled'}
-[DEBUG] 2014-05-15 01:24:09,577 module:ovsdb,function:_send,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,394 module:ovsdb,function:_send,router:openwrt1
 request:
-  id: 852464
+  id: 952143
   method: transact
   params:
   - Open_vSwitch
@@ -261,27 +261,27 @@ request:
     row:
       ovs_bridges: enabled
     table: NLAN_Bridges
-    uuid-name: temp_272914
+    uuid-name: temp_432589
   - mutations:
     - - bridges
       - insert
       - - set
         - - - named-uuid
-            - temp_272914
+            - temp_432589
     op: mutate
     table: NLAN
     where: []
 response:
   error: null
-  id: 852464
+  id: 952143
   result:
   - uuid:
     - uuid
-    - 942ff959-d37b-4c27-9cd3-2f0d5e59993c
+    - 7c8f5c76-4cc1-416b-aed2-f8097e6f9da5
   - count: 1
-[DEBUG] 2014-05-15 01:24:09,581 module:ovsdb,function:_send,router:openwrt1
+[DEBUG] 2014-05-19 01:41:23,398 module:ovsdb,function:_send,router:openwrt1
 request:
-  id: 699520
+  id: 426938
   method: transact
   params:
   - Open_vSwitch
@@ -290,20 +290,20 @@ request:
     where: []
 response:
   error: null
-  id: 699520
+  id: 426938
   result:
   - rows:
     - _uuid:
       - uuid
-      - 942ff959-d37b-4c27-9cd3-2f0d5e59993c
+      - 7c8f5c76-4cc1-416b-aed2-f8097e6f9da5
       _version:
       - uuid
-      - e82a4420-ccef-43d8-89ad-ec426dac9485
+      - fc401ae1-488b-4edf-97d2-a94fe3d48af5
       controller:
       - set
       - []
       ovs_bridges: enabled
-[INFO] 2014-05-15 01:24:09,586 module:nlan_agent,function:<module>,router:openwrt1
+[INFO] 2014-05-19 01:41:23,403 module:nlan_agent,function:<module>,router:openwrt1
 NLAN Agent execution completed
 ///// TEST: add, _ovs_bridges and not _controller (ovs-vsctl) //////////////////
 --- STDOUT from router:openwrt1,platform:openwrt
@@ -327,16 +327,16 @@ d4f22fa4-2a1c-4609-9893-54182089c8f8
 ///// TEST: add, _ovs_bridges and not _controller (ovs-ofctl) //////////////////
 --- STDOUT from router:openwrt1,platform:openwrt
 NXST_FLOW reply (xid=0x4):
- cookie=0x0, duration=2.178s, table=0, n_packets=0, n_bytes=0, idle_age=2, priority=1,in_port=1 actions=resubmit(,1)
- cookie=0x0, duration=2.168s, table=0, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=drop
- cookie=0x0, duration=2.157s, table=1, n_packets=0, n_bytes=0, idle_age=2, priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,19)
- cookie=0x0, duration=2.146s, table=1, n_packets=0, n_bytes=0, idle_age=2, priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,20)
- cookie=0x0, duration=2.133s, table=2, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=drop
- cookie=0x0, duration=2.12s, table=3, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=drop
- cookie=0x0, duration=2.107s, table=10, n_packets=0, n_bytes=0, idle_age=2, priority=1 actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
- cookie=0x0, duration=2.097s, table=19, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=resubmit(,21)
- cookie=0x0, duration=2.087s, table=20, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=resubmit(,21)
- cookie=0x0, duration=2.077s, table=21, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=drop
+ cookie=0x0, duration=2s, table=0, n_packets=0, n_bytes=0, idle_age=2, priority=1,in_port=1 actions=resubmit(,1)
+ cookie=0x0, duration=1.991s, table=0, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=drop
+ cookie=0x0, duration=1.982s, table=1, n_packets=0, n_bytes=0, idle_age=1, priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,19)
+ cookie=0x0, duration=1.971s, table=1, n_packets=0, n_bytes=0, idle_age=1, priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,20)
+ cookie=0x0, duration=1.962s, table=2, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=drop
+ cookie=0x0, duration=1.953s, table=3, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=drop
+ cookie=0x0, duration=1.944s, table=10, n_packets=0, n_bytes=0, idle_age=1, priority=1 actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+ cookie=0x0, duration=1.936s, table=19, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=resubmit(,21)
+ cookie=0x0, duration=1.927s, table=20, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=resubmit(,21)
+ cookie=0x0, duration=1.918s, table=21, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=drop
 ///// TEST: add, _ovs_bridges and not _controller (ovsdb) //////////////////////
 --- STDOUT from router:openwrt1,platform:openwrt
 bridges:
@@ -399,16 +399,16 @@ d4f22fa4-2a1c-4609-9893-54182089c8f8
 ///// TEST: delete, _controller and not _ovs_bridges (ovs-ofctl) ///////////////
 --- STDOUT from router:openwrt1,platform:openwrt
 NXST_FLOW reply (xid=0x4):
- cookie=0x0, duration=2.071s, table=0, n_packets=0, n_bytes=0, idle_age=2, priority=1,in_port=1 actions=resubmit(,1)
- cookie=0x0, duration=2.061s, table=0, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=drop
- cookie=0x0, duration=2.051s, table=1, n_packets=0, n_bytes=0, idle_age=2, priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,19)
- cookie=0x0, duration=2.041s, table=1, n_packets=0, n_bytes=0, idle_age=2, priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,20)
- cookie=0x0, duration=2.031s, table=2, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=drop
- cookie=0x0, duration=2.02s, table=3, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=drop
- cookie=0x0, duration=2.013s, table=10, n_packets=0, n_bytes=0, idle_age=2, priority=1 actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
- cookie=0x0, duration=2.004s, table=19, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=resubmit(,21)
- cookie=0x0, duration=1.994s, table=20, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=resubmit(,21)
- cookie=0x0, duration=1.985s, table=21, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=drop
+ cookie=0x0, duration=2.033s, table=0, n_packets=0, n_bytes=0, idle_age=2, priority=1,in_port=1 actions=resubmit(,1)
+ cookie=0x0, duration=2.024s, table=0, n_packets=0, n_bytes=0, idle_age=2, priority=0 actions=drop
+ cookie=0x0, duration=2.015s, table=1, n_packets=0, n_bytes=0, idle_age=2, priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,19)
+ cookie=0x0, duration=2.006s, table=1, n_packets=0, n_bytes=0, idle_age=2, priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,20)
+ cookie=0x0, duration=1.998s, table=2, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=drop
+ cookie=0x0, duration=1.985s, table=3, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=drop
+ cookie=0x0, duration=1.975s, table=10, n_packets=0, n_bytes=0, idle_age=1, priority=1 actions=learn(table=20,hard_timeout=300,priority=1,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0->NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]->NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1
+ cookie=0x0, duration=1.964s, table=19, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=resubmit(,21)
+ cookie=0x0, duration=1.952s, table=20, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=resubmit(,21)
+ cookie=0x0, duration=1.943s, table=21, n_packets=0, n_bytes=0, idle_age=1, priority=0 actions=drop
 ///// TEST: delete, _controller and not _ovs_bridges (ovsdb) ///////////////////
 --- STDOUT from router:openwrt1,platform:openwrt
 bridges:
@@ -421,1035 +421,16 @@ bridges:
 --- STDOUT from router:openwrt1,platform:openwrt
 d4f22fa4-2a1c-4609-9893-54182089c8f8
 ///// TEST: delete, _ovs_bridges (ovsdb) ///////////////////////////////////////
-****************
-*** SUCCESS! ***
-****************
-///// TEST: copy the latest modules to the targets /////////////////////////////
-///// TEST: initialization /////////////////////////////////////////////////////
-///// TEST: add: _rip and _network /////////////////////////////////////////////
-///// TEST: add: _rip and _network (cat) ///////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-!
-! Zebra configuration saved from vty
-!   2014/05/15 01:24:33
-!
-password zebra
-!
-router rip
- version 2
- redistribute connected
- network eth2
-!
-access-list vty permit 127.0.0.0/8
-access-list vty deny any
-!
-line vty
- access-class vty
-!
-!
-! Zebra configuration saved from vty
-!   2014/05/15 01:24:33
-!
-password zebra
-!
-interface bond0
- ipv6 nd suppress-ra
-!
-interface br-int
- ipv6 nd suppress-ra
-!
-interface br-tun
- ipv6 nd suppress-ra
-!
-interface br1
- ipv6 nd suppress-ra
-!
-interface br2
- ipv6 nd suppress-ra
-!
-interface br3
- ipv6 nd suppress-ra
-!
-interface br10
- ipv6 nd suppress-ra
-!
-interface br101
- ipv6 nd suppress-ra
-!
-interface br103
- ipv6 nd suppress-ra
-!
-interface br1001
- ipv6 nd suppress-ra
-!
-interface eth0
- ipv6 nd suppress-ra
-!
-interface eth0.2
- ipv6 nd suppress-ra
-!
-interface eth1
- ipv6 nd suppress-ra
-!
-interface eth2
- link-detect
- ipv6 nd suppress-ra
-!
-interface eth3
- ipv6 nd suppress-ra
-!
-interface gre0
- ipv6 nd suppress-ra
-!
-interface gretap0
- ipv6 nd suppress-ra
-!
-interface int-br1
- ipv6 nd suppress-ra
-!
-interface int-br2
- ipv6 nd suppress-ra
-!
-interface int-br3
- ipv6 nd suppress-ra
-!
-interface int-br10
- ipv6 nd suppress-ra
-!
-interface int-br101
- ipv6 nd suppress-ra
-!
-interface int-br103
- ipv6 nd suppress-ra
-!
-interface int-br1001
- ipv6 nd suppress-ra
-!
-interface int-dvr1
- ipv6 nd suppress-ra
-!
-interface int-dvr2
- ipv6 nd suppress-ra
-!
-interface int-dvr3
- ipv6 nd suppress-ra
-!
-interface int-dvr10
- ipv6 nd suppress-ra
-!
-interface int-dvr101
- ipv6 nd suppress-ra
-!
-interface int-dvr103
- ipv6 nd suppress-ra
-!
-interface int-dvr1001
- ipv6 nd suppress-ra
-!
-interface ip6gre0
- ipv6 nd suppress-ra
-!
-interface ip6tnl0
- ipv6 nd suppress-ra
-!
-interface lo
-!
-interface ovs-system
- ipv6 nd suppress-ra
-!
-interface temp
- ipv6 nd suppress-ra
-!
-interface temp-ns1
- ipv6 nd suppress-ra
-!
-interface temp-ns2
- ipv6 nd suppress-ra
-!
-interface temp-ns3
- ipv6 nd suppress-ra
-!
-interface temp-ns10
- ipv6 nd suppress-ra
-!
-interface temp-ns101
- ipv6 nd suppress-ra
-!
-interface temp-ns103
- ipv6 nd suppress-ra
-!
-interface temp-ns1001
- ipv6 nd suppress-ra
-!
-interface tunl0
- ipv6 nd suppress-ra
-!
-interface veth-global
- ipv6 nd suppress-ra
-!
-interface veth-ns1
- ipv6 nd suppress-ra
-!
-interface veth-ns2
- ipv6 nd suppress-ra
-!
-interface veth-ns3
- ipv6 nd suppress-ra
-!
-interface veth-ns10
- ipv6 nd suppress-ra
-!
-interface veth-ns101
- ipv6 nd suppress-ra
-!
-interface veth-ns103
- ipv6 nd suppress-ra
-!
-interface veth-ns1001
- ipv6 nd suppress-ra
-!
-interface veth0.1
- ipv6 nd suppress-ra
-!
-interface veth0.1p
- ipv6 nd suppress-ra
-!
-interface veth0.3
- ipv6 nd suppress-ra
-!
-interface veth0.3p
- ipv6 nd suppress-ra
-!
-access-list vty permit 127.0.0.0/8
-access-list vty deny any
-!
-ip forwarding
-!
-!
-line vty
- access-class vty
-!
-///// TEST: update: _network ///////////////////////////////////////////////////
-///// TEST: update: _rip and _network (cat) ////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-!
-! Zebra configuration saved from vty
-!   2014/05/15 01:24:36
-!
-password zebra
-!
-router rip
- version 2
- redistribute connected
- network eth1
-!
-access-list vty permit 127.0.0.0/8
-access-list vty deny any
-!
-line vty
- access-class vty
-!
-!
-! Zebra configuration saved from vty
-!   2014/05/15 01:24:36
-!
-password zebra
-!
-interface bond0
- ipv6 nd suppress-ra
-!
-interface br-int
- ipv6 nd suppress-ra
-!
-interface br-tun
- ipv6 nd suppress-ra
-!
-interface br1
- ipv6 nd suppress-ra
-!
-interface br2
- ipv6 nd suppress-ra
-!
-interface br3
- ipv6 nd suppress-ra
-!
-interface br10
- ipv6 nd suppress-ra
-!
-interface br101
- ipv6 nd suppress-ra
-!
-interface br103
- ipv6 nd suppress-ra
-!
-interface br1001
- ipv6 nd suppress-ra
-!
-interface eth0
- ipv6 nd suppress-ra
-!
-interface eth0.2
- ipv6 nd suppress-ra
-!
-interface eth1
- link-detect
- ipv6 nd suppress-ra
-!
-interface eth2
- ipv6 nd suppress-ra
-!
-interface eth3
- ipv6 nd suppress-ra
-!
-interface gre0
- ipv6 nd suppress-ra
-!
-interface gretap0
- ipv6 nd suppress-ra
-!
-interface int-br1
- ipv6 nd suppress-ra
-!
-interface int-br2
- ipv6 nd suppress-ra
-!
-interface int-br3
- ipv6 nd suppress-ra
-!
-interface int-br10
- ipv6 nd suppress-ra
-!
-interface int-br101
- ipv6 nd suppress-ra
-!
-interface int-br103
- ipv6 nd suppress-ra
-!
-interface int-br1001
- ipv6 nd suppress-ra
-!
-interface int-dvr1
- ipv6 nd suppress-ra
-!
-interface int-dvr2
- ipv6 nd suppress-ra
-!
-interface int-dvr3
- ipv6 nd suppress-ra
-!
-interface int-dvr10
- ipv6 nd suppress-ra
-!
-interface int-dvr101
- ipv6 nd suppress-ra
-!
-interface int-dvr103
- ipv6 nd suppress-ra
-!
-interface int-dvr1001
- ipv6 nd suppress-ra
-!
-interface ip6gre0
- ipv6 nd suppress-ra
-!
-interface ip6tnl0
- ipv6 nd suppress-ra
-!
-interface lo
-!
-interface ovs-system
- ipv6 nd suppress-ra
-!
-interface temp
- ipv6 nd suppress-ra
-!
-interface temp-ns1
- ipv6 nd suppress-ra
-!
-interface temp-ns2
- ipv6 nd suppress-ra
-!
-interface temp-ns3
- ipv6 nd suppress-ra
-!
-interface temp-ns10
- ipv6 nd suppress-ra
-!
-interface temp-ns101
- ipv6 nd suppress-ra
-!
-interface temp-ns103
- ipv6 nd suppress-ra
-!
-interface temp-ns1001
- ipv6 nd suppress-ra
-!
-interface tunl0
- ipv6 nd suppress-ra
-!
-interface veth-global
- ipv6 nd suppress-ra
-!
-interface veth-ns1
- ipv6 nd suppress-ra
-!
-interface veth-ns2
- ipv6 nd suppress-ra
-!
-interface veth-ns3
- ipv6 nd suppress-ra
-!
-interface veth-ns10
- ipv6 nd suppress-ra
-!
-interface veth-ns101
- ipv6 nd suppress-ra
-!
-interface veth-ns103
- ipv6 nd suppress-ra
-!
-interface veth-ns1001
- ipv6 nd suppress-ra
-!
-interface veth0.1
- ipv6 nd suppress-ra
-!
-interface veth0.1p
- ipv6 nd suppress-ra
-!
-interface veth0.3
- ipv6 nd suppress-ra
-!
-interface veth0.3p
- ipv6 nd suppress-ra
-!
-access-list vty permit 127.0.0.0/8
-access-list vty deny any
-!
-ip forwarding
-!
-!
-line vty
- access-class vty
-!
-///// TEST: delete: _rip and _network //////////////////////////////////////////
-///// TEST: delete: _rip and _network (cat) ////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-!
-! Zebra configuration saved from vty
-!   2014/05/15 01:24:38
-!
-password zebra
-!
-router rip
-!
-access-list vty permit 127.0.0.0/8
-access-list vty deny any
-!
-line vty
- access-class vty
-!
-!
-! Zebra configuration saved from vty
-!   2014/05/15 01:24:38
-!
-password zebra
-!
-interface bond0
- ipv6 nd suppress-ra
-!
-interface br-int
- ipv6 nd suppress-ra
-!
-interface br-tun
- ipv6 nd suppress-ra
-!
-interface br1
- ipv6 nd suppress-ra
-!
-interface br2
- ipv6 nd suppress-ra
-!
-interface br3
- ipv6 nd suppress-ra
-!
-interface br10
- ipv6 nd suppress-ra
-!
-interface br101
- ipv6 nd suppress-ra
-!
-interface br103
- ipv6 nd suppress-ra
-!
-interface br1001
- ipv6 nd suppress-ra
-!
-interface eth0
- ipv6 nd suppress-ra
-!
-interface eth0.2
- ipv6 nd suppress-ra
-!
-interface eth1
- ipv6 nd suppress-ra
-!
-interface eth2
- ipv6 nd suppress-ra
-!
-interface eth3
- ipv6 nd suppress-ra
-!
-interface gre0
- ipv6 nd suppress-ra
-!
-interface gretap0
- ipv6 nd suppress-ra
-!
-interface int-br1
- ipv6 nd suppress-ra
-!
-interface int-br2
- ipv6 nd suppress-ra
-!
-interface int-br3
- ipv6 nd suppress-ra
-!
-interface int-br10
- ipv6 nd suppress-ra
-!
-interface int-br101
- ipv6 nd suppress-ra
-!
-interface int-br103
- ipv6 nd suppress-ra
-!
-interface int-br1001
- ipv6 nd suppress-ra
-!
-interface int-dvr1
- ipv6 nd suppress-ra
-!
-interface int-dvr2
- ipv6 nd suppress-ra
-!
-interface int-dvr3
- ipv6 nd suppress-ra
-!
-interface int-dvr10
- ipv6 nd suppress-ra
-!
-interface int-dvr101
- ipv6 nd suppress-ra
-!
-interface int-dvr103
- ipv6 nd suppress-ra
-!
-interface int-dvr1001
- ipv6 nd suppress-ra
-!
-interface ip6gre0
- ipv6 nd suppress-ra
-!
-interface ip6tnl0
- ipv6 nd suppress-ra
-!
-interface lo
-!
-interface ovs-system
- ipv6 nd suppress-ra
-!
-interface temp
- ipv6 nd suppress-ra
-!
-interface temp-ns1
- ipv6 nd suppress-ra
-!
-interface temp-ns2
- ipv6 nd suppress-ra
-!
-interface temp-ns3
- ipv6 nd suppress-ra
-!
-interface temp-ns10
- ipv6 nd suppress-ra
-!
-interface temp-ns101
- ipv6 nd suppress-ra
-!
-interface temp-ns103
- ipv6 nd suppress-ra
-!
-interface temp-ns1001
- ipv6 nd suppress-ra
-!
-interface tunl0
- ipv6 nd suppress-ra
-!
-interface veth-global
- ipv6 nd suppress-ra
-!
-interface veth-ns1
- ipv6 nd suppress-ra
-!
-interface veth-ns2
- ipv6 nd suppress-ra
-!
-interface veth-ns3
- ipv6 nd suppress-ra
-!
-interface veth-ns10
- ipv6 nd suppress-ra
-!
-interface veth-ns101
- ipv6 nd suppress-ra
-!
-interface veth-ns103
- ipv6 nd suppress-ra
-!
-interface veth-ns1001
- ipv6 nd suppress-ra
-!
-interface veth0.1
- ipv6 nd suppress-ra
-!
-interface veth0.1p
- ipv6 nd suppress-ra
-!
-interface veth0.3
- ipv6 nd suppress-ra
-!
-interface veth0.3p
- ipv6 nd suppress-ra
-!
-access-list vty permit 127.0.0.0/8
-access-list vty deny any
-!
-ip forwarding
-!
-!
-line vty
- access-class vty
-!
-///// TEST: copy the latest modules to the targets /////////////////////////////
-///// TEST: initialization /////////////////////////////////////////////////////
-///// TEST: add ovs_bridges ////////////////////////////////////////////////////
-///// TEST: add ovs_bridges (ovsdb) ////////////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-bridges:
-  ovs_bridges: enabled
-****************
-*** SUCCESS! ***
-****************
-///// TEST: add: _local_ip and _remote_ips /////////////////////////////////////
-///// TEST: add: _local_ip and _remote_ips (ovs-vsctl) /////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-d4f22fa4-2a1c-4609-9893-54182089c8f8
-    Bridge br-tun
-        Port br-tun
-            Interface br-tun
-                type: internal
-        Port patch-tun
-            Interface patch-tun
-                type: patch
-                options: {peer=patch-int}
-        Port "vxlan_102"
-            Interface "vxlan_102"
-                type: vxlan
-                options: {in_key=flow, local_ip="192.168.1.101", out_key=flow, remote_ip="192.168.1.102"}
-        Port "vxlan_103"
-            Interface "vxlan_103"
-                type: vxlan
-                options: {in_key=flow, local_ip="192.168.1.101", out_key=flow, remote_ip="192.168.1.103"}
-    Bridge br-int
-        Port patch-int
-            Interface patch-int
-                type: patch
-                options: {peer=patch-tun}
-        Port br-int
-            Interface br-int
-                type: internal
-///// TEST: add: _local_ip and _remote_ips (ovsdb) /////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-local_ip: 192.168.1.101
-remote_ips:
-- 192.168.1.102
-- 192.168.1.103
-****************
-*** SUCCESS! ***
-****************
-///// TEST: update: _local_ip //////////////////////////////////////////////////
-///// TEST: update: _local_ip (ovsdb) //////////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-local_ip: 192.168.1.191
-remote_ips:
-- 192.168.1.102
-- 192.168.1.103
-****************
-*** SUCCESS! ***
-****************
-///// TEST: update: _remote_ips ////////////////////////////////////////////////
-///// TEST: update: _remote_ips (ovs-vsctl) ////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-d4f22fa4-2a1c-4609-9893-54182089c8f8
-    Bridge br-tun
-        Port "vxlan_103"
-            Interface "vxlan_103"
-                type: vxlan
-                options: {in_key=flow, local_ip="192.168.1.191", out_key=flow, remote_ip="192.168.1.103"}
-        Port br-tun
-            Interface br-tun
-                type: internal
-        Port "vxlan_104"
-            Interface "vxlan_104"
-                type: vxlan
-                options: {in_key=flow, local_ip="192.168.1.191", out_key=flow, remote_ip="192.168.1.104"}
-        Port patch-tun
-            Interface patch-tun
-                type: patch
-                options: {peer=patch-int}
-        Port "vxlan_102"
-            Interface "vxlan_102"
-                type: vxlan
-                options: {in_key=flow, local_ip="192.168.1.191", out_key=flow, remote_ip="192.168.1.102"}
-    Bridge br-int
-        Port patch-int
-            Interface patch-int
-                type: patch
-                options: {peer=patch-tun}
-        Port br-int
-            Interface br-int
-                type: internal
-///// TEST: update: _remote_ips (ovsdb) ////////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-local_ip: 192.168.1.191
-remote_ips:
-- 192.168.1.102
-- 192.168.1.103
-- 192.168.1.104
-****************
-*** SUCCESS! ***
-****************
-///// TEST: delete: _remote_ips ////////////////////////////////////////////////
-///// TEST: delete: _remote_ips (ovsdb) ////////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-local_ip: 192.168.1.191
-****************
-*** SUCCESS! ***
-****************
-///// TEST: delete: _local_ip //////////////////////////////////////////////////
-///// TEST: delete: _local_ip (ovs-vsctl) //////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-d4f22fa4-2a1c-4609-9893-54182089c8f8
-    Bridge br-tun
-        Port br-tun
-            Interface br-tun
-                type: internal
-        Port patch-tun
-            Interface patch-tun
-                type: patch
-                options: {peer=patch-int}
-    Bridge br-int
-        Port patch-int
-            Interface patch-int
-                type: patch
-                options: {peer=patch-tun}
-        Port br-int
-            Interface br-int
-                type: internal
-///// TEST: delete: _local_ip (ovsdb) //////////////////////////////////////////
-****************
-*** SUCCESS! ***
-****************
-///// TEST: copy the latest modules to the targets /////////////////////////////
-///// TEST: initialization /////////////////////////////////////////////////////
-///// TEST: add _name //////////////////////////////////////////////////////////
-///// TEST: add _name (lxc-list) ///////////////////////////////////////////////
---- STDOUT from router:rpi1,platform:debian
-RUNNING
-  snort1
-
-FROZEN
-
-STOPPED
-  snort2
-
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue state UNKNOWN mode DEFAULT 
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master virbr0 state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:e9:e1:82 brd ff:ff:ff:ff:ff:ff
-3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:26:58:8e brd ff:ff:ff:ff:ff:ff
-4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:d6:37:13 brd ff:ff:ff:ff:ff:ff
-5: eth3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT qlen 1000
-    link/ether 08:00:27:d3:87:07 brd ff:ff:ff:ff:ff:ff
-6: virbr0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT 
-    link/ether 08:00:27:e9:e1:82 brd ff:ff:ff:ff:ff:ff
-7: ovs-system: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT 
-    link/ether ca:cb:e7:25:ba:e0 brd ff:ff:ff:ff:ff:ff
-///// TEST: add _name (ovsdb) //////////////////////////////////////////////////
---- STDOUT from router:rpi1,platform:debian
-name: snort1
-****************
-*** SUCCESS! ***
-****************
-///// TEST: add _chain /////////////////////////////////////////////////////////
-///// TEST: add _chain (lxc-list) //////////////////////////////////////////////
---- STDOUT from router:rpi1,platform:debian
-RUNNING
-  snort1
-
-FROZEN
-
-STOPPED
-  snort2
-
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue state UNKNOWN mode DEFAULT 
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master virbr0 state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:e9:e1:82 brd ff:ff:ff:ff:ff:ff
-3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master br0 state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:26:58:8e brd ff:ff:ff:ff:ff:ff
-4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:d6:37:13 brd ff:ff:ff:ff:ff:ff
-5: eth3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT qlen 1000
-    link/ether 08:00:27:d3:87:07 brd ff:ff:ff:ff:ff:ff
-6: virbr0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT 
-    link/ether 08:00:27:e9:e1:82 brd ff:ff:ff:ff:ff:ff
-7: ovs-system: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT 
-    link/ether ca:cb:e7:25:ba:e0 brd ff:ff:ff:ff:ff:ff
-155: br0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT 
-    link/ether 08:00:27:26:58:8e brd ff:ff:ff:ff:ff:ff
-157: aaa.101: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether fe:3f:c2:73:dc:8b brd ff:ff:ff:ff:ff:ff
-159: bbb.102: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether fe:2d:eb:74:2c:25 brd ff:ff:ff:ff:ff:ff
-///// TEST: add _chain (ovsdb) /////////////////////////////////////////////////
---- STDOUT from router:rpi1,platform:debian
-chain:
-- aaa.101
-- bbb.102
-name: snort1
-****************
-*** SUCCESS! ***
-****************
-///// TEST: update _chain //////////////////////////////////////////////////////
-///// TEST: update _chain (lxc-list) ///////////////////////////////////////////
---- STDOUT from router:rpi1,platform:debian
-RUNNING
-  snort1
-
-FROZEN
-
-STOPPED
-  snort2
-
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue state UNKNOWN mode DEFAULT 
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master virbr0 state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:e9:e1:82 brd ff:ff:ff:ff:ff:ff
-3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master br0 state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:26:58:8e brd ff:ff:ff:ff:ff:ff
-4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:d6:37:13 brd ff:ff:ff:ff:ff:ff
-5: eth3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT qlen 1000
-    link/ether 08:00:27:d3:87:07 brd ff:ff:ff:ff:ff:ff
-6: virbr0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT 
-    link/ether 08:00:27:e9:e1:82 brd ff:ff:ff:ff:ff:ff
-7: ovs-system: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT 
-    link/ether ca:cb:e7:25:ba:e0 brd ff:ff:ff:ff:ff:ff
-155: br0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT 
-    link/ether 08:00:27:26:58:8e brd ff:ff:ff:ff:ff:ff
-163: aaa.101: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether fe:55:67:2a:42:c7 brd ff:ff:ff:ff:ff:ff
-165: bbb.192: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether fe:6d:4a:6b:8f:6f brd ff:ff:ff:ff:ff:ff
-///// TEST: update _chain (ovsdb) //////////////////////////////////////////////
---- STDOUT from router:rpi1,platform:debian
-chain:
-- aaa.101
-- bbb.192
-name: snort1
-****************
-*** SUCCESS! ***
-****************
-///// TEST: delete _chain //////////////////////////////////////////////////////
-///// TEST: delete _chain (lxc-list) ///////////////////////////////////////////
---- STDOUT from router:rpi1,platform:debian
-RUNNING
-  snort1
-
-FROZEN
-
-STOPPED
-  snort2
-
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue state UNKNOWN mode DEFAULT 
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master virbr0 state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:e9:e1:82 brd ff:ff:ff:ff:ff:ff
-3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master br0 state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:26:58:8e brd ff:ff:ff:ff:ff:ff
-4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether 08:00:27:d6:37:13 brd ff:ff:ff:ff:ff:ff
-5: eth3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT qlen 1000
-    link/ether 08:00:27:d3:87:07 brd ff:ff:ff:ff:ff:ff
-6: virbr0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT 
-    link/ether 08:00:27:e9:e1:82 brd ff:ff:ff:ff:ff:ff
-7: ovs-system: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT 
-    link/ether ca:cb:e7:25:ba:e0 brd ff:ff:ff:ff:ff:ff
-155: br0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT 
-    link/ether 08:00:27:26:58:8e brd ff:ff:ff:ff:ff:ff
-163: aaa.101: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether fe:55:67:2a:42:c7 brd ff:ff:ff:ff:ff:ff
-165: bbb.192: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT qlen 1000
-    link/ether fe:6d:4a:6b:8f:6f brd ff:ff:ff:ff:ff:ff
-///// TEST: delete _chain (ovsdb) //////////////////////////////////////////////
---- STDOUT from router:rpi1,platform:debian
-name: snort1
-****************
-*** SUCCESS! ***
-****************
-///// TEST: delete _name ///////////////////////////////////////////////////////
-///// TEST: delete _name (ovsdb) ///////////////////////////////////////////////
-****************
-*** SUCCESS! ***
-****************
-///// TEST: copy the latest modules to the targets /////////////////////////////
-///// TEST: initialization /////////////////////////////////////////////////////
-///// TEST: add bridges, vxlan and subnets /////////////////////////////////////
-///// TEST: add ip_dvr /////////////////////////////////////////////////////////
-///// TEST: update ip_dvr //////////////////////////////////////////////////////
-///// TEST: add ip_vhost ///////////////////////////////////////////////////////
-///// TEST: delete ip_dvr and ip_vhost /////////////////////////////////////////
-///// TEST: add ip_vhost ///////////////////////////////////////////////////////
-///// TEST: add ip_dvr /////////////////////////////////////////////////////////
-///// TEST: delete ip_dvr and ip_vhost /////////////////////////////////////////
-///// TEST: add ip_vhost ///////////////////////////////////////////////////////
-///// TEST: add ip_vhost ///////////////////////////////////////////////////////
-///// TEST: add ip_dvr(spoke_dvr) //////////////////////////////////////////////
-///// TEST: delete ip_dvr and ip_vhost /////////////////////////////////////////
-///// TEST: add ip_dvr(hub) and ip_vhost ///////////////////////////////////////
-///// TEST: delete ip_dvr //////////////////////////////////////////////////////
-///// TEST: add ip_dvr(spoke) //////////////////////////////////////////////////
-///// TEST: add ports //////////////////////////////////////////////////////////
-///// TEST: add peers //////////////////////////////////////////////////////////
-///// TEST: add default_gw /////////////////////////////////////////////////////
-///// TEST: update ip_dvr //////////////////////////////////////////////////////
-///// TEST: update default_gw //////////////////////////////////////////////////
-///// TEST: update peers ///////////////////////////////////////////////////////
-///// TEST: update ports ///////////////////////////////////////////////////////
-///// TEST: update ports ///////////////////////////////////////////////////////
-///// TEST: confrimation ///////////////////////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-bridges:
-  ovs_bridges: enabled
-subnets:
-- default_gw: 10.0.1.10
-  ip_dvr:
-    addr: 10.0.1.9/24
-    mode: dvr
-  ip_vhost: 10.0.1.101/24
-  peers:
-  - 192.168.1.103
-  ports:
-  - eth2
-  vid: 1
-  vni: 10
-vxlan:
-  local_ip: 192.168.1.101
-  remote_ips:
-  - 192.168.1.102
-  - 192.168.1.103
-****************
-*** SUCCESS! ***
-****************
-///// TEST: ovs-vsctl show and ip route show ///////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-d4f22fa4-2a1c-4609-9893-54182089c8f8
-    Bridge br-int
-        Port br-int
-            Interface br-int
-                type: internal
-        Port "int-br10"
-            tag: 1
-            Interface "int-br10"
-                type: internal
-        Port patch-int
-            Interface patch-int
-                type: patch
-                options: {peer=patch-tun}
-        Port "int-dvr10"
-            tag: 1
-            Interface "int-dvr10"
-                type: internal
-    Bridge br-tun
-        Port patch-tun
-            Interface patch-tun
-                type: patch
-                options: {peer=patch-int}
-        Port br-tun
-            Interface br-tun
-                type: internal
-        Port "vxlan_102"
-            Interface "vxlan_102"
-                type: vxlan
-                options: {in_key=flow, local_ip="192.168.1.101", out_key=flow, remote_ip="192.168.1.102"}
-        Port "vxlan_103"
-            Interface "vxlan_103"
-                type: vxlan
-                options: {in_key=flow, local_ip="192.168.1.101", out_key=flow, remote_ip="192.168.1.103"}
-default via 10.0.1.10 dev int-dvr10 
-10.0.1.0/24 dev int-dvr10  proto kernel  scope link  src 10.0.1.9 
-10.0.2.0/24 dev eth0  proto kernel  scope link  src 10.0.2.15 
-192.168.1.0/24 dev eth2  proto kernel  scope link  src 192.168.1.101 
-192.168.56.0/24 dev eth1  proto kernel  scope link  src 192.168.56.111 
-///// TEST: delete default_gw //////////////////////////////////////////////////
-///// TEST: ip route show //////////////////////////////////////////////////////
---- STDOUT from router:openwrt1,platform:openwrt
-10.0.1.0/24 dev int-dvr10  proto kernel  scope link  src 10.0.1.9 
-10.0.2.0/24 dev eth0  proto kernel  scope link  src 10.0.2.15 
-192.168.1.0/24 dev eth2  proto kernel  scope link  src 192.168.1.101 
-192.168.56.0/24 dev eth1  proto kernel  scope link  src 192.168.56.111 
-///// TEST: delete ports ///////////////////////////////////////////////////////
-///// TEST: delete peers ///////////////////////////////////////////////////////
-///// TEST: delete ip_dvr //////////////////////////////////////////////////////
-///// TEST: delete vid /////////////////////////////////////////////////////////
 --- RESPONSE from router:openwrt1,platform:openwrt
-exception: ModelError
-message: the other params still exits
-traceback: Traceback (most recent call last):
-  File "/opt/nlan/nlan_agent.py", line 92, in _route
-    result = call(m)
-  File "/opt/nlan/config/subnets.py", line 286, in delete
-    raise ModelError("the other params still exits", model=model.model)
-ModelError: the other params still exits
-model: {'vid': 9}
-
+exception: Exception
+message: See the traceback message
 exit: 1
-operation: delete
-progress: OrderedDict([('subnets', {('vni', 10): False})])
-****************
-*** SUCCESS! ***
-****************
-///// TEST: delete ip_vhost ////////////////////////////////////////////////////
-///// TEST: delete vni /////////////////////////////////////////////////////////
---- RESPONSE from router:openwrt1,platform:openwrt
-exception: ModelError
-message: vid still exists
 traceback: Traceback (most recent call last):
-  File "/opt/nlan/nlan_agent.py", line 92, in _route
-    result = call(m)
-  File "/opt/nlan/config/subnets.py", line 284, in delete
-    raise ModelError("vid still exists")
-ModelError: vid still exists
+  File "/opt/nlan/nlan_agent.py", line 156, in _route
+    result = call(*args)
+  File "/opt/nlan/command/db.py", line 46, in state
+    return ovsdb.get_current_state()
+  File "/opt/nlan/ovsdb.py", line 707, in get_current_state
+    if len(d) > 0:
+TypeError: object of type 'NoneType' has no len()
 
-exit: 1
-operation: delete
-progress: OrderedDict([('subnets', {('vni', 10): False})])
-****************
-*** SUCCESS! ***
-****************
-///// TEST: delete vid /////////////////////////////////////////////////////////
-///// TEST: delete vni /////////////////////////////////////////////////////////

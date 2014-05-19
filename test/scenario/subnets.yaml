@@ -49,10 +49,8 @@
         args:
             subnets:
                 - _index: [vni, 10]
-                  ip_vhost: 10.0.1.101/24
-                  ip_dvr: 
-                    addr: 10.0.1.1/24
-                    mode: dvr
+                  ip_vhost: null 
+                  ip_dvr: null 
   - comment: add ip_vhost
     nlan:
         options: --add
@@ -75,10 +73,8 @@
         args:
             subnets:
                 - _index: [vni, 10]
-                  ip_vhost: 10.0.1.101/24
-                  ip_dvr: 
-                    addr: 10.0.1.1/24
-                    mode: dvr
+                  ip_vhost: null 
+                  ip_dvr: null 
   - comment: add ip_vhost
     nlan:
         options: --add
@@ -108,10 +104,8 @@
         args:
             subnets:
                 - _index: [vni, 10]
-                  ip_vhost: 10.0.1.101/24
-                  ip_dvr: 
-                    addr: 10.0.1.1/24
-                    mode: spoke_dvr
+                  ip_vhost: null 
+                  ip_dvr: null 
   - comment: add ip_dvr(hub) and ip_vhost
     nlan:
         options: --add
@@ -128,9 +122,7 @@
         args:
             subnets:
                 - _index: [vni, 10]
-                  ip_dvr: 
-                    addr: 10.0.1.1/24
-                    mode: hub 
+                  ip_dvr: null
   - comment: add ip_dvr(spoke)
     nlan:
         options: --add
@@ -230,7 +222,7 @@
         args:
             subnets:
                 - _index: [vni, 10]
-                  default_gw: 10.0.1.10
+                  default_gw: null 
   - comment: ip route show
     nlan:
         options: --raw
@@ -241,28 +233,28 @@
         args:
             subnets:
                 - _index: [vni, 10]
-                  ports: [eth2]
+                  ports: null 
   - comment: delete peers 
     nlan:
         options: --delete
         args:
             subnets:
                 - _index: [vni, 10]
-                  peers: [192.168.1.103]
+                  peers: null 
   - comment: delete ip_dvr
     nlan:
         options: --delete
         args:
             subnets:
                 - _index: [vni, 10]
-                  ip_dvr: {addr: 10.0.1.9/24, mode: dvr}
+                  ip_dvr: null 
   - comment: delete vid
     nlan:
         options: --delete
         args:
             subnets:
                 - _index: [vni, 10]
-                  vid: 9 
+                  vid: null 
         assertRaises: {type: ModelError}
   - comment: delete ip_vhost 
     nlan:
@@ -270,14 +262,14 @@
         args:
             subnets:
                 - _index: [vni, 10]
-                  ip_vhost: 10.0.1.101/24 
+                  ip_vhost: null 
   - comment: delete vni 
     nlan:
         options: --delete
         args:
             subnets:
                 - _index: [vni, 10]
-                  vni: 10 
+                  vni: null 
         assertRaises: {type: ModelError}
   - comment: delete vid
     nlan:
@@ -285,7 +277,7 @@
         args:
             subnets:
                 - _index: [vni, 10]
-                  vid: 9 
+                  vid: null 
   - comment: delete vni 
     nlan:
         options: --delete

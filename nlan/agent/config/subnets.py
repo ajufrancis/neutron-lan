@@ -160,7 +160,7 @@ def _delete_subnets(model):
 def _flow_entries(ope, model):
     
     # serarch Open_vSwitch table
-    if len(search('Controller', ['target'])) == 0:
+    if not search('Controller', ['target']): # no OpenFlow Controller
 
         params = {}
 

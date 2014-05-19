@@ -36,22 +36,25 @@ class Model:
 
         for key in args:
 
-            # New values
+            # New values: requested changes
             _key = '_'+key
             if key in self.model:
                 if self.model[key] == '':
                     self.gl[_key] = None
                 else:
-                    self.gl[_key] = self.model[key] 
+                    if self.operation == 'delete':
+                        self.gl[_key] = self.row[key]
+                    else: # add/update
+                        self.gl[_key] = self.model[key] 
             else:
                 self.gl[_key] = None 
             # Old values stored in OVSDB            
             key_ = key+'_'
-            if key in self.row and not init:
+            if self.row and key in self.row and not init:
                 self.gl[key_] = self.row[key]
             else: # including __n__['init'] == 'start'
                 self.gl[key_] = None 
-            # New or Old values
+            # New or Old values: desired state
             _key_ = '_'+key+'_'
             if self.gl[_key] == None:
                 # Desired state: old value

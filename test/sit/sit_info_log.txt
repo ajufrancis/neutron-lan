@@ -1,9 +1,9 @@
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
+openwrt3         192.168.1.103  OK
 rpi1             192.168.1.104  OK
 openwrt2         192.168.1.102  OK
-openwrt3         192.168.1.103  OK
 openwrt1         192.168.1.101  OK
 =+=+= NLAN Request to router:openwrt3,platform:openwrt +=+=+=+=+=+=+=+=+=+=+=+
 command: init.run
@@ -13,62 +13,62 @@ command: init.run
 command: init.run
 =+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 command: init.run
---- STDOUT from router:openwrt3,platform:openwrt
-[INFO] 2014-05-14 07:33:29,617 module:nlan_agent,function:<module>,router:openwrt3
+--- STDOUT from router:rpi1,platform:debian
+[INFO] 2014-05-18 22:12:37,152 module:nlan_agent,function:<module>,router:rpi1
 NLAN Agent initialization completed
-[INFO] 2014-05-14 07:33:29,675 module:nlan_agent,function:_route,router:openwrt3
+[INFO] 2014-05-18 22:12:37,181 module:nlan_agent,function:_route,router:rpi1
 function:init.run, args:()
-[INFO] 2014-05-14 07:33:30,146 module:nlan_agent,function:<module>,router:openwrt3
+[INFO] 2014-05-18 22:12:37,877 module:nlan_agent,function:<module>,router:rpi1
 NLAN Agent execution completed
---- RESPONSE from router:openwrt3,platform:openwrt
+--- RESPONSE from router:rpi1,platform:debian
 message: Execution completed
 exit: 0
 --- STDOUT from router:openwrt2,platform:openwrt
-[INFO] 2014-05-14 07:33:29,596 module:nlan_agent,function:<module>,router:openwrt2
+[INFO] 2014-05-19 05:12:36,027 module:nlan_agent,function:<module>,router:openwrt2
 NLAN Agent initialization completed
-[INFO] 2014-05-14 07:33:29,643 module:nlan_agent,function:_route,router:openwrt2
+[INFO] 2014-05-19 05:12:36,066 module:nlan_agent,function:_route,router:openwrt2
 function:init.run, args:()
-[INFO] 2014-05-14 07:33:30,095 module:nlan_agent,function:<module>,router:openwrt2
+[INFO] 2014-05-19 05:12:36,450 module:nlan_agent,function:<module>,router:openwrt2
 NLAN Agent execution completed
 --- RESPONSE from router:openwrt2,platform:openwrt
 message: Execution completed
 exit: 0
 --- STDOUT from router:openwrt1,platform:openwrt
-[INFO] 2014-05-14 07:33:29,404 module:nlan_agent,function:<module>,router:openwrt1
+[INFO] 2014-05-19 05:12:35,735 module:nlan_agent,function:<module>,router:openwrt1
 NLAN Agent initialization completed
-[INFO] 2014-05-14 07:33:29,459 module:nlan_agent,function:_route,router:openwrt1
+[INFO] 2014-05-19 05:12:35,775 module:nlan_agent,function:_route,router:openwrt1
 function:init.run, args:()
-[INFO] 2014-05-14 07:33:29,955 module:nlan_agent,function:<module>,router:openwrt1
+[INFO] 2014-05-19 05:12:36,164 module:nlan_agent,function:<module>,router:openwrt1
 NLAN Agent execution completed
 --- RESPONSE from router:openwrt1,platform:openwrt
 message: Execution completed
 exit: 0
---- STDOUT from router:rpi1,platform:debian
-[INFO] 2014-05-14 00:33:31,728 module:nlan_agent,function:<module>,router:rpi1
+--- STDOUT from router:openwrt3,platform:openwrt
+[INFO] 2014-05-19 05:12:36,274 module:nlan_agent,function:<module>,router:openwrt3
 NLAN Agent initialization completed
-[INFO] 2014-05-14 00:33:31,772 module:nlan_agent,function:_route,router:rpi1
+[INFO] 2014-05-19 05:12:36,334 module:nlan_agent,function:_route,router:openwrt3
 function:init.run, args:()
-[INFO] 2014-05-14 00:33:32,281 module:nlan_agent,function:<module>,router:rpi1
+[INFO] 2014-05-19 05:12:36,744 module:nlan_agent,function:<module>,router:openwrt3
 NLAN Agent execution completed
---- RESPONSE from router:rpi1,platform:debian
+--- RESPONSE from router:openwrt3,platform:openwrt
 message: Execution completed
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-05-14 00:33:30.329208
+Start Time: 2014-05-18 22:12:36.540744
 
 Router           Result    Elapsed Time
 ---------------------------------------
-openwrt3          :-)         1.58(sec)
-openwrt2          :-)         1.70(sec)
-openwrt1          :-)         1.72(sec)
-rpi1              :-)         1.82(sec)
+rpi1              :-)         1.48(sec)
+openwrt2          :-)         1.50(sec)
+openwrt1          :-)         1.54(sec)
+openwrt3          :-)         1.61(sec)
 =+=+= Ping test to all the target routers =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 Router           Host           Ping
 ------------------------------------
+openwrt1         192.168.1.101  OK
 openwrt2         192.168.1.102  OK
 openwrt3         192.168.1.103  OK
-openwrt1         192.168.1.101  OK
 rpi1             192.168.1.104  OK
 =+=+= NLAN Request to router:rpi1,platform:debian =+=+=+=+=+=+=+=+=+=+=+=+=+=+
 operation: --add
@@ -83,368 +83,368 @@ dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('vxlan', {'re
 operation: --add
 dict_args: "OrderedDict([('bridges', {'ovs_bridges': 'enabled'}), ('gateway', {'network': 'eth2', 'rip': 'enabled'}), ('vxlan', {'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}), ('subnets', [{'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, '_index': ['vni', 1], 'ip_vhost': '192.168.100.101/24', 'vni': 1, 'ip_dvr': OrderedDict([('addr', '192.168.100.1/24'), ('mode', 'dvr')])}, {'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, '_index': ['vni', 103], 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}, {'peers': ['192.168.1.104'], 'vid': 1, '_index': ['vni', 1001], 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'hub')])}])])"
 --- STDOUT from router:rpi1,platform:debian
-[INFO] 2014-05-14 00:33:34,789 module:nlan_agent,function:<module>,router:rpi1
+[INFO] 2014-05-18 22:12:40,173 module:nlan_agent,function:<module>,router:rpi1
 NLAN Agent initialization completed
-[INFO] 2014-05-14 00:33:34,889 module:nlan_agent,function:_route,router:rpi1
+[INFO] 2014-05-18 22:12:40,253 module:nlan_agent,function:_route,router:rpi1
 function:bridges.add, model:{'ovs_bridges': 'enabled'}
-[INFO] 2014-05-14 00:33:34,920 module:bridges,function:add,router:rpi1
+[INFO] 2014-05-18 22:12:40,283 module:bridges,function:add,router:rpi1
 Adding bridges: br-int and br-tun
-[INFO] 2014-05-14 00:33:35,277 module:nlan_agent,function:_route,router:rpi1
+[INFO] 2014-05-18 22:12:40,688 module:nlan_agent,function:_route,router:rpi1
 function:services.add, index:['name', 'snort1'], model:{'name': 'snort1', 'chain': ['mz.101', 'dmz.1001']}
-[INFO] 2014-05-14 00:33:35,313 module:nlan_agent,function:_route,router:rpi1
+[INFO] 2014-05-18 22:12:40,713 module:nlan_agent,function:_route,router:rpi1
 function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.101'], 'local_ip': '192.168.1.104'}
-[INFO] 2014-05-14 00:33:35,366 module:vxlan,function:add,router:rpi1
+[INFO] 2014-05-18 22:12:40,721 module:vxlan,function:add,router:rpi1
 Adding a VXLAN tunnel: vxlan_103
-[INFO] 2014-05-14 00:33:35,487 module:vxlan,function:add,router:rpi1
+[INFO] 2014-05-18 22:12:40,833 module:vxlan,function:add,router:rpi1
 Adding a VXLAN tunnel: vxlan_102
-[INFO] 2014-05-14 00:33:35,571 module:vxlan,function:add,router:rpi1
+[INFO] 2014-05-18 22:12:40,927 module:vxlan,function:add,router:rpi1
 Adding a VXLAN tunnel: vxlan_101
-[INFO] 2014-05-14 00:33:35,730 module:nlan_agent,function:_route,router:rpi1
+[INFO] 2014-05-18 22:12:41,127 module:nlan_agent,function:_route,router:rpi1
 function:subnets.add, index:['vni', 1001], model:{'peers': ['192.168.1.101'], 'ports': ['dmz.1001'], 'vni': 1001, 'vid': 111}
-[INFO] 2014-05-14 00:33:35,740 module:subnets,function:add,router:rpi1
+[INFO] 2014-05-18 22:12:41,134 module:subnets,function:add,router:rpi1
 Adding a subnet(vlan): 111
-[INFO] 2014-05-14 00:33:36,042 module:nlan_agent,function:_route,router:rpi1
+[INFO] 2014-05-18 22:12:41,483 module:nlan_agent,function:_route,router:rpi1
 function:subnets.add, index:['vni', 101], model:{'peers': ['192.168.1.102', '192.168.1.103'], 'ports': ['mz.101'], 'vni': 101, 'vid': 1}
-[INFO] 2014-05-14 00:33:36,047 module:subnets,function:add,router:rpi1
+[INFO] 2014-05-18 22:12:41,487 module:subnets,function:add,router:rpi1
 Adding a subnet(vlan): 1
-[INFO] 2014-05-14 00:33:36,343 module:nlan_agent,function:<module>,router:rpi1
+[INFO] 2014-05-18 22:12:41,793 module:nlan_agent,function:<module>,router:rpi1
 NLAN Agent execution completed
 --- RESPONSE from router:rpi1,platform:debian
 message: Execution completed
 exit: 0
 --- STDOUT from router:openwrt3,platform:openwrt
-[INFO] 2014-05-14 07:33:32,690 module:nlan_agent,function:<module>,router:openwrt3
+[INFO] 2014-05-19 05:12:39,266 module:nlan_agent,function:<module>,router:openwrt3
 NLAN Agent initialization completed
-[INFO] 2014-05-14 07:33:32,782 module:nlan_agent,function:_route,router:openwrt3
+[INFO] 2014-05-19 05:12:39,375 module:nlan_agent,function:_route,router:openwrt3
 function:bridges.add, model:{'ovs_bridges': 'enabled'}
-[INFO] 2014-05-14 07:33:32,801 module:bridges,function:add,router:openwrt3
+[INFO] 2014-05-19 05:12:39,399 module:bridges,function:add,router:openwrt3
 Adding bridges: br-int and br-tun
-[INFO] 2014-05-14 07:33:33,176 module:nlan_agent,function:_route,router:openwrt3
+[INFO] 2014-05-19 05:12:39,720 module:nlan_agent,function:_route,router:openwrt3
 function:vxlan.add, model:{'remote_ips': ['192.168.1.102', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.103'}
-[INFO] 2014-05-14 07:33:33,191 module:vxlan,function:add,router:openwrt3
+[INFO] 2014-05-19 05:12:39,734 module:vxlan,function:add,router:openwrt3
 Adding a VXLAN tunnel: vxlan_102
-[INFO] 2014-05-14 07:33:33,217 module:vxlan,function:add,router:openwrt3
+[INFO] 2014-05-19 05:12:39,759 module:vxlan,function:add,router:openwrt3
 Adding a VXLAN tunnel: vxlan_101
-[INFO] 2014-05-14 07:33:33,249 module:vxlan,function:add,router:openwrt3
+[INFO] 2014-05-19 05:12:39,789 module:vxlan,function:add,router:openwrt3
 Adding a VXLAN tunnel: vxlan_104
-[INFO] 2014-05-14 07:33:33,420 module:nlan_agent,function:_route,router:openwrt3
+[INFO] 2014-05-19 05:12:39,875 module:nlan_agent,function:_route,router:openwrt3
 function:subnets.add, index:['vni', 1], model:{'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 2, 'ip_vhost': '192.168.100.103/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.3/24'), ('mode', 'dvr')]), 'vni': 1}
-[INFO] 2014-05-14 07:33:33,436 module:subnets,function:add,router:openwrt3
+[INFO] 2014-05-19 05:12:39,887 module:subnets,function:add,router:openwrt3
 Adding a subnet(vlan): 2
-[INFO] 2014-05-14 07:33:33,829 module:nlan_agent,function:_route,router:openwrt3
+[INFO] 2014-05-19 05:12:40,187 module:nlan_agent,function:_route,router:openwrt3
 function:subnets.add, index:['vni', 103], model:{'peers': ['192.168.1.101', '192.168.1.102'], 'vid': 3, 'ip_vhost': '10.0.3.103/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
-[INFO] 2014-05-14 07:33:33,847 module:subnets,function:add,router:openwrt3
+[INFO] 2014-05-19 05:12:40,198 module:subnets,function:add,router:openwrt3
 Adding a subnet(vlan): 3
-[INFO] 2014-05-14 07:33:34,120 module:nlan_agent,function:_route,router:openwrt3
+[INFO] 2014-05-19 05:12:40,464 module:nlan_agent,function:_route,router:openwrt3
 function:subnets.add, index:['vni', 101], model:{'peers': ['192.168.1.102', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.103/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}
-[INFO] 2014-05-14 07:33:34,130 module:subnets,function:add,router:openwrt3
+[INFO] 2014-05-19 05:12:40,473 module:subnets,function:add,router:openwrt3
 Adding a subnet(vlan): 1
-[INFO] 2014-05-14 07:33:34,465 module:nlan_agent,function:<module>,router:openwrt3
+[INFO] 2014-05-19 05:12:40,809 module:nlan_agent,function:<module>,router:openwrt3
 NLAN Agent execution completed
 --- RESPONSE from router:openwrt3,platform:openwrt
 message: Execution completed
 exit: 0
 --- STDOUT from router:openwrt2,platform:openwrt
-[INFO] 2014-05-14 07:33:32,885 module:nlan_agent,function:<module>,router:openwrt2
+[INFO] 2014-05-19 05:12:39,079 module:nlan_agent,function:<module>,router:openwrt2
 NLAN Agent initialization completed
-[INFO] 2014-05-14 07:33:33,006 module:nlan_agent,function:_route,router:openwrt2
+[INFO] 2014-05-19 05:12:39,189 module:nlan_agent,function:_route,router:openwrt2
 function:bridges.add, model:{'ovs_bridges': 'enabled'}
-[INFO] 2014-05-14 07:33:33,026 module:bridges,function:add,router:openwrt2
+[INFO] 2014-05-19 05:12:39,207 module:bridges,function:add,router:openwrt2
 Adding bridges: br-int and br-tun
-[INFO] 2014-05-14 07:33:33,332 module:nlan_agent,function:_route,router:openwrt2
+[INFO] 2014-05-19 05:12:39,534 module:nlan_agent,function:_route,router:openwrt2
 function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.101', '192.168.1.104'], 'local_ip': '192.168.1.102'}
-[INFO] 2014-05-14 07:33:33,344 module:vxlan,function:add,router:openwrt2
+[INFO] 2014-05-19 05:12:39,547 module:vxlan,function:add,router:openwrt2
 Adding a VXLAN tunnel: vxlan_103
-[INFO] 2014-05-14 07:33:33,369 module:vxlan,function:add,router:openwrt2
+[INFO] 2014-05-19 05:12:39,573 module:vxlan,function:add,router:openwrt2
 Adding a VXLAN tunnel: vxlan_101
-[INFO] 2014-05-14 07:33:33,402 module:vxlan,function:add,router:openwrt2
+[INFO] 2014-05-19 05:12:39,625 module:vxlan,function:add,router:openwrt2
 Adding a VXLAN tunnel: vxlan_104
-[INFO] 2014-05-14 07:33:33,514 module:nlan_agent,function:_route,router:openwrt2
+[INFO] 2014-05-19 05:12:39,727 module:nlan_agent,function:_route,router:openwrt2
 function:subnets.add, index:['vni', 1], model:{'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.102/24', 'default_gw': '192.168.100.1', 'ip_dvr': OrderedDict([('addr', '192.168.100.2/24'), ('mode', 'dvr')]), 'vni': 1}
-[INFO] 2014-05-14 07:33:33,529 module:subnets,function:add,router:openwrt2
+[INFO] 2014-05-19 05:12:39,738 module:subnets,function:add,router:openwrt2
 Adding a subnet(vlan): 2
-[INFO] 2014-05-14 07:33:33,851 module:nlan_agent,function:_route,router:openwrt2
+[INFO] 2014-05-19 05:12:40,066 module:nlan_agent,function:_route,router:openwrt2
 function:subnets.add, index:['vni', 103], model:{'peers': ['192.168.1.101', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.102/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
-[INFO] 2014-05-14 07:33:33,862 module:subnets,function:add,router:openwrt2
+[INFO] 2014-05-19 05:12:40,075 module:subnets,function:add,router:openwrt2
 Adding a subnet(vlan): 3
-[INFO] 2014-05-14 07:33:34,133 module:nlan_agent,function:_route,router:openwrt2
+[INFO] 2014-05-19 05:12:40,340 module:nlan_agent,function:_route,router:openwrt2
 function:subnets.add, index:['vni', 101], model:{'peers': ['192.168.1.103', '192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.102/24', 'vni': 101, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'spoke_dvr')])}
-[INFO] 2014-05-14 07:33:34,144 module:subnets,function:add,router:openwrt2
+[INFO] 2014-05-19 05:12:40,351 module:subnets,function:add,router:openwrt2
 Adding a subnet(vlan): 1
-[INFO] 2014-05-14 07:33:34,455 module:nlan_agent,function:<module>,router:openwrt2
+[INFO] 2014-05-19 05:12:40,693 module:nlan_agent,function:<module>,router:openwrt2
 NLAN Agent execution completed
 --- RESPONSE from router:openwrt2,platform:openwrt
 message: Execution completed
 exit: 0
 --- STDOUT from router:openwrt1,platform:openwrt
-[INFO] 2014-05-14 07:33:32,696 module:nlan_agent,function:<module>,router:openwrt1
+[INFO] 2014-05-19 05:12:38,670 module:nlan_agent,function:<module>,router:openwrt1
 NLAN Agent initialization completed
-[INFO] 2014-05-14 07:33:32,818 module:nlan_agent,function:_route,router:openwrt1
+[INFO] 2014-05-19 05:12:38,778 module:nlan_agent,function:_route,router:openwrt1
 function:bridges.add, model:{'ovs_bridges': 'enabled'}
-[INFO] 2014-05-14 07:33:32,837 module:bridges,function:add,router:openwrt1
+[INFO] 2014-05-19 05:12:38,797 module:bridges,function:add,router:openwrt1
 Adding bridges: br-int and br-tun
-[INFO] 2014-05-14 07:33:33,142 module:nlan_agent,function:_route,router:openwrt1
+[INFO] 2014-05-19 05:12:39,269 module:nlan_agent,function:_route,router:openwrt1
 function:gateway.add, model:{'network': 'eth2', 'rip': 'enabled'}
-[INFO] 2014-05-14 07:33:33,155 module:gateway,function:add,router:openwrt1
+[INFO] 2014-05-19 05:12:39,286 module:gateway,function:add,router:openwrt1
 Adding a gateway router: rip
-[INFO] 2014-05-14 07:33:35,714 module:nlan_agent,function:_route,router:openwrt1
+[INFO] 2014-05-19 05:12:41,768 module:nlan_agent,function:_route,router:openwrt1
 function:vxlan.add, model:{'remote_ips': ['192.168.1.103', '192.168.1.102', '192.168.1.104'], 'local_ip': '192.168.1.101'}
-[INFO] 2014-05-14 07:33:35,725 module:vxlan,function:add,router:openwrt1
+[INFO] 2014-05-19 05:12:41,777 module:vxlan,function:add,router:openwrt1
 Adding a VXLAN tunnel: vxlan_103
-[INFO] 2014-05-14 07:33:35,750 module:vxlan,function:add,router:openwrt1
+[INFO] 2014-05-19 05:12:41,796 module:vxlan,function:add,router:openwrt1
 Adding a VXLAN tunnel: vxlan_102
-[INFO] 2014-05-14 07:33:35,775 module:vxlan,function:add,router:openwrt1
+[INFO] 2014-05-19 05:12:41,817 module:vxlan,function:add,router:openwrt1
 Adding a VXLAN tunnel: vxlan_104
-[INFO] 2014-05-14 07:33:35,858 module:nlan_agent,function:_route,router:openwrt1
+[INFO] 2014-05-19 05:12:41,890 module:nlan_agent,function:_route,router:openwrt1
 function:subnets.add, index:['vni', 1], model:{'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 2, 'ip_vhost': '192.168.100.101/24', 'vni': 1, 'ip_dvr': OrderedDict([('addr', '192.168.100.1/24'), ('mode', 'dvr')])}
-[INFO] 2014-05-14 07:33:35,871 module:subnets,function:add,router:openwrt1
+[INFO] 2014-05-19 05:12:41,914 module:subnets,function:add,router:openwrt1
 Adding a subnet(vlan): 2
-[INFO] 2014-05-14 07:33:36,150 module:nlan_agent,function:_route,router:openwrt1
+[INFO] 2014-05-19 05:12:42,217 module:nlan_agent,function:_route,router:openwrt1
 function:subnets.add, index:['vni', 103], model:{'peers': ['192.168.1.102', '192.168.1.103'], 'vid': 3, 'ip_vhost': '10.0.3.101/24', 'vni': 103, 'ip_dvr': OrderedDict([('addr', '10.0.3.1/24'), ('mode', 'dvr')])}
-[INFO] 2014-05-14 07:33:36,161 module:subnets,function:add,router:openwrt1
+[INFO] 2014-05-19 05:12:42,224 module:subnets,function:add,router:openwrt1
 Adding a subnet(vlan): 3
-[INFO] 2014-05-14 07:33:36,460 module:nlan_agent,function:_route,router:openwrt1
+[INFO] 2014-05-19 05:12:42,486 module:nlan_agent,function:_route,router:openwrt1
 function:subnets.add, index:['vni', 1001], model:{'peers': ['192.168.1.104'], 'vid': 1, 'ip_vhost': '10.0.1.101/24', 'vni': 1001, 'ip_dvr': OrderedDict([('addr', '10.0.1.1/24'), ('mode', 'hub')])}
-[INFO] 2014-05-14 07:33:36,470 module:subnets,function:add,router:openwrt1
+[INFO] 2014-05-19 05:12:42,495 module:subnets,function:add,router:openwrt1
 Adding a subnet(vlan): 1
-[INFO] 2014-05-14 07:33:36,738 module:nlan_agent,function:<module>,router:openwrt1
+[INFO] 2014-05-19 05:12:42,757 module:nlan_agent,function:<module>,router:openwrt1
 NLAN Agent execution completed
 --- RESPONSE from router:openwrt1,platform:openwrt
 message: Execution completed
 exit: 0
 =+=+= Transaction Summary =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
-Start Time: 2014-05-14 00:33:33.641112
+Start Time: 2014-05-18 22:12:39.516680
 
 Router           Result    Elapsed Time
 ---------------------------------------
-rpi1              :-)         2.58(sec)
-openwrt3          :-)         2.58(sec)
-openwrt2          :-)         2.73(sec)
-openwrt1          :-)         5.18(sec)
+rpi1              :-)         2.43(sec)
+openwrt3          :-)         2.70(sec)
+openwrt2          :-)         2.76(sec)
+openwrt1          :-)         5.17(sec)
+--- STDOUT from router:rpi1,platform:debian
+Hello World!
 --- STDOUT from router:openwrt3,platform:openwrt
 Hello World!
 --- STDOUT from router:openwrt2,platform:openwrt
 Hello World!
 --- STDOUT from router:openwrt1,platform:openwrt
+Hello World!
+--- STDOUT from router:openwrt1,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=11.690 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 11.690/11.690/11.690 ms
+--- STDOUT from router:openwrt1,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=2.351 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.351/2.351/2.351 ms
+--- STDOUT from router:openwrt1,platform:openwrt
+PING 10.0.3.103 (10.0.3.103): 56 data bytes
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=6.214 ms
+
+--- 10.0.3.103 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.214/6.214/6.214 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 10.0.1.101 (10.0.1.101): 56 data bytes
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=16.023 ms
+
+--- 10.0.1.101 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 16.023/16.023/16.023 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=16.048 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 16.048/16.048/16.048 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=12.455 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 12.455/12.455/12.455 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=7.310 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 7.310/7.310/7.310 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.567 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.567/2.567/2.567 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=6.315 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 6.315/6.315/6.315 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=4.627 ms
+
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 4.627/4.627/4.627 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.161 ms
+
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 1.161/1.161/1.161 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=7.010 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 7.010/7.010/7.010 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=4.208 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 4.208/4.208/4.208 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=7.192 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 7.192/7.192/7.192 ms
+--- STDOUT from router:openwrt3,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=9.839 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 9.839/9.839/9.839 ms
+--- STDOUT from router:openwrt2,platform:openwrt
+Hello World!
+--- STDOUT from router:openwrt1,platform:openwrt
+Hello World!
+--- STDOUT from router:openwrt3,platform:openwrt
 Hello World!
 --- STDOUT from router:rpi1,platform:debian
 Hello World!
 --- STDOUT from router:openwrt1,platform:openwrt
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=64 time=9.990 ms
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=16.141 ms
 
 --- 10.0.1.102 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 9.990/9.990/9.990 ms
+round-trip min/avg/max = 16.141/16.141/16.141 ms
 --- STDOUT from router:openwrt1,platform:openwrt
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=64 time=2.666 ms
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=2.600 ms
 
 --- 10.0.1.102 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 2.666/2.666/2.666 ms
+round-trip min/avg/max = 2.600/2.600/2.600 ms
 --- STDOUT from router:openwrt1,platform:openwrt
 PING 10.0.3.103 (10.0.3.103): 56 data bytes
-64 bytes from 10.0.3.103: seq=0 ttl=64 time=7.085 ms
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=5.915 ms
 
 --- 10.0.3.103 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 7.085/7.085/7.085 ms
+round-trip min/avg/max = 5.915/5.915/5.915 ms
 --- STDOUT from router:openwrt3,platform:openwrt
 PING 10.0.1.101 (10.0.1.101): 56 data bytes
-64 bytes from 10.0.1.101: seq=0 ttl=63 time=14.916 ms
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=17.334 ms
 
 --- 10.0.1.101 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 14.916/14.916/14.916 ms
+round-trip min/avg/max = 17.334/17.334/17.334 ms
 --- STDOUT from router:openwrt2,platform:openwrt
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=11.889 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=14.585 ms
 
 --- 192.168.100.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 11.889/11.889/11.889 ms
+round-trip min/avg/max = 14.585/14.585/14.585 ms
 --- STDOUT from router:openwrt3,platform:openwrt
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=19.837 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=11.368 ms
 
 --- 192.168.100.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 19.837/19.837/19.837 ms
+round-trip min/avg/max = 11.368/11.368/11.368 ms
 --- STDOUT from router:openwrt2,platform:openwrt
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=6.957 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=15.513 ms
 
 --- 192.168.100.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 6.957/6.957/6.957 ms
+round-trip min/avg/max = 15.513/15.513/15.513 ms
 --- STDOUT from router:openwrt2,platform:openwrt
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.658 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.418 ms
 
 --- 192.168.100.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 2.658/2.658/2.658 ms
+round-trip min/avg/max = 2.418/2.418/2.418 ms
 --- STDOUT from router:openwrt3,platform:openwrt
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=63 time=9.984 ms
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=7.683 ms
 
 --- 10.0.1.102 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 9.984/9.984/9.984 ms
+round-trip min/avg/max = 7.683/7.683/7.683 ms
 --- STDOUT from router:openwrt3,platform:openwrt
 PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=3.505 ms
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=2.325 ms
 
 --- 10.0.1.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 3.505/3.505/3.505 ms
+round-trip min/avg/max = 2.325/2.325/2.325 ms
 --- STDOUT from router:openwrt2,platform:openwrt
 PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.440 ms
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.415 ms
 
 --- 10.0.1.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 1.440/1.440/1.440 ms
+round-trip min/avg/max = 1.415/1.415/1.415 ms
 --- STDOUT from router:openwrt2,platform:openwrt
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.242 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=7.491 ms
 
 --- 8.8.8.8 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 6.242/6.242/6.242 ms
+round-trip min/avg/max = 7.491/7.491/7.491 ms
 --- STDOUT from router:openwrt2,platform:openwrt
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.796 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=3.080 ms
 
 --- 8.8.8.8 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 2.796/2.796/2.796 ms
+round-trip min/avg/max = 3.080/3.080/3.080 ms
 --- STDOUT from router:openwrt3,platform:openwrt
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.765 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.424 ms
 
 --- 8.8.8.8 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 5.765/5.765/5.765 ms
+round-trip min/avg/max = 6.424/6.424/6.424 ms
 --- STDOUT from router:openwrt3,platform:openwrt
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=7.101 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.659 ms
 
 --- 8.8.8.8 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 7.101/7.101/7.101 ms
---- STDOUT from router:openwrt3,platform:openwrt
-Hello World!
---- STDOUT from router:openwrt2,platform:openwrt
-Hello World!
---- STDOUT from router:openwrt1,platform:openwrt
-Hello World!
---- STDOUT from router:rpi1,platform:debian
-Hello World!
---- STDOUT from router:openwrt1,platform:openwrt
-PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=64 time=14.577 ms
-
---- 10.0.1.102 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 14.577/14.577/14.577 ms
---- STDOUT from router:openwrt1,platform:openwrt
-PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=64 time=2.142 ms
-
---- 10.0.1.102 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 2.142/2.142/2.142 ms
---- STDOUT from router:openwrt1,platform:openwrt
-PING 10.0.3.103 (10.0.3.103): 56 data bytes
-64 bytes from 10.0.3.103: seq=0 ttl=64 time=5.628 ms
-
---- 10.0.3.103 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 5.628/5.628/5.628 ms
---- STDOUT from router:openwrt3,platform:openwrt
-PING 10.0.1.101 (10.0.1.101): 56 data bytes
-64 bytes from 10.0.1.101: seq=0 ttl=63 time=27.967 ms
-
---- 10.0.1.101 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 27.967/27.967/27.967 ms
---- STDOUT from router:openwrt2,platform:openwrt
-PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=10.318 ms
-
---- 192.168.100.1 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 10.318/10.318/10.318 ms
---- STDOUT from router:openwrt3,platform:openwrt
-PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=13.017 ms
-
---- 192.168.100.1 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 13.017/13.017/13.017 ms
---- STDOUT from router:openwrt2,platform:openwrt
-PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=6.071 ms
-
---- 192.168.100.1 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 6.071/6.071/6.071 ms
---- STDOUT from router:openwrt2,platform:openwrt
-PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=4.152 ms
-
---- 192.168.100.1 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 4.152/4.152/4.152 ms
---- STDOUT from router:openwrt3,platform:openwrt
-PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=63 time=8.284 ms
-
---- 10.0.1.102 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 8.284/8.284/8.284 ms
---- STDOUT from router:openwrt3,platform:openwrt
-PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=7.262 ms
-
---- 10.0.1.1 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 7.262/7.262/7.262 ms
---- STDOUT from router:openwrt2,platform:openwrt
-PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=1.275 ms
-
---- 10.0.1.1 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 1.275/1.275/1.275 ms
---- STDOUT from router:openwrt2,platform:openwrt
-PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=8.011 ms
-
---- 8.8.8.8 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 8.011/8.011/8.011 ms
---- STDOUT from router:openwrt2,platform:openwrt
-PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=4.079 ms
-
---- 8.8.8.8 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 4.079/4.079/4.079 ms
---- STDOUT from router:openwrt3,platform:openwrt
-PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=5.712 ms
-
---- 8.8.8.8 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 5.712/5.712/5.712 ms
---- STDOUT from router:openwrt3,platform:openwrt
-PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=6.043 ms
-
---- 8.8.8.8 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 6.043/6.043/6.043 ms
+round-trip min/avg/max = 6.659/6.659/6.659 ms

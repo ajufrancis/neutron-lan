@@ -2,8 +2,6 @@
 
 JSON-RPC respone error handling ==> raise some Exception
 
-[13] nlan_agent.py local mode: state deployment w/o using nlan.py.
-
 [14] State audit: YAML -- active state -- OVSDB consistency
 
 [15] NLAN Agent on Windows, without OVSDB or with SQLITE as a local DB.
@@ -12,11 +10,11 @@ JSON-RPC respone error handling ==> raise some Exception
 
 I have already built lxc-capable linux kernel for OpenWrt and Raspbian. For the simulation environment, I need to re-build lxc-capable OpenWrt image for x86 w/ lxc support.
 
-[17] State params for delete operations
+[19] Parameter cheking by referring to the schema
 
-Allow them to have None value.
+[20] Working with dnsmasq
 
-[18] argsmodel.py  schema_help output, working with enum
+[21] Working with iptables
 
 -----
 
@@ -73,3 +71,10 @@ Reference: http://bryceboe.com/2011/01/28/the-python-multiprocessing-queue-and-l
 So I added an parameter output_stdout to the "main" function in nlan.py:
 if False, stdout is not put in the queue.
 
+[13] nlan_agent.py local mode: state deployment w/o using nlan.py. -- DONE!
+
+[17] State params for delete operations -- DONE!
+
+Allow them to have None value.
+
+[18] argsmodel.py  schema_help output, working with enum -- DONE!

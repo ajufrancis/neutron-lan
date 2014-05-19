@@ -34,7 +34,7 @@ def _init(envfile=ENVFILE, loglevel=logging.WARNING):
     __n__['logger'] = logger
 
 
-# Progress of deployment
+# Progress of CRUD requests 
 def _progress(data, func, _index):
     progress = OrderedDict()
     modules = data.keys()
@@ -59,7 +59,12 @@ def _progress(data, func, _index):
                 hereafter = True 
             else:
                 progress[mod] = True
-    return progress
+
+    result = []
+    for k,v in progress.iteritems():
+        result.append((k,v))
+
+    return result 
 
 # Routing a request to a module
 def _route(operation, data):
@@ -73,7 +78,7 @@ def _route(operation, data):
             if isinstance(data, str) and (data.startswith('OrderedDict') or data.startswith('{')):
                 data = eval(data)
         _data = copy.deepcopy(data)
-        results = OrderedDict() 
+        results = None 
         error = None 
         module = None
         _index = None
@@ -129,7 +134,7 @@ def _route(operation, data):
             if operation != 'get':
                 error['progress'] = _progress(_data, module, _index)
         finally:
-            if len(results) > 0:
+            if results:
                 # STDOUT
                 print results
             if error:
@@ -213,11 +218,22 @@ if __name__ == "__main__":
 
     import sys
 
-    parser = OptionParser()
-    parser.add_option("-a", "--add", help="add NLAN states", action="store_true", default=False)
-    parser.add_option("-g", "--get", help="get NLAN states", action="store_true", default=False)
-    parser.add_option("-u", "--update", help="update NLAN stateus", action="store_true", default=False)
-    parser.add_option("-d", "--delete", help="delete NLAN states", action="store_true", default=False)
+    logo = """
+       _  ____   ___   _  __
+      / |/ / /  / _ | / |/ /
+     /    / /__/ __ |/    /
+    /_/|_/____/_/ |_/_/|_/ AGENT
+
+    """
+
+    usage = logo + "usage: %prog [options] [arg]..."
+    
+    parser = OptionParser(usage=usage)
+    parser.add_option("-a", "--add", help="(CRUD) add NLAN states", action="store_true", default=False)
+    parser.add_option("-g", "--get", help="(CRUD) get NLAN states", action="store_true", default=False)
+    parser.add_option("-u", "--update", help="(CRUD) update NLAN stateus", action="store_true", default=False)
+    parser.add_option("-d", "--delete", help="(CRUD) delete NLAN states", action="store_true", default=False)
+    parser.add_option("-s", "--schema", help="(CRUD) print schema", action="store_true", default=False)
     parser.add_option("-I", "--info", help="set log level to INFO", action="store_true", default=False)
     parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
     parser.add_option("-f", "--envfile", help="NLAN Agent environment file", action="store", type="string", dest="filename")
@@ -247,6 +263,12 @@ if __name__ == "__main__":
     else:
         _init(loglevel=loglevel)
 
+    if options.schema:
+        if len(args) == 1:
+            print argsmodel.schema_help(args[0])
+        else:
+            print argsmodel.schema_help(None)
+        sys.exit(0)
 	
     data = None 
     if operation and len(args) == 0:

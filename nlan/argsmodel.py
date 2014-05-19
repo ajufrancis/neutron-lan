@@ -14,10 +14,13 @@ def _type(schema, key):
 
     if 'value' in schema[key]: # dict
         type_ = schema[key]['value']['type']
+        enum = None
+        if 'enum' in schema[key]['key']:
+            enum = schema[key]['key']['enum'][1] # ['set', [key1, key2,...]]
         if type_ == 'string':
-            return (dict, str)
+            return (dict, str, enum)
         elif type_ == 'integer':
-            return (dict, int)
+            return (dict, int, enum)
         else:
             return None
     else:
@@ -51,26 +54,51 @@ def _get_schema(module):
     yield schema
     yield indexes
 
+
+def module_help():
+    import __builtin__
+    tables = None
+    if '__n__' in __builtin__.__dict__:
+        tables = __n__['tables']
+    else:
+        import env
+        tables = env.TABLES
+    return '\n'.join(tables.keys())
+
+
 # List up parameters with types
 def schema_help(module):
 
-    schema, indexes = _get_schema(module)
-    help_ = [] 
+    if module:
+        schema, indexes = _get_schema(module)
+        help_ = [] 
 
-    if module in indexes:
-        key = indexes[module]
-        help_.append('_index={},{}'.format(key,str(_type(schema,key)[1]))) 
-    for key in schema:
-        t = _type(schema, key)
-        if t[0]:
-            if t[0] == list:
-                help_.append('{0}={1},{1},...'.format(key,str(t[1])))
-            elif t[0] == dict:
-                help_.append('{0}=param1:{1},parm2:{1},...'.format(key,str(t[1])))
-        else:
-            help_.append('{0}={1}'.format(key,str(t[1])))
+        if module in indexes:
+            key = indexes[module]
+            help_.append('* Use param "{}" as _index'.format(key))
+            help_.append('_index={}'.format(str(_type(schema,key)[1]))) 
+        for key in schema:
+            t = _type(schema, key)
+            if t[0]:
+                if t[0] == list:
+                    help_.append('{0}={1},{1},...'.format(key,str(t[1])))
+                elif t[0] == dict:
+                    type_ = str(t[1])
+                    line = ""
+                    if len(t) == 3:
+                        l = []
+                        for k in t[2]: # enum
+                            l.append('{}:{}'.format(k, type_))
+                        line=','.join(l)
+                    else:
+                        line='param1:{},parm2:{},...'.format(type_)
+                    help_.append('{0}={1}'.format(key,line))
+            else:
+                help_.append('{0}={1}'.format(key,str(t[1])))
 
-    return '\n'.join(help_)
+        return '\n'.join(help_)
+    else:
+        return module_help()
 
 
 # Converts command arguments into a model
@@ -81,28 +109,25 @@ def parse_args(operation, module, *args):
     model = collections.OrderedDict() 
     submodel = {} 
     index = None
-    if operation == 'get':
+    if operation == 'get' or operation == 'delete':
         for s in args:
             ss = s.split('=')
             k = ss[0]
             v = None
             if k == '_index':
-                pair = ss[1].split(',')
-                key = pair[0]
-                value = pair[1]
-                submodel['_index'] = ss[1]
+                key = indexes[module] 
+                value = ss[1]
                 index = [key, _type(schema, key)[1](value)]
-                v = pair[1]
-            submodel[k] = v 
-    else: # add/update/delete
+            else:
+                submodel[k] = v 
+    else: # add/update
         for s in args:
             ss = s.split('=')
             k = ss[0]
             v = ss[1]
             if k == '_index':
-                pair = v.split(',')
-                key = pair[0]
-                value = pair[1]
+                key = indexes[module] 
+                value = ss[1]
                 index = [key, _type(schema, key)[1](value)]
             else:
                 t = _type(schema, k)
@@ -142,3 +167,4 @@ if __name__=='__main__':
 
     print schema_help('subnets')
 
+    print module_help()

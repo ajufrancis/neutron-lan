@@ -53,7 +53,17 @@ def analyze_schema(nlan_yaml):
 
 if __name__ == '__main__':
 
-    parser = OptionParser()
+    logo = """
+       _  ____   ___   _  __
+      / |/ / /  / _ | / |/ /
+     /    / /__/ __ |/    /
+    /_/|_/____/_/ |_/_/|_/ SCHEMA 
+
+    """
+
+    usage = logo + "usage: %prog [options] [arg]..."
+    parser = OptionParser(usage=usage)
+
     parser.add_option("-o", "--ovsdb", help="Original OVSDB schema file (JSON)", action="store", type="string", dest="ovsdb_file")
     parser.add_option("-n", "--nlan", help="NLAN schema file (YAML)", action="store", type="string", dest="nlan_file")
     parser.add_option("-m", "--merge", help="Merge NLAN and OVSDB schema", action="store_true", default=False)

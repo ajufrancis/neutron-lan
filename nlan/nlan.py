@@ -43,7 +43,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
     if _wait(router, PING_CHECK_WAIT, verbose) > 0:
         print ""
         print "Ping test failure! Transaction cancelled."
-        sys.exit(1)
+        sys.exit(0)
 
     start_datetime = str(datetime.datetime.now())
     start_utc = time.time()
@@ -445,7 +445,7 @@ if __name__=='__main__':
        _  ____   ___   _  __  
       / |/ / /  / _ | / |/ /  
      /    / /__/ __ |/    /   
-    /_/|_/____/_/ |_/_/|_/ 
+    /_/|_/____/_/ |_/_/|_/ MASTER 
 
     """
 
@@ -458,12 +458,13 @@ if __name__=='__main__':
     parser.add_option("-g", "--get", help="(CRUD) get NLAN states", action="store_true", default=False)
     parser.add_option("-u", "--update", help="(CRUD) update NLAN states", action="store_true", default=False)
     parser.add_option("-d", "--delete", help="(CRUD) delete NLAN states", action="store_true", default=False)
+    parser.add_option("-s", "--schema", help="(CRUD) print schema", action="store_true", default=False) 
     parser.add_option("-r", "--raw", help="run a raw shell command on remote routers", action="store_true", default=False)
     parser.add_option("-w", "--wait", help="wait until all the routers become accessible (a value < 0 is for NG check, --target also applies)", action="store", type="int", dest="time")
     parser.add_option("-I", "--info", help="set log level to INFO", action="store_true", default=False)
     parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
     parser.add_option("-G", "--git", help="use local Git repo", action="store_true", default=False)
-    parser.add_option("-R", "--rollback", help="rollback to last Git commit", action="store_true", default=False)
+    parser.add_option("-R", "--rollback", help="rollback to the last Git commit", action="store_true", default=False)
     parser.add_option("-v", "--verbose", help="verbose output", action="store_true", default=False)
 
     (options, args) = parser.parse_args()
@@ -520,6 +521,11 @@ if __name__=='__main__':
             _wait(router, timeout, verbose)
         elif not crud and option: # --scp, --scpmod, --raw
             main(router=router, operation=option, doc=args, loglevel=loglevel, git=git, verbose=verbose)
+        elif options.schema:
+            if len(args) == 1:
+                print argsmodel.schema_help(args[0])
+            else:
+                print argsmodel.schema_help(None)
         elif not crud and not option and len(args) > 0 and args[0].endswith('yaml'): # Batch operation
             for v in args:
                 if v.endswith('yaml'):
@@ -538,6 +544,8 @@ if __name__=='__main__':
             main(router=router, operation=option, doc=doc, loglevel=loglevel, verbose=verbose)
         else:
             parser.print_usage()
+    except NlanException as e:
+        sys.exit(1)
     except:
             traceback.print_exc()
             sys.exit(1)
