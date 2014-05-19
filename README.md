@@ -23,9 +23,9 @@ INDEX
 Home-made DevOps 'NLAN'
 -----------------------
 * [Command usage](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/command_usage.md)
-* [SIT result](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/sit_log.txt)
-* [SIT result(w/ INFO logging enabled)](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/sit_info_log.txt)
-* [SIT result(w/ DEBUG logging enabled)](https://github.com/alexanderplatz1999/neutron-lan/blob/master/doc/sit_debug_log.txt)
+* [SIT result](https://github.com/alexanderplatz1999/neutron-lan/blob/master/test/sit/sit_log.txt)
+* [SIT result(w/ INFO logging enabled)](https://github.com/alexanderplatz1999/neutron-lan/blob/master/test/sit/sit_info_log.txt)
+* [SIT result(w/ DEBUG logging enabled)](https://github.com/alexanderplatz1999/neutron-lan/blob/master/test/sit/sit_debug_log.txt)
 
 
 BACKGROUND AND MOTIVATION
