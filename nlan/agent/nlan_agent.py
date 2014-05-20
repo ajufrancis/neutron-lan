@@ -147,17 +147,17 @@ def _route(operation, data):
                     completed['exit'] = 0
                     print >>sys.stderr, str(completed)
     else:        
-        # Calls a command module
+        # Calls a rpc module
         s = data[0].split('.')
-        command = '.'.join(s[:-1])
+        rpc = '.'.join(s[:-1])
         func = s[-1]
         error = None 
         result = None
         try:
-            _mod = __import__('command.'+command, globals(), locals(), [func], -1)
+            _mod = __import__('rpc.'+rpc, globals(), locals(), [func], -1)
             call = _mod.__dict__[func]
             args = tuple(data[1:])
-            __n__['logger'].info('function:{0}.{1}, args:{2}'.format(command, func, str(args)))
+            __n__['logger'].info('function:{0}.{1}, args:{2}'.format(rpc, func, str(args)))
             result = call(*args)
         except CmdError as e:
             error = OrderedDict()

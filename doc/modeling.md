@@ -20,7 +20,7 @@ YAML for modeling neutron-lan
 
 Refer to [neutron-lan YAML state file](../etc/state.yaml).
 
-When an administrator has finished modifying the state file, he or she executes a neutron-lan command "nlan_master.py" to generete CRUD operations (add/delete/set) in the form of Python OrderedDict objects, comparing the file and the one archived in a local git repo.
+When an administrator has finished modifying the state file, he or she executes a neutron-lan command "nlan.py" to generete CRUD operations (add/delete/set) in the form of Python OrderedDict objects, comparing the file and the one archived in a local git repo.
 
 The OrderedDict objects are serialized into string data and sent to target OpenWRT routers. "nlan_agent.py" deserializes the data, analyzes it and routes the requests to corresponding modules.
 
@@ -87,12 +87,12 @@ nlan_ssh.py's "--scpmod" option allows me to copy the nlan modules to the target
 
 
 
-Command modules and config modules
-----------------------------------
+rpc modules and config modules
+------------------------------
 
 Neutron-lan modules are categolized into three categories:
 
-Category 1: NLAN Command Modules (like SaltStack execution modules):
+Category 1: rpc modules (like SaltStack execution modules):
 - init
 - system
 - test
@@ -100,10 +100,10 @@ Category 1: NLAN Command Modules (like SaltStack execution modules):
 
 For example, the following will reboot all the routers on the roster: 
 <pre>
-$ python nlan_master.py system.reboot 
+$ python nlan.py system.reboot 
 </pre>
 
-Category 2: NLAN Config Modules (like SaltStack state modules):
+Category 2: config modules (like SaltStack state modules):
 - bridges
 - services
 - gateway

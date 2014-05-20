@@ -5,7 +5,7 @@
 import os
 
 def list():
-    d = os.path.join(__n__['agent_dir'], 'command')
+    d = os.path.join(__n__['agent_dir'], 'rpc')
     l = os.listdir(d)
     for f in l:
         if f.endswith('.py'):

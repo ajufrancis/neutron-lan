@@ -110,8 +110,8 @@ Maintenance
 - echo test
 $ nlan.py test.echo Hello World!
 
-- show command list
-$ nlan.py command.list
+- show rpc list
+$ nlan.py rpc.list
 
 - ping test 
 $ nlan.py test.ping 192.168.1.10

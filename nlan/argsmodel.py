@@ -55,19 +55,10 @@ def _get_schema(module):
     yield indexes
 
 
-def module_help():
-    import __builtin__
-    tables = None
-    if '__n__' in __builtin__.__dict__:
-        tables = __n__['tables']
-    else:
-        import env
-        tables = env.TABLES
-    return '\n'.join(tables.keys())
 
 
 # List up parameters with types
-def schema_help(module):
+def schema_help(module, list_output=False):
 
     if module:
         schema, indexes = _get_schema(module)
@@ -75,7 +66,7 @@ def schema_help(module):
 
         if module in indexes:
             key = indexes[module]
-            help_.append('* Use param "{}" as _index'.format(key))
+            help_.append("Use '{}' as _index".format(key))
             help_.append('_index={}'.format(str(_type(schema,key)[1]))) 
         for key in schema:
             t = _type(schema, key)
@@ -96,14 +87,27 @@ def schema_help(module):
             else:
                 help_.append('{0}={1}'.format(key,str(t[1])))
 
-        return '\n'.join(help_)
+        if list_output:
+            return help_
+        else:
+            return '\n'.join(help_)
     else:
-        return module_help()
+        import __builtin__
+        tables = None
+        if '__n__' in __builtin__.__dict__:
+            tables = __n__['tables']
+        else:
+            import env
+            modules = env.TABLES.keys()
+        if list_output:
+            return modules
+        else:
+            return '\n'.join(modules)
 
 
 # Converts command arguments into a model
 def parse_args(operation, module, *args):
-
+    
     schema, indexes = _get_schema(module)
 
     model = collections.OrderedDict() 

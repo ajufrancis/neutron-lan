@@ -35,7 +35,7 @@ def _printmsg_request(lock, router, platform):
 
 _toyaml = lambda d: yaml.dump(util.decode(d), default_flow_style=False).rstrip('\n') 
 
-def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, git=False, verbose=False, output_stdout=False):
+def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, git=False, verbose=False, output_stdout=False, rest_output=False):
 
     rp = "Ping test to all the target routers"
     if verbose:
@@ -217,7 +217,19 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
             finish_utc = time.time()
             result = {}
             if output_stdout:
-                result['stdout'] = stdout
+                if rest_output:
+                    if stdout:
+                        r = []
+                        for l in stdout:
+                            if l.startswith("OrderedDict"):
+                                r.append(eval(l)) # OrderedDict
+                            else:
+                                r.append(l)
+                        result['stdout'] = r
+                    else:
+                        result['stdout'] = None 
+                else:
+                    result['stdout'] = stdout
             result['router'] = router
             result['response'] = response
             result['finish_utc'] = finish_utc
@@ -536,7 +548,7 @@ if __name__=='__main__':
                             if git == 0:
                                 cmdutil.check_cmd('git', GIT_OPTIONS, 'add', v)
                                 cmdutil.check_cmd('git', GIT_OPTIONS, 'commit -m updated')
-        elif not crud and not option and len(args) > 0: # NLAN command module execution
+        elif not crud and not option and len(args) > 0: # NLAN rpc module execution
             main(router=router, doc=args, loglevel=loglevel, verbose=verbose)
         elif crud and len(args) > 0: # CRUD operation
             operation = option.lstrip('-') 
