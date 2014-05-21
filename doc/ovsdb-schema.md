@@ -42,7 +42,7 @@ The original OVSDB schema(JSON) can be converted into YAML using some python lib
 	 --------------
 
 * [Original OVSDB schema converted into YAML](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb/vswitch.schema_2.0.0.yaml)
-* [NLAN schema in YAML](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb/nlan.schema_0.0.1.yaml)
+* [NLAN schema in YAML](https://github.com/alexanderplatz1999/neutron-lan/blob/master/ovsdb/nlan.schema_0.0.3.yaml)
 * [O/R mapper for OVSSB](https://github.com/alexanderplatz1999/neutron-lan/blob/master/nlan/agent/ovsdb.py)
 
 
@@ -51,7 +51,7 @@ NLAN state file in YAML
 
 Actual NLAN state parameters are written in the following file:
 
-* [dvsdvr.yaml](https://github.com/alexanderplatz1999/neutron-lan/blob/master/nlan/dvsdvr.yaml)
+* [state.yaml](https://github.com/alexanderplatz1999/neutron-lan/blob/master/etc/state.yaml)
 
 NLAN state file can work with a custom-made template engine as is indicated at the top line in the file: "#!template.dvsdvr"
 
