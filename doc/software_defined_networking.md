@@ -4,13 +4,13 @@ Software-Defined Networking for neutron-lan
 2014/3/13
 2014/4/23
 
-neutron-lan (NLAN) SDN architecture blueprint
---------------------------------------
+neutron-lan (NLAN) SDN architecture 
+-----------------------------------
 
-      +-----------------------------------------------------------+
-      |                     html5 browser                         |
-      +-----------------------------------------------------------+
-                                  | http (and websocket?)                                        
+                            Applications
+                                  | 
+                                  | REST APIs (GET/POST/PUT/DELETE/OPTIONS)                                        
+                                  |
                                   V                                    neutron-lan states        Git repo (Global CMDB)
       +------------------------ wsgi -----------------------------+       ----------  git commit +-----------+
       |                      NLAN Master                          | <--> /YAML data/-  --------> | YAML data |
@@ -18,10 +18,10 @@ neutron-lan (NLAN) SDN architecture blueprint
       +-----------------------------------------------------------+      ----------- / git show  +-----------+
                                   |                                       ----------- 
                                   | Python OrderedDict object over ssh
-                                  V                                                   Local CMDB
-      +-----------------------------------------------------------+  OVSDB protocol   +----------+
-      |     NLAN Agent and NLAN modules (python scripts)          | <---------------> | OVSDB    |
-      +-----------------------------------------------------------+                   +----------+
+                                  V                                                      Local CMDB
+      +-----------------------------------------------------------+      RFC7047         +----------+
+      |     NLAN Agent and NLAN modules (python scripts)          | <------------------> | OVSDB    |
+      +-----------------------------------------------------------+ OVSDB mgmt protocol  +----------+
          |*1     |*2        |*3         |*4       |*5       |*6                       OVSDB schema for OVS and NLAN
          V       V          V           V         V         V                         
       [links] [bridge] [openvswitch] [routing] [dnsmasq] [iptables]
@@ -285,7 +285,7 @@ neutron-lan needs to interact with uci to manage dnsmasq by using a script
 like this:
 
 <pre>
-def config_dnsmasq(interface, ifname, ipaddr, netmask):
+def _dnsmasq(interface, ifname, ipaddr, netmask):
    
    import cmdutil
     
@@ -298,11 +298,11 @@ def config_dnsmasq(interface, ifname, ipaddr, netmask):
    cmd('uci set', network_dvr+'.proto=static')
    cmd('uci set', network_dvr+'.ipaddr='+ipaddr)
    cmd('uci set', network_dvr+'.netmask='+netmask)
+   cmd('uci commit')
+   cmd('/etc/init.d/network restart')
      
    cmd('uci set dhcp.lan.interface='+interface)
-     
    cmd('uci commit')
-    
    cmd('/etc/init.d/dnsmasq restart')
 </pre>    
 

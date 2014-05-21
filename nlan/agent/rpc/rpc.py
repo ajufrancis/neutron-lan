@@ -1,5 +1,5 @@
 # 2014/4/16
-# command.py
+# rpc.py
 #
 
 import os

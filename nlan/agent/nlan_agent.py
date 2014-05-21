@@ -22,15 +22,18 @@ def _init(envfile=ENVFILE, loglevel=logging.WARNING):
 
     # Logger setting
     logger = logging.getLogger("nlan_agent")
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(loglevel)
     handler = logging.StreamHandler(sys.stdout)
-    handler.setLevel(logging.DEBUG)
+    #handler2 = logging.FileHandler('/tmp/nlan_agent.log')
+    handler.setLevel(loglevel)
+    #handler2.setLevel(loglevel)
     header = None
     header = "[%(levelname)s] %(asctime)s module:%(module)s,function:%(funcName)s,router:{}".format(__n__['router'])
     formatter = logging.Formatter(header+"\n%(message)s")
     handler.setFormatter(formatter)
+    #handler2.setFormatter(formatter)
     logger.addHandler(handler)
-    logger.setLevel(loglevel)
+    #logger.addHandler(handler2)
     __n__['logger'] = logger
 
 
@@ -115,6 +118,7 @@ def _route(operation, data):
             error['operation'] = operation
             if operation != 'get':
                 error['progress'] = _progress(_data, module, _index)
+            __n__['logger'].debug(str(error))
         except ModelError as e:
             error = OrderedDict()
             error['exception'] = 'ModelError'
@@ -124,6 +128,7 @@ def _route(operation, data):
             error['operation'] = operation
             if operation != 'get':
                 error['progress'] = _progress(_data, module, _index)
+            __n__['logger'].debug(str(error))
         except Exception as e:
             error = OrderedDict()
             error['exception'] = type(e).__name__ 
@@ -133,6 +138,7 @@ def _route(operation, data):
             error['operation'] = operation
             if operation != 'get':
                 error['progress'] = _progress(_data, module, _index)
+            __n__['logger'].debug(str(error))
         finally:
             if results:
                 # STDOUT

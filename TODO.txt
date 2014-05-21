@@ -12,7 +12,9 @@ I have already built lxc-capable linux kernel for OpenWrt and Raspbian. For the 
 
 [19] Parameter cheking by referring to the schema
 
-[20] Working with dnsmasq
+[20] Working with dnsmasq -- WORKING ON IT NOW.
+
+The coding has been completed. Its unit testing has not been done yet. 
 
 [21] Working with iptables
 

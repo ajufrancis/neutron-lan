@@ -3,7 +3,7 @@
 #
 
 from cmdutil import *
-from ovsdb import Row
+import ovsdb
 
 # Initialize the configuration
 def run():
@@ -63,8 +63,20 @@ def run():
     l = l.split('\n')
     for ns in l[:-1]:
         cmd('ip netns del', ns)
-    
+
+    # Delete dnsmasq-related config
+    if __n__['platform'] == 'openwrt':
+        l = ovsdb.nlan_search('subnets', columns=['vni', 'ip_dvr'])
+        if l:
+            for d in l:
+                if 'ip_dvr' in d and 'dhcp' in d['ip_dvr']:
+                    vni = str(d['vni'])
+                    cmd('uci delete', 'network.int_dvr'+vni)
+                    cmd('uci delete', 'dhcp.int_dvr'+vni)
+                    cmd('uci commit')
+                    cmd('/etc/init.d/network restart')
+                    cmd('/etc/init.d/dnsmasq restart')
     # OVSDB transaction
-    Row.clear()
+    ovsdb.Row.clear()
 
 
