@@ -33,17 +33,21 @@ def _printmsg_request(lock, router, platform):
         rp = "NLAN Request to router:{0},platform:{1}".format(router, platform)
         print bar[:5], rp, bar[5+len(rp):] 
 
+
 _toyaml = lambda d: yaml.dump(util.decode(d), default_flow_style=False).rstrip('\n') 
 
+
+# NLAN MAIN FUNCTION
 def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, git=False, verbose=False, output_stdout=False, rest_output=False):
 
     rp = "Ping test to all the target routers"
     if verbose:
         print bar[:5], rp, bar[5+len(rp):] 
-    if _wait(router, PING_CHECK_WAIT, verbose) > 0:
+    (exit, results) = _wait(router, PING_CHECK_WAIT, verbose)
+    if exit > 0:
         print ""
         print "Ping test failure! Transaction cancelled."
-        sys.exit(0)
+        raise NlanException("Ping test failure", result=results)
 
     start_datetime = str(datetime.datetime.now())
     start_utc = time.time()
@@ -409,6 +413,7 @@ def _wait(router, timeout, verbose):
         print "Router           Host           Ping"
         print "------------------------------------"
     children = []
+    results = [] 
     try:
         with open(os.devnull, 'w') as devnull:
             queue = Queue()
@@ -437,6 +442,10 @@ def _wait(router, timeout, verbose):
                     elif timeout > 0 and not result or timeout < 0 and result:
                         if verbose:
                             print '{:17s}{:15s}NG'.format(router, host)
+                    if result:
+                        results.append({'message': 'Ping test OK', 'router':router, 'host':host, 'exit': 0})
+                    else:
+                        results.append({'message': 'Ping test failure', 'router':router, 'host':host, 'exit': 1})
                     if not result and exit == 0:
                         exit = 1
     except KeyboardInterrupt:
@@ -447,8 +456,8 @@ def _wait(router, timeout, verbose):
             l.terminate()
             l.join()
             print "child process:", sub 
-
-    return exit
+    finally:
+        return (exit, results)
 
 
 if __name__=='__main__':

@@ -139,6 +139,8 @@ def _add_subnets(model):
     if _ip_dvr:
         if 'dhcp' in _ip_dvr and __n__['init'] == 'start':
             pass # OpenWrt's /etc/config/network has int_dvr entry
+        elif _ip_dvr['mode'] == 'spoke':
+            pass # In this case, the hub's ip_dvr['addr'] is a default gw for hosts
         else:
             cmd('ip addr add dev', int_dvr, _ip_dvr['addr'])
         if 'dhcp' in _ip_dvr and __n__['init'] != 'start':
@@ -199,7 +201,7 @@ def _delete_subnets(model):
             _dnsmasq(int_dvr, False, ipaddr, mask)
         if ip_vhost_:
             cmd('ip netns exec', ns, 'ip route delete default via', ip_dvr_['addr'].split('/')[0], 'dev eth0')
-        if 'dhcp' not in ip_dvr_:
+        if 'dhcp' not in ip_dvr_ and ip_dvr_['mode'] != 'spoke':
             cmd('ip addr delete dev', int_dvr, ip_dvr_['addr'])
     
     #>>> Deleting vHost

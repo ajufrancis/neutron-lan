@@ -1,0 +1,11 @@
+2014/5/22
+
+At Debian Linux (DHCP client),
+
+$ ip netns list
+$ ip netns exec <netns> dhclient eth0
+
+At OpenWrt (DHCP server),
+
+$ cat /tmp/dhcp.leases
+

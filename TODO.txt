@@ -12,10 +12,6 @@ I have already built lxc-capable linux kernel for OpenWrt and Raspbian. For the 
 
 [19] Parameter cheking by referring to the schema
 
-[20] Working with dnsmasq -- WORKING ON IT NOW.
-
-The coding has been completed. Its unit testing has not been done yet. 
-
 [21] Working with iptables
 
 -----
@@ -80,3 +76,7 @@ if False, stdout is not put in the queue.
 Allow them to have None value.
 
 [18] argsmodel.py  schema_help output, working with enum -- DONE!
+
+[20] Working with dnsmasq -- DONE!
+
+But it is limited to OpenWrt only.

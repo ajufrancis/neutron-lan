@@ -8,9 +8,11 @@
 import os, sys, urlparse
 from wsgiref import util, simple_server
 from cStringIO import StringIO
+import traceback
 import json
 
 import nlan, argsmodel
+from errors import NlanException
 
 # wsgiref's HTTP server does reverse DNS lookup for every HTTP request,
 # and every HTTP transaction takes longer than 10 seconds.
@@ -104,21 +106,29 @@ class RestApi(object):
         # String buffer as a HTTP Response body
         out = StringIO()
 
-        if method in operations and module_type == 'config': 
-            operation = operations[method]
-            results = nlan.main(router=router, operation=operation, doc=doc, output_stdout=True, rest_output=True)
+        try:
+            if method in operations and module_type == 'config': 
+                operation = operations[method]
+                results = nlan.main(router=router, operation=operation, doc=doc, output_stdout=True, rest_output=True)
+                print >>out, json.dumps(results)
+                start_response('200 OK', [('Content-type', 'application/json')])
+            elif method == 'POST' and module_type == 'rpc':
+                results = nlan.main(router=router, doc=doc, output_stdout=True, rest_output=True)
+                print >>out, json.dumps(results)
+                start_response('200 OK', [('Content-type', 'application/json')])
+            elif method == 'OPTIONS':
+                print >>out, argsmodel.schema_help(module, list_output=True)
+                start_response('200 OK', [('Content-type', 'application/json')])
+            else:
+                print >>out, 'Not Implemented'
+                start_response('501 Not Implemented', [('Content-type', 'text/plain')])
+        except NlanException as e:
+            results = e.get_result()
             print >>out, json.dumps(results)
-            start_response('200 OK', [('Content-type', 'application/json')])
-        elif method == 'POST' and module_type == 'rpc':
-            results = nlan.main(router=router, doc=doc, output_stdout=True, rest_output=True)
-            print >>out, json.dumps(results)
-            start_response('200 OK', [('Content-type', 'application/json')])
-        elif method == 'OPTIONS':
-            print >>out, argsmodel.schema_help(module, list_output=True)
-            start_response('200 OK', [('Content-type', 'application/json')])
-        else:
-            start_response('501 Not Implemented', [('Content-type', 'text/plain')])
-            print >>out, 'Not Implemented'
+            start_response('500 Internal Server Error', [('Content-type', 'application/json')])
+        except Exception as e:
+            print >>out, traceback.format_exc()
+            start_response('500 Internal Server Error', [('Content-type', 'application/json')])
 
         # Return the result as a body of HTTP Response
         out.seek(0)
@@ -128,7 +138,7 @@ class RestApi(object):
 if __name__ == '__main__':
 
     host_ip = '0.0.0.0'
-    port = 8888
+    port = 8080
     appl = RestApi()
         
     try:

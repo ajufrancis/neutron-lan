@@ -149,11 +149,11 @@ $ nlan db.update
 Using NLAN REST APIs
 --------------------
 <pre>
-$ curl -s -H Content-Type:application/json -X POST http://192.168.56.101:8888/_ALL/rpc/test/echo?params=Hello!
-$ curl -s -H Content-Type:application/json -X OPTIONS http://192.168.56.101:8888?params=subnets
-$ curl -s -H Content-Type:application/json -X POST http://192.168.56.101:8888/openwrt1/rpc/init/run
-$ curl -s -H Content-Type:application/json -X POST http://192.168.56.101:8888/openwrt1/config/bridges?ovs_bridges=enabled
-$ curl -s -H Content-Type:application/json -X POST http://192.168.56.101:8888/openwrt1/config/vxlan?local_ip=192.168.1.101&remote_ips=192.168.1.102,192.168.56.103
+$ curl -s -H Content-Type:application/json -X POST http://192.168.56.101:8080/_ALL/rpc/test/echo?params=Hello!
+$ curl -s -H Content-Type:application/json -X OPTIONS http://192.168.56.101:8080?params=subnets
+$ curl -s -H Content-Type:application/json -X POST http://192.168.56.101:8080/openwrt1/rpc/init/run
+$ curl -s -H Content-Type:application/json -X POST http://192.168.56.101:8080/openwrt1/config/bridges?ovs_bridges=enabled
+$ curl -s -H Content-Type:application/json -X POST http://192.168.56.101:8080/openwrt1/config/vxlan?local_ip=192.168.1.101&remote_ips=192.168.1.102,192.168.56.103
 </pre>
 
 Standard Python libraries

@@ -1,8 +1,7 @@
 #!/bin/bash
 # 2014/5/20
 
-request="curl -H Content-Type:application/json"
-url=http://192.168.56.101:8888
+url=http://192.168.56.101:8080
 
 unset http_proxy
 
