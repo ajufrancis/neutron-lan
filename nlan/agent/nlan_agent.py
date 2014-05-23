@@ -74,7 +74,7 @@ def _route(operation, data):
     
     exit = 0
 
-    if operation:
+    if operation in ('add', 'update', 'delete', 'get'): 
         # Calls config modules 
         from oputil import Model
         if __n__['init'] != 'start':
@@ -152,19 +152,36 @@ def _route(operation, data):
                     completed['message'] = 'Execution completed'
                     completed['exit'] = 0
                     print >>sys.stderr, str(completed)
-    else:        
+    elif operation in ('rpc_dict', 'rpc_args'):        
         # Calls a rpc module
-        s = data[0].split('.')
-        rpc = '.'.join(s[:-1])
-        func = s[-1]
+        rpc = None
+        func = None
+        args = None
+        kwargs = {} 
         error = None 
         result = None
+        if operation == 'rpc_args':
+            s = data[0].split('.')
+            rpc = '.'.join(s[:-1])
+            func = s[-1]
+            args = tuple(data[1:])
+        elif operation == 'rpc_dict':
+            try:
+                d = eval(data)
+                if isinstance(d, OrderedDict):
+                    rpc = d['module']
+                    func = d['func']
+                    args = d['args']
+                    kwargs = d['kwargs']
+                else:
+                    raise Exception
+            except:
+                raise Exception("Illegal RPC request: {}".format(data))
         try:
             _mod = __import__('rpc.'+rpc, globals(), locals(), [func], -1)
             call = _mod.__dict__[func]
-            args = tuple(data[1:])
-            __n__['logger'].info('function:{0}.{1}, args:{2}'.format(rpc, func, str(args)))
-            result = call(*args)
+            __n__['logger'].info('function:{0}.{1}, args:{2}, kwargs:{3}'.format(rpc, func, str(args), str(kwargs)))
+            result = call(*args, **kwargs)
         except CmdError as e:
             error = OrderedDict()
             error['exception'] = 'CmdError'
@@ -181,7 +198,7 @@ def _route(operation, data):
         finally:
             if result:
                 # STDOUT
-                print result 
+                print str(result)
             if error:
                 print >>sys.stderr, str(error)
                 exit= sys.exit(error['exit'])
@@ -190,6 +207,8 @@ def _route(operation, data):
                 completed['message'] = 'Execution completed'
                 completed['exit'] = 0
                 print >>sys.stderr, str(completed)
+    else:
+        raise Exception("Unsupported NLAN operation, {}".format(operation))
 
     return exit
 
@@ -240,6 +259,7 @@ if __name__ == "__main__":
     parser.add_option("-u", "--update", help="(CRUD) update NLAN stateus", action="store_true", default=False)
     parser.add_option("-d", "--delete", help="(CRUD) delete NLAN states", action="store_true", default=False)
     parser.add_option("-s", "--schema", help="(CRUD) print schema", action="store_true", default=False)
+    parser.add_option("-r", "--rpc", help="RPC w/ args from stdin", action="store_true", default=False)
     parser.add_option("-I", "--info", help="set log level to INFO", action="store_true", default=False)
     parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
     parser.add_option("-f", "--envfile", help="NLAN Agent environment file", action="store", type="string", dest="filename")
@@ -257,6 +277,8 @@ if __name__ == "__main__":
         operation = 'update'
     elif options.delete:
 	operation = 'delete'	
+    elif options.rpc:
+        operation = 'rpc_dict'
 
     loglevel = logging.WARNING
     if options.info:
@@ -278,14 +300,14 @@ if __name__ == "__main__":
 	
     data = None 
     if operation and len(args) == 0:
-        # Obtains CRUD data from nlan.py via SSH
+        # Obtains data from nlan.py via SSH
         data = sys.stdin.read().replace('"','') 
     elif operation and len(args) > 0:
-        # Obtains CRUD data from command arguments
+        # Obtains data from command arguments
         data = argsmodel.parse_args(operation, args[0], *args[1:])
-    else:
-        # Command module arguments
+    else: # RPC w/ command arguments
         data = args
+        operation = 'rpc_args'
 
     __n__['logger'].info('NLAN Agent initialization completed')
     __n__['logger'].debug('__n__: {}'.format(__n__))

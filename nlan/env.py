@@ -13,6 +13,9 @@ NLAN_DIR = '/root/neutron-lan/nlan'
 # NLAN etc directory (local)
 NLAN_ETC = '/root/neutron-lan/etc'
 
+# NLAN rpc modules (local)
+NLAN_RPC_DIR = os.path.join(NLAN_DIR, 'agent/rpc')
+
 # NLAN default state file
 NLAN_STATE = 'state.yaml'
 

@@ -38,6 +38,7 @@ _toyaml = lambda d: yaml.dump(util.decode(d), default_flow_style=False).rstrip('
 
 
 # NLAN MAIN FUNCTION
+# Note: in case of RPC, set operation = '--rpc'
 def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, git=False, verbose=False, output_stdout=False, rest_output=False):
 
     rp = "Ping test to all the target routers"
@@ -221,7 +222,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
             finish_utc = time.time()
             result = {}
             if output_stdout:
-                if rest_output:
+                if rest_output: # REST API
                     if stdout:
                         r = []
                         for l in stdout:
@@ -232,7 +233,12 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                         result['stdout'] = r
                     else:
                         result['stdout'] = None 
-                else:
+                elif operation == '--rpc': # RPC
+                    try:
+                        result['stdout'] = eval(stdout[0]) # An object returned by RPC.
+                    except:
+                        result['stdout'] = stdout[0] # An object (str) returned by RPCh
+                else: # STDOUT data incl. outputs from multiple command executions
                     result['stdout'] = stdout
             result['router'] = router
             result['response'] = response
