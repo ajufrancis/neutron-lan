@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#
 # 2014/2/20
 # 2014/3/12
 # 2014/3/24-25
@@ -397,7 +399,7 @@ if __name__=='__main__':
             print l
        
         print '----- test: crud_diff -----'
-        crud_list = crud_diff(sys.argv[1])
+        crud_list = crud_diff(sys.argv[1], git=0)
         for l in crud_list:
             print l
     else:

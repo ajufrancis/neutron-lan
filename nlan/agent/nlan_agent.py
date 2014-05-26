@@ -76,7 +76,7 @@ def _route(operation, data):
 
     if operation in ('add', 'update', 'delete', 'get'): 
         # Calls config modules 
-        from oputil import Model
+        from oputil import CRUD 
         if __n__['init'] != 'start':
             if isinstance(data, str) and (data.startswith('OrderedDict') or data.startswith('{')):
                 data = eval(data)
@@ -99,14 +99,14 @@ def _route(operation, data):
                             _index = _model['_index']
                             del _model['_index']
                             __n__['logger'].info('function:{0}.{1}, index:{3}, model:{2}'.format(module, operation, str(_model), str(_index)))
-                            m = Model(operation, module, _model, _index)
+                            with CRUD(operation, module, _model, _index, gl = _mod.__dict__):
                             # Routes a requested model to a config module
-                            call(m)
+                                call()
                     else:
                         __n__['logger'].info('function:{0}.{1}, model:{2}'.format(module, operation, str(model)))
-                        m = Model(operation, module, model)
+                        with CRUD(operation, module, model, gl = _mod.__dict__):
                         # Routes a requested model to a config module 
-                        call(m)
+                            call()
         except CmdError as e:
             error = OrderedDict()
             error['exception'] = 'CmdError'

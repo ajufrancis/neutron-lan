@@ -7,7 +7,6 @@
 import cmdutil
 import re
 from ovsdb import Row, OvsdbRow, search, get_vxlan_ports 
-from oputil import Model
 from errors import ModelError
 
 
@@ -91,7 +90,7 @@ def _dnsmasq(ifname, enable, ipaddr, mask, start='100', limit='150', leasetime='
     
 
 # Add subnet
-def _add_subnets(model):
+def _add_subnets():
 	
     cmd = cmdutil.check_cmd
     output_cmd = cmdutil.output_cmd
@@ -167,7 +166,7 @@ def _add_subnets(model):
 	
 
 # Delete subnet
-def _delete_subnets(model):
+def _delete_subnets():
 	
     cmd = cmdutil.check_cmd
     output_cmd = cmdutil.output_cmd
@@ -250,7 +249,7 @@ def _delete_subnets(model):
 # 3) mode == 'hub' or 'spoke'
 # No flow entries added
 #
-def _flow_entries(ope, model):
+def _flow_entries(ope):
     
     # serarch Open_vSwitch table
     if not search('Controller', ['target']): # no OpenFlow Controller
@@ -280,7 +279,7 @@ def _flow_entries(ope, model):
                 cmd('ovs-ofctl del-flows br-tun table=2,tun_id={svni}'.format(**params))
         
         if _ip_dvr and 'mode' not in _ip_dvr:
-            raise ModelError('requires "mode"', model=model.model, params='mode')
+            raise ModelError('requires "mode"')
 
         if _ip_dvr and _ip_dvr['mode'] == 'dvr':
             if ope:
@@ -348,34 +347,28 @@ def _flow_entries(ope, model):
                 cmd('ovs-ofctl del-flow br-tun table=21,dl_vlan={svid}'.format(**params))
 
 ### CRUD operations ###
-def add(model):
-    model.params()
+def add():
     if _vni_ and _vid_:
         __n__['logger'].info('Adding a subnet(vlan): ' + str(_vid))
-        _add_subnets(model)
-        _flow_entries('add', model)
-        model.finalize()
+        _add_subnets()
+        _flow_entries('add')
     else:
-        raise ModelError("requires at least _vni and _vid", model=model.model)
+        raise ModelError("requires at least _vni and _vid")
 
-def delete(model):
-    model.params()
+def delete():
     if _vni and _vid_:
         raise ModelError("vid still exists")
     if _vid and (_ip_dvr_ or _ip_vhost_ or _peers_ or _ports_ or _default_gw_):
-            raise ModelError("the other params still exits", model=model.model)
+            raise ModelError("the other params still exits")
     __n__['logger'].info('Deleting a subnet(vlan): ' + str(_vid))
-    _flow_entries('delete', model)
-    _delete_subnets(model)
-    model.finalize()
+    _flow_entries('delete')
+    _delete_subnets()
 
-def update(model):
-    model.params()
+def update():
     if _vni or _vid:
-        raise ModelError('update not allowed for vni and vid', model=model.model)
+        raise ModelError('update not allowed for vni and vid')
     __n__['logger'].info('Updating a subnet(vlan): ' + str(_vid))
-    _flow_entries('delete', model)
-    _delete_subnets(model)
-    _add_subnets(model)
-    _flow_entries('add', model)
-    model.finalize()
+    _flow_entries('delete')
+    _delete_subnets()
+    _add_subnets()
+    _flow_entries('add')

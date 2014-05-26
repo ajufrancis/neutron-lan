@@ -2,12 +2,21 @@
 #
 from ovsdb import Row
 import inspect
+from errors import ModelError
 
-class Model:
+
+# A class supporting common operations for CRUD
+#
+# CRUD class can also be used as a context manager: calls params() and finalize()
+#   params()
+#   BODY
+#   finalize()
+#
+class CRUD:
 
     # This constructor automatically generates state variables:
     # _param, _param_ and param_
-    def __init__(self, operation, module, model, index=None):
+    def __init__(self, operation, module, model, index=None, gl=None):
 
         self.operation = operation
         self.model = model
@@ -16,6 +25,9 @@ class Model:
         # Get the current state from OVSDB
         self.rowobj = Row(self.module, index)
         self.row = self.rowobj.getrow()
+        # globals() or __dict__
+        self.gl = gl
+        self.params = tuple(__n__['types'][self.module].keys())
 
     def getparam(self, *args):
       
@@ -28,13 +40,15 @@ class Model:
             else:
                 yield None
 
-    def _params(self, *args):
-       
+
+    def _set_params(self):
+      
+
         init = False
         if __n__['init'] == 'start':
             init = True
 
-        for key in args:
+        for key in self.params:
 
             # New values: requested changes
             _key = '_'+key
@@ -47,7 +61,7 @@ class Model:
                     else: # add/update
                         self.gl[_key] = self.model[key] 
             else:
-                self.gl[_key] = None 
+                self.gl[_key] = None
             # Old values stored in OVSDB            
             key_ = key+'_'
             if self.row and key in self.row and not init:
@@ -67,19 +81,31 @@ class Model:
                     # Desierd state: None
                     self.gl[_key_] = None 
     
-    def params(self):
-        
-        cf = inspect.currentframe()
-        of = inspect.getouterframes(cf)
-        self.gl = of[1][0].f_globals
-
-        params = tuple(__n__['types'][self.module].keys())
-        self._params(*params)
-
 
     # ovdsb.Row.crud
     def finalize(self):
         self.rowobj.crud(self.operation, self.model)
+
+    
+    ### Context manager ###
+    def __enter__(self):
+        if not self.gl:
+            # Obtains gloabls
+            cf = inspect.currentframe()
+            of = inspect.getouterframes(cf)
+            self.gl = of[1][0].f_globals
+        # Generates _param, _param_ and param_
+        self._set_params()
+
+    def __exit__(self, type, value, traceback):
+        if type == ModelError:
+            value.model = self.model
+            return False # Re-raises the exception
+        elif type: # Exceptions other than ModelError
+            return False # Re-raises the exception
+        else:
+            self.finalize()
+
 
 
 class SubprocessError(Exception):

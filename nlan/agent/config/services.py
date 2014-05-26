@@ -5,7 +5,6 @@
 import os
 import cmdutil
 from ovsdb import Row
-from oputil import Model
 
 lxc_network ="""
 lxc.network.type = veth
@@ -16,9 +15,7 @@ lxc.network.ipv4 = 0.0.0.0
 
 cmd = cmdutil.check_cmd
 
-def add(model):
-
-    model.params()
+def add():
 
     cmd('lxc-stop -n', _name_)
 
@@ -39,12 +36,9 @@ def add(model):
 
     cmd('lxc-start -d -f', conf, '-n', _name_)
 
-    #OVSDB transaction
-    model.finalize()
 
-def delete(model):
-    model.params()
-    
+def delete():
+
     if _name and not chain_ or _name and _chain:
         cmd('lxc-stop -n', name_)
     elif not _name and _chain:
@@ -61,17 +55,13 @@ def delete(model):
 
         cmd('lxc-start -d -f', conf, '-n', name_)
     else:
-        raise ModelError("illegal operation", model=model.model)
-
-    model.finalize()
+        raise ModelError("illegal operation")
 
 
-def update(model):
-
-    model.params()
+def update():
 
     if _name:
-        raise ModelError("renaming container not allowed", model=model.model)
+        raise ModelError("renaming container not allowed")
     elif _chain:
         cmd('lxc-stop -n', name_)
 
@@ -89,6 +79,3 @@ def update(model):
                 f.write(net)
 
         cmd('lxc-start -d -f', conf, '-n', name_)
-
-    #OVSDB transaction
-    model.finalize()

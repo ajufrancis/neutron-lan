@@ -14,6 +14,8 @@ I have already built lxc-capable linux kernel for OpenWrt and Raspbian. For the 
 
 [21] Working with iptables
 
+[22] State rollback under failure
+
 -----
 
 [1] OVSDB schema analyzer script -- DONE!

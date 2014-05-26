@@ -7,7 +7,6 @@
 
 from cmdutil import output_cmd, output_cmd2, output_cmdp, output_cmd2p
 from ovsdb import Row
-from oputil import Model 
 from errors import ModelError
 
 def _vtysh(args):
@@ -23,12 +22,10 @@ def _vtysh(args):
         output_cmd2p(cmd_args)
         output_cmdp('/etc/init.d/quagga restart')
 
-def add(model):
-
-    model.params()
+def add():
 
     if not _rip or not _network:
-        raise ModelError('requires both _rip and _network', model=model.model)
+        raise ModelError('requires both _rip and _network')
 
     else:
         __n__['logger'].info('Adding a gateway router: rip')
@@ -50,16 +47,11 @@ def add(model):
 
         _vtysh(args)
 
-        # OVSDB transaction
-        model.finalize()
 
-
-def delete(model):
-
-    model.params()
+def delete():
 
     if not _rip or not _network:
-        raise ModelError('requires both _rip and _network', model=model.model)
+        raise ModelError('requires both _rip and _network')
     
     else:
         __n__['logger'].info('Deleting a gateway router: rip')
@@ -81,16 +73,11 @@ def delete(model):
 
         _vtysh(args)
 
-        # OVSDB transaction
-        model.finalize()
 
-
-def update(model):
-
-    model.params()
+def update():
 
     if not rip_ or not _network:
-        raise ModelError('requires rip_ and _network', model=model.model)
+        raise ModelError('requires rip_ and _network')
     
     else:
         __n__['logger'].info('Updating a gateway router: rip')
@@ -114,6 +101,3 @@ def update(model):
 
         _vtysh(args)
         
-        # OVSDB transaction
-        model.finalize()
-

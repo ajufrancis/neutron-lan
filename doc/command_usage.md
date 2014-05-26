@@ -156,12 +156,3 @@ $ curl -s -H Content-Type:application/json -X POST http://192.168.56.101:8080/op
 $ curl -s -H Content-Type:application/json -X POST http://192.168.56.101:8080/openwrt1/config/vxlan?local_ip=192.168.1.101&remote_ips=192.168.1.102,192.168.56.103
 </pre>
 
-Standard Python libraries
--------------------------
-<pre>
-- print OS name tupple
-$ nlan.py os.uname
-
-- list a names of all the entries in the directory
-$ nlan.py os.listdir /etc/init.d
-</pre>

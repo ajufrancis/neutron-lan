@@ -1,14 +1,8 @@
 CRUD with Model object
 ======================
-2014/4/25
+2014/4/25, 5/26
 
-In a NLAN config module,
-<pre>
-def add(model):
-    model.params()
-</pre>
-
-Then the function automatically generates the following variables in the global name space.
+nlan_agent.py automatically generates the following variables in the global name space of a called config module, and save the variables(_param) in OVSDB at the end of the transaction.
 
 <pre>
 _param1, _para2, _para3...        (1) 
@@ -54,11 +48,6 @@ d      None     None   _d=None  _d_=None d_=None
 * param_: representes existing state including all the values in OVSDB 
 
 Treat them like 'final' variables in Java: never change the values in the module.
-To finalize the process, call the following function to save the parameters in OVSDB:
-<pre>
-    model.finalize()
-</pre>
-
 
 Basic rule of match condition:
 

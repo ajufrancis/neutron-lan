@@ -90,7 +90,7 @@ nlan_ssh.py's "--scpmod" option allows me to copy the nlan modules to the target
 rpc modules and config modules
 ------------------------------
 
-Neutron-lan modules are categolized into three categories:
+Neutron-lan modules are categolized into two categories:
 
 Category 1: rpc modules (like SaltStack execution modules):
 - init
@@ -114,14 +114,6 @@ Category 2: config modules (like SaltStack state modules):
 nlan.py reads a YAML file and invoke corresponding config modules on remote routers:
 <pre>
 $ python nlan.py dvsdvr.yaml
-</pre>
-
-Category 3: Other python modules
-- Any modules that can be reachable via 'sys.path'. For example, to access 'os.getenv':
-
-For example, the following will invoke os.getenv module to obtain PATH environement variable:
-<pre>
-$ python nlan.py os.getenv PATH
 </pre>
 
 To support CRUD operations, each config module should implement "add", "get", "update" and "delete" functions in it.

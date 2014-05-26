@@ -4,7 +4,6 @@
 
 import cmdutil
 from ovsdb import Row, OvsdbRow
-from oputil import Model 
 from errors import ModelError
 
 cmd = cmdutil.check_cmd	
@@ -28,11 +27,9 @@ def _add_flow_entries():
     cmd('ovs-ofctl add-flow br-tun', 'table=20,priority=0,actions=resubmit(,21)')
     cmd('ovs-ofctl add-flow br-tun', 'table=21,priority=0,actions=drop')
 
-def add(model):
+def add():
 
     __n__['logger'].info('Adding bridges: br-int and br-tun')
-
-    model.params()
 
     if _ovs_bridges:
         cmdp('ovs-vsctl add-br br-int')
@@ -49,18 +46,13 @@ def add(model):
         cmd('ovs-ofctl del-flows br-tun')
         cmdp('ovs-vsctl set-controller br-tun tcp:'+ _controller)
     elif _controller and not _ovs_bridges_:
-        raise ModelError(message='cannot add _controller w/o _ovs_bridges_', model=model.model)
-
-    # OVSDB transaction
-    model.finalize()
+        raise ModelError(message='cannot add _controller w/o _ovs_bridges_')
 
 
-def delete(model):
+def delete():
 
     __n__['logger'].info('Deleting bridges: br-int and br-tun')
 
-    model.params()
-    
     if _controller:
         # OpenFlow Controller
         cmd('ovs-vsctl del-controller br-tun')
@@ -72,7 +64,4 @@ def delete(model):
         cmd('ovs-vsctl del-port br-int patch-int')
         cmd('ovs-vsctl del-br br-tun')
         cmd('ovs-vsctl del-br br-int')
-
-    # OVSDB transaction
-    model.finalize()
 

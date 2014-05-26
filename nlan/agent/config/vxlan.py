@@ -4,16 +4,13 @@
 
 import cmdutil
 from ovsdb import Row, get_vxlan_ports
-from oputil import Model
 from errors import ModelError
 
 cmd = cmdutil.check_cmd	
 cmdp = cmdutil.check_cmdp	
 
-def add(model):
+def add():
     
-    model.params()
-
     if not _local_ip_:
         raise ModelError('"_local_ip_" is mandatory')
     if _remote_ips:
@@ -27,15 +24,10 @@ def add(model):
         vxlan_ports = get_vxlan_ports()
         for vxlan_port in vxlan_ports:
             cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=1,in_port='+vxlan_port+',actions=resubmit(,2)')
-     
-        # VSDB transaction
-        model.finalize()
 
 
-def delete(model):
+def delete():
     
-    model.params()
-
     if _remote_ips:
         # vxlan_ports = get_vxlan_ports(_remote_ips) 
         # TODO: yamldiff.py does not work on list parameters very well.
@@ -54,13 +46,8 @@ def delete(model):
             if not (set(_remote_ips) == set(remote_ips_)):
                 raise ModelError('"local_ip" cannot be deleted') 
 
-    # VSDB transaction
-    model.finalize()
 
-
-def update(model):
-
-    model.params()
+def update():
 
     # if_local_ip:
     # TODO: yamldiff.py must not generate update on list parameters.
@@ -84,6 +71,4 @@ def update(model):
         vxlan_ports = get_vxlan_ports()
         for vxlan_port in vxlan_ports:
             cmd('ovs-ofctl add-flow br-tun', 'table=0,priority=1,in_port='+vxlan_port+',actions=resubmit(,2)')
-     
-        # VSDB transaction
-        model.finalize()
+         
