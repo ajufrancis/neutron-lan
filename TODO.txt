@@ -16,6 +16,14 @@ I have already built lxc-capable linux kernel for OpenWrt and Raspbian. For the 
 
 [22] State rollback under failure
 
+[23] GET operation can not get multiple states of modules at a time
+
+Improve nlan_agent.py's _route function.
+
+[24] System-wide lock for CRUD add/update/delete operations. 
+
+[25] Test scenario "subnets.yaml" does not run properly at the steps with default gw configuration, because the ip address has never been set and thus unreachable.
+
 -----
 
 [1] OVSDB schema analyzer script -- DONE!

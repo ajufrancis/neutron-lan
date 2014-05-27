@@ -44,7 +44,7 @@ NLAN_AGENT_DIR = '/opt/nlan'
 NLAN_AGENT = os.path.join(NLAN_AGENT_DIR,'nlan_agent.py')
 
 # NLAN libraries shared by both NLAN Master(local) and NLAN Agent(remote)
-NLAN_LIBS = ['cmdutil.py', 'errors.py', 'argsmodel.py']
+NLAN_LIBS = ['cmdutil.py', 'errors.py', 'argsmodel.py', 'patterns.py']
 
 # NLAN module directories (python packages)
 NLAN_MOD_DIRS = ['rpc', 'config']
@@ -53,7 +53,8 @@ NLAN_MOD_DIRS = ['rpc', 'config']
 ### NLAN-schema-related env ####################################### 
 
 # NLAN schema file in YAML (local)
-NLAN_SCHEMA = os.path.join(NLAN_DIR, 'agent/share/nlan.schema_0.0.3.yaml')
+#NLAN_SCHEMA = os.path.join(NLAN_DIR, 'agent/share/nlan.schema_0.0.3.yaml')
+NLAN_SCHEMA = os.path.join(NLAN_DIR, 'agent/share/nlan.schema_0.0.4.yaml')
 
 # Target OVSDB schema, merged with NLAN_SCHEMA
 SCHEMA = 'ovsdb_nlan.schema'

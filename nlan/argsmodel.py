@@ -66,13 +66,14 @@ def schema_help(module, list_output=False):
 
         if module in indexes:
             key = indexes[module]
-            help_.append("Use '{}' as _index".format(key))
-            help_.append('_index={}'.format(str(_type(schema,key)[1]))) 
+            help_.append("- Use '{}' as _index".format(key))
+            help_.append(' _index={}'.format(str(_type(schema,key)[1]))) 
         for key in schema:
             t = _type(schema, key)
             if t[0]:
                 if t[0] == list:
-                    help_.append('{0}={1},{1},...'.format(key,str(t[1])))
+                    help_.append('- {}'.format(schema[key]['_description']))
+                    help_.append(' {0}={1},{1},...'.format(key,str(t[1])))
                 elif t[0] == dict:
                     type_ = str(t[1])
                     line = ""
@@ -83,9 +84,11 @@ def schema_help(module, list_output=False):
                         line=','.join(l)
                     else:
                         line='param1:{},parm2:{},...'.format(type_)
-                    help_.append('{0}={1}'.format(key,line))
+                    help_.append('- {}'.format(schema[key]['_description']))
+                    help_.append(' {0}={1}'.format(key,line))
             else:
-                help_.append('{0}={1}'.format(key,str(t[1])))
+                help_.append('- {}'.format(schema[key]['_description']))
+                help_.append(' {0}={1}'.format(key,str(t[1])))
 
         if list_output:
             return help_
@@ -96,6 +99,7 @@ def schema_help(module, list_output=False):
         tables = None
         if '__n__' in __builtin__.__dict__:
             tables = __n__['tables']
+            modules = tables.keys()
         else:
             import env
             modules = env.TABLES.keys()

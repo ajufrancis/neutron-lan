@@ -28,7 +28,7 @@
 openwrt1:
    bridges: 
       ovs_bridges: enabled
-#     controller: '192.168.1.1:6633'
+#     controller: tcp:192.168.1.1:6633
    gateway:
      rip: enabled
 #     network: eth0.2
@@ -70,7 +70,7 @@ openwrt1:
 openwrt2:
    bridges: 
       ovs_bridges: enabled
-#     controller: '192.168.1.1:6633'
+#     controller: tcp:192.168.1.1:6633
    vxlan:
       local_ip: <local_ip> 
       remote_ips: <remote_ips>
@@ -108,7 +108,7 @@ openwrt2:
 openwrt3:
    bridges:
      ovs_bridges: enabled
-#    controller: '192.168.1.1:6633'
+#    controller: tcp:192.168.1.1:6633
    vxlan:
      local_ip: <local_ip> 
      remote_ips: <remote_ips>
@@ -145,7 +145,7 @@ openwrt3:
 rpi1:
    bridges:
       ovs_bridges: enabled
-#     controller: '192.168.1.1:6633'
+#     controller: tcp:192.168.1.1:6633
    services: # Service Functions
       - name: snort1
         chain: [mz.101, dmz.1001]

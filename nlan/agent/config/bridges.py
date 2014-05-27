@@ -44,7 +44,7 @@ def add():
     elif _controller and _ovs_bridges_:
         # OpenFlow Controller
         cmd('ovs-ofctl del-flows br-tun')
-        cmdp('ovs-vsctl set-controller br-tun tcp:'+ _controller)
+        cmdp('ovs-vsctl set-controller br-tun '+ _controller)
     elif _controller and not _ovs_bridges_:
         raise ModelError(message='cannot add _controller w/o _ovs_bridges_')
 

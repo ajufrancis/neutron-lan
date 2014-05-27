@@ -3,7 +3,7 @@
 
 import sys, json, yaml, lya
 from optparse import OptionParser
-from util import decode_dict
+from util import decode_dict, remove_item
 
 def merge_schema(nlan_yaml, ovsdb_json):
 
@@ -13,6 +13,11 @@ def merge_schema(nlan_yaml, ovsdb_json):
         nlan = f.read()
     ovs_dict = json.loads(ovs, object_hook=decode_dict)
     nlan_dict = yaml.load(nlan)
+
+    # Remove NLAN-specific OVSDB-schema extensions
+    remove_item(nlan_dict, '_pattern')
+    remove_item(nlan_dict, '_description')
+
     for key, value in nlan_dict.iteritems():
         ovs_dict['tables'][key] = value
     return json.dumps(ovs_dict)

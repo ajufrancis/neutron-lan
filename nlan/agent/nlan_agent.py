@@ -42,6 +42,8 @@ def _progress(data, func, _index):
     progress = OrderedDict()
     modules = data.keys()
     hereafter = False
+    if func == None:
+        hereafter = True
     for mod in modules:
         if mod in __n__['indexes']:
             progress[mod] = {}
@@ -86,6 +88,22 @@ def _route(operation, data):
         module = None
         _index = None
         try:
+            # Model integrity check before the CRUD operation
+            if operation != 'get':
+                import patterns
+                for mod, model in data.iteritems():
+                    if mod in __n__['indexes']:
+                        for _model in model:
+                            (b, m) = patterns.check_model(operation, mod, _model)
+                            if not b:
+                                __n__['logger'].info("Model integrity check failure")
+                                raise ModelError(message=m, model=_model)
+                    else:
+                        (b, m) = patterns.check_model(operation, mod, model)
+                        if not b:
+                            __n__['logger'].info("Model integrity check failure")
+                            raise ModelError(message=m, model=model)
+            # CRUD operation starts from here
             for module, model in data.iteritems():
                 if operation == 'get': # CRUD get operation
                     import ovsdb
@@ -99,13 +117,13 @@ def _route(operation, data):
                             _index = _model['_index']
                             del _model['_index']
                             __n__['logger'].info('function:{0}.{1}, index:{3}, model:{2}'.format(module, operation, str(_model), str(_index)))
+                            # Routes a requested model to a config module ###
                             with CRUD(operation, module, _model, _index, gl = _mod.__dict__):
-                            # Routes a requested model to a config module
                                 call()
                     else:
                         __n__['logger'].info('function:{0}.{1}, model:{2}'.format(module, operation, str(model)))
+                        # Routes a requested model to a config module ###
                         with CRUD(operation, module, model, gl = _mod.__dict__):
-                        # Routes a requested model to a config module 
                             call()
         except CmdError as e:
             error = OrderedDict()
