@@ -43,4 +43,4 @@ def getrow(*args):
 
 
 def state():
-    return ovsdb.get_current_state()
+    return ovsdb.get_current_state() 

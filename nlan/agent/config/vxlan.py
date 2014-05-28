@@ -15,7 +15,8 @@ def add():
         raise ModelError('"_local_ip_" is mandatory')
     if _remote_ips:
         for remote_ip in _remote_ips:
-            inf = 'vxlan_' + remote_ip
+            #inf = 'vxlan_' + remote_ip
+            inf = ''.join([num.zfill(3) for num in remote_ip.split('.')])
             __n__['logger'].info('Adding a VXLAN tunnel: ' + inf)
             cmdp('ovs-vsctl add-port br-tun', inf, '-- set interface', inf, 'type=vxlan options:in_key=flow', 'options:local_ip='+_local_ip, 'options:out_key=flow', 'options:remote_ip='+remote_ip)
 
@@ -36,7 +37,8 @@ def delete():
             cmd('ovs-ofctl del-flows br-tun table=0,in_port={vxlan_port}'.format(vxlan_port=vxlan_port))
         
         for remote_ip in _remote_ips:
-            inf = 'vxlan_' + remote_ip
+            #inf = 'vxlan_' + remote_ip
+            inf = ''.join([num.zfill(3) for num in remote_ip.split('.')])
             __n__['logger'].info('Deleting a VXLAN tunnel: ' + inf)
             cmd('ovs-vsctl del-port br-tun', inf)
     
@@ -58,13 +60,15 @@ def update():
             cmd('ovs-ofctl del-flows br-tun table=0,in_port={vxlan_port}'.format(vxlan_port=vxlan_port))
         
         for remote_ip in remote_ips_:
-            inf = 'vxlan_' + remote_ip
+            #inf = 'vxlan_' + remote_ip
+            inf = ''.join([num.zfill(3) for num in remote_ip.split('.')])
             __n__['logger'].info('Adding a VXLAN tunnel: ' + inf)
             cmd('ovs-vsctl del-port br-tun', inf)
        
         # Add those interfaces and flows again to change the local IP address
         for remote_ip in _remote_ips_:
-            inf = 'vxlan_' + remote_ip
+            #inf = 'vxlan_' + remote_ip
+            inf = ''.join([num.zfill(3) for num in remote_ip.split('.')])
             __n__['logger'].info('Deleting a VXLAN tunnel: ' + inf)
             cmdp('ovs-vsctl add-port br-tun', inf, '-- set interface', inf, 'type=vxlan options:in_key=flow', 'options:local_ip='+_local_ip_, 'options:out_key=flow', 'options:remote_ip='+remote_ip)
 

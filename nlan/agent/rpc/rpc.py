@@ -7,6 +7,7 @@ import os
 def list():
     d = os.path.join(__n__['agent_dir'], 'rpc')
     l = os.listdir(d)
+    result = []
     for f in l:
         if f.endswith('.py'):
             with open(os.path.join(d, f), 'r') as ff:
@@ -18,4 +19,5 @@ def list():
                         func = line.split('(')[0]
                         args = line.split('(')[1].rstrip(')').split(',')
                         args = ' '.join(args)
-                        print "{}.{} {}".format(f[:-3],func,args)
+                        result.append("{}.{} {}".format(f[:-3],func,args))
+    return result

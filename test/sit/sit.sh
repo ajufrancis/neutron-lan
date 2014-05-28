@@ -72,7 +72,7 @@ else
 fi
 
 echo "do_sit --debug -v"
-do_sit --debug -v > ./sit_debug_log.txt
+do_sit --debug -v -M > ./sit_debug_log.txt
 if [ $? -gt 0 ]; then
     echo "FAIL"
     exit 1

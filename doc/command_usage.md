@@ -104,6 +104,12 @@ Scenario Runner
 $ nlans.py all.yaml
 </pre>
 
+MIME Multipart output
+---------------------
+<pre>
+$ nlan.py --mime --debug --verbose <other options/arguments>
+</pre>
+
 Maintenance
 -----------
 <pre>

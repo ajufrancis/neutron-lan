@@ -19,3 +19,7 @@ def kwargs_test(a=None,b=None,c=None,d=None):
 
     return (type(a), str(a), type(b), str(b), type(c), str(c), type(d), str(d))
     
+
+# Print to default stdout
+def testprint():
+    print "TEST PRINT"

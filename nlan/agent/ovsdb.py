@@ -196,8 +196,9 @@ def _send(request):
     response = s.recv(4096)
 
     #__n__['logger'].debug(_logstr('... JSON-RPC request ...', str(pdu), '... JSON-RPC response ...', response))
-    transaction = '--json-rpc:{"request":%s, "response":%s}' % (str(pdu),response)
-    __n__['logger'].debug(transaction)
+    #transaction = '--json-rpc:{"request":%s, "response":%s}' % (str(pdu),response)
+    transaction = '{"request":%s, "response":%s}' % (str(pdu),response)
+    __n__['logger2'].debug(transaction, extra={'content_type': 'application/json'})
 
     return loads(response)
 

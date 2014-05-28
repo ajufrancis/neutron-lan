@@ -1,3 +1,10 @@
+Test NG
+
+[1] Ping check fails after rebooting the routers.
+
+---
+TODO
+
 [2] JSON-RPC error handling
 
 JSON-RPC respone error handling ==> raise some Exception

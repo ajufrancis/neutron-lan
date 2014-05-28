@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, sys, time, copy
+import os, sys, time, copy, string, random 
 from optparse import OptionParser
 from collections import OrderedDict
 import logging
@@ -13,6 +13,26 @@ import argsmodel
 
 ENVFILE = '/opt/nlan/nlan_env.conf'
 
+random = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+multipart_boundary = '--'+random
+stdout = cStringIO.StringIO()
+sys.stdout.write("MIME-Version: 1.0\n")
+sys.stdout.write('Content-Type: multipart/mixed;boundary="{}"\n\n'.format(random))
+sys.stdout.write("{0}\nContent-Type: test/plain\nContent-Description: Default STDOUT\nX-NLAN-Type: default_stdout\n\n".format(multipart_boundary))
+
+# MIME Multipart message
+def mime_multipart(body, content_type='text/plain', content_description=None, x_nlan_type=None):
+
+    if content_description and x_nlan_type:
+        stdout.write("{0}\nContent-Type: {1}\nContent-Description: {2}\nX-NLAN-Type: {3}\n\n{4}\n".format(multipart_boundary, content_type, content_description, x_nlan_type, body))
+    elif content_description:
+        stdout.write("{0}\nContent-Type: {1}\nContent-Description: {2}\n\n{3}\n".format(multipart_boundary, content_type, content_description, body))
+    elif x_nlan_type:
+        stdout.write("{0}\nContent-Type: {1}\nX-NLAN-Type: {2}\n\n{3}\n".format(multipart_boundary, content_type, x_nlan_type, body))
+    else:
+        stdout.write("{0}\nContent-Type: {1}\n\n{2}\n".format(multipart_boundary, content_type, body))
+
+
 def _init(envfile=ENVFILE, loglevel=logging.WARNING):
 
     # Environment setting
@@ -21,21 +41,25 @@ def _init(envfile=ENVFILE, loglevel=logging.WARNING):
         __builtin__.__dict__['__n__'] = eval(envfile.read())
 
     # Logger setting
-    logger = logging.getLogger("nlan_agent")
-    logger.setLevel(loglevel)
-    handler = logging.StreamHandler(sys.stdout)
+    logger2 = logging.getLogger("nlan_agent")
+    logger2.setLevel(loglevel)
+    #handler = logging.StreamHandler(sys.stdout)
+    handler = logging.StreamHandler(stdout)
     #handler2 = logging.FileHandler('/tmp/nlan_agent.log')
     handler.setLevel(loglevel)
     #handler2.setLevel(loglevel)
-    header = None
-    header = "[%(levelname)s] %(asctime)s module:%(module)s,function:%(funcName)s,router:{}".format(__n__['router'])
-    formatter = logging.Formatter(header+"\n%(message)s")
+    header = "{}\nContent-Type: %(content_type)s\nContent-Description: [%(levelname)s] %(asctime)s module:%(module)s,function:%(funcName)s,router:{}\nX-NLAN-Type: logger\n\n".format(multipart_boundary, __n__['router'])
+    formatter = logging.Formatter(header+"%(message)s")
     handler.setFormatter(formatter)
     #handler2.setFormatter(formatter)
-    logger.addHandler(handler)
+    logger2.addHandler(handler)
     #logger.addHandler(handler2)
+    __n__['logger2'] = logger2
+    extra = {'content_type': 'text/plain'}
+    logger = logging.LoggerAdapter(logger2, extra)
     __n__['logger'] = logger
 
+    #__n__['stdout'] = mime_multipart
 
 # Progress of CRUD requests 
 def _progress(data, func, _index):
@@ -83,7 +107,6 @@ def _route(operation, data):
             if isinstance(data, str) and (data.startswith('OrderedDict') or data.startswith('{')):
                 data = eval(data)
         _data = copy.deepcopy(data)
-        results = None 
         error = None 
         module = None
         _index = None
@@ -108,7 +131,9 @@ def _route(operation, data):
                 if operation == 'get': # CRUD get operation
                     import ovsdb
                     __n__['logger'].info('function:{0}.{1}, model:{2}'.format(module, operation, str(model)))
-                    results = ovsdb.get_state(module, model)  
+                    result = ovsdb.get_state(module, model)  
+                    if result:
+                        mime_multipart(result, content_type='application/x-nlan', content_description='CRUD get', x_nlan_type='crud_response')
                 else: # CRUD add/update/delete operation
                     _mod = __import__('config.'+module, globals(), locals(), [operation], -1)
                     call = _mod.__dict__[operation]
@@ -158,9 +183,9 @@ def _route(operation, data):
                 error['progress'] = _progress(_data, module, _index)
             __n__['logger'].debug(str(error))
         finally:
-            if results:
-                # STDOUT
-                print results
+            stdout.seek(0)
+            sys.stdout.write(stdout.read())
+            sys.stdout.write('--'+random+'--\n')
             if error:
                 print >>sys.stderr, str(error)
                 exit = sys.exit(error['exit'])
@@ -177,7 +202,6 @@ def _route(operation, data):
         args = None
         kwargs = {} 
         error = None 
-        result = None
         if operation == 'rpc_args':
             s = data[0].split('.')
             rpc = '.'.join(s[:-1])
@@ -200,6 +224,8 @@ def _route(operation, data):
             call = _mod.__dict__[func]
             __n__['logger'].info('function:{0}.{1}, args:{2}, kwargs:{3}'.format(rpc, func, str(args), str(kwargs)))
             result = call(*args, **kwargs)
+            if result:
+                mime_multipart(result, content_type='application/x-nlan', content_description='RPC Response', x_nlan_type='rpc_response')
         except CmdError as e:
             error = OrderedDict()
             error['exception'] = 'CmdError'
@@ -214,9 +240,9 @@ def _route(operation, data):
             error['exit'] = 1
             error['traceback'] = traceback.format_exc() 
         finally:
-            if result:
-                # STDOUT
-                print str(result)
+            stdout.seek(0)
+            sys.stdout.write(stdout.read())
+            sys.stdout.write('--'+random+'--\n')
             if error:
                 print >>sys.stderr, str(error)
                 exit= sys.exit(error['exit'])

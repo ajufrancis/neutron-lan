@@ -3,6 +3,7 @@
 """
 2014/2/6, created  
 2014/4/21, merged with nlan_master.py 
+2014/5/28, MIME Multipart output
 
 """
 import os, sys 
@@ -17,6 +18,7 @@ from multiprocessing import Process, Lock, Pipe, Queue
 import time, datetime
 from cStringIO import StringIO
 import json
+import email
 
 import cmdutil, util, argsmodel
 import yaml, yamldiff
@@ -39,7 +41,7 @@ _toyaml = lambda d: yaml.dump(util.decode(d), default_flow_style=False).rstrip('
 
 # NLAN MAIN FUNCTION
 # Note: in case of RPC, set operation = '--rpc'
-def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, git=False, verbose=False, output_stdout=False, rest_output=False):
+def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, git=False, verbose=False, mime=False, output_stdout=False, rest_output=False):
 
     rp = "Ping test to all the target routers"
     if verbose:
@@ -79,7 +81,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
 
 
     # ssh session per child process
-    def _ssh_session(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, verbose, output_stdout=False):
+    def _ssh_session(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, verbose, mime=False, output_stdout=False):
 
 
         out = StringIO()
@@ -176,21 +178,32 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                     print bar[:5], rp, bar[5+len(rp):] 
                 if outvl > 0:
                     print "--- STDOUT from router:{0},platform:{1}".format(router, platform)
-                    stdout = outv.rstrip('\n').split('\n')
-                    for l in stdout:
-                        if l.startswith('--json-rpc:'):
-                            json_rpc = l.split(':',1)[1]
-                            d = json.loads(json_rpc, object_hook=util.decode_dict)
-                            l = _toyaml(d)
-                        else:
-                            if l.startswith("OrderedDict") or l.startswith("{"):
-                                try:
-                                    d = eval(l)
-                                    if isinstance(d, OrderedDict) or isinstance(d, dict):
-                                        l = _toyaml(d)
-                                except Exception:
-                                    pass 
-                        print l  # STDOUT 
+                    stdout = email.message_from_string(outv)
+                    if mime:
+                        print stdout 
+                    else:
+                        for part in stdout.walk():
+                            content_type = part.get_content_type()
+                            payload = part.get_payload()
+                            content_description = part.get('Content-Description')
+                            x_nlan_type = part.get('X-NLAN-Type')
+                            if payload:
+                                if x_nlan_type == 'logger':
+                                    print content_description
+                                if content_type == 'application/x-nlan':
+                                    try:
+                                        d = eval(payload)
+                                        if isinstance(d, OrderedDict) or isinstance(d, dict):
+                                            print _toyaml(d)
+                                        else:
+                                            print payload
+                                    except:
+                                        print payload
+                                elif content_type == 'application/json':
+                                    d = json.loads(payload, object_hook=util.decode_dict)
+                                    print _toyaml(d)
+                                elif content_type == 'text/plain':
+                                    print payload
                 if errel > 0:
                     erre = erre.rstrip('\n').split('\n')
                     if len(erre) > 1:
@@ -222,24 +235,21 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
             finish_utc = time.time()
             result = {}
             if output_stdout:
-                if rest_output: # REST API
-                    if stdout:
-                        r = []
-                        for l in stdout:
-                            if l.startswith("OrderedDict"):
-                                r.append(eval(l)) # OrderedDict
-                            else:
-                                r.append(l)
-                        result['stdout'] = r
-                    else:
-                        result['stdout'] = None 
-                elif operation == '--rpc': # RPC
-                    try:
-                        result['stdout'] = eval(stdout[0]) # An object returned by RPC.
-                    except:
-                        result['stdout'] = stdout[0] # An object (str) returned by RPCh
-                else: # STDOUT data incl. outputs from multiple command executions
-                    result['stdout'] = stdout
+                result['stdout'] = None
+                if stdout:
+                    for part in stdout.walk():
+                        x_nlan_type = part.get('X-NLAN-Type')
+                        if x_nlan_type in ('crud_response', 'rpc_response'):
+                            payload = part.get_payload()
+                            content_type = part.get_content_type()
+                            if payload:
+                                if content_type == 'application/x-nlan':
+                                    try:
+                                        payload = eval(payload)
+                                    except:
+                                        pass
+                                result['stdout'] = payload
+                            break
             result['router'] = router
             result['response'] = response
             result['finish_utc'] = finish_utc
@@ -281,7 +291,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                 print 'operation: ' + operation 
                 print 'dict_args: ' + cmd_args
 
-            ssh_sessions.append(Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, verbose, output_stdout)))
+            ssh_sessions.append(Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, verbose, mime, output_stdout)))
 
     else:
         for router in routers:
@@ -327,7 +337,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                     print 'operation: ' + operation 
                     print 'dict_args: ' + cmd_args
 
-            ssh_sessions.append(Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, verbose, output_stdout)))
+            ssh_sessions.append(Process(target=_ssh_session, args=(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, verbose, mime, output_stdout)))
  
     # Start child processes
     try:
@@ -492,6 +502,7 @@ if __name__=='__main__':
     parser.add_option("-D", "--debug", help="set log level to DEBUG", action="store_true", default=False)
     parser.add_option("-G", "--git", help="use local Git repo", action="store_true", default=False)
     parser.add_option("-R", "--rollback", help="rollback to the last Git commit", action="store_true", default=False)
+    parser.add_option("-M", "--mime", help="MIME Mulitpart output", action="store_true", default=False)
     parser.add_option("-v", "--verbose", help="verbose output", action="store_true", default=False)
 
     (options, args) = parser.parse_args()
@@ -500,6 +511,7 @@ if __name__=='__main__':
     git = -1 
     target = None
     verbose = False
+    mime = False
     crud = False
 
     if options.add:
@@ -534,6 +546,9 @@ if __name__=='__main__':
     if options.verbose:
         verbose = True
 
+    if options.mime:
+        mime = True
+
     router = '_ALL'
     if options.target:
         router = options.target
@@ -547,7 +562,7 @@ if __name__=='__main__':
             timeout = options.time
             _wait(router, timeout, verbose)
         elif not crud and option: # --scp, --scpmod, --raw
-            main(router=router, operation=option, doc=args, loglevel=loglevel, git=git, verbose=verbose)
+            main(router=router, operation=option, doc=args, loglevel=loglevel, git=git, verbose=verbose, mime=mime)
         elif options.schema:
             if len(args) == 1:
                 print argsmodel.schema_help(args[0])
@@ -559,16 +574,16 @@ if __name__=='__main__':
                     if os.path.exists(os.path.join(NLAN_ETC, v)):
                         cmd_list = yamldiff.crud_diff(v, git=git)
                         if len(cmd_list) != 0:
-                            main(router=router, operation='--batch', cmd_list=cmd_list, loglevel=loglevel, verbose=verbose)
+                            main(router=router, operation='--batch', cmd_list=cmd_list, loglevel=loglevel, verbose=verbose, mime=mime)
                             if git == 0:
                                 cmdutil.check_cmd('git', GIT_OPTIONS, 'add', v)
                                 cmdutil.check_cmd('git', GIT_OPTIONS, 'commit -m updated')
         elif not crud and not option and len(args) > 0: # NLAN rpc module execution
-            main(router=router, doc=args, loglevel=loglevel, verbose=verbose)
+            main(router=router, doc=args, loglevel=loglevel, verbose=verbose, mime=mime)
         elif crud and len(args) > 0: # CRUD operation
             operation = option.lstrip('-') 
             doc = str(argsmodel.parse_args(operation, args[0], *args[1:]))
-            main(router=router, operation=option, doc=doc, loglevel=loglevel, verbose=verbose)
+            main(router=router, operation=option, doc=doc, loglevel=loglevel, verbose=verbose, mime=mime)
         else:
             parser.print_usage()
     except NlanException as e:

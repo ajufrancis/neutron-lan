@@ -78,7 +78,8 @@ def do(scenario, dirname, interactive):
                 result = nlan.main(router=router, operation=options, doc=args, output_stdout=True)
                 if 'assert' in ll:
                     if ll['assert']:  # not null
-                        args1 = dict(eval(result[0]['stdout'][0]))
+                        #args1 = dict(eval(result[0]['stdout']))
+                        args1 = dict(result[0]['stdout'])
                         args2 = ll['assert']
                         if args2 == '_prev':
                             args2 = remove_item(prev, '_index')
