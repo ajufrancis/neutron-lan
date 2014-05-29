@@ -8,6 +8,7 @@ There are several ways for calling a remote python script on the router:
 - RPC such as NETCONF or OVSDB (XML-RPC, JSON-RPC etc)
 - Mesaging (XMPP, AMQP, 0MP etc)
 - SSH
+- SIP w/ MIME
 
 Because of the memory/storage limitations of OpenWRT routers, I have adopted SSH.
 
