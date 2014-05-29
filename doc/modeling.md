@@ -10,7 +10,7 @@ There are several ways for calling a remote python script on the router:
 - SSH
 - SIP w/ MIME
 
-Because of the memory/storage limitations of OpenWRT routers, I have adopted SSH.
+Because of the memory/storage limitations of OpenWRT routers, I have adopted SSH (SIP might also be another choice, since several SIP packages for OpenWrt exist).
 
 Then I have considered which one is better, api-driven or model-driven, since I have learned from OpenDaylight about model-driven service abstraction layer (MD-SAL): modeling an inventory of network elements and network topology in YANG data format, and loose coupling between applications and drivers (south-bound APIs).
 
