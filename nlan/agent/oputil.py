@@ -96,14 +96,18 @@ class CRUD:
             self.gl = of[1][0].f_globals
         # Generates _param, _param_ and param_
         self._set_params()
+        __n__['logger'].debug('CRUD.params()')
 
     def __exit__(self, type, value, traceback):
         if type == ModelError:
             value.model = self.model
+            __n__['logger'].debug('CRUD.__exit__, exception detected')
             return False # Re-raises the exception
         elif type: # Exceptions other than ModelError
+            __n__['logger'].debug('CRUD.__exit__, exception detected')
             return False # Re-raises the exception
         else:
+            __n__['logger'].debug('CRUD.__exit__, self.finalize()')
             self.finalize()
 
 

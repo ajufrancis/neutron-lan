@@ -18,11 +18,17 @@ multipart_boundary = '--'+random
 stdout = cStringIO.StringIO()
 sys.stdout.write("MIME-Version: 1.0\n")
 sys.stdout.write('Content-Type: multipart/mixed;boundary="{}"\n\n'.format(random))
-sys.stdout.write("{0}\nContent-Type: test/plain\nContent-Description: Default STDOUT\nX-NLAN-Type: default_stdout\n\n".format(multipart_boundary))
+sys.stdout.write("{0}\nContent-Type: test/plain\nContent-Description: Default out\nX-NLAN-Type: default_out\n\n".format(multipart_boundary)) # data output to STDOUT and STDERR
+sys.stdout.flush() # This is necessary due to sys.stdout buffering.
 
 # MIME Multipart message
 def mime_multipart(body, content_type='text/plain', content_description=None, x_nlan_type=None):
 
+    if body:
+        body = str(body)
+    else:
+        body = ''
+        
     if content_description and x_nlan_type:
         stdout.write("{0}\nContent-Type: {1}\nContent-Description: {2}\nX-NLAN-Type: {3}\n\n{4}\n".format(multipart_boundary, content_type, content_description, x_nlan_type, body))
     elif content_description:
@@ -59,7 +65,8 @@ def _init(envfile=ENVFILE, loglevel=logging.WARNING):
     logger = logging.LoggerAdapter(logger2, extra)
     __n__['logger'] = logger
 
-    #__n__['stdout'] = mime_multipart
+    __n__['logger'].info('NLAN Agent initialization completed')
+    __n__['logger'].debug('__n__: {}'.format(__n__))
 
 # Progress of CRUD requests 
 def _progress(data, func, _index):
@@ -132,8 +139,7 @@ def _route(operation, data):
                     import ovsdb
                     __n__['logger'].info('function:{0}.{1}, model:{2}'.format(module, operation, str(model)))
                     result = ovsdb.get_state(module, model)  
-                    if result:
-                        mime_multipart(result, content_type='application/x-nlan', content_description='CRUD get', x_nlan_type='crud_response')
+                    mime_multipart(result, content_type='application/x-nlan', content_description='CRUD get', x_nlan_type='crud_response')
                 else: # CRUD add/update/delete operation
                     _mod = __import__('config.'+module, globals(), locals(), [operation], -1)
                     call = _mod.__dict__[operation]
@@ -151,6 +157,7 @@ def _route(operation, data):
                         with CRUD(operation, module, model, gl = _mod.__dict__):
                             call()
         except CmdError as e:
+            exit = 1
             error = OrderedDict()
             error['exception'] = 'CmdError'
             error['message'] = e.message
@@ -163,6 +170,7 @@ def _route(operation, data):
                 error['progress'] = _progress(_data, module, _index)
             __n__['logger'].debug(str(error))
         except ModelError as e:
+            exit = 1
             error = OrderedDict()
             error['exception'] = 'ModelError'
             error['message'] = e.message
@@ -173,6 +181,7 @@ def _route(operation, data):
                 error['progress'] = _progress(_data, module, _index)
             __n__['logger'].debug(str(error))
         except Exception as e:
+            exit = 1
             error = OrderedDict()
             error['exception'] = type(e).__name__ 
             error['message'] = 'See the traceback message'
@@ -183,18 +192,14 @@ def _route(operation, data):
                 error['progress'] = _progress(_data, module, _index)
             __n__['logger'].debug(str(error))
         finally:
-            stdout.seek(0)
-            sys.stdout.write(stdout.read())
-            sys.stdout.write('--'+random+'--\n')
             if error:
-                print >>sys.stderr, str(error)
-                exit = sys.exit(error['exit'])
+                mime_multipart(error, content_type='application/x-nlan', content_description='NLAN Response', x_nlan_type='nlan_response')
             else:
                 if __n__['init'] != 'start':
                     completed = OrderedDict()
                     completed['message'] = 'Execution completed'
                     completed['exit'] = 0
-                    print >>sys.stderr, str(completed)
+                    mime_multipart(completed, content_type='application/x-nlan', content_description='NLAN Response', x_nlan_type='nlan_response')
     elif operation in ('rpc_dict', 'rpc_args'):        
         # Calls a rpc module
         rpc = None
@@ -227,6 +232,7 @@ def _route(operation, data):
             if result:
                 mime_multipart(result, content_type='application/x-nlan', content_description='RPC Response', x_nlan_type='rpc_response')
         except CmdError as e:
+            exit = 1
             error = OrderedDict()
             error['exception'] = 'CmdError'
             error['message'] = e.message
@@ -234,34 +240,35 @@ def _route(operation, data):
             error['stdout'] = e.out
             error['exit'] = e.returncode 
         except Exception as e:
+            exit = 1
             error = OrderedDict()
             error['exception'] = 'Exception'
             error['message'] = 'See the traceback message'
             error['exit'] = 1
             error['traceback'] = traceback.format_exc() 
         finally:
-            stdout.seek(0)
-            sys.stdout.write(stdout.read())
-            sys.stdout.write('--'+random+'--\n')
             if error:
-                print >>sys.stderr, str(error)
-                exit= sys.exit(error['exit'])
+                mime_multipart(error, content_type='application/x-nlan', content_description='NLAN Response', x_nlan_type='nlan_response')
             else:
                 completed = OrderedDict()
                 completed['message'] = 'Execution completed'
                 completed['exit'] = 0
-                print >>sys.stderr, str(completed)
+                mime_multipart(completed, content_type='application/x-nlan', content_description='NLAN Response', x_nlan_type='nlan_response')
     else:
-        raise Exception("Unsupported NLAN operation, {}".format(operation))
+        error = OrderedDict()
+        error['exception'] = 'NlanException'
+        error['message'] = 'Unsupported NLAN operation, {}'.format(operation) 
+        error['exit'] = 1 
+        mime_multipart(error, content_type='application/x-nlan', content_description='NLAN Response', x_nlan_type='nlan_response')
 
-    return exit
+    return exit 
 
 
 def _linux_init():
 
     import ovsdb 
     state = ovsdb.get_current_state()
-    
+    __n__['logger'].debug("Linux init, current_state: " + str(state))
     exit = 0
 
     for module in __n__['state_order']:
@@ -277,8 +284,10 @@ def _linux_init():
             model = {module: state[module]}
 
         if model:
-            __n__['logger'].debug("Linux init, model: " + str(model))
+            __n__['logger'].info("Linux init, model: " + str(model))
             exit = _route('add', model) 
+            if exit > 0:
+                return exit
 
     return exit
 
@@ -353,9 +362,6 @@ if __name__ == "__main__":
         data = args
         operation = 'rpc_args'
 
-    __n__['logger'].info('NLAN Agent initialization completed')
-    __n__['logger'].debug('__n__: {}'.format(__n__))
-
     exit = 0
     if options.init_action:
         __n__['init'] = options.init_action
@@ -363,6 +369,12 @@ if __name__ == "__main__":
     else:
         __n__['init'] = False
         exit = _route(operation=operation, data=data)
+
     __n__['logger'].info('NLAN Agent execution completed')
+    stdout.seek(0)
+    sys.stdout.write(stdout.read())
+    sys.stdout.write('--'+random+'--\n')
+    sys.stdout.flush()
+    stdout.close()
     sys.exit(exit)
 

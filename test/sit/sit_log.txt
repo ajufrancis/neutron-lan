@@ -1,285 +1,298 @@
---- STDOUT from router:openwrt2,platform:openwrt
---- STDOUT from router:openwrt1,platform:openwrt
---- STDOUT from router:openwrt3,platform:openwrt
---- STDOUT from router:rpi1,platform:debian
---- STDOUT from router:openwrt2,platform:openwrt
---- STDOUT from router:openwrt3,platform:openwrt
---- STDOUT from router:rpi1,platform:debian
---- STDOUT from router:openwrt1,platform:openwrt
---- STDERR from router:openwrt1,platform:openwrt
-Command failed: Not found
-Command failed: Not found
---- STDOUT from router:openwrt3,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
+*** Response from router:openwrt3,platform:openwrt
+*** Response from router:rpi1,platform:debian
+*** Response from router:openwrt1,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
+*** Response from router:rpi1,platform:debian
+*** Response from router:openwrt3,platform:openwrt
+*** Response from router:openwrt1,platform:openwrt
+*** Response from router:openwrt3,platform:openwrt
 Hello World!
---- STDOUT from router:openwrt1,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
 Hello World!
---- STDOUT from router:openwrt2,platform:openwrt
+*** Response from router:rpi1,platform:debian
 Hello World!
---- STDOUT from router:rpi1,platform:debian
+*** Response from router:openwrt1,platform:openwrt
 Hello World!
---- STDOUT from router:openwrt1,platform:openwrt
+*** Response from router:openwrt1,platform:openwrt
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=64 time=3.122 ms
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=3.837 ms
 
 --- 10.0.1.102 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 3.122/3.122/3.122 ms
+round-trip min/avg/max = 3.837/3.837/3.837 ms
 
 
---- STDOUT from router:openwrt1,platform:openwrt
+*** Response from router:openwrt1,platform:openwrt
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=64 time=1.058 ms
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=0.502 ms
 
 --- 10.0.1.102 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 1.058/1.058/1.058 ms
+round-trip min/avg/max = 0.502/0.502/0.502 ms
 
 
---- STDOUT from router:openwrt1,platform:openwrt
+*** Response from router:openwrt1,platform:openwrt
 PING 10.0.3.103 (10.0.3.103): 56 data bytes
-64 bytes from 10.0.3.103: seq=0 ttl=64 time=1.642 ms
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=1.811 ms
 
 --- 10.0.3.103 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 1.642/1.642/1.642 ms
+round-trip min/avg/max = 1.811/1.811/1.811 ms
 
 
---- STDOUT from router:openwrt3,platform:openwrt
+*** Response from router:openwrt3,platform:openwrt
 PING 10.0.1.101 (10.0.1.101): 56 data bytes
-64 bytes from 10.0.1.101: seq=0 ttl=63 time=4.528 ms
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=3.992 ms
 
 --- 10.0.1.101 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 4.528/4.528/4.528 ms
+round-trip min/avg/max = 3.992/3.992/3.992 ms
 
 
---- STDOUT from router:openwrt2,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.980 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=3.800 ms
 
 --- 192.168.100.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 2.980/2.980/2.980 ms
+round-trip min/avg/max = 3.800/3.800/3.800 ms
 
 
---- STDOUT from router:openwrt3,platform:openwrt
+*** Response from router:openwrt3,platform:openwrt
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=3.975 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=3.181 ms
 
 --- 192.168.100.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 3.975/3.975/3.975 ms
+round-trip min/avg/max = 3.181/3.181/3.181 ms
 
 
---- STDOUT from router:openwrt2,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.178 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=1.969 ms
 
 --- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 1.969/1.969/1.969 ms
+
+
+*** Response from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=1.689 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 1.689/1.689/1.689 ms
+
+
+*** Response from router:openwrt3,platform:openwrt
+PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=2.346 ms
+
+--- 10.0.1.102 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.346/2.346/2.346 ms
+
+
+*** Response from router:openwrt3,platform:openwrt
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=0.440 ms
+
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 0.440/0.440/0.440 ms
+
+
+*** Response from router:openwrt2,platform:openwrt
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=0.669 ms
+
+--- 10.0.1.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 0.669/0.669/0.669 ms
+
+
+*** Response from router:openwrt2,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.247 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.247/2.247/2.247 ms
+
+
+*** Response from router:openwrt2,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=1.050 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 1.050/1.050/1.050 ms
+
+
+*** Response from router:openwrt3,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.163 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.163/2.163/2.163 ms
+
+
+*** Response from router:openwrt3,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.178 ms
+
+--- 8.8.8.8 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
 round-trip min/avg/max = 2.178/2.178/2.178 ms
 
 
---- STDOUT from router:openwrt2,platform:openwrt
-PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=0.790 ms
-
---- 192.168.100.1 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 0.790/0.790/0.790 ms
-
-
---- STDOUT from router:openwrt3,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
+*** Response from router:openwrt3,platform:openwrt
+*** Response from router:openwrt1,platform:openwrt
+*** Response from router:rpi1,platform:debian
+*** Response from router:openwrt3,platform:openwrt
+Hello World!
+*** Response from router:openwrt2,platform:openwrt
+Hello World!
+*** Response from router:openwrt1,platform:openwrt
+Hello World!
+*** Response from router:rpi1,platform:debian
+Hello World!
+*** Response from router:openwrt1,platform:openwrt
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
-64 bytes from 10.0.1.102: seq=0 ttl=63 time=2.338 ms
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=5.301 ms
 
 --- 10.0.1.102 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 2.338/2.338/2.338 ms
+round-trip min/avg/max = 5.301/5.301/5.301 ms
 
 
---- STDOUT from router:openwrt3,platform:openwrt
-PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=0.355 ms
-
---- 10.0.1.1 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 0.355/0.355/0.355 ms
-
-
---- STDOUT from router:openwrt2,platform:openwrt
-PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=0.474 ms
-
---- 10.0.1.1 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 0.474/0.474/0.474 ms
-
-
---- STDOUT from router:openwrt2,platform:openwrt
-PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.391 ms
-
---- 8.8.8.8 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 2.391/2.391/2.391 ms
-
-
---- STDOUT from router:openwrt2,platform:openwrt
-PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=0.974 ms
-
---- 8.8.8.8 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 0.974/0.974/0.974 ms
-
-
---- STDOUT from router:openwrt3,platform:openwrt
-PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.307 ms
-
---- 8.8.8.8 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 2.307/2.307/2.307 ms
-
-
---- STDOUT from router:openwrt3,platform:openwrt
-PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=4.260 ms
-
---- 8.8.8.8 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 4.260/4.260/4.260 ms
-
-
---- STDOUT from router:openwrt1,platform:openwrt
---- STDOUT from router:openwrt2,platform:openwrt
---- STDOUT from router:openwrt3,platform:openwrt
---- STDOUT from router:rpi1,platform:debian
---- STDOUT from router:openwrt2,platform:openwrt
-Hello World!
---- STDOUT from router:openwrt1,platform:openwrt
-Hello World!
---- STDOUT from router:openwrt3,platform:openwrt
-Hello World!
---- STDOUT from router:rpi1,platform:debian
-Hello World!
---- STDOUT from router:openwrt1,platform:openwrt
+*** Response from router:openwrt1,platform:openwrt
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=64 time=0.873 ms
 
 --- 10.0.1.102 ping statistics ---
-1 packets transmitted, 0 packets received, 100% packet loss
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 0.873/0.873/0.873 ms
 
 
---- STDOUT from router:openwrt1,platform:openwrt
-PING 10.0.1.102 (10.0.1.102): 56 data bytes
-
---- 10.0.1.102 ping statistics ---
-1 packets transmitted, 0 packets received, 100% packet loss
-
-
---- STDOUT from router:openwrt1,platform:openwrt
+*** Response from router:openwrt1,platform:openwrt
 PING 10.0.3.103 (10.0.3.103): 56 data bytes
-64 bytes from 10.0.3.103: seq=0 ttl=64 time=2.506 ms
+64 bytes from 10.0.3.103: seq=0 ttl=64 time=2.635 ms
 
 --- 10.0.3.103 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 2.506/2.506/2.506 ms
+round-trip min/avg/max = 2.635/2.635/2.635 ms
 
 
---- STDOUT from router:openwrt3,platform:openwrt
+*** Response from router:openwrt3,platform:openwrt
 PING 10.0.1.101 (10.0.1.101): 56 data bytes
+64 bytes from 10.0.1.101: seq=0 ttl=63 time=4.449 ms
 
 --- 10.0.1.101 ping statistics ---
-1 packets transmitted, 0 packets received, 100% packet loss
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 4.449/4.449/4.449 ms
 
 
---- STDOUT from router:openwrt2,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-
---- 192.168.100.1 ping statistics ---
-1 packets transmitted, 0 packets received, 100% packet loss
-
-
---- STDOUT from router:openwrt3,platform:openwrt
-PING 192.168.100.1 (192.168.100.1): 56 data bytes
-
---- 192.168.100.1 ping statistics ---
-1 packets transmitted, 0 packets received, 100% packet loss
-
-
---- STDOUT from router:openwrt2,platform:openwrt
-PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=5.321 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=4.900 ms
 
 --- 192.168.100.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 5.321/5.321/5.321 ms
+round-trip min/avg/max = 4.900/4.900/4.900 ms
 
 
---- STDOUT from router:openwrt2,platform:openwrt
+*** Response from router:openwrt3,platform:openwrt
 PING 192.168.100.1 (192.168.100.1): 56 data bytes
-64 bytes from 192.168.100.1: seq=0 ttl=64 time=1.631 ms
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=5.529 ms
 
 --- 192.168.100.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 1.631/1.631/1.631 ms
+round-trip min/avg/max = 5.529/5.529/5.529 ms
 
 
---- STDOUT from router:openwrt3,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=2.153 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.153/2.153/2.153 ms
+
+
+*** Response from router:openwrt2,platform:openwrt
+PING 192.168.100.1 (192.168.100.1): 56 data bytes
+64 bytes from 192.168.100.1: seq=0 ttl=64 time=0.845 ms
+
+--- 192.168.100.1 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 0.845/0.845/0.845 ms
+
+
+*** Response from router:openwrt3,platform:openwrt
 PING 10.0.1.102 (10.0.1.102): 56 data bytes
+64 bytes from 10.0.1.102: seq=0 ttl=63 time=2.770 ms
 
 --- 10.0.1.102 ping statistics ---
-1 packets transmitted, 0 packets received, 100% packet loss
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.770/2.770/2.770 ms
 
 
---- STDOUT from router:openwrt3,platform:openwrt
+*** Response from router:openwrt3,platform:openwrt
 PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=0.471 ms
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=0.314 ms
 
 --- 10.0.1.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 0.471/0.471/0.471 ms
+round-trip min/avg/max = 0.314/0.314/0.314 ms
 
 
---- STDOUT from router:openwrt2,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
 PING 10.0.1.1 (10.0.1.1): 56 data bytes
-64 bytes from 10.0.1.1: seq=0 ttl=64 time=0.394 ms
+64 bytes from 10.0.1.1: seq=0 ttl=64 time=0.465 ms
 
 --- 10.0.1.1 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 0.394/0.394/0.394 ms
+round-trip min/avg/max = 0.465/0.465/0.465 ms
 
 
---- STDOUT from router:openwrt2,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-
---- 8.8.8.8 ping statistics ---
-1 packets transmitted, 0 packets received, 100% packet loss
-
-
---- STDOUT from router:openwrt2,platform:openwrt
-PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=1.053 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.005 ms
 
 --- 8.8.8.8 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 1.053/1.053/1.053 ms
+round-trip min/avg/max = 2.005/2.005/2.005 ms
 
 
---- STDOUT from router:openwrt3,platform:openwrt
+*** Response from router:openwrt2,platform:openwrt
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-
---- 8.8.8.8 ping statistics ---
-1 packets transmitted, 0 packets received, 100% packet loss
-
-
---- STDOUT from router:openwrt3,platform:openwrt
-PING 8.8.8.8 (8.8.8.8): 56 data bytes
-64 bytes from 8.8.8.8: seq=0 ttl=63 time=1.787 ms
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=1.093 ms
 
 --- 8.8.8.8 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 1.787/1.787/1.787 ms
+round-trip min/avg/max = 1.093/1.093/1.093 ms
+
+
+*** Response from router:openwrt3,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=2.852 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 2.852/2.852/2.852 ms
+
+
+*** Response from router:openwrt3,platform:openwrt
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=63 time=1.820 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 packets received, 0% packet loss
+round-trip min/avg/max = 1.820/1.820/1.820 ms
 
 

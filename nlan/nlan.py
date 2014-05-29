@@ -61,9 +61,11 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
         loglevel = ''
     
 
-    def _ssh_exec_command(ssh, cmd, cmd_args, out, err):
+    def _ssh_exec_command(ssh, cmd, cmd_args, out):
 
         i,o,e = ssh.exec_command(cmd)
+
+        o.channel.set_combine_stderr(True) # Combine STDERR 
 
         if cmd_args:
             i.write(cmd_args)
@@ -71,11 +73,8 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
             i.channel.shutdown_write()
 
         result = o.read()
-        error = e.read()
         if result != '': 
             print >>out, result
-        if error != '':
-            print >>err, error
 
         return o.channel.recv_exit_status()
 
@@ -83,9 +82,8 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
     # ssh session per child process
     def _ssh_session(lock, queue, router, host, user, passwd, platform, operation, cmd, cmd_args, verbose, mime=False, output_stdout=False):
 
-
         out = StringIO()
-        err = StringIO()
+        #err = StringIO()
         ssh = None
         
         stdout = None
@@ -100,7 +98,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
 
 
             if operation != '--scp' and operation != '--scpmod':
-                exitcode = _ssh_exec_command(ssh, cmd, cmd_args, out, err)
+                exitcode = _ssh_exec_command(ssh, cmd, cmd_args, out)
             else:
                 filelist = []
                 if operation == '--scp':
@@ -118,7 +116,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                     for moddir in NLAN_MOD_DIRS:
                         ldir = os.path.join(NLAN_SCP_DIR, moddir)
                         rdir = os.path.join(NLAN_AGENT_DIR, moddir)
-                        exitcode = _ssh_exec_command(ssh, 'mkdir -p ' + rdir, None, out, err)
+                        exitcode = _ssh_exec_command(ssh, 'mkdir -p ' + rdir, None, out)
                         for f in os.listdir(ldir):
                             ff = os.path.join(ldir, f) 
                             s.put(ff, rdir)
@@ -139,7 +137,7 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                     # scp NLAN Agent etc files
                     ldir = os.path.join(NLAN_DIR, 'agent/share')
                     rdir = os.path.join(NLAN_AGENT_DIR, 'share')
-                    exitcode = _ssh_exec_command(ssh, 'mkdir -p ' + rdir, None, out, err)
+                    exitcode = _ssh_exec_command(ssh, 'mkdir -p ' + rdir, None, out)
                     for f in os.listdir(ldir):
                         ff = os.path.join(ldir, f) 
                         s.put(ff, rdir)
@@ -170,14 +168,12 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
             
             with lock:
                 outv = out.getvalue()
-                erre = err.getvalue()
                 outvl = len(outv)
-                errel = len(erre)
                 if verbose and (operation == '--scpmod' or operation == '--scp'):
                     rp = "Files copied to router:{0},platform:{1}".format(router, platform)
                     print bar[:5], rp, bar[5+len(rp):] 
                 if outvl > 0:
-                    print "--- STDOUT from router:{0},platform:{1}".format(router, platform)
+                    print "*** Response from router:{0},platform:{1}".format(router, platform)
                     stdout = email.message_from_string(outv)
                     if mime:
                         print stdout 
@@ -193,10 +189,21 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                                 if content_type == 'application/x-nlan':
                                     try:
                                         d = eval(payload)
-                                        if isinstance(d, OrderedDict) or isinstance(d, dict):
-                                            print _toyaml(d)
+                                        if isinstance(d, OrderedDict):
+                                            if x_nlan_type == 'nlan_response':
+                                                response = d
+                                            if x_nlan_type == 'nlan_response' and d['exit'] > 0:
+                                                for k, v in d.iteritems():
+                                                    print '{}: {}'.format(k,v)
+                                            elif verbose or x_nlan_type != 'nlan_response':
+                                                print _toyaml(d)
+                                            else:
+                                                pass  # NLAN Response with exit == 0 and not verbose
                                         else:
-                                            print payload
+                                            if x_nlan_type == 'nlan_response':
+                                                raise Exception('Illegal NLAN Response received, {}'.format(str(payload)))
+                                            else:
+                                                print payload
                                     except:
                                         print payload
                                 elif content_type == 'application/json':
@@ -204,20 +211,6 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
                                     print _toyaml(d)
                                 elif content_type == 'text/plain':
                                     print payload
-                if errel > 0:
-                    erre = erre.rstrip('\n').split('\n')
-                    if len(erre) > 1:
-                        print "--- STDERR from router:{0},platform:{1}".format(router, platform)
-                    for l in erre[:-1]:
-                        print l
-                    response = eval(erre[-1])
-
-                if isinstance(response, dict) or isinstance(response, OrderedDict):
-                    if 'exit' not in response or 'exit' in response and (response['exit'] > 0 or verbose):
-                        print "--- RESPONSE from router:{0},platform:{1}".format(router, platform)
-                        for key, value in response.iteritems():
-                            print '{}: {}'.format(key, value)
-                
 
         except Exception as e:
             response['exception'] = type(e).__name__
@@ -256,7 +249,6 @@ def main(router='_ALL',operation=None, doc=None, cmd_list=None, loglevel=None, g
             queue.put(result)
 
             out.close()
-            err.close()
             ssh.close()
 
 

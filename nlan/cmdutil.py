@@ -43,31 +43,38 @@ def _cmd2(check, persist, args):
                 logger.debug(logstr)
             return
 
-    if logger:
-        logger.debug(logstr)
-    #else:
-    #    print logstr
-	
-    if check == 'call':
-        return subprocess.call(args, stderr=subprocess.STDOUT)
-    elif check == 'check_call':
-        try:
-            return subprocess.check_call(args, stderr=subprocess.STDOUT)
-        except CalledProcessError as e:
-            raise CmdError(argstring, e.returncode) 
-        except Exception as e:
-            raise CmdError(argstring, 1)
-    elif check == 'check_output':
-        try:
-            out = None
-            out = subprocess.check_output(args, stderr=subprocess.STDOUT)
-            return out
-        except CalledProcessError as e:
+    out = None
+    returncode = 0
+    def log():
+        if logger:
+            if out:
+                logger.debug('{}\n{}'.format(logstr, out))
+            else:
+                logger.debug(logstr)
+    
+    try:
+        out = subprocess.check_output(args, stderr=subprocess.STDOUT)
+    except CalledProcessError as e:
+        if check == 'call':
+            returncode = e.returncode 
+        else:
+            log()
             raise CmdError(argstring, e.returncode, out)
-        except Exception as e:
+    except Exception as e:
+        if check == 'call':
+            returncode = e.returncode 
+        else:
+            log()
             raise CmdError(argstring, 1)
+
+    log()
+
+    if check == 'call':
+        return returncode
+    elif check == 'check_call':
+        return 0
     else:
-	print("Error: illegal argument -- " + check)
+        return out
 
 
 class CmdError(Exception):

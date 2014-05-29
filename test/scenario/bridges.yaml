@@ -13,7 +13,7 @@
             type: ModelError
   - comment: add, _ovs_bridges and not _controller
     nlan:
-        options: --add 
+        options: --add
         args:
             bridges:
                 ovs_bridges: enabled

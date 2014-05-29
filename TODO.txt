@@ -1,10 +1,3 @@
-Test NG
-
-[1] Ping check fails after rebooting the routers.
-
----
-TODO
-
 [2] JSON-RPC error handling
 
 JSON-RPC respone error handling ==> raise some Exception
@@ -16,8 +9,6 @@ JSON-RPC respone error handling ==> raise some Exception
 [16] Run nlan_agent.py within a linux container (by using lxc-execute/lxc-init).
 
 I have already built lxc-capable linux kernel for OpenWrt and Raspbian. For the simulation environment, I need to re-build lxc-capable OpenWrt image for x86 w/ lxc support.
-
-[19] Parameter cheking by referring to the schema
 
 [21] Working with iptables
 
@@ -93,6 +84,8 @@ if False, stdout is not put in the queue.
 Allow them to have None value.
 
 [18] argsmodel.py  schema_help output, working with enum -- DONE!
+
+[19] Parameter cheking by referring to the schema -- DONE!
 
 [20] Working with dnsmasq -- DONE!
 

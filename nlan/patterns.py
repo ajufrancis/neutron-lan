@@ -22,7 +22,7 @@ ipv4_prefix =  '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}' \
 # ovs-vsctl controller address
 # (Reference) http://openvswitch.org/cgi-bin/ovsman.cgi?page=utilities%2Fovs-vsctl.8
 # Limitations: tcp and ssl only
-ofc_address = '(ssl|tcp):'+ipv4_address+':[1-9][0-9]*'
+ofc_address = '(ssl|tcp):'+ipv4_address+':[1-9][0-9]{0,4}'
 
 # NLAN-specfic string pattern 
 dvr_mode = 'dvr|hub|spoke|spoke_dvr'
@@ -125,7 +125,7 @@ def check_param(module, param, value):
             if max_ != 'unlimited' and len(value) > int(max_):
                 return (False, "Length of the list '{}' out of range {}".format(str(value), max_))
             for s in value:
-                if not isinstance(s, str):
+                if not isinstance(s, str) and not isinstance(s, unicode):
                     return (False, "The value '{}' must be str"'{}'.format(str(s)))
                 if pattern and not pattern_check(pattern, s):
                     return (False, "The str value '{}' does not match the pattern: {}".format(s, globals()[pattern]))
@@ -144,7 +144,7 @@ def check_param(module, param, value):
                 if pattern and not pattern_check(pattern[k],v):
                     return (False, "The str value '{}' does not match the pattern: {}".format(v, globals()[pattern[k]]))
         else:
-            if not isinstance(value, str):
+            if not isinstance(value, str) and not isinstance(value, unicode):
                 return (False, "The value '{}' must be str".format(str(value)))
             if enum and not value in enum:
                 return (False, "The str value '{}' is not a member of enum: {}".format(value, str(enum)))
@@ -179,12 +179,13 @@ if __name__ == '__main__':
         def test1(self):
             print
             self.assertTrue(check_param('bridges', 'ovs_bridges', 'enabled')[0])
+            self.assertTrue(check_param('bridges', 'ovs_bridges', u'enabled')[0])
             self.assertFalse(check_param('bridges', 'ovs_bridges', 'xxx')[0])
             print check_param('bridges', 'ovs_bridges', 'xxx')[1]
-            self.assertTrue(check_param('bridges', 'controller', '123.123.123.123/24')[0])
-            self.assertFalse(check_param('bridges', 'controller', '123.123.123.323/24')[0])
+            self.assertTrue(check_param('bridges', 'controller', 'tcp:123.123.123.123:1111')[0])
+            self.assertFalse(check_param('bridges', 'controller', 'tcp:123.123.123.323:1111')[0])
             print check_param('bridges', 'controller', '123.123.123.323/24')[1]
-            self.assertFalse(check_param('bridges', 'controller', '123.123.123.123/33')[0])
+            self.assertFalse(check_param('bridges', 'controller', 'tcp:123.123.123.123:1111111111')[0])
             print check_param('bridges', 'controller', '123.123.123.123/33')[1]
             self.assertTrue(check_param('vxlan', 'local_ip', '123.123.123.123')[0])
             self.assertFalse(check_param('vxlan', 'local_ip', '123.123.123.123/24')[0])
