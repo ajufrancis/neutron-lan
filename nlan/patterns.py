@@ -7,7 +7,7 @@
 #--------------------------------------------------------------------------------
 
 # OVSDB schema primitive types
-string = '[a-zA-Z]+'
+string = '[a-zA-Z0-9_]+'
 integer = '[-+]?[0-9]+'
 
 # (Reference) RFC6021 "Common YANG Data Types"
@@ -55,8 +55,12 @@ def check_param(module, param, value):
     minInteger = None
     maxInteger = None
     if type_ == 'integer':
-        minInteger = int(key_in_dict(types['key'], 'minInteger'))
-        maxInteger = int(key_in_dict(types['key'], 'maxInteger'))
+        minInteger = key_in_dict(types['key'], 'minInteger')
+        if minInteger:
+            minInteger = int(minInteger)
+        maxInteger = key_in_dict(types['key'], 'maxInteger')
+        if maxInteger:
+            maxInteger = int(maxInteger)
     min_ = key_in_dict(types, 'min')
     max_ = key_in_dict(types, 'max')
     pattern = key_in_dict(types['key'], '_pattern')
@@ -93,7 +97,7 @@ def check_param(module, param, value):
     def _intcheck(v):
         if not isinstance(v, int):
             return (False, "The value '{}' must be int".format(str(v)))
-        if minInteger != None and v < minInteger:
+        if minInteger  and v < minInteger:
             return (False, "The int value '{}' must be larger than minInteger: {}".format(str(v), str(minInteger)))
         if maxInteger and v > maxInteger:
             return (False, "The int value '{}' must be smaller than maxInteger: {}".format(str(v), str(maxInteger)))
@@ -139,7 +143,7 @@ def check_param(module, param, value):
             for k,v in value.iteritems():
                 if enum and not k in enum:
                     return (False, "The str key '{}' is not a member of enum: {}".format(k, str(enum)))
-                if type(v) != str:
+                if not isinstance(v, str) and not isinstance(v, unicode):
                     return (False, "The value '{}' must be str".format(str(v)))
                 if pattern and not pattern_check(pattern[k],v):
                     return (False, "The str value '{}' does not match the pattern: {}".format(v, globals()[pattern[k]]))

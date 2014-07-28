@@ -3,6 +3,7 @@
 # 2014/2/20
 # 2014/3/12
 # 2014/3/24-25
+# 2014/7/6  Handling two placeholders on same line
 #
 # Utilities to generate diff betwen two YAML files:
 # one is a local YAML file, and the other is one in a local git repo.
@@ -16,20 +17,13 @@ from copy import deepcopy
 from env import INDEXES, STATE_ORDER, WORK_TREE, GIT_OPTIONS
 
 # Simple object serializer for int, list, str and OrderedObject
-def dumps(value):
-
-    if isinstance(value, int):
-        s = 'int:'+str(value)
-    elif isinstance(value, list):
-        s = 'list:'+str(value)
-    elif isinstance(value, str):
-        s = 'str:'+str(value)
-    elif isinstance(value, OrderedDict):
-        s = 'OrderedDict:'+str(value)
+def dumps(value, types=None):
+    
+    if type(value) == str and re.match('<.*>', value) and types: # placeholders
+        return '{}:{}'.format(types[value].__name__, value) 
     else:
-        raise Exception("Type error: " + str(type(value)))
+        return '{}:{}'.format(type(value).__name__, value)
 
-    return s 
 
 # Simple object de-serializer for int, list, str and OrderedObject
 def loads(string):
@@ -37,7 +31,7 @@ def loads(string):
     s = string.split(':',1)
     t = s[0]
     v = s[1]   
-    #print t, v
+    
     if t == 'int':
         v = int(v)
     elif t == 'list' or t == 'OrderedDict':
@@ -67,9 +61,6 @@ def get_path(string):
 def get_node_path(string):
     return string.split('=')[0]
 
-def get_value(string):
-    return loads(string.split('=')[1])
-
 
 # This class is used by template modules
 class Template:
@@ -82,23 +73,22 @@ class Template:
         self.values_list.append({'placeholder':placeholder, 'values':values, 'index':index})
 
     def fillout(self):
+        i = 0
         for l in self.slist:
             node = get_node(l)
             for v in self.values_list:
-                searchstring = '<' + v['placeholder'] + '>'
-                if re.search(searchstring, l):
+                placeholder = '<' + v['placeholder'] + '>'
+                if re.search(placeholder, l):
                     value = None
-                    oldvalue = get_value(l)
                     if v['index']:
                         index = get_index_value(l)
                         value = v['values'][node][index]
                     else:
                         value = v['values'][node]
-                    newvalue = re.sub(searchstring, str(value), oldvalue)
-                    if isinstance(value, str):
-                        newvalue = '"'+newvalue+'"'
-                    ll = get_node_path(l) + '=' + dumps(eval(newvalue)) 
-                    self.slist[self.slist.index(l)] = ll
+                    ll = re.sub(placeholder, str(value), l) 
+                    self.slist[i] = ll
+                    l = ll
+            i += 1
 
         return self.slist
 
@@ -106,6 +96,8 @@ class Template:
 def get_template_module(firstline):
     if re.match(r"#!", firstline):
         return re.sub(r"^#!", "", firstline).rstrip()
+    else:
+        return None
 
 #
 # Merge two Python dictionaries
@@ -154,7 +146,13 @@ def _yaml_load(filename, gitshow):
             f.seek(0)
             template_module = get_template_module(f.readline())
 
-    #print od
+    types = None
+    module = None
+    if template_module:
+        __import__(template_module)
+        module = sys.modules[template_module]
+        types = module.placeholder_types()
+
     base = lya.AttrDict(od)
 
     flatten = lya.AttrDict.flatten(base)
@@ -189,25 +187,23 @@ def _yaml_load(filename, gitshow):
                                 pass
                             if key != None:
                                 value = dic[key]
-                                index = key + ':' + dumps(value)    
+                                index = key + ':' + dumps(value, types)    
                             else:
                                 index = str(count)
                             for key in dic:
-                                pl = path+'.'+m+'['+index+'].'+key+'='+dumps(dic[key])
+                                pl = path+'.'+m+'['+index+'].'+key+'='+dumps(dic[key], types)
 
                                 values.append(pl)
                         else: 
-                            pl = path+'.'+m+'['+str(count)+']='+dumps(elm)
+                            pl = path+'.'+m+'['+str(count)+']='+dumps(elm, types)
                             values.append(pl)
                             
                         count += 1
                 else:
-                    path += '.'+m+'='+dumps(l[1])
+                    path += '.'+m+'='+dumps(l[1], types)
                     values.append(path)
     
     if template_module:
-        __import__(template_module)
-        module = sys.modules[template_module]
         values = module.fillout(values)
 
     return (sorted(values), STATE_ORDER)
@@ -310,7 +306,8 @@ def crud_diff(filename, git=-1):
             module = l[2].split('.')[0]
             idx = None
         index = ''
-        key = l[2].split('.')[1]
+        #key = l[2].split('.')[1]
+        key = l[2].split('=')[0].split('.')[-1]
         value = l[3]
         key_value = {key: value}
         if idx == None:

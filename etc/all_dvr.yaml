@@ -8,8 +8,8 @@ openwrt1:
 #     network: eth0.2
      network: eth2 
    vxlan:
-      local_ip: <local_ip> 
-      remote_ips: <remote_ips>
+      - local_ip: <local_ip> 
+        remote_ips: <remote_ips>
    subnets:
       - vid: 1
         vni: 101
@@ -43,8 +43,8 @@ openwrt2:
    bridges: 
       ovs_bridges: enabled
    vxlan:
-      local_ip: <local_ip> 
-      remote_ips: <remote_ips>
+      - local_ip: <local_ip> 
+        remote_ips: <remote_ips>
    subnets:
       - vid: 1
         vni: 101
@@ -80,8 +80,8 @@ openwrt3:
    bridges:
      ovs_bridges: enabled
    vxlan:
-     local_ip: <local_ip> 
-     remote_ips: <remote_ips>
+     - local_ip: <local_ip> 
+       remote_ips: <remote_ips>
    subnets:
       - vid: 1
         vni: 101

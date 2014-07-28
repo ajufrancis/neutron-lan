@@ -18,8 +18,11 @@ def run(debug=False):
 
     if not debug:
         # Delete all the ovs bridges
-        cmd('ovs-vsctl --if-exists del-br br-tun')
-        cmd('ovs-vsctl --if-exists del-br br-int')
+        #cmd('ovs-vsctl --if-exists del-br br-tun')
+        #cmd('ovs-vsctl --if-exists del-br br-int')
+        bridges = output_cmd('ovs-vsctl list-br').rstrip('\n').split('\n')
+        for br in bridges:
+            cmd('ovs-vsctl del-br', br)
 
     # Delete linux bridges (br*)
     """

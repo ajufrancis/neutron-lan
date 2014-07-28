@@ -1,25 +1,30 @@
 # 2014/04/03
+# 2014/07/06 Handling multiple <local ip> in VXLAN model
 #
 import re
 from yamldiff import *
 from env import STATE_ORDER, ROSTER
 
-# Placeholders: <remote_ips> and <peers>
-def fillout(template):
+# Placeholders: <local_ip>, <remote_ips>, <peers> and <sfports>
+
+TYPES = {'<local_ip>': str, '<remote_ips>': str, '<peers>': str, '<sfports>': str} 
+
+def placeholder_types():
+    return TYPES
+    
+def fillout(slist):
 
     ips = {}
     vnis = {}
     chain = {}
-
-    for l in template:
-        if re.search('vxlan.local_ip', l):
+    
+    for l in slist:
+        if re.search('vxlan\[local_ip|local_ip', l):
             router = get_node(l)
-            #ips[router] = get_value(l)
             ips[router] = ROSTER[router]['host']
         if re.search('vid=', l):
             router = get_node(l)
             vni = get_index_value(l)
-            #print router,vni 
             if vni not in vnis:
                 vnis[vni] = []
             vnis[vni].append(router)
@@ -55,9 +60,7 @@ def fillout(template):
             vni = int(p[1])
             sfports[router][vni] = [path] 
 
-    #print remote_ips, peers, sfports
-
-    tl = Template(template)
+    tl = Template(slist)
     tl.add_values('local_ip', ips, False)
     tl.add_values('remote_ips', remote_ips, False)
     tl.add_values('peers', peers, True)

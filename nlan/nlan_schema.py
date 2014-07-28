@@ -41,8 +41,8 @@ def analyze_schema(nlan_yaml):
         tables[module] = columns[module]['type']
     yield tables
     for module in tables.keys():
-        table = tables[module]['key']['refTable'] 
-        table = nlan_dict[table]
+        refTable = tables[module]['key']['refTable'] 
+        table = nlan_dict[refTable]
         types[module] = {}
         if 'indexes' in table:
             indices = table['indexes']

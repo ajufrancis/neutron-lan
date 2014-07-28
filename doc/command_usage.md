@@ -149,6 +149,8 @@ Update 'schema.sh' at first. Then,
 $ schema.sh
 $ nlan -m
 $ nlan db.update 
+
+Do not forget to update env.py either.
 </pre>
 
 

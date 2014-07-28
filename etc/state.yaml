@@ -34,8 +34,8 @@ openwrt1:
 #     network: eth0.2
      network: eth2 
    vxlan:
-      local_ip: <local_ip> 
-      remote_ips: <remote_ips>
+      - local_ip: <local_ip> 
+        remote_ips: <remote_ips>
    subnets:
       - vid: 1
         vni: 1001
@@ -72,8 +72,8 @@ openwrt2:
       ovs_bridges: enabled
 #     controller: tcp:192.168.1.1:6633
    vxlan:
-      local_ip: <local_ip> 
-      remote_ips: <remote_ips>
+      - local_ip: <local_ip> 
+        remote_ips: <remote_ips>
    subnets:
       - vid: 1
         vni: 101
@@ -110,8 +110,8 @@ openwrt3:
      ovs_bridges: enabled
 #    controller: tcp:192.168.1.1:6633
    vxlan:
-     local_ip: <local_ip> 
-     remote_ips: <remote_ips>
+     - local_ip: <local_ip> 
+       remote_ips: <remote_ips>
    subnets:
       - vid: 1
         vni: 101
@@ -150,8 +150,8 @@ rpi1:
       - name: snort1
         chain: [mz.101, dmz.1001]
    vxlan:
-      local_ip: <local_ip> 
-      remote_ips: <remote_ips>
+      - local_ip: <local_ip> 
+        remote_ips: <remote_ips>
    subnets:
       - vid: 111 
         vni: 1001
