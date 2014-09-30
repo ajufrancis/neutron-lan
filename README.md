@@ -149,13 +149,10 @@ You can manually add the entries to br-tun using ovs-ofctl command like this:
     $ ovs-ofctl add-flow br-tun "table=21,priority=0,actions=drop"
 
 
-NEXT STEP 
----------
+Technology choice
+-----------------
 
-- Some other experiments on neutron-lan: e.g., OVSDB protocol, various virtual network toplogies, Virtual Subnet as discussed in IETF l3vpn wg, LISP(lispmod), VRFs over VXLAN, VXLAN NAT traversal...
-- Develop a DevOps-like tool to automate the configuration and management of the entire network.
-
-I thought of [OpenDaylight](https://wiki.opendaylight.org/view/Main_Page) as a platform for that at first, but it's too heavy for such a small network, and the hardest thing for me is to write code in Java for ODL: too complex for me (Eclipse, OSGi, Maven, YANG...). However, it's service abstraction layer [MD-SAL](https://wiki.opendaylight.org/view/OpenDaylight_Controller:MD-SAL:Architecture) is quite interesting. It's sort of a perfect network abstraction mechanism...
+I thought of [OpenDaylight](https://wiki.opendaylight.org/view/Main_Page) as a platform for this project at first, but it's too heavy for such a small network, and the hardest thing for me is to write code in Java for ODL: too complex for me (Eclipse, OSGi, Maven, YANG...). However, it's service abstraction layer [MD-SAL](https://wiki.opendaylight.org/view/OpenDaylight_Controller:MD-SAL:Architecture) is quite interesting. It's sort of a perfect network abstraction mechanism...
 
 Then I saw other messaging protocols such as XMPP(Jabber), AMQP(RabbitMQ) etc. But, because of the memory and storage limitations of OpenWRT routers, I gave up those.
 
@@ -190,6 +187,8 @@ Since the VXLAN overhead is 50 bytes, you need to adjust path MTU on each end ho
 
 I would chose the latter option, and that is something hareware-based routing/switching (incl. "physical" OpenFlow switches) is not good at.
 
+Note: these days, small routers also support Jumbo Frame. So I don't need to care this issue any longer...
+
 Tackling security issues
 ------------------------
 
@@ -209,6 +208,8 @@ One idea I have devised:
                                   auth packet
                
 
+Note: this idea has not been implemented yet.
+
 Why so many bridges inside?
 ---------------------------
 
@@ -219,4 +220,3 @@ Why are there so many bridges? Linux bridges, br-int and br-tun...
 * openvswitch does not support IP multicast for BUM packets over VXLAN, so br-tun needs to replicate a packet for each VXLAN tunnel.
 
 So there will be an impact on the performance, and I am looking forward to see some improvements on OpenStack neutron by the development team.
-
