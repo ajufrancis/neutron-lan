@@ -199,9 +199,9 @@ openwrt5:
         peers: [192.168.56.102] 
         ip: 10.102.105.2/24 
    vhosts:
-      - network: 172.20.105.0/24
+      - network: 172.20.105.1/24
         vhosts: 2
-      - network: 172.21.105.0/24
+      - network: 172.21.105.1/24
         vhosts: 2
 
 # CE router
@@ -227,9 +227,9 @@ openwrt6:
         peers: [192.168.56.104] 
         ip: 10.104.106.2/24 
    vhosts:
-      - network: 172.20.106.0/24
+      - network: 172.20.106.1/24
         vhosts: 2
-      - network: 172.21.106.0/24
+      - network: 172.21.106.1/24
         vhosts: 2
 
 # CE router
@@ -255,8 +255,8 @@ openwrt7:
         peers: [192.168.56.104] 
         ip: 10.104.107.2/24 
    vhosts:
-      - network: 172.20.107.0/24
+      - network: 172.20.107.1/24
         vhosts: 2
-      - network: 172.21.107.0/24
+      - network: 172.21.107.1/24
         vhosts: 2
 

@@ -145,7 +145,7 @@ $ nlan.py db.getrow subnets vni 101
 NLAN schema update
 ------------------
 <pre>
-Update 'schema.sh' at first. Then,
+Update 'env.py' and 'schema.sh' at first. Then,
 $ schema.sh
 $ nlan -m
 $ nlan db.update 

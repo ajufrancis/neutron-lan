@@ -42,8 +42,15 @@ def add():
     cmdp('ovs-vsctl add-port {0} {1} -- set interface {1} type=patch options:peer={2}'.format(br_int, patch_int, patch_tun))
     cmdp('ovs-vsctl add-port {0} {1} -- set interface {1} type=patch options:peer={2}'.format(br_tun, patch_tun, patch_int))
 
-    _add_flow_entries(br_tun, patch_tun)
+    if _controller:  # OpenFlow Controller
+        cmd('ovs-ofctl del-flows', br_tun)  # Clears all the existing flows in the bridge
+        cmdp('ovs-vsctl set-controller {0} {1}'.format(br_tun, _controller))  # Sets OFC's IP address and port number
+        cmdp('ovs-vsctl set bridge {} protocols=OpenFlow10,OpenFlow12,OpenFlow13'.format(br_tun))  # Supports OpenFlow ver 1.0, 1.2 and 1.3
+    else: 
+        cmdp('ovs-vsctl set-fail-mode {} secure'.format(br_tun))  # Disables self mac learning
+        _add_flow_entries(br_tun, patch_tun)
 
+# TODO: delete/update are imcomplete.
 def delete():
 
     br_tun = _nodes['ptn']
